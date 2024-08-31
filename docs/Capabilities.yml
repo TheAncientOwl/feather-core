@@ -1,0 +1,223 @@
+description: Core minecraft server manager
+
+general-capabilities:
+  enable/disable: Each feature can be enabled / disabled separately
+  PAPI: Each feature must have PAPI support. Additional, it can be toggled on/off per feature
+  configuration: Each feature must have separate configuration file/s
+
+features:
+  chat:
+    anti-advertising:
+      description:
+        - Automatically block all IPv4
+        - Automatically blocks all domains
+        - Automatically blocks all links
+        - You can either disable it completely or select which ones you want to work in the config.yml
+    caps-control:
+      description:
+        - [Optional] Automatically transforms the first letter to a capital letter
+        - Lowercase words with more than {X} capital letters
+        - Allow max {Y} identical characters in a row Eg. Y = 3 -> Nooo, Y = 4 -> Noooo
+    anti-spam:
+      description:
+        - Block all messages with 4 or more letters in a row or more?
+        - #TODO: TBD
+    broadcast:
+      modules:
+        self:
+          description:
+            - Broadcast specific one time message to all players
+        auto:
+          description:
+            - Infinite multi-line broadcasts
+            - Configurable time between broadcasts
+            - Titles and sounds
+    commands-manager:
+      custom-commands:
+        description:
+          - Aliases
+      ban-commands:
+        description:
+          - Self explanatory
+      side-features:
+        commands-spy:
+          description:
+            - Self explanatory
+    chat-filter:
+      description:
+        - Filter chat using one of following filter-strategies (Can be changed in config)
+        - Send message to the player that he is not allowed to use that word
+      filter-strategies:
+        - Block sending message
+        - Delete word
+        - Replace word with ***
+        - Replace word with random preset word
+    chat-bot:
+      description:
+        - #TODO: TBD
+    chat-color:
+      description:
+        - Self explanatory
+    user-papi:
+      description:
+        - Translate PAPI used in group formatting related stuff, Eg. %rank%[%username%] $message%
+    chat-levels:
+      description:
+        - Classic Discord level system
+        - Leveling based on level-strategies
+        - Placeholder
+      level-strategies:
+        - #TODO: TBD
+    advanced-help:
+      description:
+        - Create help menus
+    rules:
+      description:
+        - List server rules
+    join-quit-messages:
+      general:
+        description:
+          - Custom join/quit messages
+          - Fake join/quit command
+      private:
+        description:
+          - Custom private message to the player who joined
+          - Can use player's skin picture in the message 
+    report:
+      description:
+        - Report problems to staff
+        - Save them on local storage
+        - Solved statuses?
+    funny-deaths:
+      description:
+        - Alter death messages in a funny way
+    mentions:
+      description:
+        - Play a sound at mentioned (in chat) player's location
+    private-messages:
+      description:
+        - msg/reply functionality
+      side-features:
+        - social spy for staff
+    sign-color:
+      description:
+        - Self explanatory
+    staff-chat:
+      description:
+        - Self explanatory
+    nicknames:
+      description:
+        - Self explanatory
+      notes:
+        - Blocked nicks list
+    lock-chat:
+      description:
+        - Self explanatory
+    clear-chat:
+      description:
+        - Self explanatory
+    motd:
+      description:
+        - Self explanatory
+    discord-integration:
+      description:
+        - Self explanatory
+    afk:
+      description:
+        - /afk command
+        - set player as afk after {x} units of time
+        - mark player afk -> placeholder
+        - afk tab/tag
+    chat-logger:
+      description:
+        - Self explanatory
+    chat-format:
+      description:
+        - Self explanatory
+    death-location:
+      description:
+        - Tell player the coordinates and world they died in
+    chat-games:
+      description:
+        - standalone chat games
+      games:
+        - reaction test
+        - word unscrambler
+        - trivia
+        - quick maths
+    emotes:
+      description:
+        - replace placeholders with emojis
+      example:
+        - https://www.spigotmc.org/resources/as-emotes-replace-text-with-emojis.112874/
+    show-item-in-chat:
+      description:
+        - Self explanatory
+    list-players:
+      description:
+        - Self explanatory
+      note:
+        - Vanished players
+    mute-players:
+      description:
+        - Self explanatory
+    chat-hover:
+      description:
+        - Display some text related to whoever sent the message
+  bank-manager:
+    description:
+      Withdraw/Deposit from vault account in physical form (e.g. paper) representing said amount of money
+  game-modes:
+    god:
+      description:
+        - Self explanatory
+    creative:
+      description:
+        - Self explanatory
+    adventure:
+      description:
+        - Self explanatory
+    fly:
+      description:
+        - Enable fly for limited/unlimited amount of time
+  vanish:
+    description:
+      - Self explanatory
+    notes:
+      integration:
+        - chat
+        - tab
+        - list
+        - pvp
+  restricted-pvp:
+    description:
+      - Module to make PvP fair
+      - Kill players that disconnect during PvP
+      - Disable fly during PvP
+  restricted-creative:
+    description:
+      - #TODO: TBD
+  loot-chests:
+    description:
+      - Add timers to chests that give free loot
+  ore-anouncer:
+    description:
+      - Ping staff members when players break certain blocks/ores
+  give-all:
+    description:
+      - Give all the players the item in hand
+  rename:
+    description:
+      - Rename item in hand using colors
+  random-tp:
+    description:
+      - Self explanatory
+  tab-control:
+    description:
+      - Modify tab look
+  nametag:
+    description:
+      - Self explanatory
+  protection-stones:
+    description:
+      - Integration of worldguard regions for players
