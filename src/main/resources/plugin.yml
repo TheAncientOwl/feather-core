@@ -1,4 +1,5 @@
-main: mc.owls.valley.net.FeatherCore
+main: mc.owls.valley.net.feathercore.FeatherCore
 name: FeatherCore
 version: 0.1
 api-version: 1.21.1
+author: DefaultyBuf
