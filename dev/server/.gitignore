@@ -8,6 +8,7 @@ world*
 plugins/.paper-remapped
 plugins/bStats
 plugins/spark
+plugins/FeatherCore*
 plugins/LuckPerms/libs/*
 plugins/LuckPerms/translations/*
 plugins/LuckPerms/luckperms-h2-v2.mv.db

@@ -1,0 +1,4 @@
+main: mc.owls.valley.net.FeatherCore
+name: FeatherCore
+version: 0.1
+api-version: 1.21.1
