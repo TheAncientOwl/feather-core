@@ -32,13 +32,14 @@ function print_help() {
   print "${DARK_GRAY}» ${DARK_AQUA}-r${DARK_GRAY}/${DARK_AQUA}--run${DARK_GRAY}: ${RESET}runs the dev server"
   print "${DARK_GRAY}» ${DARK_AQUA}-ci${DARK_GRAY}/${DARK_AQUA}-ic${DARK_GRAY}: ${RESET}clean install"
   print "${DARK_GRAY}» ${DARK_AQUA}-ir${DARK_GRAY}: ${RESET}install run"
-  print "${DARK_GRAY}» ${DARK_AQUA}-cir${DARK_GRAY}/${DARK_AQUA}-icr: ${RESET}clean install run"
+  print "${DARK_GRAY}» ${DARK_AQUA}-cir${DARK_GRAY}/${DARK_AQUA}-icr${DARK_GRAY}/${DARK_AQUA}-irc: ${RESET}clean install run"
 }
 
 # » flags
 install=false
 clean=false
 run=false
+configure=false
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -73,11 +74,16 @@ while [[ $# -gt 0 ]]; do
       run=true
       shift
       ;;
-    -cir|-icr)
+    -cir|-icr|-irc)
       feather_print "${DARK_AQUA}Detected 'clean, install & run server' flag"
       clean=true
       install=true
       run=true
+      shift
+      ;;
+    --configure|-cfg)
+      feather_print "${DARK_AQUA}Detected 'configure' flag"
+      configure=true
       shift
       ;;
     *)
@@ -88,6 +94,12 @@ while [[ $# -gt 0 ]]; do
 done
 
 # » execute flags
+if [ "$configure" = true ]; then
+  feather_print "${DARK_AQUA}Configuring project based on pom.xml"
+  mvn eclipse:eclipse -f "pom.xml"
+  feather_print "${DARK_AQUA}Configuration done"
+fi
+
 if [ "$clean" = true ]; then
   feather_print "${DARK_AQUA}Removing FeatherCore files from ${PLUGINS_PATH}"
   rm -rf ${PLUGINS_PATH}/FeatherCore*
@@ -96,7 +108,7 @@ fi
 
 if [ "$install" = true ]; then
   feather_print "${DARK_AQUA}Installing plugin to ${PLUGINS_PATH}"
-  mvn clean install
+  mvn clean install -X
   cp target/FeatherCore* ${PLUGINS_PATH}
   feather_print "${DARK_AQUA}Plugin installed to ${PLUGINS_PATH}"
 fi
