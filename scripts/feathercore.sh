@@ -30,9 +30,9 @@ function print_help() {
   print "${DARK_GRAY}» ${DARK_AQUA}-c${DARK_GRAY}/${DARK_AQUA}--clean${DARK_GRAY}: ${RESET}removes the plugin files from dev server location"
   print "${DARK_GRAY}» ${DARK_AQUA}-i${DARK_GRAY}/${DARK_AQUA}--install${DARK_GRAY}: ${RESET}installs the plugin at dev server location"
   print "${DARK_GRAY}» ${DARK_AQUA}-r${DARK_GRAY}/${DARK_AQUA}--run${DARK_GRAY}: ${RESET}runs the dev server"
-  print "${DARK_GRAY}» ${DARK_AQUA}-ci${DARK_GRAY}: ${RESET}clean install"
+  print "${DARK_GRAY}» ${DARK_AQUA}-ci${DARK_GRAY}/${DARK_AQUA}-ic${DARK_GRAY}: ${RESET}clean install"
   print "${DARK_GRAY}» ${DARK_AQUA}-ir${DARK_GRAY}: ${RESET}install run"
-  print "${DARK_GRAY}» ${DARK_AQUA}-cir${DARK_GRAY}: ${RESET}clean install run"
+  print "${DARK_GRAY}» ${DARK_AQUA}-cir${DARK_GRAY}/${DARK_AQUA}-icr: ${RESET}clean install run"
 }
 
 # » flags
@@ -61,7 +61,7 @@ while [[ $# -gt 0 ]]; do
       run=true
       shift
       ;;
-    -ci)
+    -ci|-ic)
       feather_print "${DARK_AQUA}Detected 'clean & install' flag"
       clean=true
       install=true
@@ -73,7 +73,7 @@ while [[ $# -gt 0 ]]; do
       run=true
       shift
       ;;
-    -cir)
+    -cir|-icr)
       feather_print "${DARK_AQUA}Detected 'clean, install & run server' flag"
       clean=true
       install=true
