@@ -7,7 +7,7 @@ import mc.owls.valley.net.feathercore.api.logging.IFeatherLoggger;
 import mc.owls.valley.net.feathercore.utils.ChatUtils;
 
 public class FeatherLogger implements IFeatherLoggger {
-    public static final String PLUGIN_TAG = "&8[&eFeatherCore&8]&r ";
+    public static final String PLUGIN_TAG = "&8[&eFeather&6Core&8]&r ";
 
     private final ConsoleCommandSender console;
 
