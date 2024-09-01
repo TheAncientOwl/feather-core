@@ -3,7 +3,7 @@
 # » console colors
 DARK_RED="\033[31m"
 DARK_GREEN="\033[32m"
-YELLOW="\033[33m"
+YELLOW="\033[93m"
 DARK_GRAY="\033[90m"
 LIGHT_GRAY="\033[37m"
 LIGHT_GREEN="\033[92m"
@@ -25,15 +25,19 @@ function feather_print() {
 }
 
 function print_help() {
-  print "${TAG}${YELLOW}Help"
-  print "${DARK_GRAY}» ${DARK_AQUA}-h${DARK_GRAY}/${DARK_AQUA}--help${DARK_GRAY}: ${RESET}display this menu"
-  print "${DARK_GRAY}» ${DARK_AQUA}-c${DARK_GRAY}/${DARK_AQUA}--clean${DARK_GRAY}: ${RESET}removes the plugin files from dev server location"
-  print "${DARK_GRAY}» ${DARK_AQUA}-i${DARK_GRAY}/${DARK_AQUA}--install${DARK_GRAY}: ${RESET}installs the plugin at dev server location"
-  print "${DARK_GRAY}» ${DARK_AQUA}-r${DARK_GRAY}/${DARK_AQUA}--run${DARK_GRAY}: ${RESET}runs the dev server"
-  print "${DARK_GRAY}» ${DARK_AQUA}-ci${DARK_GRAY}/${DARK_AQUA}-ic${DARK_GRAY}: ${RESET}clean install"
-  print "${DARK_GRAY}» ${DARK_AQUA}-ir${DARK_GRAY}: ${RESET}install run"
-  print "${DARK_GRAY}» ${DARK_AQUA}-cir${DARK_GRAY}/${DARK_AQUA}-icr${DARK_GRAY}/${DARK_AQUA}-irc: ${RESET}clean install run"
+  print "${TAG}${DARK_GRAY}«${YELLOW} Help ${DARK_GRAY}»"
+  print "${DARK_GRAY}» ${DARK_AQUA}--help${DARK_GRAY}/${DARK_AQUA}-h${DARK_GRAY}: ${RESET}display this menu"
+  print "${DARK_GRAY}» ${DARK_AQUA}--configure${DARK_GRAY}/${DARK_AQUA}-x${DARK_GRAY}: ${RESET}configure maven project"
+  print "${DARK_GRAY}» ${DARK_AQUA}--clean${DARK_GRAY}/${DARK_AQUA}-c${DARK_GRAY}: ${RESET}remove the plugin files from dev server location"
+  print "${DARK_GRAY}» ${DARK_AQUA}--install${DARK_GRAY}/${DARK_AQUA}-i${DARK_GRAY}: ${RESET}install the plugin at dev server location"
+  print "${DARK_GRAY}» ${DARK_AQUA}--run${DARK_GRAY}/${DARK_AQUA}-r${DARK_GRAY}: ${RESET}run the dev server"
 }
+
+if [ $# -eq 0 ]; then
+  feather_print "${DARK_RED}No arguments were specified"
+  print_help
+  exit 1
+fi
 
 # » flags
 install=false
@@ -42,55 +46,66 @@ run=false
 configure=false
 
 while [[ $# -gt 0 ]]; do
-  case "$1" in
-    --help|-h)
+  flag=$1
+
+  if [[ "$flag" != "-"* ]]; then
+    feather_print "${DARK_RED}Unknown flag: '${LIGHT_RED}$flag${DARK_RED}'"
+    shift
+    continue
+  fi
+
+  if [[ "$flag" == "--"* ]]; then
+    if [[ "$flag" == "--help" ]]; then
       print_help
-      shift
-      ;;
-    --install|-i)
-      install=true
-      feather_print "${DARK_AQUA}Detected 'install' flag"
-      shift
-      ;;
-    --clean|-c)
+    elif [[ "$flag" == "--clean" ]]; then
       feather_print "${DARK_AQUA}Detected 'clean' flag"
       clean=true
-      shift
-      ;;
-    --run|-r)
+    elif [[ "$flag" == "--install" ]]; then
+      feather_print "${DARK_AQUA}Detected 'install' flag"
+      install=true
+    elif [[ "$flag" == "--run" ]]; then
       feather_print "${DARK_AQUA}Detected 'run server' flag"
       run=true
-      shift
-      ;;
-    -ci|-ic)
-      feather_print "${DARK_AQUA}Detected 'clean & install' flag"
-      clean=true
-      install=true
-      shift
-      ;;
-    -ir)
-      feather_print "${DARK_AQUA}Detected 'install & run server' flag"
-      install=true
-      run=true
-      shift
-      ;;
-    -cir|-icr|-irc)
-      feather_print "${DARK_AQUA}Detected 'clean, install & run server' flag"
-      clean=true
-      install=true
-      run=true
-      shift
-      ;;
-    --configure|-cfg)
+    elif [[ "$flag" == "--configure" ]]; then
       feather_print "${DARK_AQUA}Detected 'configure' flag"
       configure=true
-      shift
+    else
+      feather_print "${DARK_RED}Unknown flag: '${LIGHT_RED}$flag${DARK_RED}'"
+    fi
+
+    shift
+    continue
+  fi
+
+  length=${#flag}
+  for (( i=1; i<length; i++ )); do
+    case "${flag:$i:1}" in
+      h)
+      print_help
       ;;
-    *)
-      feather_print "${DARK_RED}Unknown flag: '${LIGHT_RED}$1${DARK_RED}'"
-      shift
+      c)
+      feather_print "${DARK_AQUA}Detected 'clean' flag"
+      clean=true
       ;;
-  esac
+      i)
+      feather_print "${DARK_AQUA}Detected 'install' flag"
+      install=true
+      ;;
+      r)
+      feather_print "${DARK_AQUA}Detected 'run server' flag"
+      run=true
+      ;;
+      x)
+      feather_print "${DARK_AQUA}Detected 'configure' flag"
+      configure=true
+      ;;
+      *)
+      feather_print "${DARK_RED}Unknown flag: '${LIGHT_RED}${flag:$i:1}${DARK_RED}'"
+      ;;
+    esac 
+  done
+
+  shift
 done
 
 # » execute flags
