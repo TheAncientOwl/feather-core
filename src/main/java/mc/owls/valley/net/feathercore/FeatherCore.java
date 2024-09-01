@@ -7,12 +7,14 @@ import mc.owls.valley.net.feathercore.databases.mongodb.MongoDBHandler;
 import mc.owls.valley.net.feathercore.databases.mongodb.data.accessors.PlayersDAO;
 import mc.owls.valley.net.feathercore.databases.mongodb.data.models.PlayerModel;
 import mc.owls.valley.net.feathercore.logging.FeatherLogger;
+import mc.owls.valley.net.feathercore.players.data.management.PlayersDataManager;
 import mc.owls.valley.net.feathercore.utils.ChatUtils;
 import net.md_5.bungee.api.ChatColor;
 
 public class FeatherCore extends JavaPlugin {
     private static FeatherLogger Logger = null;
     private static MongoDBHandler MongoDB = null;
+    private static PlayersDataManager PlayersDataManager = null;
 
     @Override
     public void onEnable() {
@@ -22,6 +24,8 @@ public class FeatherCore extends JavaPlugin {
 
         setupLoggger();
         setupMongoDB();
+
+        FeatherCore.PlayersDataManager = new PlayersDataManager(this);
 
         FeatherCore.Logger.success("Setup finished successfully&8!");
     }
@@ -36,7 +40,11 @@ public class FeatherCore extends JavaPlugin {
         return FeatherCore.Logger;
     }
 
-    public static PlayersDAO GetPlayersDAO() {
+    public PlayersDataManager getPlayersDataManager() {
+        return FeatherCore.PlayersDataManager;
+    }
+
+    public PlayersDAO getPlayersDAO() {
         return FeatherCore.MongoDB.getDAO(PlayersDAO.class);
     }
 

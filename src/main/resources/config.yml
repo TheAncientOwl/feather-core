@@ -1,3 +1,6 @@
 mongodb:
   uri: 'mongodb://localhost:27017'
   dbname: 'owls_valley'
+
+new-player:
+  balance: 1500.50
