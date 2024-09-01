@@ -6,13 +6,14 @@ import dev.morphia.annotations.Entity;
 import dev.morphia.annotations.Id;
 
 @Entity(value = "players_data", useDiscriminator = false)
-public class PlayerData {
+public class PlayerModel {
     @Id
     public UUID uuid;
 
     public String username;
+
     public double balance;
 
-    public PlayerData() {
+    public PlayerModel() {
     }
 }

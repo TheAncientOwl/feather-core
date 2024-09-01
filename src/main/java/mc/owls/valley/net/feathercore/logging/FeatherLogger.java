@@ -4,7 +4,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import mc.owls.valley.net.feathercore.api.logging.IFeatherLoggger;
-import net.md_5.bungee.api.ChatColor;
+import mc.owls.valley.net.feathercore.utils.ChatUtils;
 
 public class FeatherLogger implements IFeatherLoggger {
     public static final String PLUGIN_TAG = "&8[&eFeatherCore&8]&r ";
@@ -32,6 +32,6 @@ public class FeatherLogger implements IFeatherLoggger {
     }
 
     private void sendMessage(final String message) {
-        this.console.sendMessage(ChatColor.translateAlternateColorCodes('&', PLUGIN_TAG + message));
+        this.console.sendMessage(ChatUtils.translateColors(PLUGIN_TAG + message));
     }
 }

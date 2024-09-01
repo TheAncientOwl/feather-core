@@ -13,12 +13,13 @@ import dev.morphia.Datastore;
 import dev.morphia.Morphia;
 import dev.morphia.mapping.DateStorage;
 import dev.morphia.mapping.MapperOptions;
+import mc.owls.valley.net.feathercore.databases.mongodb.data.accessors.AbstractDAO;
 
 public class MongoDBHandler {
-    private MongoClient mongoClient;
-    private Datastore datastore;
+    private MongoClient mongoClient = null;
+    private Datastore datastore = null;
 
-    private boolean connectionOK;
+    private boolean connectionOK = false;
 
     @SuppressWarnings("rawtypes")
     public MongoDBHandler(final String uri, final String databaseName, Class... entities) {
@@ -35,7 +36,6 @@ public class MongoDBHandler {
 
             this.datastore = Morphia.createDatastore(
                     this.mongoClient, databaseName, MapperOptions.builder()
-                            // .discriminatorKey("")
                             .dateStorage(DateStorage.SYSTEM_DEFAULT)
                             .build());
 
@@ -53,7 +53,11 @@ public class MongoDBHandler {
         return this.connectionOK;
     }
 
-    public Datastore getDatastore() {
-        return this.datastore;
+    public <DAOType extends AbstractDAO<?>> DAOType getDAO(Class<DAOType> daoClass) {
+        try {
+            return daoClass.getDeclaredConstructor(Datastore.class).newInstance(this.datastore);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to create DAO instance for " + daoClass.getName(), e);
+        }
     }
 }
