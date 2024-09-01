@@ -111,6 +111,7 @@ done
 # » execute flags
 if [ "$configure" = true ]; then
   feather_print "${DARK_AQUA}Configuring project based on pom.xml"
+  mvn eclipse:clean -f "pom.xml"
   mvn eclipse:eclipse -f "pom.xml"
   feather_print "${DARK_AQUA}Configuration done"
 fi
