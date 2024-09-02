@@ -11,6 +11,10 @@ public class FeatherLogger implements IFeatherLoggger {
 
     private final ConsoleCommandSender console;
 
+    public static FeatherLogger setup(final JavaPlugin plugin) {
+        return new FeatherLogger(plugin);
+    }
+
     public FeatherLogger(final JavaPlugin plugin) {
         this.console = plugin.getServer().getConsoleSender();
     }

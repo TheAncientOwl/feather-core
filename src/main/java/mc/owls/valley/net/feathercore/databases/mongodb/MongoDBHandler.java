@@ -3,7 +3,6 @@ package mc.owls.valley.net.feathercore.databases.mongodb;
 import org.bson.UuidRepresentation;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
@@ -26,7 +25,7 @@ public class MongoDBHandler {
 
     private boolean connectionOK = false;
 
-    public static MongoDBHandler setup(final FileConfiguration config, final JavaPlugin plugin) {
+    public static MongoDBHandler setup(final FileConfiguration config, final FeatherCore plugin) {
         ConfigurationSection mongoConfig = config.getConfigurationSection("mongodb");
 
         MongoDBHandler mongoDB = new MongoDBHandler(
@@ -34,12 +33,12 @@ public class MongoDBHandler {
                 PlayerModel.class);
 
         if (!mongoDB.connected()) {
-            FeatherCore.GetFeatherLogger().error("Failed to setup MongoDB, shutting down the plugin");
+            plugin.getFeatherLogger().error("Failed to setup MongoDB, shutting down the plugin");
             plugin.getServer().getPluginManager().disablePlugin(plugin);
             return null;
         }
 
-        FeatherCore.GetFeatherLogger().success("MongoDB setup finished successfully!");
+        plugin.getFeatherLogger().success("MongoDB setup finished successfully!");
 
         return mongoDB;
     }
