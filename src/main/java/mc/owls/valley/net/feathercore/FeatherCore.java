@@ -7,6 +7,7 @@ import mc.owls.valley.net.feathercore.databases.mongodb.data.accessors.PlayersDA
 import mc.owls.valley.net.feathercore.logging.FeatherLogger;
 import mc.owls.valley.net.feathercore.players.data.management.PlayersDataManager;
 import mc.owls.valley.net.feathercore.utils.LogoManager;
+import mc.owls.valley.net.feathercore.utils.TimeUtils;
 
 public class FeatherCore extends JavaPlugin {
     private FeatherLogger featherLogger = null;
@@ -15,6 +16,8 @@ public class FeatherCore extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        final var enableStartTime = System.currentTimeMillis();
+
         LogoManager.logLogo(this.getServer());
 
         saveDefaultConfig();
@@ -23,7 +26,10 @@ public class FeatherCore extends JavaPlugin {
         this.mongoDB = MongoDBHandler.setup(getConfig(), this);
         this.playersDataManager = PlayersDataManager.setup(this);
 
-        this.featherLogger.info("Setup finished successfully&8!");
+        final var enableFinishTime = System.currentTimeMillis();
+        this.featherLogger.info(
+                "Setup finished successfully&8! &btook&8: &b"
+                        + TimeUtils.formatDuration(enableStartTime, enableFinishTime));
     }
 
     @Override
