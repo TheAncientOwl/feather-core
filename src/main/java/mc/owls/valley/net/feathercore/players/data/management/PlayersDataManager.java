@@ -48,14 +48,14 @@ public class PlayersDataManager {
             } else if (logging) {
                 Bukkit.getScheduler().runTaskTimerAsynchronously(this.plugin, () -> {
                     if (!this.saveSet.isEmpty()) {
-                        plugin.getFeatherLogger().info("Saving players data");
+                        plugin.getFeatherLogger().info("Saving players data.");
                     }
                     final int modelsCount = this.saveSet.size();
 
                     this.savePlayersData();
 
                     if (modelsCount > 0) {
-                        plugin.getFeatherLogger().info("Saved the data of " + modelsCount + " players");
+                        plugin.getFeatherLogger().info("Saved the data of " + modelsCount + " players.");
                     }
                 }, 0L, period);
             } else {

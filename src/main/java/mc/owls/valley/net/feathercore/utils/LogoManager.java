@@ -2,23 +2,16 @@ package mc.owls.valley.net.feathercore.utils;
 
 import org.bukkit.Server;
 
-import net.md_5.bungee.api.ChatColor;
-
 public class LogoManager {
     public static void logLogo(final Server server) {
-        final var fColor = ChatColor.YELLOW;
-        final var cColor = ChatColor.GOLD;
         final String[] logo = new String[] {
                 "",
-                fColor + " ░░░░░" + cColor + "   ░░░░",
-                fColor + " ░░   " + cColor + " ░░    ░░" + fColor + "  Feather" + cColor + "Core" + ChatColor.AQUA
-                        + " v0.1.2",
-                fColor + " ░░░░ " + cColor + " ░░      " + ChatColor.GRAY + "  Running on "
-                        + getServerType() + " " + server.getVersion(),
-                fColor + " ░░   " + cColor + " ░░    ░░" + ChatColor.GRAY + "  Author" + ChatColor.DARK_GRAY + ":"
-                        + fColor + " DefaultyBuf",
-                fColor + " ░░   " + cColor + "   ░░░░",
-                ""
+                " &e&l░░░░░ &6&l  ░░░░",
+                " &e&l░░    &6&l░░    ░░  &eFeather&6Core &bv0.1.2",
+                " &e&l░░░░  &6&l░░        &7&oRunning on " + getServerType() + " " + server.getVersion(),
+                " &e&l░░    &6&l░░    ░░  &7&oAuthor: DefaultyBuf",
+                " &e&l░░    &6&l  ░░░░",
+                "",
         };
 
         final var console = server.getConsoleSender();

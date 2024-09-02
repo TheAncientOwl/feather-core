@@ -27,9 +27,8 @@ public class FeatherCore extends JavaPlugin {
         this.playersDataManager = PlayersDataManager.setup(this);
 
         final var enableFinishTime = System.currentTimeMillis();
-        this.featherLogger.info(
-                "Setup finished successfully&8! &btook&8: &b"
-                        + TimeUtils.formatDuration(enableStartTime, enableFinishTime));
+        this.featherLogger.info("Successfully enabled&8. (&btook&8: &b"
+                + TimeUtils.formatDuration(enableStartTime, enableFinishTime) + "&8)");
     }
 
     @Override

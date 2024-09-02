@@ -33,12 +33,12 @@ public class MongoDBHandler {
                 PlayerModel.class);
 
         if (!mongoDB.connected()) {
-            plugin.getFeatherLogger().error("Failed to setup MongoDB, shutting down the plugin");
+            plugin.getFeatherLogger().error("Failed to setup MongoDB, shutting down the plugin.");
             plugin.getServer().getPluginManager().disablePlugin(plugin);
             return null;
         }
 
-        plugin.getFeatherLogger().info("MongoDB setup finished successfully!");
+        plugin.getFeatherLogger().info("MongoDB&8: &2OK&8.");
 
         return mongoDB;
     }

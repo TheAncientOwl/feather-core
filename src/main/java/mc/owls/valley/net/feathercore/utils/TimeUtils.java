@@ -24,19 +24,19 @@ public class TimeUtils {
         }
         if (minutes > 0) {
             if (!sb.isEmpty()) {
-                sb.append(", ");
+                sb.append("&8,&b ");
             }
             sb.append(minutes).append("m");
         }
         if (seconds > 0) {
             if (!sb.isEmpty()) {
-                sb.append(", ");
+                sb.append("&8,&b ");
             }
             sb.append(seconds).append("s");
         }
         if (milliseconds > 0) {
             if (!sb.isEmpty()) {
-                sb.append(", ");
+                sb.append("&8,&b ");
             }
             sb.append(milliseconds).append("ms");
         }
