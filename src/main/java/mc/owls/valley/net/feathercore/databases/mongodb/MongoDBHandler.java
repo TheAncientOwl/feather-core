@@ -82,4 +82,8 @@ public class MongoDBHandler {
             throw new RuntimeException("Failed to create DAO instance for " + daoClass.getName(), e);
         }
     }
+
+    public void close() {
+        this.mongoClient.close();
+    }
 }

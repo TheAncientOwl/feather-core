@@ -28,11 +28,16 @@ public class FeatherCore extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        this.featherLogger.info("Saving players data");
+        this.featherLogger.info("Saving players data.");
         this.playersDataManager.savePlayersData();
+        this.featherLogger.info("Players data saved.");
+
+        this.featherLogger.info("Closing MongoDB connection.");
+        this.mongoDB.close();
+        this.featherLogger.info("MongoDB connection closed.");
 
         LogoManager.logLogo(this.getServer());
-        this.featherLogger.info("&cGoodbye&8!");
+        this.featherLogger.info("&bGoodbye&8!");
     }
 
     public FeatherLogger getFeatherLogger() {
