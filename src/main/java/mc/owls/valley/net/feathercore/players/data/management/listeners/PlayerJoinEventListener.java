@@ -1,6 +1,7 @@
 package mc.owls.valley.net.feathercore.players.data.management.listeners;
 
 import java.util.Date;
+import java.util.UUID;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,13 +24,16 @@ public class PlayerJoinEventListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerJoinEvent(final PlayerJoinEvent e) {
         final Player player = e.getPlayer();
+        final UUID playerUUID = player.getUniqueId();
 
-        final PlayerModel playerModel = this.dataManager.getPlayerModel(player.getUniqueId());
+        final PlayerModel playerModel = this.dataManager.getPlayerModel(playerUUID);
         if (playerModel == null) {
             FeatherCore.GetFeatherLogger().info(player.getName() + " joined for the first time!");
             this.dataManager.handleNewPlayer(player);
         } else {
             playerModel.lastLogin = new Date();
         }
+
+        this.dataManager.markForSaving(playerUUID);
     }
 }
