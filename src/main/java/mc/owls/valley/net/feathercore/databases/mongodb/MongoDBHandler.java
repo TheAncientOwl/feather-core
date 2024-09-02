@@ -38,7 +38,7 @@ public class MongoDBHandler {
             return null;
         }
 
-        plugin.getFeatherLogger().success("MongoDB setup finished successfully!");
+        plugin.getFeatherLogger().info("MongoDB setup finished successfully!");
 
         return mongoDB;
     }

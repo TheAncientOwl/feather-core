@@ -23,7 +23,7 @@ public class FeatherCore extends JavaPlugin {
         this.mongoDB = MongoDBHandler.setup(getConfig(), this);
         this.playersDataManager = PlayersDataManager.setup(this);
 
-        this.featherLogger.success("Setup finished successfully&8!");
+        this.featherLogger.info("Setup finished successfully&8!");
     }
 
     @Override
@@ -37,7 +37,7 @@ public class FeatherCore extends JavaPlugin {
         this.featherLogger.info("MongoDB connection closed.");
 
         LogoManager.logLogo(this.getServer());
-        this.featherLogger.info("&bGoodbye&8!");
+        this.featherLogger.info("Goodbye&8!");
     }
 
     public FeatherLogger getFeatherLogger() {

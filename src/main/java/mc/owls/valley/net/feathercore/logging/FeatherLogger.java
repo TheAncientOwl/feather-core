@@ -23,10 +23,6 @@ public class FeatherLogger implements IFeatherLoggger {
         sendMessage("&3" + message);
     }
 
-    public void success(final String message) {
-        sendMessage("&a" + message);
-    }
-
     public void warn(final String message) {
         sendMessage("&e" + message);
     }
