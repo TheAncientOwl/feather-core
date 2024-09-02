@@ -36,6 +36,6 @@ public class PlayerJoinEventListener implements Listener {
             playerModel.lastLogin = new Date();
         }
 
-        this.dataManager.markForSaving(playerUUID);
+        this.dataManager.markForSave(playerUUID);
     }
 }

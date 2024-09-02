@@ -3,7 +3,6 @@ package mc.owls.valley.net.feathercore;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import mc.owls.valley.net.feathercore.databases.mongodb.MongoDBHandler;
-import mc.owls.valley.net.feathercore.databases.mongodb.data.accessors.PlayersDAO;
 import mc.owls.valley.net.feathercore.logging.FeatherLogger;
 import mc.owls.valley.net.feathercore.players.data.management.PlayersDataManager;
 import mc.owls.valley.net.feathercore.utils.LogoManager;
@@ -24,7 +23,7 @@ public class FeatherCore extends JavaPlugin {
 
         this.featherLogger = FeatherLogger.setup(this);
         this.mongoDB = MongoDBHandler.setup(getConfig(), this);
-        this.playersDataManager = PlayersDataManager.setup(this);
+        this.playersDataManager = PlayersDataManager.setup(this, this.mongoDB);
 
         final var enableFinishTime = System.currentTimeMillis();
         this.featherLogger.info("Successfully enabled&8. (&btook&8: &b"
@@ -51,9 +50,5 @@ public class FeatherCore extends JavaPlugin {
 
     public PlayersDataManager getPlayersDataManager() {
         return this.playersDataManager;
-    }
-
-    public PlayersDAO getPlayersDAO() {
-        return this.mongoDB.getDAO(PlayersDAO.class);
     }
 }
