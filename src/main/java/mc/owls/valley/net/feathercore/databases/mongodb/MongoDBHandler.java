@@ -1,6 +1,9 @@
 package mc.owls.valley.net.feathercore.databases.mongodb;
 
 import org.bson.UuidRepresentation;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
@@ -13,13 +16,33 @@ import dev.morphia.Datastore;
 import dev.morphia.Morphia;
 import dev.morphia.mapping.DateStorage;
 import dev.morphia.mapping.MapperOptions;
+import mc.owls.valley.net.feathercore.FeatherCore;
 import mc.owls.valley.net.feathercore.databases.mongodb.data.accessors.AbstractDAO;
+import mc.owls.valley.net.feathercore.databases.mongodb.data.models.PlayerModel;
 
 public class MongoDBHandler {
     private MongoClient mongoClient = null;
     private Datastore datastore = null;
 
     private boolean connectionOK = false;
+
+    public static MongoDBHandler setup(final FileConfiguration config, final JavaPlugin plugin) {
+        ConfigurationSection mongoConfig = config.getConfigurationSection("mongodb");
+
+        MongoDBHandler mongoDB = new MongoDBHandler(
+                mongoConfig.getString("uri"), mongoConfig.getString("dbname"),
+                PlayerModel.class);
+
+        if (!mongoDB.connected()) {
+            FeatherCore.GetFeatherLogger().error("Failed to setup MongoDB, shutting down the plugin");
+            plugin.getServer().getPluginManager().disablePlugin(plugin);
+            return null;
+        }
+
+        FeatherCore.GetFeatherLogger().success("MongoDB setup finished successfully!");
+
+        return mongoDB;
+    }
 
     @SuppressWarnings("rawtypes")
     public MongoDBHandler(final String uri, final String databaseName, Class... entities) {

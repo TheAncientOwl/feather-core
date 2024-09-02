@@ -22,7 +22,8 @@ public class FeatherCore extends JavaPlugin {
         saveDefaultConfig();
 
         setupLoggger();
-        setupMongoDB();
+
+        this.mongoDB = MongoDBHandler.setup(getConfig(), this);
 
         this.playersDataManager = new PlayersDataManager(this);
 
@@ -53,18 +54,4 @@ public class FeatherCore extends JavaPlugin {
     private void setupLoggger() {
         FeatherCore.Logger = new FeatherLogger(this);
     }
-
-    private void setupMongoDB() {
-        ConfigurationSection mongoConfig = getConfig().getConfigurationSection("mongodb");
-        this.mongoDB = new MongoDBHandler(
-                mongoConfig.getString("uri"), mongoConfig.getString("dbname"),
-                PlayerModel.class);
-        if (!this.mongoDB.connected()) {
-            FeatherCore.Logger.error("Failed to setup MongoDB, shutting down the plugin");
-            this.getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-        FeatherCore.Logger.success("MongoDB setup finished successfully!");
-    }
-
 }
