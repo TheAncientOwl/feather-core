@@ -11,62 +11,42 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
 
 import mc.owls.valley.net.feathercore.FeatherCore;
+import mc.owls.valley.net.feathercore.databases.mongodb.MongoDBHandler;
 import mc.owls.valley.net.feathercore.databases.mongodb.data.accessors.PlayersDAO;
 import mc.owls.valley.net.feathercore.databases.mongodb.data.models.PlayerModel;
 import mc.owls.valley.net.feathercore.players.data.management.listeners.PlayerJoinEventListener;
 
 public class PlayersDataManager {
     private final Map<UUID, PlayerModel> playersDataCache = new HashMap<>();
-    private Set<UUID> saveSet = Collections.synchronizedSet(new HashSet<>());
+    private Set<UUID> saveMarks = Collections.synchronizedSet(new HashSet<>());
 
     private final FeatherCore plugin;
     private final PlayersDAO playersDAO;
 
-    public PlayersDataManager(final FeatherCore plugin) {
+    public static PlayersDataManager setup(final FeatherCore plugin, final MongoDBHandler mongoDB) {
+        return new PlayersDataManager(plugin, mongoDB);
+    }
+
+    public PlayersDataManager(final FeatherCore plugin, final MongoDBHandler mongoDB) {
         this.plugin = plugin;
-        this.playersDAO = plugin.getPlayersDAO();
-        plugin.getServer().getPluginManager().registerEvents(new PlayerJoinEventListener(this), plugin);
+        this.playersDAO = mongoDB.getDAO(PlayersDAO.class);
 
-        final ConfigurationSection autoSaveCfg = this.plugin.getConfig()
-                .getConfigurationSection("players-data.auto-save");
-        if (autoSaveCfg.getBoolean("enabled")) {
-            final var minutes = autoSaveCfg.getInt("minutes");
-            final var logging = autoSaveCfg.getBoolean("logging");
+        registerEvents(plugin);
 
-            final var period = minutes * 60 * 20L;
-
-            if (minutes <= 0) {
-                FeatherCore.GetFeatherLogger().error("players-daata.auto-save.minutes cannot be <= 0");
-            } else if (logging) {
-                Bukkit.getScheduler().runTaskTimerAsynchronously(this.plugin, () -> {
-                    if (!this.saveSet.isEmpty()) {
-                        FeatherCore.GetFeatherLogger().info("Saving players data");
-                    }
-                    final int modelsCount = this.saveSet.size();
-
-                    this.savePlayersData();
-
-                    if (modelsCount > 0) {
-                        FeatherCore.GetFeatherLogger().info("Saved the data of " + modelsCount + " players");
-                    }
-                }, 0L, period);
-            } else {
-                Bukkit.getScheduler().runTaskTimerAsynchronously(this.plugin, () -> {
-                    this.savePlayersData();
-                }, 0L, period);
-            }
-        }
+        setupAutoSave(this.plugin.getConfig()
+                .getConfigurationSection("players-data.auto-save"));
     }
 
     public void savePlayersData() {
-        if (this.saveSet.isEmpty()) {
+        if (this.saveMarks.isEmpty()) {
             return;
         }
 
-        final Set<UUID> set = this.saveSet;
-        this.saveSet = Collections.synchronizedSet(new HashSet<>());
+        final Set<UUID> set = this.saveMarks;
+        this.saveMarks = Collections.synchronizedSet(new HashSet<>());
 
         for (UUID uuid : set) {
             final var playerModel = this.playersDataCache.getOrDefault(uuid, null);
@@ -108,11 +88,47 @@ public class PlayersDataManager {
         this.playersDAO.save(playerModel);
     }
 
-    public boolean markForSaving(final UUID uuid) {
+    public boolean markForSave(final UUID uuid) {
         if (!this.playersDataCache.containsKey(uuid)) {
             return false;
         }
-        this.saveSet.add(uuid);
+        this.saveMarks.add(uuid);
         return true;
+    }
+
+    private void registerEvents(final FeatherCore plugin) {
+        final PluginManager pluginManager = plugin.getServer().getPluginManager();
+
+        pluginManager.registerEvents(new PlayerJoinEventListener(this, plugin.getFeatherLogger()), plugin);
+    }
+
+    private void setupAutoSave(final ConfigurationSection autoSaveCfg) {
+        if (autoSaveCfg.getBoolean("enabled")) {
+            final var minutes = autoSaveCfg.getInt("minutes");
+            final var logging = autoSaveCfg.getBoolean("logging");
+
+            final var period = minutes * 60 * 20L;
+
+            if (minutes <= 0) {
+                plugin.getFeatherLogger().error("players-daata.auto-save.minutes cannot be <= 0");
+            } else if (logging) {
+                Bukkit.getScheduler().runTaskTimerAsynchronously(this.plugin, () -> {
+                    if (!this.saveMarks.isEmpty()) {
+                        plugin.getFeatherLogger().info("Saving players data.");
+                    }
+                    final int modelsCount = this.saveMarks.size();
+
+                    this.savePlayersData();
+
+                    if (modelsCount > 0) {
+                        plugin.getFeatherLogger().info("Saved the data of " + modelsCount + " players.");
+                    }
+                }, 0L, period);
+            } else {
+                Bukkit.getScheduler().runTaskTimerAsynchronously(this.plugin, () -> {
+                    this.savePlayersData();
+                }, 0L, period);
+            }
+        }
     }
 }

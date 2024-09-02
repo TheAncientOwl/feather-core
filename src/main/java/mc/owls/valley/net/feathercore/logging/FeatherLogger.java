@@ -11,16 +11,16 @@ public class FeatherLogger implements IFeatherLoggger {
 
     private final ConsoleCommandSender console;
 
+    public static FeatherLogger setup(final JavaPlugin plugin) {
+        return new FeatherLogger(plugin);
+    }
+
     public FeatherLogger(final JavaPlugin plugin) {
         this.console = plugin.getServer().getConsoleSender();
     }
 
     public void info(final String message) {
         sendMessage("&3" + message);
-    }
-
-    public void success(final String message) {
-        sendMessage("&a" + message);
     }
 
     public void warn(final String message) {
