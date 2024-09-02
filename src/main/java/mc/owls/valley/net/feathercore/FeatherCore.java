@@ -7,12 +7,14 @@ import mc.owls.valley.net.feathercore.databases.mongodb.MongoDBHandler;
 import mc.owls.valley.net.feathercore.databases.mongodb.data.accessors.PlayersDAO;
 import mc.owls.valley.net.feathercore.databases.mongodb.data.models.PlayerModel;
 import mc.owls.valley.net.feathercore.logging.FeatherLogger;
+import mc.owls.valley.net.feathercore.players.data.management.PlayersDataManager;
 import mc.owls.valley.net.feathercore.utils.ChatUtils;
 import net.md_5.bungee.api.ChatColor;
 
 public class FeatherCore extends JavaPlugin {
     private static FeatherLogger Logger = null;
-    private static MongoDBHandler MongoDB = null;
+    private MongoDBHandler mongoDB = null;
+    private PlayersDataManager playersDataManager = null;
 
     @Override
     public void onEnable() {
@@ -23,11 +25,16 @@ public class FeatherCore extends JavaPlugin {
         setupLoggger();
         setupMongoDB();
 
+        this.playersDataManager = new PlayersDataManager(this);
+
         FeatherCore.Logger.success("Setup finished successfully&8!");
     }
 
     @Override
     public void onDisable() {
+        FeatherCore.GetFeatherLogger().info("Saving players data");
+        this.playersDataManager.savePlayersData();
+
         displayLogo();
         FeatherCore.Logger.info("&cGoodbye&8!");
     }
@@ -36,8 +43,12 @@ public class FeatherCore extends JavaPlugin {
         return FeatherCore.Logger;
     }
 
-    public static PlayersDAO GetPlayersDAO() {
-        return FeatherCore.MongoDB.getDAO(PlayersDAO.class);
+    public PlayersDataManager getPlayersDataManager() {
+        return this.playersDataManager;
+    }
+
+    public PlayersDAO getPlayersDAO() {
+        return this.mongoDB.getDAO(PlayersDAO.class);
     }
 
     private void setupLoggger() {
@@ -46,10 +57,10 @@ public class FeatherCore extends JavaPlugin {
 
     private void setupMongoDB() {
         ConfigurationSection mongoConfig = getConfig().getConfigurationSection("mongodb");
-        FeatherCore.MongoDB = new MongoDBHandler(
+        this.mongoDB = new MongoDBHandler(
                 mongoConfig.getString("uri"), mongoConfig.getString("dbname"),
                 PlayerModel.class);
-        if (!FeatherCore.MongoDB.connected()) {
+        if (!this.mongoDB.connected()) {
             FeatherCore.Logger.error("Failed to setup MongoDB, shutting down the plugin");
             this.getServer().getPluginManager().disablePlugin(this);
             return;
