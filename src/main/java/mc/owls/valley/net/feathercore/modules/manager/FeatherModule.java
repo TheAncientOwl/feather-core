@@ -2,6 +2,7 @@ package mc.owls.valley.net.feathercore.modules.manager;
 
 import mc.owls.valley.net.feathercore.core.FeatherCore;
 import mc.owls.valley.net.feathercore.logging.api.IFeatherLoggger;
+import mc.owls.valley.net.feathercore.modules.manager.exceptions.ModuleSetupException;
 
 public abstract class FeatherModule {
     private final String name;
@@ -10,7 +11,7 @@ public abstract class FeatherModule {
         this.name = name;
     }
 
-    public ModuleEnableStatus onEnable(final FeatherCore plugin) {
+    public ModuleEnableStatus onEnable(final FeatherCore plugin) throws ModuleSetupException {
         final IFeatherLoggger logger = plugin.getFeatherLogger();
 
         logStatus(logger, "&7enabling started...");
@@ -46,7 +47,7 @@ public abstract class FeatherModule {
 
     }
 
-    protected abstract ModuleEnableStatus onModuleEnable(final FeatherCore plugin);
+    protected abstract ModuleEnableStatus onModuleEnable(final FeatherCore plugin) throws ModuleSetupException;
 
     protected abstract void onModuleDisable();
 }

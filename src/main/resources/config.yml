@@ -1,6 +1,8 @@
 mongodb:
   uri: 'mongodb://localhost:27017'
   dbname: 'owls_valley'
+  connection:
+    timeout: 1000
 
 players-data:
   new-player:
