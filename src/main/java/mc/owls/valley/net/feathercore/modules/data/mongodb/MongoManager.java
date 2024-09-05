@@ -1,10 +1,13 @@
 package mc.owls.valley.net.feathercore.modules.data.mongodb;
 
+import java.util.concurrent.TimeUnit;
+
 import org.bson.UuidRepresentation;
 import org.bukkit.configuration.ConfigurationSection;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
+import com.mongodb.MongoTimeoutException;
 import com.mongodb.ServerApi;
 import com.mongodb.ServerApiVersion;
 import com.mongodb.client.MongoClient;
@@ -20,6 +23,7 @@ import mc.owls.valley.net.feathercore.modules.data.mongodb.api.accessors.Players
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import mc.owls.valley.net.feathercore.modules.manager.FeatherModule;
 import mc.owls.valley.net.feathercore.modules.manager.ModuleEnableStatus;
+import mc.owls.valley.net.feathercore.modules.manager.exceptions.ModuleSetupException;
 
 public class MongoManager extends FeatherModule implements IMongoManager {
     private MongoClient mongoClient = null;
@@ -30,7 +34,7 @@ public class MongoManager extends FeatherModule implements IMongoManager {
     }
 
     @Override
-    protected ModuleEnableStatus onModuleEnable(final FeatherCore plugin) {
+    protected ModuleEnableStatus onModuleEnable(final FeatherCore plugin) throws ModuleSetupException {
         final ConfigurationSection mongoConfig = plugin.getConfig().getConfigurationSection("mongodb");
 
         final ConnectionString connectionString = new ConnectionString(mongoConfig.getString("uri"));
@@ -39,9 +43,21 @@ public class MongoManager extends FeatherModule implements IMongoManager {
                 .uuidRepresentation(UuidRepresentation.STANDARD)
                 .applyConnectionString(connectionString)
                 .serverApi(ServerApi.builder().version(ServerApiVersion.V1).build())
+                .applyToSocketSettings(builder -> {
+                    builder.connectTimeout(mongoConfig.getInt("connection.timeout"), TimeUnit.MILLISECONDS);
+                })
+                .applyToClusterSettings(builder -> {
+                    builder.serverSelectionTimeout(mongoConfig.getInt("connection.timeout"), TimeUnit.MILLISECONDS);
+                })
                 .build();
 
         this.mongoClient = MongoClients.create(settings);
+
+        try {
+            this.mongoClient.listDatabaseNames().first();
+        } catch (final MongoTimeoutException e) {
+            throw new ModuleSetupException("Could not connect to mongodb at " + mongoConfig.getString("uri"));
+        }
 
         this.datastore = Morphia.createDatastore(
                 this.mongoClient, mongoConfig.getString("dbname"), MapperOptions.builder()
