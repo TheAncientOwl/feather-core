@@ -7,7 +7,7 @@ public class LogoManager {
         final String[] logo = new String[] {
                 "",
                 " &e&l░░░░░ &6&l  ░░░░",
-                " &e&l░░    &6&l░░    ░░  &eFeather&6Core &bv0.2.0",
+                " &e&l░░    &6&l░░    ░░  &eFeather&6Core &bv0.2.1",
                 " &e&l░░░░  &6&l░░        &7&oRunning on " + getServerType() + " " + server.getVersion(),
                 " &e&l░░    &6&l░░    ░░  &7&oAuthor: DefaultyBuf",
                 " &e&l░░    &6&l  ░░░░",
