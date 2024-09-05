@@ -6,7 +6,7 @@
 
   <groupId>mc.owls.valley.net.feathercore</groupId>
   <artifactId>FeatherCore</artifactId>
-  <version>0.1.3</version>
+  <version>0.2.0</version>
 
   <name>FeatherCore</name>
   <packaging>jar</packaging>
@@ -83,6 +83,7 @@
         <includes>
           <include>plugin.yml</include>
           <include>config.yml</include>
+          <include>modules.json</include>
         </includes>
       </resource>
     </resources>

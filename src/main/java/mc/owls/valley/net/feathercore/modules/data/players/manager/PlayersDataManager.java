@@ -1,4 +1,4 @@
-package mc.owls.valley.net.feathercore.players.data.management;
+package mc.owls.valley.net.feathercore.modules.data.players.manager;
 
 import java.util.Collections;
 import java.util.Date;
@@ -13,33 +13,44 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 
-import mc.owls.valley.net.feathercore.FeatherCore;
-import mc.owls.valley.net.feathercore.databases.mongodb.MongoDBHandler;
-import mc.owls.valley.net.feathercore.databases.mongodb.data.accessors.PlayersDAO;
-import mc.owls.valley.net.feathercore.databases.mongodb.data.models.PlayerModel;
-import mc.owls.valley.net.feathercore.players.data.management.listeners.PlayerJoinEventListener;
+import mc.owls.valley.net.feathercore.core.FeatherCore;
+import mc.owls.valley.net.feathercore.modules.data.mongodb.api.accessors.PlayersDAO;
+import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
+import mc.owls.valley.net.feathercore.modules.data.players.manager.api.IPlayersDataManager;
+import mc.owls.valley.net.feathercore.modules.data.players.manager.listeners.PlayerJoinEventListener;
+import mc.owls.valley.net.feathercore.modules.manager.FeatherModule;
+import mc.owls.valley.net.feathercore.modules.manager.ModuleEnableStatus;
 
-public class PlayersDataManager {
+public class PlayersDataManager extends FeatherModule implements IPlayersDataManager {
     private final Map<UUID, PlayerModel> playersDataCache = new HashMap<>();
     private Set<UUID> saveMarks = Collections.synchronizedSet(new HashSet<>());
 
-    private final FeatherCore plugin;
-    private final PlayersDAO playersDAO;
+    private FeatherCore plugin;
+    private PlayersDAO playersDAO;
 
-    public static PlayersDataManager setup(final FeatherCore plugin, final MongoDBHandler mongoDB) {
-        return new PlayersDataManager(plugin, mongoDB);
+    public PlayersDataManager(final String name) {
+        super(name);
     }
 
-    public PlayersDataManager(final FeatherCore plugin, final MongoDBHandler mongoDB) {
+    @Override
+    protected ModuleEnableStatus onModuleEnable(final FeatherCore plugin) {
         this.plugin = plugin;
-        this.playersDAO = mongoDB.getDAO(PlayersDAO.class);
+        this.playersDAO = plugin.getMongoManager().getPlayersDAO();
 
         registerEvents(plugin);
 
         setupAutoSave(this.plugin.getConfig()
                 .getConfigurationSection("players-data.auto-save"));
+
+        return ModuleEnableStatus.SUCCESS;
     }
 
+    @Override
+    protected void onModuleDisable() {
+        savePlayersData();
+    }
+
+    @Override
     public void savePlayersData() {
         if (this.saveMarks.isEmpty()) {
             return;
@@ -51,11 +62,12 @@ public class PlayersDataManager {
         for (UUID uuid : set) {
             final var playerModel = this.playersDataCache.getOrDefault(uuid, null);
             if (playerModel != null) {
-                this.savePlayerModel(playerModel);
+                savePlayerModel(playerModel);
             }
         }
     }
 
+    @Override
     public void handleNewPlayer(final Player player) {
         final PlayerModel playerModel = new PlayerModel();
 
@@ -73,6 +85,7 @@ public class PlayersDataManager {
         this.playersDAO.save(playerModel);
     }
 
+    @Override
     public PlayerModel getPlayerModel(final UUID uuid) {
         PlayerModel playerModel = this.playersDataCache.getOrDefault(uuid, null);
         if (playerModel == null) {
@@ -84,16 +97,27 @@ public class PlayersDataManager {
         return playerModel;
     }
 
+    @Override
+    public PlayerModel getPlayerModel(final Player player) {
+        return getPlayerModel(player.getUniqueId());
+    }
+
+    @Override
     public void savePlayerModel(final PlayerModel playerModel) {
         this.playersDAO.save(playerModel);
     }
 
-    public boolean markForSave(final UUID uuid) {
+    public boolean markPlayerModelForSave(final UUID uuid) {
         if (!this.playersDataCache.containsKey(uuid)) {
             return false;
         }
         this.saveMarks.add(uuid);
         return true;
+    }
+
+    @Override
+    public boolean markPlayerModelForSave(final Player player) {
+        return markPlayerModelForSave(player.getUniqueId());
     }
 
     private void registerEvents(final FeatherCore plugin) {
@@ -114,19 +138,19 @@ public class PlayersDataManager {
             } else if (logging) {
                 Bukkit.getScheduler().runTaskTimerAsynchronously(this.plugin, () -> {
                     if (!this.saveMarks.isEmpty()) {
-                        plugin.getFeatherLogger().info("Saving players data.");
+                        plugin.getFeatherLogger().info("Saving players data");
                     }
                     final int modelsCount = this.saveMarks.size();
 
-                    this.savePlayersData();
+                    savePlayersData();
 
                     if (modelsCount > 0) {
-                        plugin.getFeatherLogger().info("Saved the data of " + modelsCount + " players.");
+                        plugin.getFeatherLogger().info("Saved the data of " + modelsCount + " players");
                     }
                 }, 0L, period);
             } else {
                 Bukkit.getScheduler().runTaskTimerAsynchronously(this.plugin, () -> {
-                    this.savePlayersData();
+                    savePlayersData();
                 }, 0L, period);
             }
         }

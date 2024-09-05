@@ -4,7 +4,7 @@
   <groupId>mc.owls.valley.net.feathercore</groupId>
   <artifactId>FeatherCore</artifactId>
   <name>FeatherCore</name>
-  <version>0.1.3</version>
+  <version>0.2.0</version>
   <build>
     <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
     <resources>
@@ -13,6 +13,7 @@
         <includes>
           <include>plugin.yml</include>
           <include>config.yml</include>
+          <include>modules.json</include>
         </includes>
       </resource>
     </resources>
