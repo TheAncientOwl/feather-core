@@ -221,3 +221,138 @@ features:
   protection-stones:
     description:
       - Integration of worldguard regions for players
+
+commands:
+  general:
+    admin:
+      utilities:
+        - grindstone: opens up a grindstone
+        - stonecutter: opens up a stonecutter
+        - anvil: opens up an anvil
+        - loom: opens up a loom
+        - cartographytable: opens up a cartography table
+        - disposal: opens a portable disposal menu
+        - workbench: opens up a workbench
+        - smithingtable: opens up a smithing table
+        - break: breaks the block you are looking at
+        - recipe: displays how to craft items
+        - clearinventory: clear all items in your inventory
+        - condense: condenses items into more compact blocks
+      items:
+        - itemlore: edit the lore of an item
+        - itemname: names an item
+        - enchant: enchants the item the user is holding
+        - item: spawn an item
+      fun:
+        - spawnmob: spawns a mob
+        - feed: satisfy the hunger
+        - heal: heals you or the given player
+        - ext: extinguish players
+        - nick: change your nickname or that of another player
+        - tree: spawn a tree where you are looking
+        - bigtree: spawn a big tree where you are looking
+        - firework: allows you to modify a stack of fireworks
+        - skull: set the owner of a player skull
+        - lightning: strike at cursor or player
+        - kittycannon: throw an exploding kitten at your opponent
+        - hat: get some cool new headgear
+        - fireball: throw a fireball or other assorted projectiles
+        - beezooka: throw an exploding bee at your opponent
+        - burn: set a player on fire
+        - nuke: may death rain upon them
+      general:
+        - kill: kills specified player
+        - world: switch between worlds
+        - whois: player details
+        - gc: reports memmory, uptime and tick info
+        - vanish: hide yourself from other players
+        - invsee: see the inventory of other players
+        - enderchest: lets you see inside an enderchest
+        - sudo: make another user perform a command
+        - fly: toggle fly mode
+        - god: set yourself to god mode
+        - gamemode: change player gamemode
+        - survival:
+        - spectator:
+        - creative:
+        - adventure:
+        - speed: change your speed limits
+        - repair: repairs the durability of one or all items
+        - getpost: get your current coordinates or those of a player
+        - time: display/change the world time
+        - weather: sets the weather
+        - broadcast: broadcasts a message
+        - give: give a player an item
+        - giveall: give all players an item
+      setup:
+        - createkit: create a kit in game
+        - setwarp: creates a new warp
+        - delwarp: deletes the specified warp
+        - setworthh: set the sell value of an item
+        - eco: manages the server economy
+        - delkit:
+        - exp: give, set, reset or look at players experience
+        - kitreset: resets the cooldown on the specified kit
+        - deljail: removes a jail
+        - setjail: creates a jail where you specified named [jailname]
+        - setspawn: sets the spawn point to your current position
+      teleport:
+        - tp: teleports to a player
+        - tpo: teleport override for tptoggle
+        - tphere: teleport a player to you
+        - tppos: teleport to coordinates
+        - tpohere: tp here override for tptoggle
+        - tpoffline: teleport to a player's last known logout location
+        - tpall: teleport all online players to you or another player
+      moderation:
+        ban:
+          - banip: -
+          - tempbanip: -
+          - tempban: -
+          - ban: -
+          - unban: -
+          - unbanip: -
+        kick:
+          - kickall: kicks all players off the server except the issuer
+          - kick: kicks a specified player with a reason
+        jail:
+          - jails: list all jails
+        mute:
+          - mute:
+          - unmute:
+    player:
+      chat:
+        - msg: sends a private message to specified [player]
+        - r: quick reply to the last player that messaged you
+        - ignore: ignore or unignore other players
+        - msgtoggle: blocks receiving all private messages
+      general:
+        - showkit: show contents of a kit
+        - kit: obtain the specified kit or view all available kits        
+        - report: issues a report
+        - list: list all online players
+        - warp: list all warps or warp to specified location
+        - rules: -
+        - afk: marks you as away-from-keyboard
+        - motd: views the message of the day
+        - ping: Pong!
+        - realname: displays the username of a user based on nick
+      teleport:
+        - tpa: requrest to teleport to a specified player
+        - rtp: random teleport
+        - tpdeny: rejects teleport request
+        - tpacancel: cancel all outstanding teleport requests. Specify [player] to cancel requests with them
+        - tpahere: request that the specified player teleport to you
+        - tptoggle: blocks all forms of teleportation
+        - tpaccept: accepts teleport requests
+        - spawn: teleports to the spawn point
+      home:
+        - sethome: set your home to your current location
+        - home: teleport to your home
+        - delhome: removes a home
+      economy:
+        - paytoggle: toggle if you accept or not payments
+        - sell: sell the item currently in your hand
+        - balance: states the current balance of a player
+        - balancetop: gets the top balance values
+        - worth: calculates the worth of items in hand or as specified
