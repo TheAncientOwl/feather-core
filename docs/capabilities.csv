@@ -1,0 +1,119 @@
+Index ,Module     ,Category  ,Feature           ,Permissions                                   ,Description
+    1 ,Utilities  ,Blocks    ,/grindstone       ,feathercore.utilities.blocks.grindstone       ,opens up a grindstone
+    2 ,Utilities  ,Blocks    ,/stonecutter      ,feathercore.utilities.blocks.stonecutter      ,opens up a stonecutter
+    3 ,Utilities  ,Blocks    ,/anvil            ,feathercore.utilities.blocks.anvil            ,opens up a anvil
+    4 ,Utilities  ,Blocks    ,/loom             ,feathercore.utilities.blocks.loom             ,opens up a loom
+    5 ,Utilities  ,Blocks    ,/cartographytable ,feathercore.utilities.blocks.cartographytable ,opens up a cartographytable
+    6 ,Utilities  ,Blocks    ,/disposal         ,feathercore.utilities.blocks.disposal         ,opens up a disposal
+    7 ,Utilities  ,Blocks    ,/workbench        ,feathercore.utilities.blocks.workbench        ,opens up a workbench
+    8 ,Utilities  ,Blocks    ,/smithingtable    ,feathercore.utilities.blocks.smithingtable    ,opens up a smithingtable
+    9 ,Utilities  ,Blocks    ,/break            ,feathercore.utilities.blocks.break            ,breaks the block you are looking at
+   10 ,Utilities  ,Blocks    ,/recipe           ,feathercore.utilities.blocks.recipe           ,displays how to craft items
+   11 ,Utilities  ,Blocks    ,/condense         ,feathercore.utilities.blocks.condense         ,clear all items in your inventory
+   12 ,Utilities  ,Naming    ,/nick             ,feathercore.utilities.naming.nick             ,change your nickname or that of another player
+   13 ,Utilities  ,Naming    ,/realname         ,feathercore.utilities.naming.realname         ,displays the username of a user based on nick
+   14 ,Utilities  ,Generator ,/tree             ,feathercore.utilities.generator.tree          ,spawn a tree where you are looking
+   15 ,Utilities  ,Generator ,/bigtree          ,feathercore.utilities.generator.bigtree       ,spawn a big tree where you are looking
+   16 ,Utilities  ,Generator ,/spawnmob         ,feathercore.utilities.generator.spawnmob      ,spawns a mob
+   17 ,Utilities  ,Generator ,/skull            ,feathercore.utilities.generator.skull         ,set the owner of a player skull
+   18 ,Utilities  ,Fun       ,/firework         ,feathercore.utilities.fun.firework            ,allows you to modify a stack of fireworks
+   19 ,Utilities  ,Fun       ,/lightning        ,feathercore.utilities.fun.lightning           ,strike at cursor or player
+   20 ,Utilities  ,Fun       ,/kittycannon      ,feathercore.utilities.fun.kittycannon         ,throw an exploding kitten at your opponent
+   21 ,Utilities  ,Fun       ,/hat              ,feathercore.utilities.fun.hat                 ,get some cool new headgear
+   22 ,Utilities  ,Fun       ,/fireball         ,feathercore.utilities.fun.fireball            ,throw a fireball or other assorted projectiles
+   23 ,Utilities  ,Fun       ,/beezooka         ,feathercore.utilities.fun.beezooka            ,throw an exploding bee at your opponent
+   24 ,Utilities  ,Fun       ,/nuke             ,feathercore.utilities.fun.nuke                ,may death rain upon them
+   25 ,Utilities  ,Item      ,/itemlore         ,feathercore.utilities.item.itemlore           ,edit the lore of an item
+   26 ,Utilities  ,Item      ,/itemname         ,feathercore.utilities.item.itemname           ,names an item
+   27 ,Utilities  ,Item      ,/enchant          ,feathercore.utilities.item.enchant            ,enchants the item the user is holding
+   28 ,Utilities  ,Item      ,/item             ,feathercore.utilities.item.item               ,spawn an item
+   29 ,Utilities  ,Item      ,/give             ,feathercore.utilities.item.give               ,give a player an item
+   30 ,Utilities  ,Item      ,/giveall          ,feathercore.utilities.item.giveall            ,give all players an item
+   31 ,Kit        ,Setup     ,/createkit        ,feathercore.kit.setup.createkit               ,create a kit in game
+   32 ,Kit        ,Setup     ,/delkit           ,feathercore.kit.setup.delkit                  ,
+   33 ,Kit        ,Setup     ,/kitreset         ,feathercore.kit.setup.kitreset                ,resets the cooldown on the specified kit
+   34 ,Kit        ,General   ,/kit              ,feathercore.kit.general.kit                   ,obtain the specified kit or view all available kits
+   35 ,Kit        ,General   ,/showkit          ,feathercore.kit.general.showkit               ,show contents of a kit
+   36 ,Server     ,Admin     ,/gc               ,feathercore.admin.gc                          ,"reports memmory, uptime and tick info"
+   37 ,Server     ,Admin     ,/setspawn         ,feathercore.admin.setspawn                    ,sets the spawn point to your current position
+   38 ,Server     ,Admin     ,/world            ,feathercore.admin.world                       ,switch between worlds
+   39 ,Server     ,Admin     ,/sudo             ,feathercore.admin.sudo                        ,make another user perform a command
+   40 ,Server     ,Admin     ,/repair           ,feathercore.admin.repair                      ,repairs the durability of one or all items
+   41 ,Server     ,Admin     ,/getpos           ,feathercore.admin.getpos                      ,get your current coordinates or those of a player
+   42 ,Server     ,Admin     ,/exp              ,feathercore.admin.exp                         ,"give, set, reset or look at players experience"
+   43 ,Server     ,Admin     ,/clearinventory   ,feathercore.admin.clearinventory              ,clear all items in your inventory
+   44 ,Server     ,Admin     ,/feed             ,feathercore.admin.feed                        ,satisfy the hunger
+   45 ,Server     ,Admin     ,/heal             ,feathercore.admin.heal                        ,heals you or the given player
+   46 ,Server     ,Admin     ,/burn             ,feathercore.admin.burn                        ,set a player on fire
+   47 ,Server     ,Admin     ,/ext              ,feathercore.admin.ext                         ,extinguish players
+   48 ,Server     ,Admin     ,/time             ,feathercore.admin.time                        ,display/change the world time
+   49 ,Server     ,Admin     ,/weather          ,feathercore.admin.weather                     ,sets the weather
+   50 ,Server     ,Admin     ,/broadcast        ,feathercore.admin.broadcast                   ,broadcasts a message
+   51 ,Server     ,Admin     ,/kill             ,feathercore.admin.kill                        ,kills specified player
+   52 ,Moderation ,Tools     ,/whois            ,feathercore.moderation.tools.whois            ,player details
+   53 ,Moderation ,Tools     ,/vanish           ,feathercore.moderation.tools.vanish           ,hide yourself from other players
+   54 ,Moderation ,Tools     ,/invsee           ,feathercore.moderation.tools.invsee           ,see the inventory of other players
+   55 ,Moderation ,Tools     ,/enderchest       ,feathercore.moderation.tools.enderchest       ,lets you see inside an enderchest
+   56 ,Moderation ,Ban       ,/banip            ,feathercore.moderation.ban.banip              ,-
+   57 ,Moderation ,Ban       ,/tempbanip        ,feathercore.moderation.ban.tempbanip          ,-
+   58 ,Moderation ,Ban       ,/tempban          ,feathercore.moderation.ban.tempban            ,-
+   59 ,Moderation ,Ban       ,/ban              ,feathercore.moderation.ban.ban                ,-
+   60 ,Moderation ,Ban       ,/unban            ,feathercore.moderation.ban.unban              ,-
+   61 ,Moderation ,Ban       ,/unbanip          ,feathercore.moderation.ban.unbanip            ,-
+   62 ,Moderation ,Kick      ,/kickall          ,feathercore.moderation.kick.kickall           ,kicks all players off the server except the issuer
+   63 ,Moderation ,Kick      ,/kick             ,feathercore.moderation.kick.kick              ,kicks a specified player with a reason
+   64 ,Moderation ,Jail      ,/jails            ,feathercore.moderation.jail.jails             ,list all jails
+   65 ,Moderation ,Jail      ,/jail             ,feathercore.moderation.jail.jail              ,send a player to jail
+   66 ,Moderation ,Jail      ,/deljail          ,feathercore.moderation.jail.deljail           ,removes a jail
+   67 ,Moderation ,Jail      ,/setjail          ,feathercore.moderation.jail.setjail           ,creates a jail where you specified named [jailname]
+   68 ,Moderation ,Chat      ,/mute             ,feathercore.moderation.chat.mute              ,mute a player
+   69 ,Moderation ,Chat      ,/unmute           ,feathercore.moderation.chat.unmute            ,unmute a player
+   70 ,GameModes  ,General   ,/fly              ,feathercore.gamemodes.general.fly             ,toggle fly mode
+   71 ,GameModes  ,General   ,/god              ,feathercore.gamemodes.general.god             ,set yourself to god mode
+   72 ,GameModes  ,General   ,/gamemode         ,feathercore.gamemodes.general.gamemode        ,change gamemode
+   73 ,GameModes  ,General   ,/survival         ,feathercore.gamemodes.general.survival        ,change gamemode to survival
+   74 ,GameModes  ,General   ,/spectator        ,feathercore.gamemodes.general.spectator       ,change gamemode to spectator
+   75 ,GameModes  ,General   ,/creative         ,feathercore.gamemodes.general.creative        ,change gamemode to creative
+   76 ,GameModes  ,General   ,/adventure        ,feathercore.gamemodes.general.adventure       ,change gamemode to adventure
+   77 ,GameModes  ,General   ,/speed            ,feathercore.gamemodes.general.speed           ,change your speed limits
+   78 ,Server     ,General   ,/report           ,feathercore.server.general.report             ,issues a report
+   79 ,Server     ,General   ,/list             ,feathercore.server.general.list               ,list all online players
+   80 ,Server     ,General   ,/rules            ,feathercore.server.general.rules              ,-
+   81 ,Server     ,General   ,/motd             ,feathercore.server.general.motd               ,views the message of the day
+   82 ,Server     ,General   ,/ping             ,feathercore.server.general.ping               ,Pong!
+   83 ,Server     ,General   ,/afk              ,feathercore.server.general.afk                ,marks you as away-from-keyboard
+   84 ,Chat       ,Private   ,/msg              ,feathercore.chat.private.msg                  ,sends a private message to specified [player]
+   85 ,Chat       ,Private   ,/r                ,feathercore.chat.private.r                    ,quick reply to the last player that messaged you
+   86 ,Chat       ,Private   ,/ignore           ,feathercore.chat.private.ignore               ,ignore or unignore other players
+   87 ,Chat       ,Private   ,/msgtoggle        ,feathercore.chat.private.msgtoggle            ,blocks receiving all private messages
+   88 ,Warp       ,Admin     ,/delwarp          ,feathercore.warp.admin.delwarp                ,deletes the specified warp
+   89 ,Warp       ,Admin     ,/setwarp          ,feathercore.warp.admin.setwarp                ,creates a new warp
+   90 ,Warp       ,General   ,/warp             ,feathercore.warp.general.warp                 ,list all warps or warp to specified location
+   91 ,Teleport   ,Admin     ,/tp               ,feathercore.teleport.admin.tp                 ,teleports to a player
+   92 ,Teleport   ,Admin     ,/tpo              ,feathercore.teleport.admin.tpo                ,teleport override for tptoggle
+   93 ,Teleport   ,Admin     ,/tphere           ,feathercore.teleport.admin.tphere             ,teleport a player to you
+   94 ,Teleport   ,Admin     ,/tppos            ,feathercore.teleport.admin.tppos              ,teleport to coordinates
+   95 ,Teleport   ,Admin     ,/tpohere          ,feathercore.teleport.admin.tpohere            ,tp here override for tptoggle
+   96 ,Teleport   ,Admin     ,/tpoffline        ,feathercore.teleport.admin.tpoffline          ,teleport to a player's last known logout location
+   97 ,Teleport   ,Admin     ,/tpall            ,feathercore.teleport.admin.tpall              ,teleport all online players to you or another player
+   98 ,Teleport   ,General   ,/tpa              ,feathercore.teleport.general.tpa              ,requrest to teleport to a specified player
+   99 ,Teleport   ,General   ,/rtp              ,feathercore.teleport.general.rtp              ,random teleport
+  100 ,Teleport   ,General   ,/tpdeny           ,feathercore.teleport.general.tpdeny           ,rejects teleport request
+  101 ,Teleport   ,General   ,/tpacancel        ,feathercore.teleport.general.tpacancel        ,cancel all outstanding teleport requests. Specify [player] to cancel requests with them
+  102 ,Teleport   ,General   ,/tpahere          ,feathercore.teleport.general.tpahere          ,request that the specified player teleport to you
+  103 ,Teleport   ,General   ,/tptoggle         ,feathercore.teleport.general.tptoggle         ,blocks all forms of teleportation
+  104 ,Teleport   ,General   ,/tpaccept         ,feathercore.teleport.general.tpaccept         ,accepts teleport requests
+  105 ,Teleport   ,General   ,/spawn            ,feathercore.teleport.general.spawn            ,teleports to the spawn point
+  106 ,Home       ,General   ,/sethome          ,feathercore.home.general.sethome              ,set your home to your current location
+  107 ,Home       ,General   ,/home             ,feathercore.home.general.home                 ,teleport to your home
+  108 ,Home       ,General   ,/delhome          ,feathercore.home.general.delhome              ,removes a home
+  109 ,Economy    ,Setup     ,/setworth         ,feathercore.economy.setup.setworth            ,set the sell value of an item
+  110 ,Economy    ,Setup     ,/eco              ,feathercore.economy.setup.eco                 ,manages the server economy
+  111 ,Economy    ,General   ,/pay              ,feathercore.economy.general.pay               ,pay an amount to a player
+  112 ,Economy    ,General   ,/paytoggle        ,feathercore.economy.general.paytoggle         ,toggle if you accept or not payments
+  113 ,Economy    ,General   ,/withdraw         ,feathercore.economy.general.withdraw          ,withdraw money amount as tangible item
+  114 ,Economy    ,General   ,/deposit          ,feathercore.economy.general.deposit           ,deposit tangible item representing money amount
+  115 ,Economy    ,General   ,/worth            ,feathercore.economy.general.worth             ,calculates the worth of items in hand or as specified
+  116 ,Economy    ,General   ,/sell             ,feathercore.economy.general.sell              ,sell the item currently in your hand
+  117 ,Economy    ,General   ,/balance          ,feathercore.economy.general.balance           ,states the current balance of a player
+  118 ,Economy    ,General   ,/balancetop       ,feathercore.economy.general.balancetop        ,gets the top balance values
