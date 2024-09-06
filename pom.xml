@@ -82,8 +82,9 @@
         <directory>${project.basedir}/src/main/resources</directory>
         <includes>
           <include>plugin.yml</include>
-          <include>config.yml</include>
+          <include>data.yml</include>
           <include>modules.json</include>
+          <include>config-manager.json</include>
         </includes>
       </resource>
     </resources>
