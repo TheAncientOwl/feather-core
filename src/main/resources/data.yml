@@ -4,7 +4,7 @@ mongodb:
   connection:
     timeout: 1000
 
-players-data:
+players:
   new-player:
     balance: 1500.50
   auto-save:

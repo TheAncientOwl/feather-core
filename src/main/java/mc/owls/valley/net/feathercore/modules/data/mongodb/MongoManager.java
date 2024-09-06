@@ -3,7 +3,6 @@ package mc.owls.valley.net.feathercore.modules.data.mongodb;
 import java.util.concurrent.TimeUnit;
 
 import org.bson.UuidRepresentation;
-import org.bukkit.configuration.ConfigurationSection;
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
@@ -18,6 +17,8 @@ import dev.morphia.Morphia;
 import dev.morphia.mapping.DateStorage;
 import dev.morphia.mapping.MapperOptions;
 import mc.owls.valley.net.feathercore.core.FeatherCore;
+import mc.owls.valley.net.feathercore.modules.configuration.api.IConfigFile;
+import mc.owls.valley.net.feathercore.modules.configuration.api.IConfigSection;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.IMongoManager;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.accessors.PlayersDAO;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
@@ -35,7 +36,8 @@ public class MongoManager extends FeatherModule implements IMongoManager {
 
     @Override
     protected ModuleEnableStatus onModuleEnable(final FeatherCore plugin) throws ModuleSetupException {
-        final ConfigurationSection mongoConfig = plugin.getConfig().getConfigurationSection("mongodb");
+        final IConfigFile dataConfig = plugin.getConfigurationManager().getDataConfiguration();
+        final IConfigSection mongoConfig = dataConfig.getConfigurationSection("mongodb");
 
         final ConnectionString connectionString = new ConnectionString(mongoConfig.getString("uri"));
 

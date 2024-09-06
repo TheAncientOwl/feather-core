@@ -9,11 +9,14 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import mc.owls.valley.net.feathercore.core.FeatherCore;
+import mc.owls.valley.net.feathercore.logging.api.IFeatherLoggger;
+import mc.owls.valley.net.feathercore.modules.configuration.api.IConfigFile;
+import mc.owls.valley.net.feathercore.modules.configuration.api.IConfigSection;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.accessors.PlayersDAO;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import mc.owls.valley.net.feathercore.modules.data.players.manager.api.IPlayersDataManager;
@@ -25,7 +28,8 @@ public class PlayersDataManager extends FeatherModule implements IPlayersDataMan
     private final Map<UUID, PlayerModel> playersDataCache = new HashMap<>();
     private Set<UUID> saveMarks = Collections.synchronizedSet(new HashSet<>());
 
-    private FeatherCore plugin;
+    private IFeatherLoggger logger;
+    private IConfigFile dataConfig;
     private PlayersDAO playersDAO;
 
     public PlayersDataManager(final String name) {
@@ -34,13 +38,13 @@ public class PlayersDataManager extends FeatherModule implements IPlayersDataMan
 
     @Override
     protected ModuleEnableStatus onModuleEnable(final FeatherCore plugin) {
-        this.plugin = plugin;
+        this.logger = plugin.getFeatherLogger();
+        this.dataConfig = plugin.getConfigurationManager().getDataConfiguration();
         this.playersDAO = plugin.getMongoManager().getPlayersDAO();
 
         registerEvents(plugin);
 
-        setupAutoSave(this.plugin.getConfig()
-                .getConfigurationSection("players-data.auto-save"));
+        setupAutoSave(plugin);
 
         return ModuleEnableStatus.SUCCESS;
     }
@@ -71,8 +75,7 @@ public class PlayersDataManager extends FeatherModule implements IPlayersDataMan
     public void handleNewPlayer(final Player player) {
         final PlayerModel playerModel = new PlayerModel();
 
-        final ConfigurationSection newPlayerCfg = this.plugin.getConfig()
-                .getConfigurationSection("players-data.new-player");
+        final IConfigSection newPlayerCfg = this.dataConfig.getConfigurationSection("players-data.new-player");
 
         playerModel.uuid = player.getUniqueId();
         playerModel.username = player.getName();
@@ -123,10 +126,12 @@ public class PlayersDataManager extends FeatherModule implements IPlayersDataMan
     private void registerEvents(final FeatherCore plugin) {
         final PluginManager pluginManager = plugin.getServer().getPluginManager();
 
-        pluginManager.registerEvents(new PlayerJoinEventListener(this, plugin.getFeatherLogger()), plugin);
+        pluginManager.registerEvents(new PlayerJoinEventListener(this, this.logger), plugin);
     }
 
-    private void setupAutoSave(final ConfigurationSection autoSaveCfg) {
+    private void setupAutoSave(final JavaPlugin plugin) {
+        final IConfigSection autoSaveCfg = this.dataConfig.getConfigurationSection("players.auto-save");
+
         if (autoSaveCfg.getBoolean("enabled")) {
             final var minutes = autoSaveCfg.getInt("minutes");
             final var logging = autoSaveCfg.getBoolean("logging");
@@ -134,22 +139,22 @@ public class PlayersDataManager extends FeatherModule implements IPlayersDataMan
             final var period = minutes * 60 * 20L;
 
             if (minutes <= 0) {
-                plugin.getFeatherLogger().error("players-daata.auto-save.minutes cannot be <= 0");
+                this.logger.error("players-daata.auto-save.minutes cannot be <= 0");
             } else if (logging) {
-                Bukkit.getScheduler().runTaskTimerAsynchronously(this.plugin, () -> {
+                Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
                     if (!this.saveMarks.isEmpty()) {
-                        plugin.getFeatherLogger().info("Saving players data");
+                        this.logger.info("Saving players data");
                     }
                     final int modelsCount = this.saveMarks.size();
 
                     savePlayersData();
 
                     if (modelsCount > 0) {
-                        plugin.getFeatherLogger().info("Saved the data of " + modelsCount + " players");
+                        this.logger.info("Saved the data of " + modelsCount + " players");
                     }
                 }, 0L, period);
             } else {
-                Bukkit.getScheduler().runTaskTimerAsynchronously(this.plugin, () -> {
+                Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
                     savePlayersData();
                 }, 0L, period);
             }

@@ -1,16 +1,22 @@
 {
   "modules": [
     {
+      "name": "ConfigurationManager",
+      "class": "mc.owls.valley.net.feathercore.modules.configuration.manager.ConfigurationManager",
+      "mandatory": true,
+      "dependencies": []
+    },
+    {
       "name": "MongoManager",
       "class": "mc.owls.valley.net.feathercore.modules.data.mongodb.MongoManager",
       "mandatory": true,
-      "dependencies": []
+      "dependencies": ["ConfigurationManager"]
     },
     {
       "name": "PlayersDataManagement",
       "class": "mc.owls.valley.net.feathercore.modules.data.players.manager.PlayersDataManager",
       "mandatory": true,
-      "dependencies": ["MongoManager"]
+      "dependencies": ["ConfigurationManager", "MongoManager"]
     }
   ]
 }

@@ -5,6 +5,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import mc.owls.valley.net.feathercore.core.api.IFeatherCore;
 import mc.owls.valley.net.feathercore.logging.FeatherLogger;
 import mc.owls.valley.net.feathercore.logging.api.IFeatherLoggger;
+import mc.owls.valley.net.feathercore.modules.configuration.manager.api.IConfigurationManager;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.IMongoManager;
 import mc.owls.valley.net.feathercore.modules.data.players.manager.api.IPlayersDataManager;
 import mc.owls.valley.net.feathercore.modules.manager.FeatherModulesManager;
@@ -22,8 +23,6 @@ public class FeatherCore extends JavaPlugin implements IFeatherCore {
         final var enableStartTime = System.currentTimeMillis();
 
         LogoManager.logLogo(getServer());
-
-        saveDefaultConfig();
 
         this.featherLogger = FeatherLogger.setup(this);
 
@@ -62,5 +61,10 @@ public class FeatherCore extends JavaPlugin implements IFeatherCore {
     @Override
     public IPlayersDataManager getPlayersDataManager() {
         return this.modulesManager.getModule("PlayersDataManagement");
+    }
+
+    @Override
+    public IConfigurationManager getConfigurationManager() {
+        return this.modulesManager.getModule("ConfigurationManager");
     }
 }

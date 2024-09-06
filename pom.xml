@@ -6,7 +6,7 @@
 
   <groupId>mc.owls.valley.net.feathercore</groupId>
   <artifactId>FeatherCore</artifactId>
-  <version>0.2.1</version>
+  <version>0.2.2</version>
 
   <name>FeatherCore</name>
   <packaging>jar</packaging>
@@ -82,8 +82,9 @@
         <directory>${project.basedir}/src/main/resources</directory>
         <includes>
           <include>plugin.yml</include>
-          <include>config.yml</include>
+          <include>data.yml</include>
           <include>modules.json</include>
+          <include>config-manager.json</include>
         </includes>
       </resource>
     </resources>
