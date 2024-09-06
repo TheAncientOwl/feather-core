@@ -22,6 +22,7 @@ import org.json.simple.parser.ParseException;
 import mc.owls.valley.net.feathercore.core.FeatherCore;
 import mc.owls.valley.net.feathercore.logging.api.IFeatherLoggger;
 import mc.owls.valley.net.feathercore.modules.manager.exceptions.ModuleSetupException;
+import mc.owls.valley.net.feathercore.utils.JsonUtils;
 import mc.owls.valley.net.feathercore.utils.StringUtils;
 
 public class FeatherModulesManager {
@@ -61,11 +62,12 @@ public class FeatherModulesManager {
 
     private void loadModules(@NotNull final FeatherCore plugin) throws ModuleSetupException {
         // 1. load modules array from configuration file
-        final JSONObject jsonConfig = FeatherModulesManager.loadJSON(plugin,
+        final JSONObject jsonConfig = JsonUtils.loadJSON(plugin,
                 FeatherModulesManager.DEPENDENCY_GRAPH_BUILDER_FILE_NAME);
 
         final JSONArray modulesArray = (JSONArray) jsonConfig.get("modules");
-        assertEntryNotNull(modulesArray, "modules array");
+        JsonUtils.assertEntryNotNull(modulesArray, "modules array",
+                FeatherModulesManager.DEPENDENCY_GRAPH_BUILDER_FILE_NAME);
 
         // 2. parse modules array
         for (final Object moduleObj : modulesArray) {
@@ -76,10 +78,14 @@ public class FeatherModulesManager {
             final Boolean mandatory = (Boolean) moduleJSON.get("mandatory");
             final JSONArray dependencies = (JSONArray) moduleJSON.get("dependencies");
 
-            assertEntryNotNull(name, "Some name property");
-            assertEntryNotNull(className, name + " class property");
-            assertEntryNotNull(mandatory, name + " mandatory property");
-            assertEntryNotNull(dependencies, name + " dependencies property");
+            JsonUtils.assertEntryNotNull(name, "Some name property",
+                    FeatherModulesManager.DEPENDENCY_GRAPH_BUILDER_FILE_NAME);
+            JsonUtils.assertEntryNotNull(className, name + " class property",
+                    FeatherModulesManager.DEPENDENCY_GRAPH_BUILDER_FILE_NAME);
+            JsonUtils.assertEntryNotNull(mandatory, name + " mandatory property",
+                    FeatherModulesManager.DEPENDENCY_GRAPH_BUILDER_FILE_NAME);
+            JsonUtils.assertEntryNotNull(dependencies, name + " dependencies property",
+                    FeatherModulesManager.DEPENDENCY_GRAPH_BUILDER_FILE_NAME);
 
             final var module = new FeatherModulesManager.ModuleConfig();
             this.moduleConfigs.put(name, module);
@@ -174,34 +180,5 @@ public class FeatherModulesManager {
         for (int index = this.enableOrder.size() - 1; index >= 0; --index) {
             this.modules.get(this.enableOrder.get(index)).onDisable(logger);
         }
-    }
-
-    private static void assertEntryNotNull(final Object object, @NotNull final String tag)
-            throws ModuleSetupException {
-        if (object == null) {
-            throw new ModuleSetupException(
-                    tag + " is missing from " + FeatherModulesManager.DEPENDENCY_GRAPH_BUILDER_FILE_NAME);
-        }
-    }
-
-    private static JSONObject loadJSON(@NotNull final FeatherCore plugin, @NotNull final String fileName)
-            throws ModuleSetupException {
-        JSONObject jsonObject = null;
-        try (InputStream inputStream = plugin.getResource(fileName)) {
-            if (inputStream != null) {
-                final JSONParser parser = new JSONParser();
-                jsonObject = (JSONObject) parser.parse(new InputStreamReader(inputStream));
-            } else {
-                throw new ModuleSetupException(fileName
-                        + " not found in plugin resources. That's weird O.o, please contact the developer");
-            }
-        } catch (IOException | ParseException e) {
-            throw new ModuleSetupException(
-                    "Error on parsing dependency graph resource -> cause: " + StringUtils.exceptionToStr(e));
-        }
-        if (jsonObject == null) {
-            throw new ModuleSetupException("Dependencies setup failed");
-        }
-        return jsonObject;
     }
 }
