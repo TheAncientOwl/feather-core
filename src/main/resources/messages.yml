@@ -1,6 +1,6 @@
 economy:
   command-sender-not-player: '&cThis command can be issued by players only&8.'
-  permisssion-denied: "&8[&4Economy&8] &cYou don't have permission to use that&8!"
+  permission-denied: "&8[&4Economy&8] &cYou don't have permission to use that&8!"
   not-player: '&8[&4Economy&8] &c{string} is not a player&8!'
   not-valid-number: '&8[&4Economy&8] &c{string} is not a valid number&8!'
   usage-invalid: '&8[&4Economy&8] &cInvalid command usage&8.'
