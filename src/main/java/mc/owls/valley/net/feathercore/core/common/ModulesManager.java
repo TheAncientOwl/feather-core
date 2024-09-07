@@ -10,21 +10,18 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.bukkit.configuration.file.FileConfiguration;
 import org.jetbrains.annotations.NotNull;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 
 import mc.owls.valley.net.feathercore.api.IFeatherLoggger;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
 import mc.owls.valley.net.feathercore.api.module.FeatherModule;
 import mc.owls.valley.net.feathercore.api.module.ModuleEnableStatus;
 import mc.owls.valley.net.feathercore.core.FeatherCore;
-import mc.owls.valley.net.feathercore.utils.JsonUtils;
 import mc.owls.valley.net.feathercore.utils.StringUtils;
+import mc.owls.valley.net.feathercore.utils.YamlUtils;
 
 public class ModulesManager {
-    private static final String DEPENDENCY_GRAPH_BUILDER_FILE_NAME = "modules.json";
-
     private static class ModuleConfig {
         public Set<String> dependencies = new HashSet<>();
         public FeatherModule instance = null;
@@ -58,31 +55,15 @@ public class ModulesManager {
     }
 
     private void loadModules(@NotNull final FeatherCore plugin) throws FeatherSetupException {
-        // 1. load modules array from configuration file
-        final JSONObject jsonConfig = JsonUtils.loadJSON(plugin,
-                ModulesManager.DEPENDENCY_GRAPH_BUILDER_FILE_NAME);
+        final FileConfiguration pluginConfig = YamlUtils.loadYaml(plugin, FeatherCore.PLUGIN_YML);
+        final var modulesArr = pluginConfig.getMapList("feathercore.modules");
 
-        final JSONArray modulesArray = (JSONArray) jsonConfig.get("modules");
-        JsonUtils.assertEntryNotNull(modulesArray, "modules array",
-                ModulesManager.DEPENDENCY_GRAPH_BUILDER_FILE_NAME);
-
-        // 2. parse modules array
-        for (final Object moduleObj : modulesArray) {
-            final JSONObject moduleJSON = (JSONObject) moduleObj;
-
-            final String name = (String) moduleJSON.get("name");
-            final String className = (String) moduleJSON.get("class");
-            final Boolean mandatory = (Boolean) moduleJSON.get("mandatory");
-            final JSONArray dependencies = (JSONArray) moduleJSON.get("dependencies");
-
-            JsonUtils.assertEntryNotNull(name, "Some name property",
-                    ModulesManager.DEPENDENCY_GRAPH_BUILDER_FILE_NAME);
-            JsonUtils.assertEntryNotNull(className, name + " class property",
-                    ModulesManager.DEPENDENCY_GRAPH_BUILDER_FILE_NAME);
-            JsonUtils.assertEntryNotNull(mandatory, name + " mandatory property",
-                    ModulesManager.DEPENDENCY_GRAPH_BUILDER_FILE_NAME);
-            JsonUtils.assertEntryNotNull(dependencies, name + " dependencies property",
-                    ModulesManager.DEPENDENCY_GRAPH_BUILDER_FILE_NAME);
+        for (final var moduleConfig : modulesArr) {
+            final String name = (String) moduleConfig.get("name");
+            final String className = (String) moduleConfig.get("class");
+            final Boolean mandatory = (Boolean) moduleConfig.get("mandatory");
+            @SuppressWarnings("unchecked")
+            final List<String> dependencies = (List<String>) moduleConfig.get("dependencies");
 
             final var module = new ModulesManager.ModuleConfig();
             this.moduleConfigs.put(name, module);
@@ -100,10 +81,9 @@ public class ModulesManager {
             for (final Object dependencyObj : dependencies) {
                 module.dependencies.add((String) dependencyObj);
             }
-
         }
 
-        // 3. check if dependencies are actual modules
+        // check if dependencies are actual modules
         for (final var moduleEntry : this.moduleConfigs.entrySet()) {
             final var moduleName = moduleEntry.getKey();
             final var moduleData = moduleEntry.getValue();

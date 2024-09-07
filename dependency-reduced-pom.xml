@@ -15,7 +15,6 @@
           <include>data.yml</include>
           <include>economy.yml</include>
           <include>modules.json</include>
-          <include>config-manager.json</include>
         </includes>
       </resource>
     </resources>
