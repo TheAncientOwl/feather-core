@@ -7,10 +7,10 @@ economy:
   eco:
     usage: '&8[&6Usage&8] &e/eco give/take/set [player] [amount]'
     cannot-negative-amounts: '&8[&4Economy&8] &cCannot {string} negative amounts&8!'
-    success: "&8[&2Economy&8] &7{player}'s balance was {old}, now is {new}"
+    success: "&8[&2Economy&8] &7{player}'s balance was &a{old}&7, now is &a{new}&8."
     bounds:
-      max: '&8[&4Economy&8] The new balance would be > max allowed balance ({max})'
-      min: '&8[&4Economy&8] The new balance would be < min allowed balance ({min})'
+      max: '&8[&4Economy&8] &7The new balance would be > max allowed balance &8(&c{max}&8)'
+      min: '&8[&4Economy&8] &7The new balance would be < min allowed balance &8(&c{min}&8)'
   balance:
     usage: '&8[&6Usage&8] &e/balance <player>'
     self: '&8[&2Economy&8] &7Your balance&8: &a{balance}'
