@@ -1,6 +1,0 @@
-{
-  "connections": [
-    { "field": "dataConfigFile", "config": "data.yml" },
-    { "field": "economyConfigFile", "config": "economy.yml" }
-  ]
-}

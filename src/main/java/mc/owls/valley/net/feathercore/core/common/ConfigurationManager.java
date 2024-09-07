@@ -2,8 +2,7 @@ package mc.owls.valley.net.feathercore.core.common;
 
 import java.lang.reflect.Field;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import org.bukkit.configuration.file.FileConfiguration;
 
 import mc.owls.valley.net.feathercore.api.IFeatherConfigurationManager;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
@@ -12,12 +11,10 @@ import mc.owls.valley.net.feathercore.api.module.FeatherModule;
 import mc.owls.valley.net.feathercore.api.module.ModuleEnableStatus;
 import mc.owls.valley.net.feathercore.core.FeatherCore;
 import mc.owls.valley.net.feathercore.core.configuration.bukkit.BukkitConfigFile;
-import mc.owls.valley.net.feathercore.utils.JsonUtils;
 import mc.owls.valley.net.feathercore.utils.StringUtils;
+import mc.owls.valley.net.feathercore.utils.YamlUtils;
 
 public class ConfigurationManager extends FeatherModule implements IFeatherConfigurationManager {
-    private static final String MANAGER_CONFIG_FILE_NAME = "config-manager.json";
-
     private IConfigFile dataConfigFile = null;
     private IConfigFile economyConfigFile = null;
 
@@ -27,24 +24,12 @@ public class ConfigurationManager extends FeatherModule implements IFeatherConfi
 
     @Override
     protected ModuleEnableStatus onModuleEnable(final FeatherCore plugin) throws FeatherSetupException {
-        // 1. load connections array from config file
-        final JSONObject jsonConfig = JsonUtils.loadJSON(plugin, ConfigurationManager.MANAGER_CONFIG_FILE_NAME);
+        final FileConfiguration pluginConfig = YamlUtils.loadYaml(plugin, FeatherCore.PLUGIN_YML);
+        final var configs = pluginConfig.getMapList("feathercore.configs");
 
-        final JSONArray connectionsArray = (JSONArray) jsonConfig.get("connections");
-        JsonUtils.assertEntryNotNull(connectionsArray, "connections array",
-                ConfigurationManager.MANAGER_CONFIG_FILE_NAME);
-
-        // 2. parse connections array
-        for (final Object connectionObj : connectionsArray) {
-            final JSONObject connectionJSON = (JSONObject) connectionObj;
-
-            final String fieldName = (String) connectionJSON.get("field");
-            final String configName = (String) connectionJSON.get("config");
-
-            JsonUtils.assertEntryNotNull(fieldName, "field property",
-                    ConfigurationManager.MANAGER_CONFIG_FILE_NAME);
-            JsonUtils.assertEntryNotNull(configName, "config property",
-                    ConfigurationManager.MANAGER_CONFIG_FILE_NAME);
+        for (final var config : configs) {
+            final String fieldName = (String) config.get("field");
+            final String configName = (String) config.get("config");
 
             try {
                 final Class<?> clazz = this.getClass();

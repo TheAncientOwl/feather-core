@@ -8,6 +8,13 @@ depend: [Vault]
 
 api-version: 1.21.1
 
+feathercore:
+  configs:
+    - field: 'dataConfigFile'
+      config: 'data.yml'
+    - field: 'economyConfigFile'
+      config: 'economy.yml'
+
 commands:
   balance:
     description: State the current balance of a given player

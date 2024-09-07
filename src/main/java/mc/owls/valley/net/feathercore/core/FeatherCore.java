@@ -15,6 +15,8 @@ import mc.owls.valley.net.feathercore.utils.StringUtils;
 import mc.owls.valley.net.feathercore.utils.TimeUtils;
 
 public class FeatherCore extends JavaPlugin implements IFeatherCore {
+    public static final String PLUGIN_YML = "plugin.yml";
+
     private IFeatherLoggger featherLogger = null;
     private ModulesManager modulesManager = new ModulesManager();
 
