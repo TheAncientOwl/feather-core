@@ -51,11 +51,11 @@ public class BalanceCommand implements IFeatherCommand {
 
         if (playerName != null) {
             message = StringUtils.replacePlaceholders(message,
-                    new Pair<>(Placeholder.CURRENCY,
+                    Pair.of(Placeholder.CURRENCY,
                             balance == 1 || balance == -1 ? this.economy.currencyNameSingular()
                                     : this.economy.currencyNamePlural()),
-                    new Pair<>(Placeholder.BALANCE, balance),
-                    new Pair<>(Placeholder.PLAYER_NAME, playerName));
+                    Pair.of(Placeholder.BALANCE, balance),
+                    Pair.of(Placeholder.PLAYER_NAME, playerName));
         }
 
         ChatUtils.sendMessage(commandSender, message);
