@@ -1,144 +1,44 @@
 package mc.owls.valley.net.feathercore.modules.economy.provider;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.OfflinePlayer;
 
+import mc.owls.valley.net.feathercore.modules.configuration.api.IConfigFile;
 import mc.owls.valley.net.feathercore.modules.data.players.manager.api.IPlayersDataManager;
 import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
+import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 
 public class FeatherEconomy extends AbstractEconomy {
     private IPlayersDataManager playersDataManager = null;
+    private IConfigFile config = null;
 
-    public FeatherEconomy(final IPlayersDataManager playersDataManager) {
+    public FeatherEconomy(final IPlayersDataManager playersDataManager, final IConfigFile config) {
         this.playersDataManager = playersDataManager;
+        this.config = config;
     }
 
+    // ------------------------------[ Configuration ]------------------------------
     /**
-     * Returns the amount the bank has
+     * Checks if economy method is enabled.
      * 
-     * @param name of the account
-     * @return EconomyResponse Object
+     * @return Success or Failure
      */
     @Override
-    public EconomyResponse bankBalance(String name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'bankBalance'");
+    public boolean isEnabled() {
+        return true;
     }
 
     /**
-     * Deposit an amount into a bank account - DO NOT USE NEGATIVE AMOUNTS
+     * Gets name of economy method
      * 
-     * @param name   of the account
-     * @param amount to deposit
-     * @return EconomyResponse Object
+     * @return Name of Economy Method
      */
     @Override
-    public EconomyResponse bankDeposit(String name, double amount) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'bankDeposit'");
-    }
-
-    /**
-     * Returns true or false whether the bank has the amount specified - DO NOT USE
-     * NEGATIVE AMOUNTS
-     * 
-     * @param name   of the account
-     * @param amount to check for
-     * @return EconomyResponse Object
-     */
-    @Override
-    public EconomyResponse bankHas(String name, double amount) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'bankHas'");
-    }
-
-    /**
-     * Withdraw an amount from a bank account - DO NOT USE NEGATIVE AMOUNTS
-     * 
-     * @param name   of the account
-     * @param amount to withdraw
-     * @return EconomyResponse Object
-     */
-    @Override
-    public EconomyResponse bankWithdraw(String name, double amount) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'bankWithdraw'");
-    }
-
-    /**
-     * @deprecated As of VaultAPI 1.4 use
-     *             {{@link #createBank(String, OfflinePlayer)} instead.
-     */
-    @Override
-    @Deprecated
-    public EconomyResponse createBank(String name, String player) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createBank'");
-    }
-
-    /**
-     * Creates a bank account with the specified name and the player as the owner
-     * 
-     * @param name   of account
-     * @param player the account should be linked to
-     * @return EconomyResponse Object
-     */
-    @Override
-    public EconomyResponse createBank(String name, OfflinePlayer player) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createBank'");
-    }
-
-    /**
-     * @deprecated As of VaultAPI 1.4 use
-     *             {{@link #createPlayerAccount(OfflinePlayer)} instead.
-     */
-    @Override
-    @Deprecated
-    public boolean createPlayerAccount(String playerName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createPlayerAccount'");
-    }
-
-    /**
-     * Attempts to create a player account for the given player
-     * 
-     * @param player OfflinePlayer
-     * @return if the account creation was successful
-     */
-    @Override
-    public boolean createPlayerAccount(OfflinePlayer player) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createPlayerAccount'");
-    }
-
-    /**
-     * @deprecated As of VaultAPI 1.4 use
-     *             {{@link #createPlayerAccount(OfflinePlayer, String)} instead.
-     */
-    @Override
-    @Deprecated
-    public boolean createPlayerAccount(String playerName, String worldName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createPlayerAccount'");
-    }
-
-    /**
-     * Attempts to create a player account for the given player on the specified
-     * world
-     * IMPLEMENTATION SPECIFIC - if an economy plugin does not support this then
-     * false will always be returned.
-     * 
-     * @param player    OfflinePlayer
-     * @param worldName String name of the world
-     * @return if the account creation was successful
-     */
-    @Override
-    public boolean createPlayerAccount(OfflinePlayer player, String worldName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'createPlayerAccount'");
+    public String getName() {
+        return "FeatherEconomy";
     }
 
     /**
@@ -150,8 +50,7 @@ public class FeatherEconomy extends AbstractEconomy {
      */
     @Override
     public String currencyNamePlural() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'currencyNamePlural'");
+        return this.config.getString("currency.name.plural");
     }
 
     /**
@@ -163,22 +62,36 @@ public class FeatherEconomy extends AbstractEconomy {
      */
     @Override
     public String currencyNameSingular() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'currencyNameSingular'");
+        return this.config.getString("currency.name.singular");
     }
 
     /**
-     * Deletes a bank account with the specified name.
-     * 
-     * @param name of the back to delete
-     * @return if the operation completed successfully
+     * Format amount into a human readable String This provides translation into
+     * economy specific formatting to improve consistency between plugins.
+     *
+     * @param amount to format
+     * @return Human readable string describing amount
      */
     @Override
-    public EconomyResponse deleteBank(String name) {
+    public String format(final double amount) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteBank'");
+        throw new UnsupportedOperationException("Unimplemented method 'format'");
     }
 
+    /**
+     * Some economy plugins round off after a certain number of digits.
+     * This function returns the number of digits the plugin keeps
+     * or -1 if no rounding occurs.
+     * 
+     * @return number of digits after the decimal point kept
+     */
+    @Override
+    public int fractionalDigits() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'fractionalDigits'");
+    }
+
+    // ------------------------------[ Deposit ]------------------------------
     /**
      * @deprecated As of VaultAPI 1.4 use
      *             {@link #depositPlayer(OfflinePlayer, double)} instead.
@@ -230,32 +143,7 @@ public class FeatherEconomy extends AbstractEconomy {
         throw new UnsupportedOperationException("Unimplemented method 'depositPlayer'");
     }
 
-    /**
-     * Format amount into a human readable String This provides translation into
-     * economy specific formatting to improve consistency between plugins.
-     *
-     * @param amount to format
-     * @return Human readable string describing amount
-     */
-    @Override
-    public String format(double amount) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'format'");
-    }
-
-    /**
-     * Some economy plugins round off after a certain number of digits.
-     * This function returns the number of digits the plugin keeps
-     * or -1 if no rounding occurs.
-     * 
-     * @return number of digits after the decimal point kept
-     */
-    @Override
-    public int fractionalDigits() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'fractionalDigits'");
-    }
-
+    // ------------------------------[ Balance ]------------------------------
     /**
      * @deprecated As of VaultAPI 1.4 use {@link #getBalance(OfflinePlayer)}
      *             instead.
@@ -286,8 +174,7 @@ public class FeatherEconomy extends AbstractEconomy {
     @Override
     @Deprecated
     public double getBalance(String playerName, String world) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getBalance'");
+        return getBalance(playerName);
     }
 
     /**
@@ -301,32 +188,10 @@ public class FeatherEconomy extends AbstractEconomy {
      */
     @Override
     public double getBalance(OfflinePlayer player, String world) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getBalance'");
+        return getBalance(player);
     }
 
-    /**
-     * Gets the list of banks
-     * 
-     * @return the List of Banks
-     */
-    @Override
-    public List<String> getBanks() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getBanks'");
-    }
-
-    /**
-     * Gets name of economy method
-     * 
-     * @return Name of Economy Method
-     */
-    @Override
-    public String getName() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getName'");
-    }
-
+    // ------------------------------[ BalanceCheck ]------------------------------
     /**
      * @deprecated As of VaultAPI 1.4 use {@link #has(OfflinePlayer, double)}
      *             instead.
@@ -379,128 +244,7 @@ public class FeatherEconomy extends AbstractEconomy {
         throw new UnsupportedOperationException("Unimplemented method 'has'");
     }
 
-    /**
-     * 
-     * @deprecated As of VaultAPI 1.4 use {@link #hasAccount(OfflinePlayer)}
-     *             instead.
-     */
-    @Override
-    @Deprecated
-    public boolean hasAccount(String playerName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'hasAccount'");
-    }
-
-    /**
-     * Checks if this player has an account on the server yet
-     * This will always return true if the player has joined the server at least
-     * once
-     * as all major economy plugins auto-generate a player account when the player
-     * joins the server
-     * 
-     * @param player to check
-     * @return if the player has an account
-     */
-    public boolean hasAccount(OfflinePlayer player) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'hasAccount'");
-    }
-
-    /**
-     * @deprecated As of VaultAPI 1.4 use {@link #hasAccount(OfflinePlayer, String)}
-     *             instead.
-     */
-    @Override
-    @Deprecated
-    public boolean hasAccount(String playerName, String worldName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'hasAccount'");
-    }
-
-    /**
-     * Checks if this player has an account on the server yet on the given world
-     * This will always return true if the player has joined the server at least
-     * once
-     * as all major economy plugins auto-generate a player account when the player
-     * joins the server
-     * 
-     * @param player    to check in the world
-     * @param worldName world-specific account
-     * @return if the player has an account
-     */
-    public boolean hasAccount(OfflinePlayer player, String worldName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'hasAccount'");
-    }
-
-    /**
-     * Returns true if the given implementation supports banks.
-     * 
-     * @return true if the implementation supports banks
-     */
-    @Override
-    public boolean hasBankSupport() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'hasBankSupport'");
-    }
-
-    /**
-     * @deprecated As of VaultAPI 1.4 use
-     *             {{@link #isBankMember(String, OfflinePlayer)} instead.
-     */
-    @Override
-    @Deprecated
-    public EconomyResponse isBankMember(String name, String playerName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isBankMember'");
-    }
-
-    /**
-     * Check if the player is a member of the bank account
-     * 
-     * @param name   of the account
-     * @param player to check membership
-     * @return EconomyResponse Object
-     */
-    public EconomyResponse isBankMember(String name, OfflinePlayer player) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isBankMember'");
-    }
-
-    /**
-     * @deprecated As of VaultAPI 1.4 use
-     *             {{@link #isBankOwner(String, OfflinePlayer)} instead.
-     */
-    @Override
-    @Deprecated
-    public EconomyResponse isBankOwner(String name, String playerName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isBankOwner'");
-    }
-
-    /**
-     * Check if a player is the owner of a bank account
-     * 
-     * @param name   of the account
-     * @param player to check for ownership
-     * @return EconomyResponse Object
-     */
-    public EconomyResponse isBankOwner(String name, OfflinePlayer player) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isBankOwner'");
-    }
-
-    /**
-     * Checks if economy method is enabled.
-     * 
-     * @return Success or Failure
-     */
-    @Override
-    public boolean isEnabled() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isEnabled'");
-    }
-
+    // ------------------------------[ Withddraw ]------------------------------
     /**
      * @deprecated As of VaultAPI 1.4 use
      *             {@link #withdrawPlayer(OfflinePlayer, double)} instead.
@@ -532,8 +276,7 @@ public class FeatherEconomy extends AbstractEconomy {
     @Override
     @Deprecated
     public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'withdrawPlayer'");
+        return withdrawPlayer(playerName, amount);
     }
 
     /**
@@ -548,8 +291,247 @@ public class FeatherEconomy extends AbstractEconomy {
      * @return Detailed response of transaction
      */
     public EconomyResponse withdrawPlayer(OfflinePlayer player, String worldName, double amount) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'withdrawPlayer'");
+        return withdrawPlayer(player, amount);
     }
 
+    // ------------------------------[ PlayerAccount ]------------------------------
+    /**
+     * @deprecated As of VaultAPI 1.4 use
+     *             {{@link #createPlayerAccount(OfflinePlayer)} instead.
+     */
+    @Override
+    @Deprecated
+    public boolean createPlayerAccount(String playerName) {
+        return this.playersDataManager.getPlayerModel(playerName) != null;
+    }
+
+    /**
+     * Attempts to create a player account for the given player
+     * 
+     * @param player OfflinePlayer
+     * @return if the account creation was successful
+     */
+    @Override
+    public boolean createPlayerAccount(OfflinePlayer player) {
+        return this.playersDataManager.getPlayerModel(player) != null;
+    }
+
+    /**
+     * @deprecated As of VaultAPI 1.4 use
+     *             {{@link #createPlayerAccount(OfflinePlayer, String)} instead.
+     */
+    @Override
+    @Deprecated
+    public boolean createPlayerAccount(String playerName, String worldName) {
+        return createPlayerAccount(playerName);
+    }
+
+    /**
+     * Attempts to create a player account for the given player on the specified
+     * world
+     * IMPLEMENTATION SPECIFIC - if an economy plugin does not support this then
+     * false will always be returned.
+     * 
+     * @param player    OfflinePlayer
+     * @param worldName String name of the world
+     * @return if the account creation was successful
+     */
+    @Override
+    public boolean createPlayerAccount(OfflinePlayer player, String worldName) {
+        return createPlayerAccount(player);
+    }
+
+    /**
+     * 
+     * @deprecated As of VaultAPI 1.4 use {@link #hasAccount(OfflinePlayer)}
+     *             instead.
+     */
+    @Override
+    @Deprecated
+    public boolean hasAccount(String playerName) {
+        return this.playersDataManager.getPlayerModel(playerName) != null;
+    }
+
+    /**
+     * Checks if this player has an account on the server yet
+     * This will always return true if the player has joined the server at least
+     * once
+     * as all major economy plugins auto-generate a player account when the player
+     * joins the server
+     * 
+     * @param player to check
+     * @return if the player has an account
+     */
+    public boolean hasAccount(OfflinePlayer player) {
+        return this.playersDataManager.getPlayerModel(player) != null;
+    }
+
+    /**
+     * @deprecated As of VaultAPI 1.4 use {@link #hasAccount(OfflinePlayer, String)}
+     *             instead.
+     */
+    @Override
+    @Deprecated
+    public boolean hasAccount(String playerName, String worldName) {
+        return hasAccount(playerName);
+    }
+
+    /**
+     * Checks if this player has an account on the server yet on the given world
+     * This will always return true if the player has joined the server at least
+     * once
+     * as all major economy plugins auto-generate a player account when the player
+     * joins the server
+     * 
+     * @param player    to check in the world
+     * @param worldName world-specific account
+     * @return if the player has an account
+     */
+    public boolean hasAccount(OfflinePlayer player, String worldName) {
+        return hasAccount(player);
+    }
+
+    // ------------------------------[ BankSupport ]------------------------------
+    /**
+     * Returns true if the given implementation supports banks.
+     * 
+     * @return true if the implementation supports banks
+     */
+    @Override
+    public boolean hasBankSupport() {
+        return false;
+    }
+
+    /**
+     * Gets the list of banks
+     * 
+     * @return the List of Banks
+     */
+    @Override
+    public List<String> getBanks() {
+        return new ArrayList<>();
+    }
+
+    /**
+     * Deletes a bank account with the specified name.
+     * 
+     * @param name of the back to delete
+     * @return if the operation completed successfully
+     */
+    @Override
+    public EconomyResponse deleteBank(String name) {
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "");
+    }
+
+    /**
+     * Returns the amount the bank has
+     * 
+     * @param name of the account
+     * @return EconomyResponse Object
+     */
+    @Override
+    public EconomyResponse bankBalance(final String name) {
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "");
+    }
+
+    /**
+     * Deposit an amount into a bank account - DO NOT USE NEGATIVE AMOUNTS
+     * 
+     * @param name   of the account
+     * @param amount to deposit
+     * @return EconomyResponse Object
+     */
+    @Override
+    public EconomyResponse bankDeposit(String name, double amount) {
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "");
+    }
+
+    /**
+     * Returns true or false whether the bank has the amount specified - DO NOT USE
+     * NEGATIVE AMOUNTS
+     * 
+     * @param name   of the account
+     * @param amount to check for
+     * @return EconomyResponse Object
+     */
+    @Override
+    public EconomyResponse bankHas(final String name, final double amount) {
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "");
+    }
+
+    /**
+     * Withdraw an amount from a bank account - DO NOT USE NEGATIVE AMOUNTS
+     * 
+     * @param name   of the account
+     * @param amount to withdraw
+     * @return EconomyResponse Object
+     */
+    @Override
+    public EconomyResponse bankWithdraw(String name, double amount) {
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "");
+    }
+
+    /**
+     * @deprecated As of VaultAPI 1.4 use
+     *             {{@link #createBank(String, OfflinePlayer)} instead.
+     */
+    @Override
+    @Deprecated
+    public EconomyResponse createBank(String name, String player) {
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "");
+    }
+
+    /**
+     * Creates a bank account with the specified name and the player as the owner
+     * 
+     * @param name   of account
+     * @param player the account should be linked to
+     * @return EconomyResponse Object
+     */
+    @Override
+    public EconomyResponse createBank(String name, OfflinePlayer player) {
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "");
+    }
+
+    /**
+     * @deprecated As of VaultAPI 1.4 use
+     *             {{@link #isBankMember(String, OfflinePlayer)} instead.
+     */
+    @Override
+    @Deprecated
+    public EconomyResponse isBankMember(String name, String playerName) {
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "");
+    }
+
+    /**
+     * Check if the player is a member of the bank account
+     * 
+     * @param name   of the account
+     * @param player to check membership
+     * @return EconomyResponse Object
+     */
+    public EconomyResponse isBankMember(String name, OfflinePlayer player) {
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "");
+    }
+
+    /**
+     * @deprecated As of VaultAPI 1.4 use
+     *             {{@link #isBankOwner(String, OfflinePlayer)} instead.
+     */
+    @Override
+    @Deprecated
+    public EconomyResponse isBankOwner(String name, String playerName) {
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "");
+    }
+
+    /**
+     * Check if a player is the owner of a bank account
+     * 
+     * @param name   of the account
+     * @param player to check for ownership
+     * @return EconomyResponse Object
+     */
+    public EconomyResponse isBankOwner(String name, OfflinePlayer player) {
+        return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "");
+    }
 }

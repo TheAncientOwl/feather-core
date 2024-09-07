@@ -25,7 +25,8 @@ public class FeatherEconomyProvider extends FeatherModule {
             throw new ModuleSetupException("Vault dependency is not installed");
         }
 
-        this.economyProvider = new FeatherEconomy(plugin.getPlayersDataManager());
+        this.economyProvider = new FeatherEconomy(plugin.getPlayersDataManager(),
+                plugin.getConfigurationManager().getEconomyConfigFile());
         server.getServicesManager().register(Economy.class, this.economyProvider, plugin, ServicePriority.High);
 
         return ModuleEnableStatus.SUCCESS;

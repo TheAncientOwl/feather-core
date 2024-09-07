@@ -19,6 +19,7 @@ public class ConfigurationManager extends FeatherModule implements IConfiguratio
     private static final String MANAGER_CONFIG_FILE_NAME = "config-manager.json";
 
     private IConfigFile dataConfigFile = null;
+    private IConfigFile economyConfigFile = null;
 
     public ConfigurationManager(String name) {
         super(name);
@@ -65,6 +66,11 @@ public class ConfigurationManager extends FeatherModule implements IConfiguratio
     @Override
     public IConfigFile getDataConfiguration() {
         return this.dataConfigFile;
+    }
+
+    @Override
+    public IConfigFile getEconomyConfigFile() {
+        return this.economyConfigFile;
     }
 
 }

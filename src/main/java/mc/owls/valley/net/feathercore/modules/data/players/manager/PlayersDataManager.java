@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -78,7 +79,7 @@ public class PlayersDataManager extends FeatherModule implements IPlayersDataMan
         final IConfigSection newPlayerCfg = this.dataConfig.getConfigurationSection("players-data.new-player");
 
         playerModel.uuid = player.getUniqueId();
-        playerModel.username = player.getName();
+        playerModel.name = player.getName();
         playerModel.nickname = "";
         playerModel.registrationDate = new Date();
         playerModel.lastLogin = new Date();
@@ -86,6 +87,27 @@ public class PlayersDataManager extends FeatherModule implements IPlayersDataMan
 
         this.playersDataCache.put(playerModel.uuid, playerModel);
         this.playersDAO.save(playerModel);
+    }
+
+    @Override
+    @Deprecated
+    public PlayerModel getPlayerModel(final String playerName) {
+        PlayerModel playerModel = null;
+
+        for (var playerData : this.playersDataCache.values()) {
+            if (playerData.name.equals(playerName)) {
+                playerModel = playerData;
+            }
+        }
+
+        if (playerModel == null) {
+            playerModel = this.playersDAO.getModelByName(playerName);
+            if (playerModel != null) {
+                this.playersDataCache.put(playerModel.uuid, playerModel);
+            }
+        }
+
+        return playerModel;
     }
 
     @Override
@@ -106,8 +128,24 @@ public class PlayersDataManager extends FeatherModule implements IPlayersDataMan
     }
 
     @Override
+    public PlayerModel getPlayerModel(final OfflinePlayer player) {
+        return getPlayerModel(player.getUniqueId());
+    }
+
+    @Override
     public void savePlayerModel(final PlayerModel playerModel) {
         this.playersDAO.save(playerModel);
+    }
+
+    @Override
+    @Deprecated
+    public boolean markPlayerModelForSave(final String name) {
+        final PlayerModel playerModel = getPlayerModel(name);
+        if (playerModel != null) {
+            markPlayerModelForSave(playerModel.uuid);
+            return true;
+        }
+        return false;
     }
 
     public boolean markPlayerModelForSave(final UUID uuid) {
@@ -120,6 +158,11 @@ public class PlayersDataManager extends FeatherModule implements IPlayersDataMan
 
     @Override
     public boolean markPlayerModelForSave(final Player player) {
+        return markPlayerModelForSave(player.getUniqueId());
+    }
+
+    @Override
+    public boolean markPlayerModelForSave(OfflinePlayer player) {
         return markPlayerModelForSave(player.getUniqueId());
     }
 

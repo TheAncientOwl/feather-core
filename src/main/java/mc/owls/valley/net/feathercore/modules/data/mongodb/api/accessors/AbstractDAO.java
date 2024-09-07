@@ -21,6 +21,10 @@ public abstract class AbstractDAO<T> {
         return entity;
     }
 
+    /**
+     * @deprecated As of FeatherCore 0.2.3 use {{@link #get(UUID)}}
+     */
+    @Deprecated
     public T get(@NotNull String id) {
         return datastore.find(getEntityClass()).filter(Filters.eq("_id", id)).first();
     }

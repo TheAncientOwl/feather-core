@@ -11,6 +11,17 @@ public class PlayersDAO extends AbstractDAO<PlayerModel> {
         super(datastore);
     }
 
+    @Deprecated
+    public PlayerModel getModelByName(@NotNull final String playerName) {
+        PlayerModel playerModel = null;
+        try {
+            playerModel = findFirst("username", playerName);
+        } catch (IndexOutOfBoundsException e) {
+            return null;
+        }
+        return playerModel;
+    }
+
     @Override
     protected Class<PlayerModel> getEntityClass() {
         return PlayerModel.class;

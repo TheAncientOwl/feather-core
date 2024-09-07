@@ -13,7 +13,7 @@ public class PlayerModel {
     public UUID uuid;
 
     @Property("username")
-    public String username;
+    public String name;
 
     @Property("nickname")
     public String nickname;

@@ -1,0 +1,4 @@
+currency:
+  name:
+    singular: '$'
+    plural: '$'
