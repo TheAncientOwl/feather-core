@@ -1,12 +1,137 @@
 modules:
-  feather:
-    description: |
-      Module responsible for providing FeatherCore economy
+  provider:
+    description: Module responsible for providing FeatherCore economy
+    capabilities:
+      economy:
+        description: Implements Economy interface of Vault API
+      provider:
+        description: Provides Economy interface implementation for Vault API
 
   vault:
-    description: |
-      Module responsible for access to the Vault API
+    description: Module responsible for access to the Vault API
+    capabilities:
+      api:
+        description: Provide common API accross multiple plugins to manage the server's economy
 
   manager:
-    description: |
-      Module responsible for handling economy on the server
+    notes:
+      command-arguments: |
+        - "[argument]" means the argument is mandatory
+        - "<argument>" means the argument is optional
+    description: Module responsible for handling economy on the server
+    capabilities:
+      eco:
+        description: Manage server economy
+        command:
+          usage: /eco give/take/set/reset [player] [amount]
+          arguments:
+            give/take/set/reset: Self explanatory
+            player: player's name
+            amount: amount
+          permissions:
+            - feathercore.economy.setup.eco
+      setworth:
+        description: Set an item's sell/buy value
+        command:
+          usage: /setworth <item> [value]
+          arguments:
+            item: |
+              if present
+              then item's name
+              else item in hand
+            value: value
+          permissions:
+            - feathercore.economy.setup.setworth
+      worth:
+        description: Get and item's sell/buy value
+        command:
+          usage: /worth <item> [value]
+          arguments:
+            item: |
+              if present
+              then item's name
+              else item in hand
+            value: value
+          permissions:
+            - feathercore.economy.general.worth
+      sell:
+        description: Sell items
+        command:
+          usage: /sell <hand>
+          arguments:
+            hand: |
+              if present
+              then it sells all the items similar to the one in player's hand, 
+              else opens a chest for the player to add all the items that can be sold
+          permissions:
+            - feathercore.economy.general.sell
+      buy:
+        description: Buy items
+        command:
+          usage: /buy
+          arguments:
+            hand: |
+              if present
+              then it sells all the items similar to the one in player's hand, 
+              else opens a chest for the player to add all the items that can be sold
+          permissions:
+            - feathercore.economy.general.buy
+      shop:
+        description: Opens shop menu
+        command:
+          usage: /shop
+          arguments: null
+          permissions:
+            - feathercore.economy.general.shop
+      balance:
+        description: State the current balance of a given player
+        command:
+          usage: /balance <player>
+          aliases: [bal]
+          arguments:
+            player: |
+              if present
+              then player's name
+              else issuer's player name
+          permissions:
+            - feathercore.economy.general.balance
+      balancetop:
+        description: State the top X(configured in economy.yml:top-list) player balances on the server
+        command:
+          usage: /balancetop
+          aliases: [baltop]
+          arguments: null
+          permissions:
+            - feathercore.economy.general.balancetop
+      pay:
+        description: Pay an amout to a player
+        command:
+          usage: /pay [player] [amount]
+          arguments:
+            player: player's name
+            amount: amount
+          permissions:
+            - feathercore.economy.general.pay
+      paytoggle:
+        description: Toggle if you accept or not payments
+        command:
+          usage: /paytoggle
+          arguments: null
+          permissions:
+            - feathercore.economy.general.paytoggle
+      withdraw:
+        description: Withdraw money from player's balance in physical form (configured in economyl.yml:banknotes)
+        command:
+          usage: /withdraw [amount]
+          arguments:
+            amount: amount
+          permissions:
+            - feathercore.economy.general.withdraw
+      deposit:
+        description: Deposit money from player's balance in physical form (configured in economyl.yml:banknotes)
+        command:
+          usage: /deposit [amount]
+          arguments:
+            amount: amount
+          permissions:
+            - feathercore.economy.general.deposit
