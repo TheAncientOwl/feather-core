@@ -13,4 +13,4 @@ commands:
     description: State the current balance of a given player
     usage: /balance <player>
     aliases: [bal]
-    class: mc.owls.valley.net.feathercore.modules.economy.manager.commands.BalanceCommand
+    class: mc.owls.valley.net.feathercore.modules.economy.commands.BalanceCommand

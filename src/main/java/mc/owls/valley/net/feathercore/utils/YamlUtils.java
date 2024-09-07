@@ -8,12 +8,12 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
 
+import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
 import mc.owls.valley.net.feathercore.core.FeatherCore;
-import mc.owls.valley.net.feathercore.modules.manager.exceptions.ModuleSetupException;
 
 public class YamlUtils {
     public static FileConfiguration loadYaml(@NotNull final FeatherCore plugin, @NotNull final String fileName)
-            throws ModuleSetupException {
+            throws FeatherSetupException {
         FileConfiguration fileConfiguration = null;
 
         try (final InputStream inputStream = plugin.getResource(fileName)) {
@@ -21,16 +21,16 @@ public class YamlUtils {
                 final InputStreamReader reader = new InputStreamReader(inputStream);
                 fileConfiguration = YamlConfiguration.loadConfiguration(reader);
             } else {
-                throw new ModuleSetupException(fileName
+                throw new FeatherSetupException(fileName
                         + " not found in plugin resources. That's weird O.o, please contact the developer");
             }
         } catch (IOException e) {
-            throw new ModuleSetupException(
+            throw new FeatherSetupException(
                     "Error on parsing resource -> cause: " + StringUtils.exceptionToStr(e));
         }
 
         if (fileConfiguration == null) {
-            throw new ModuleSetupException("Failed to read yaml resource: " + fileName);
+            throw new FeatherSetupException("Failed to read yaml resource: " + fileName);
         }
 
         return fileConfiguration;

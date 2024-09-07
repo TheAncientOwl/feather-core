@@ -2,21 +2,21 @@ package mc.owls.valley.net.feathercore.core;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import mc.owls.valley.net.feathercore.core.api.IFeatherCore;
-import mc.owls.valley.net.feathercore.logging.FeatherLogger;
-import mc.owls.valley.net.feathercore.logging.api.IFeatherLoggger;
-import mc.owls.valley.net.feathercore.modules.configuration.manager.api.IConfigurationManager;
-import mc.owls.valley.net.feathercore.modules.data.mongodb.api.IMongoManager;
-import mc.owls.valley.net.feathercore.modules.data.players.manager.api.IPlayersDataManager;
-import mc.owls.valley.net.feathercore.modules.manager.FeatherModulesManager;
-import mc.owls.valley.net.feathercore.modules.manager.exceptions.ModuleSetupException;
+import mc.owls.valley.net.feathercore.api.IFeatherConfigurationManager;
+import mc.owls.valley.net.feathercore.api.IFeatherCore;
+import mc.owls.valley.net.feathercore.api.IFeatherLoggger;
+import mc.owls.valley.net.feathercore.api.data.IPlayersDataManager;
+import mc.owls.valley.net.feathercore.api.data.mongo.IMongoDB;
+import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
+import mc.owls.valley.net.feathercore.core.common.FeatherLogger;
+import mc.owls.valley.net.feathercore.core.common.ModulesManager;
 import mc.owls.valley.net.feathercore.utils.LogoManager;
 import mc.owls.valley.net.feathercore.utils.StringUtils;
 import mc.owls.valley.net.feathercore.utils.TimeUtils;
 
 public class FeatherCore extends JavaPlugin implements IFeatherCore {
-    private FeatherLogger featherLogger = null;
-    private FeatherModulesManager modulesManager = new FeatherModulesManager();
+    private IFeatherLoggger featherLogger = null;
+    private ModulesManager modulesManager = new ModulesManager();
 
     @Override
     public void onEnable() {
@@ -32,7 +32,7 @@ public class FeatherCore extends JavaPlugin implements IFeatherCore {
             final var enableFinishTime = System.currentTimeMillis();
             this.featherLogger.info("Successfully enabled&8. (&btook&8: &b"
                     + TimeUtils.formatDuration(enableStartTime, enableFinishTime) + "&8)");
-        } catch (final ModuleSetupException e) {
+        } catch (final FeatherSetupException e) {
             this.featherLogger.error(StringUtils.exceptionToStr(e));
 
             getServer().getPluginManager().disablePlugin(this);
@@ -54,17 +54,17 @@ public class FeatherCore extends JavaPlugin implements IFeatherCore {
     }
 
     @Override
-    public IMongoManager getMongoManager() {
-        return this.modulesManager.getModule("MongoManager");
+    public IMongoDB getMongoDB() {
+        return this.modulesManager.getModule("MongoModule");
     }
 
     @Override
     public IPlayersDataManager getPlayersDataManager() {
-        return this.modulesManager.getModule("PlayersDataManagement");
+        return this.modulesManager.getModule("PlayersDataModule");
     }
 
     @Override
-    public IConfigurationManager getConfigurationManager() {
+    public IFeatherConfigurationManager getConfigurationManager() {
         return this.modulesManager.getModule("ConfigurationManager");
     }
 }

@@ -6,9 +6,9 @@ import java.util.List;
 
 import org.bukkit.OfflinePlayer;
 
-import mc.owls.valley.net.feathercore.modules.configuration.api.IConfigFile;
-import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
-import mc.owls.valley.net.feathercore.modules.data.players.manager.api.IPlayersDataManager;
+import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
+import mc.owls.valley.net.feathercore.api.data.IPlayersDataManager;
+import mc.owls.valley.net.feathercore.api.data.mongo.models.PlayerModel;
 import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;

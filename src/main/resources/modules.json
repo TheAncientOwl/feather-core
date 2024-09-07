@@ -2,45 +2,45 @@
   "modules": [
     {
       "name": "ConfigurationManager",
-      "class": "mc.owls.valley.net.feathercore.modules.configuration.manager.ConfigurationManager",
+      "class": "mc.owls.valley.net.feathercore.core.common.ConfigurationManager",
       "mandatory": true,
       "dependencies": []
     },
     {
-      "name": "MongoManager",
-      "class": "mc.owls.valley.net.feathercore.modules.data.mongodb.MongoManager",
+      "name": "MongoModule",
+      "class": "mc.owls.valley.net.feathercore.modules.data.mongodb.MongoModule",
       "mandatory": true,
       "dependencies": ["ConfigurationManager"]
     },
     {
-      "name": "PlayersDataManager",
-      "class": "mc.owls.valley.net.feathercore.modules.data.players.manager.PlayersDataManager",
+      "name": "PlayersDataModule",
+      "class": "mc.owls.valley.net.feathercore.modules.data.players.PlayersDataModule",
       "mandatory": true,
-      "dependencies": ["ConfigurationManager", "MongoManager"]
+      "dependencies": ["ConfigurationManager", "MongoModule"]
     },
     {
-      "name": "FeatherEconomyProvider",
-      "class": "mc.owls.valley.net.feathercore.modules.economy.provider.FeatherEconomyProvider",
+      "name": "FeatherEconomyProviderModule",
+      "class": "mc.owls.valley.net.feathercore.modules.economy.provider.FeatherEconomyProviderModule",
       "mandatory": true,
-      "dependencies": ["PlayersDataManager"]
+      "dependencies": ["PlayersDataModule"]
     },
     {
-      "name": "VaultManager",
-      "class": "mc.owls.valley.net.feathercore.modules.economy.vault.VaultManager",
+      "name": "VaultModule",
+      "class": "mc.owls.valley.net.feathercore.modules.economy.vault.VaultModule",
       "mandatory": true,
-      "dependencies": ["FeatherEconomyProvider"]
+      "dependencies": ["FeatherEconomyProviderModule"]
     },
     {
-      "name": "EconomyManager",
-      "class": "mc.owls.valley.net.feathercore.modules.economy.manager.EconomyManager",
+      "name": "CommandsRegistrator",
+      "class": "mc.owls.valley.net.feathercore.core.common.CommandsRegistrator",
       "mandatory": true,
-      "dependencies": ["VaultManager", "PlayersDataManager"]
-    },
-    {
-      "name": "FeatherCommandRegistrator",
-      "class": "mc.owls.valley.net.feathercore.commands.registrator.FeatherCommandsRegistrator",
-      "mandatory": true,
-      "dependencies": ["EconomyManager"]
+      "dependencies": [
+        "ConfigurationManager",
+        "MongoModule",
+        "PlayersDataModule",
+        "FeatherEconomyProviderModule",
+        "VaultModule"
+      ]
     }
   ]
 }
