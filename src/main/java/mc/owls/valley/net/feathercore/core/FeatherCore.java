@@ -10,9 +10,11 @@ import mc.owls.valley.net.feathercore.api.data.mongo.IMongoDB;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
 import mc.owls.valley.net.feathercore.core.common.FeatherLogger;
 import mc.owls.valley.net.feathercore.core.common.ModulesManager;
+import mc.owls.valley.net.feathercore.modules.economy.vault.VaultModule;
 import mc.owls.valley.net.feathercore.utils.LogoManager;
 import mc.owls.valley.net.feathercore.utils.StringUtils;
 import mc.owls.valley.net.feathercore.utils.TimeUtils;
+import net.milkbowl.vault.economy.Economy;
 
 public class FeatherCore extends JavaPlugin implements IFeatherCore {
     public static final String PLUGIN_YML = "plugin.yml";
@@ -69,4 +71,11 @@ public class FeatherCore extends JavaPlugin implements IFeatherCore {
     public IFeatherConfigurationManager getConfigurationManager() {
         return this.modulesManager.getModule("ConfigurationManager");
     }
+
+    @Override
+    public Economy getEconomy() {
+        final VaultModule vault = this.modulesManager.getModule("VaultModule");
+        return vault.getEconomy();
+    }
+
 }

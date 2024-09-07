@@ -1,0 +1,5 @@
+economy:
+  command-sender-not-player: '&cThis command can be issued by players only'
+  balance:
+    self: '&8[&2Economy&8] &7Your balance&8: &a{balance}{currency}'
+    other: "&8[&2Economy&8] &7{player}'s balance&8: &a{balance}{currency}"

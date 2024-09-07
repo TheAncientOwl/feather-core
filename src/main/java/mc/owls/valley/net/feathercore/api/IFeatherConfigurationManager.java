@@ -6,4 +6,6 @@ public interface IFeatherConfigurationManager {
     public IConfigFile getDataConfiguration();
 
     public IConfigFile getEconomyConfigFile();
+
+    public IConfigFile getMessagesConfigFile();
 }

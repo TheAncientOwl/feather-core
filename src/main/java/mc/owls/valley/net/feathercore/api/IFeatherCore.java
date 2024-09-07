@@ -3,7 +3,7 @@ package mc.owls.valley.net.feathercore.api;
 import mc.owls.valley.net.feathercore.api.data.IPlayersDataManager;
 import mc.owls.valley.net.feathercore.api.data.mongo.IMongoDB;
 
-public interface IFeatherCore {
+public interface IFeatherCore extends IEconomyProvider {
 
     public IFeatherLoggger getFeatherLogger();
 

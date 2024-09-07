@@ -17,6 +17,7 @@ import mc.owls.valley.net.feathercore.utils.YamlUtils;
 public class ConfigurationManager extends FeatherModule implements IFeatherConfigurationManager {
     private IConfigFile dataConfigFile = null;
     private IConfigFile economyConfigFile = null;
+    private IConfigFile messagesConfigFile = null;
 
     public ConfigurationManager(String name) {
         super(name);
@@ -58,6 +59,11 @@ public class ConfigurationManager extends FeatherModule implements IFeatherConfi
     @Override
     public IConfigFile getEconomyConfigFile() {
         return this.economyConfigFile;
+    }
+
+    @Override
+    public IConfigFile getMessagesConfigFile() {
+        return this.messagesConfigFile;
     }
 
 }

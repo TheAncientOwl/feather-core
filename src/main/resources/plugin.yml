@@ -14,6 +14,8 @@ feathercore:
       config: data.yml
     - field: economyConfigFile
       config: economy.yml
+    - field: messagesConfigFile
+      config: messages.yml
   modules:
     - name: ConfigurationManager
       class: mc.owls.valley.net.feathercore.core.common.ConfigurationManager
