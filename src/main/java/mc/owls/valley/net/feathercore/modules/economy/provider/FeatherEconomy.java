@@ -289,7 +289,7 @@ public class FeatherEconomy extends AbstractEconomy {
             return new EconomyResponse(amount, playerModel.balance, ResponseType.SUCCESS, "success");
         } else {
             return new EconomyResponse(0, 0, ResponseType.FAILURE,
-                    "Could not deposit the amount; Player data does not exist");
+                    "Could not withdraw the amount; Player data does not exist");
         }
     }
 
