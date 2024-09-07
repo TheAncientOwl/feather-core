@@ -1,5 +1,8 @@
 package mc.owls.valley.net.feathercore.modules.economy.commands;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -66,5 +69,29 @@ public class BalanceCommand implements IFeatherCommand {
         }
 
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(final CommandSender sender, final Command command,
+            final String alias, final String[] args) {
+        List<String> completions = new ArrayList<>();
+
+        if (args.length == 1) {
+            final var arg = args[0].toLowerCase();
+
+            if (arg.isEmpty()) {
+                for (final var player : Bukkit.getOnlinePlayers()) {
+                    completions.add(player.getName());
+                }
+            } else {
+                for (final var player : Bukkit.getOnlinePlayers()) {
+                    if (player.getName().toLowerCase().startsWith(arg)) {
+                        completions.add(player.getName());
+                    }
+                }
+            }
+        }
+
+        return completions;
     }
 }

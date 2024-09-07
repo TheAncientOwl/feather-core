@@ -4,6 +4,9 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -29,8 +32,8 @@ public class CommandsRegistrator extends FeatherModule {
                 CommandsRegistrator.COMMANDS_FILE_NAME);
         final ConfigurationSection commands = config.getConfigurationSection("commands");
 
-        for (final String command : commands.getKeys(false)) {
-            final String className = commands.getConfigurationSection(command).getString("class");
+        for (final String commandName : commands.getKeys(false)) {
+            final String className = commands.getConfigurationSection(commandName).getString("class");
 
             try {
                 final Class<?> clazz = Class.forName(className);
@@ -41,12 +44,14 @@ public class CommandsRegistrator extends FeatherModule {
                 final IFeatherCommand instance = (IFeatherCommand) constructor.newInstance();
                 method.invoke(instance, plugin);
 
-                plugin.getCommand(command).setExecutor(instance);
+                final PluginCommand command = plugin.getCommand(commandName);
+                command.setExecutor(instance);
+                command.setTabCompleter(instance);
             } catch (ClassNotFoundException | NoSuchMethodException | IllegalAccessException | SecurityException
                     | InstantiationException
                     | InvocationTargetException e) {
                 throw new FeatherSetupException(
-                        "Could not setup command " + command + "\nReason: " + StringUtils.exceptionToStr(e));
+                        "Could not setup command " + commandName + "\nReason: " + StringUtils.exceptionToStr(e));
             }
         }
 

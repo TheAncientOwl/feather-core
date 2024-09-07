@@ -1,5 +1,8 @@
 package mc.owls.valley.net.feathercore.modules.economy.commands;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
@@ -121,5 +124,44 @@ public class EcoCommand implements IFeatherCommand {
         ChatUtils.sendMessages(commandSender, this.config, Message.USAGE_INVALID,
                 Message.USAGE_ECO);
         return true;
+    }
+
+    @Override
+    public List<String> onTabComplete(final CommandSender sender, final Command command,
+            final String alias, final String[] args) {
+        List<String> completions = new ArrayList<>();
+
+        if (args.length == 1) {
+            final var arg = args[0].toLowerCase();
+            if (arg.startsWith("s")) {
+                completions.add("set");
+            } else if (arg.startsWith("g")) {
+                completions.add("give");
+            } else if (arg.startsWith("t")) {
+                completions.add("take");
+            } else {
+                completions.add("set");
+                completions.add("give");
+                completions.add("take");
+            }
+        } else if (args.length == 2) {
+            final var arg = args[1].toLowerCase();
+
+            if (arg.isEmpty()) {
+                for (final var player : Bukkit.getOnlinePlayers()) {
+                    completions.add(player.getName());
+                }
+            } else {
+                for (final var player : Bukkit.getOnlinePlayers()) {
+                    if (player.getName().toLowerCase().startsWith(arg)) {
+                        completions.add(player.getName());
+                    }
+                }
+            }
+        } else if (args.length == 3) {
+            completions.add("amount");
+        }
+
+        return completions;
     }
 }
