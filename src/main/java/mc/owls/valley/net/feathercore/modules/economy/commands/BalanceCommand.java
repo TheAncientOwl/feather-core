@@ -1,5 +1,7 @@
 package mc.owls.valley.net.feathercore.modules.economy.commands;
 
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -8,7 +10,7 @@ import mc.owls.valley.net.feathercore.api.IFeatherCommand;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigSection;
 import mc.owls.valley.net.feathercore.core.FeatherCore;
 import mc.owls.valley.net.feathercore.core.common.Placeholder;
-import mc.owls.valley.net.feathercore.modules.economy.common.MesssageKey;
+import mc.owls.valley.net.feathercore.modules.economy.common.Message;
 import mc.owls.valley.net.feathercore.utils.ChatUtils;
 import mc.owls.valley.net.feathercore.utils.Pair;
 import mc.owls.valley.net.feathercore.utils.StringUtils;
@@ -28,42 +30,41 @@ public class BalanceCommand implements IFeatherCommand {
     @SuppressWarnings({ "deprecation", "unchecked" })
     public boolean onCommand(final CommandSender commandSender, final Command command, final String label,
             final String[] args) {
-        String message = "";
-        String playerName = null;
-        double balance = -1;
+        if (!commandSender.hasPermission("feathercore.economy.general.balance")) {
+            ChatUtils.sendMessage(commandSender, this.config.getString(Message.PERMISSION_DENIED));
+            return true;
+        }
 
-        if (args.length > 0) { // console and players can see players balance
-            if (args.length == 1) {
-                playerName = args[0];
-                balance = this.economy.getBalance(playerName);
-                message = this.config.getString(MesssageKey.BALANCE_OTHER);
-            } else {
-                message = this.config.getString(MesssageKey.USAGE_INVALID) + "\n"
-                        + this.config.getString(MesssageKey.USAGE_BALANCE);
+        if (args.length != 0) { // console and players can see other player's balance
+            if (args.length != 1) {
+                ChatUtils.sendMessages(commandSender, this.config, Message.USAGE_INVALID, Message.USAGE_BALANCE);
+                return true;
             }
+
+            final String playerName = args[0];
+            final OfflinePlayer player = Bukkit.getOfflinePlayer(playerName);
+
+            if (!player.hasPlayedBefore()) {
+                ChatUtils.sendPlaceholderMessage(commandSender, this.config, Message.NOT_PLAYER,
+                        Pair.of(Placeholder.STRING, playerName));
+                return true;
+            }
+
+            ChatUtils.sendPlaceholderMessage(commandSender, this.config, Message.BALANCE_OTHER,
+                    Pair.of(Placeholder.PLAYER_NAME, playerName),
+                    Pair.of(Placeholder.BALANCE, this.economy.format(this.economy.getBalance(player))));
         } else if (command instanceof Player) { // players can see their own balance
-            final Player player = (Player) commandSender;
-            if (player.hasPermission("feathercore.economy.general.balance")) {
-                playerName = player.getName();
-                balance = this.economy.getBalance(player);
-                message = this.config.getString(MesssageKey.BALANCE_SELF);
-            } else {
-                message = this.config.getString(MesssageKey.PERMISSION_DENIED);
+            if (!commandSender.hasPermission("feathercore.economy.general.balance")) {
+                ChatUtils.sendMessage(commandSender, this.config.getString(Message.PERMISSION_DENIED));
+                return true;
             }
+
+            ChatUtils.sendPlaceholderMessage(commandSender, this.config, Message.BALANCE_SELF,
+                    Pair.of(Placeholder.BALANCE, this.economy.format(this.economy.getBalance((Player) commandSender))));
         } else { // console can't see its own balance (lol)
-            message = this.config.getString(MesssageKey.COMMAND_SENDER_NOT_PLAYER);
+            ChatUtils.sendMessage(commandSender, this.config.getString(Message.COMMAND_SENDER_NOT_PLAYER));
+            return true;
         }
-
-        if (playerName != null) {
-            message = StringUtils.replacePlaceholders(message,
-                    Pair.of(Placeholder.CURRENCY,
-                            balance == 1 || balance == -1 ? this.economy.currencyNameSingular()
-                                    : this.economy.currencyNamePlural()),
-                    Pair.of(Placeholder.BALANCE, balance),
-                    Pair.of(Placeholder.PLAYER_NAME, playerName));
-        }
-
-        ChatUtils.sendMessage(commandSender, message);
 
         return true;
     }

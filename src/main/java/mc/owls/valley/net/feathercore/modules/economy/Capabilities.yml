@@ -23,9 +23,9 @@ commands:
     eco:
       description: Manage server economy
       command:
-        usage: /eco give/take/set/reset [player] [amount]
+        usage: /eco give/take/set [player] [amount]
         arguments:
-          give/take/set/reset: Self explanatory
+          give/take/set: Self explanatory
           player: player's name
           amount: amount
         permissions:

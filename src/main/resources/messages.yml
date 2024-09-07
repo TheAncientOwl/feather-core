@@ -1,10 +1,18 @@
 economy:
   command-sender-not-player: '&cThis command can be issued by players only&8.'
   permisssion-denied: "&8[&4Economy&8] &cYou don't have permission to use that&8!"
+  not-player: '&8[&4Economy&8] &c{string} is not a player&8!'
+  not-valid-number: '&8[&4Economy&8] &c{string} is not a valid number&8!'
   usage:
     invalid: '&8[&4Economy&8] &cInvalid command usage&8.'
     balance: '&8[&6Usage&8] &e/balance <player>'
-    eco: '&8[&6Usage&8] &e/eco give/take/set/reset [player] [amount]'
+    eco: '&8[&6Usage&8] &e/eco give/take/set [player] [amount]'
+  eco:
+    cannot-negative-amounts: '&8[&4Economy&8] &cCannot {string} negative amounts&8!'
+    success: "&8[&2Economy&8] &7{player}'s balance was {old}, now is {new}"
+    bounds:
+      max: '&8[&4Economy&8] The new balance would be > max allowed balance ({max})'
+      min: '&8[&4Economy&8] The new balance would be < min allowed balance ({min})'
   balance:
-    self: '&8[&2Economy&8] &7Your balance&8: &a{balance}{currency}'
-    other: "&8[&2Economy&8] &7{player}'s balance&8: &a{balance}{currency}"
+    self: '&8[&2Economy&8] &7Your balance&8: &a{balance}'
+    other: "&8[&2Economy&8] &7{player}'s balance&8: &a{balance}"

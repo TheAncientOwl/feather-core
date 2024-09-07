@@ -2,12 +2,13 @@ starting-balance: 1000
 
 money:
   min: 0
-  max: 10000000000000
+  max: 1000000000
 
 minimum-pay-amount: 0.001
 
 currency:
   name:
+    symbol: '$'
     singular: '$'
     plural: '$'
 
