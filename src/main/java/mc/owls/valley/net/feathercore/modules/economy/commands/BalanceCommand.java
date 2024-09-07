@@ -52,7 +52,7 @@ public class BalanceCommand implements IFeatherCommand {
             ChatUtils.sendPlaceholderMessage(commandSender, this.config, Message.BALANCE_OTHER,
                     Pair.of(Placeholder.PLAYER_NAME, playerName),
                     Pair.of(Placeholder.BALANCE, this.economy.format(this.economy.getBalance(player))));
-        } else if (command instanceof Player) { // players can see their own balance
+        } else if (commandSender instanceof Player) { // players can see their own balance
             if (!commandSender.hasPermission("feathercore.economy.general.balance")) {
                 ChatUtils.sendMessage(commandSender, this.config.getString(Message.PERMISSION_DENIED));
                 return true;
