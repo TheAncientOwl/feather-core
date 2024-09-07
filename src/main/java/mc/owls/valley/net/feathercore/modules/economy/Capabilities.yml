@@ -1,0 +1,12 @@
+modules:
+  feather:
+    description: |
+      Module responsible for providing FeatherCore economy
+
+  vault:
+    description: |
+      Module responsible for access to the Vault API
+
+  manager:
+    description: |
+      Module responsible for handling economy on the server

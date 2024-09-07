@@ -13,7 +13,7 @@
       "dependencies": ["ConfigurationManager"]
     },
     {
-      "name": "PlayersDataManagement",
+      "name": "PlayersDataManager",
       "class": "mc.owls.valley.net.feathercore.modules.data.players.manager.PlayersDataManager",
       "mandatory": true,
       "dependencies": ["ConfigurationManager", "MongoManager"]
@@ -22,13 +22,19 @@
       "name": "FeatherEconomyManager",
       "class": "mc.owls.valley.net.feathercore.modules.economy.feather.FeatherEconomyManager",
       "mandatory": true,
-      "dependencies": ["PlayersDataManagement"]
+      "dependencies": ["PlayersDataManager"]
     },
     {
       "name": "VaultManager",
       "class": "mc.owls.valley.net.feathercore.modules.economy.vault.VaultManager",
       "mandatory": true,
       "dependencies": ["FeatherEconomyManager"]
+    },
+    {
+      "name": "EconomyManager",
+      "class": "mc.owls.valley.net.feathercore.modules.economy.manager.EconomyManager",
+      "mandatory": true,
+      "dependencies": ["VaultManager", "PlayersDataManager"]
     }
   ]
 }
