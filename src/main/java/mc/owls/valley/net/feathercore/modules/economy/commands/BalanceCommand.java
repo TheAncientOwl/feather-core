@@ -34,9 +34,13 @@ public class BalanceCommand implements IFeatherCommand {
 
         if (commandSender instanceof Player) {
             final Player player = (Player) commandSender;
-            playerName = player.getName();
-            balance = this.economy.getBalance(player);
-            message = this.config.getString(MesssageKey.BALANCE_SELF);
+            if (player.hasPermission("feathercore.economy.general.balance")) {
+                playerName = player.getName();
+                balance = this.economy.getBalance(player);
+                message = this.config.getString(MesssageKey.BALANCE_SELF);
+            } else {
+                message = this.config.getString(MesssageKey.PERMISSION_DENIED);
+            }
         } else if (args.length == 1) {
             playerName = args[0];
             balance = this.economy.getBalance(playerName);
