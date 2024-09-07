@@ -35,6 +35,12 @@
       "class": "mc.owls.valley.net.feathercore.modules.economy.manager.EconomyManager",
       "mandatory": true,
       "dependencies": ["VaultManager", "PlayersDataManager"]
+    },
+    {
+      "name": "FeatherCommandRegistrator",
+      "class": "mc.owls.valley.net.feathercore.commands.registrator.FeatherCommandsRegistrator",
+      "mandatory": true,
+      "dependencies": ["EconomyManager"]
     }
   ]
 }
