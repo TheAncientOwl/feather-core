@@ -1,4 +1,4 @@
-package mc.owls.valley.net.feathercore.modules.economy.feather;
+package mc.owls.valley.net.feathercore.modules.economy.provider;
 
 import java.util.List;
 
@@ -8,10 +8,10 @@ import mc.owls.valley.net.feathercore.modules.data.players.manager.api.IPlayersD
 import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 
-public class EconomyProvider extends AbstractEconomy {
+public class FeatherEconomy extends AbstractEconomy {
     private IPlayersDataManager playersDataManager = null;
 
-    public EconomyProvider(final IPlayersDataManager playersDataManager) {
+    public FeatherEconomy(final IPlayersDataManager playersDataManager) {
         this.playersDataManager = playersDataManager;
     }
 

@@ -19,8 +19,8 @@
       "dependencies": ["ConfigurationManager", "MongoManager"]
     },
     {
-      "name": "FeatherEconomyManager",
-      "class": "mc.owls.valley.net.feathercore.modules.economy.feather.FeatherEconomyManager",
+      "name": "FeatherEconomyProvider",
+      "class": "mc.owls.valley.net.feathercore.modules.economy.provider.FeatherEconomyProvider",
       "mandatory": true,
       "dependencies": ["PlayersDataManager"]
     },
@@ -28,7 +28,7 @@
       "name": "VaultManager",
       "class": "mc.owls.valley.net.feathercore.modules.economy.vault.VaultManager",
       "mandatory": true,
-      "dependencies": ["FeatherEconomyManager"]
+      "dependencies": ["FeatherEconomyProvider"]
     },
     {
       "name": "EconomyManager",

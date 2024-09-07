@@ -1,4 +1,4 @@
-package mc.owls.valley.net.feathercore.modules.economy.feather;
+package mc.owls.valley.net.feathercore.modules.economy.provider;
 
 import org.bukkit.Server;
 import org.bukkit.plugin.ServicePriority;
@@ -9,11 +9,11 @@ import mc.owls.valley.net.feathercore.modules.manager.ModuleEnableStatus;
 import mc.owls.valley.net.feathercore.modules.manager.exceptions.ModuleSetupException;
 import net.milkbowl.vault.economy.Economy;
 
-public class FeatherEconomyManager extends FeatherModule {
+public class FeatherEconomyProvider extends FeatherModule {
 
-    private EconomyProvider economyProvider = null;
+    private FeatherEconomy economyProvider = null;
 
-    public FeatherEconomyManager(final String name) {
+    public FeatherEconomyProvider(final String name) {
         super(name);
     }
 
@@ -25,7 +25,7 @@ public class FeatherEconomyManager extends FeatherModule {
             throw new ModuleSetupException("Vault dependency is not installed");
         }
 
-        this.economyProvider = new EconomyProvider(plugin.getPlayersDataManager());
+        this.economyProvider = new FeatherEconomy(plugin.getPlayersDataManager());
         server.getServicesManager().register(Economy.class, this.economyProvider, plugin, ServicePriority.High);
 
         return ModuleEnableStatus.SUCCESS;
