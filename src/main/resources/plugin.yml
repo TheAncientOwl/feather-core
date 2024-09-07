@@ -1,5 +1,9 @@
-main: mc.owls.valley.net.feathercore.core.FeatherCore
 name: FeatherCore
 version: 0.2.2
-api-version: 1.21.1
+main: mc.owls.valley.net.feathercore.core.FeatherCore
 author: DefaultyBuf
+description: Core plugin for server bukkit/spigot/paper servers
+
+depend: [Vault]
+
+api-version: 1.21.1
