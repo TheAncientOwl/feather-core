@@ -6,8 +6,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import mc.owls.valley.net.feathercore.api.IFeatherCommand;
-import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
-import mc.owls.valley.net.feathercore.api.configuration.IConfigSection;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.core.FeatherCore;
 import mc.owls.valley.net.feathercore.core.common.Placeholder;

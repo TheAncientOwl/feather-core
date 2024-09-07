@@ -13,7 +13,6 @@ import mc.owls.valley.net.feathercore.core.common.Placeholder;
 import mc.owls.valley.net.feathercore.modules.economy.common.Message;
 import mc.owls.valley.net.feathercore.utils.ChatUtils;
 import mc.owls.valley.net.feathercore.utils.Pair;
-import mc.owls.valley.net.feathercore.utils.StringUtils;
 import net.milkbowl.vault.economy.Economy;
 
 public class BalanceCommand implements IFeatherCommand {
@@ -27,7 +26,7 @@ public class BalanceCommand implements IFeatherCommand {
     }
 
     @Override
-    @SuppressWarnings({ "deprecation", "unchecked" })
+    @SuppressWarnings({ "unchecked" })
     public boolean onCommand(final CommandSender commandSender, final Command command, final String label,
             final String[] args) {
         if (!commandSender.hasPermission("feathercore.economy.general.balance")) {
