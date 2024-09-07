@@ -18,6 +18,7 @@ import mc.owls.valley.net.feathercore.core.FeatherCore;
 import mc.owls.valley.net.feathercore.logging.api.IFeatherLoggger;
 import mc.owls.valley.net.feathercore.modules.configuration.api.IConfigFile;
 import mc.owls.valley.net.feathercore.modules.configuration.api.IConfigSection;
+import mc.owls.valley.net.feathercore.modules.configuration.manager.api.IConfigurationManager;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.accessors.PlayersDAO;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import mc.owls.valley.net.feathercore.modules.data.players.manager.api.IPlayersDataManager;
@@ -29,9 +30,10 @@ public class PlayersDataManager extends FeatherModule implements IPlayersDataMan
     private final Map<UUID, PlayerModel> playersDataCache = new HashMap<>();
     private Set<UUID> saveMarks = Collections.synchronizedSet(new HashSet<>());
 
-    private IFeatherLoggger logger;
-    private IConfigFile dataConfig;
-    private PlayersDAO playersDAO;
+    private IFeatherLoggger logger = null;
+    private IConfigFile dataConfig = null;
+    private IConfigFile economyConfig = null;
+    private PlayersDAO playersDAO = null;
 
     public PlayersDataManager(final String name) {
         super(name);
@@ -40,8 +42,11 @@ public class PlayersDataManager extends FeatherModule implements IPlayersDataMan
     @Override
     protected ModuleEnableStatus onModuleEnable(final FeatherCore plugin) {
         this.logger = plugin.getFeatherLogger();
-        this.dataConfig = plugin.getConfigurationManager().getDataConfiguration();
         this.playersDAO = plugin.getMongoManager().getPlayersDAO();
+
+        final IConfigurationManager configManager = plugin.getConfigurationManager();
+        this.dataConfig = configManager.getDataConfiguration();
+        this.economyConfig = configManager.getEconomyConfigFile();
 
         registerEvents(plugin);
 
@@ -76,14 +81,12 @@ public class PlayersDataManager extends FeatherModule implements IPlayersDataMan
     public void handleNewPlayer(final Player player) {
         final PlayerModel playerModel = new PlayerModel();
 
-        final IConfigSection newPlayerCfg = this.dataConfig.getConfigurationSection("players-data.new-player");
-
         playerModel.uuid = player.getUniqueId();
         playerModel.name = player.getName();
         playerModel.nickname = "";
         playerModel.registrationDate = new Date();
         playerModel.lastLogin = new Date();
-        playerModel.balance = newPlayerCfg.getDouble("balance");
+        playerModel.balance = this.economyConfig.getDouble("starting-balance");
 
         this.playersDataCache.put(playerModel.uuid, playerModel);
         this.playersDAO.save(playerModel);

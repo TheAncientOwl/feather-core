@@ -1,11 +1,13 @@
 package mc.owls.valley.net.feathercore.modules.economy.provider;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.OfflinePlayer;
 
 import mc.owls.valley.net.feathercore.modules.configuration.api.IConfigFile;
+import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import mc.owls.valley.net.feathercore.modules.data.players.manager.api.IPlayersDataManager;
 import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -74,8 +76,8 @@ public class FeatherEconomy extends AbstractEconomy {
      */
     @Override
     public String format(final double amount) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'format'");
+        DecimalFormat decimalFormat = new DecimalFormat(this.config.getString("currency-format"));
+        return decimalFormat.format(amount);
     }
 
     /**
@@ -87,20 +89,36 @@ public class FeatherEconomy extends AbstractEconomy {
      */
     @Override
     public int fractionalDigits() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'fractionalDigits'");
+        return this.config.getInt("fractional-digits");
     }
 
     // ------------------------------[ Deposit ]------------------------------
+    /**
+     * Deposit an amount to a player model - DO NOT USE NEGATIVE AMOUNTS
+     * 
+     * @param playerModel to deposit to
+     * @param amount      to deposit
+     * @return Detailed response of transaction
+     */
+    private EconomyResponse depositPlayer(final PlayerModel playerModel, final double amount) {
+        if (playerModel != null) {
+            playerModel.balance += amount;
+            this.playersDataManager.markPlayerModelForSave(playerModel.uuid);
+            return new EconomyResponse(amount, playerModel.balance, ResponseType.SUCCESS, "success");
+        } else {
+            return new EconomyResponse(0, 0, ResponseType.FAILURE,
+                    "Could not deposit the amount; Player data does not exist");
+        }
+    }
+
     /**
      * @deprecated As of VaultAPI 1.4 use
      *             {@link #depositPlayer(OfflinePlayer, double)} instead.
      */
     @Override
     @Deprecated
-    public EconomyResponse depositPlayer(String playerName, double amount) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'depositPlayer'");
+    public EconomyResponse depositPlayer(final String playerName, final double amount) {
+        return depositPlayer(this.playersDataManager.getPlayerModel(playerName), amount);
     }
 
     /**
@@ -111,9 +129,8 @@ public class FeatherEconomy extends AbstractEconomy {
      * @return Detailed response of transaction
      */
     @Override
-    public EconomyResponse depositPlayer(OfflinePlayer player, double amount) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'depositPlayer'");
+    public EconomyResponse depositPlayer(final OfflinePlayer player, final double amount) {
+        return depositPlayer(this.playersDataManager.getPlayerModel(player), amount);
     }
 
     /**
@@ -122,9 +139,8 @@ public class FeatherEconomy extends AbstractEconomy {
      */
     @Override
     @Deprecated
-    public EconomyResponse depositPlayer(String playerName, String worldName, double amount) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'depositPlayer'");
+    public EconomyResponse depositPlayer(final String playerName, final String worldName, final double amount) {
+        return depositPlayer(this.playersDataManager.getPlayerModel(playerName), amount);
     }
 
     /**
@@ -138,21 +154,29 @@ public class FeatherEconomy extends AbstractEconomy {
      * @return Detailed response of transaction
      */
     @Override
-    public EconomyResponse depositPlayer(OfflinePlayer player, String worldName, double amount) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'depositPlayer'");
+    public EconomyResponse depositPlayer(final OfflinePlayer player, final String worldName, final double amount) {
+        return depositPlayer(this.playersDataManager.getPlayerModel(player), amount);
     }
 
     // ------------------------------[ Balance ]------------------------------
+    /**
+     * Gets balance of a playerModel
+     * 
+     * @param playerModel of the playerModel
+     * @return Amount currently held in playerModel's account
+     */
+    public double getBalance(final PlayerModel playerModel) {
+        return playerModel != null ? playerModel.balance : -1;
+    }
+
     /**
      * @deprecated As of VaultAPI 1.4 use {@link #getBalance(OfflinePlayer)}
      *             instead.
      */
     @Override
     @Deprecated
-    public double getBalance(String playerName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getBalance'");
+    public double getBalance(final String playerName) {
+        return getBalance(this.playersDataManager.getPlayerModel(playerName));
     }
 
     /**
@@ -162,9 +186,8 @@ public class FeatherEconomy extends AbstractEconomy {
      * @return Amount currently held in players account
      */
     @Override
-    public double getBalance(OfflinePlayer player) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getBalance'");
+    public double getBalance(final OfflinePlayer player) {
+        return getBalance(this.playersDataManager.getPlayerModel(player));
     }
 
     /**
@@ -173,7 +196,7 @@ public class FeatherEconomy extends AbstractEconomy {
      */
     @Override
     @Deprecated
-    public double getBalance(String playerName, String world) {
+    public double getBalance(final String playerName, final String world) {
         return getBalance(playerName);
     }
 
@@ -187,20 +210,30 @@ public class FeatherEconomy extends AbstractEconomy {
      * @return Amount currently held in players account
      */
     @Override
-    public double getBalance(OfflinePlayer player, String world) {
-        return getBalance(player);
+    public double getBalance(final OfflinePlayer player, final String world) {
+        return getBalance(this.playersDataManager.getPlayerModel(player));
     }
 
     // ------------------------------[ BalanceCheck ]------------------------------
+    /**
+     * Checks if the player account has the amount - DO NOT USE NEGATIVE AMOUNTS
+     * 
+     * @param player to check
+     * @param amount to check for
+     * @return True if <b>player</b> has <b>amount</b>, False else wise
+     */
+    public boolean has(final PlayerModel playerModel, final double amount) {
+        return playerModel != null ? playerModel.balance >= amount : false;
+    }
+
     /**
      * @deprecated As of VaultAPI 1.4 use {@link #has(OfflinePlayer, double)}
      *             instead.
      */
     @Override
     @Deprecated
-    public boolean has(String playerName, double amount) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'has'");
+    public boolean has(final String playerName, final double amount) {
+        return has(this.playersDataManager.getPlayerModel(playerName), amount);
     }
 
     /**
@@ -211,9 +244,8 @@ public class FeatherEconomy extends AbstractEconomy {
      * @return True if <b>player</b> has <b>amount</b>, False else wise
      */
     @Override
-    public boolean has(OfflinePlayer player, double amount) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'has'");
+    public boolean has(final OfflinePlayer player, final double amount) {
+        return has(this.playersDataManager.getPlayerModel(player), amount);
     }
 
     /**
@@ -222,9 +254,8 @@ public class FeatherEconomy extends AbstractEconomy {
      */
     @Override
     @Deprecated
-    public boolean has(String playerName, String worldName, double amount) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'has'");
+    public boolean has(final String playerName, final String worldName, final double amount) {
+        return has(playerName, amount);
     }
 
     /**
@@ -239,21 +270,47 @@ public class FeatherEconomy extends AbstractEconomy {
      * @return True if <b>player</b> has <b>amount</b>, False else wise
      */
     @Override
-    public boolean has(OfflinePlayer player, String worldName, double amount) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'has'");
+    public boolean has(final OfflinePlayer player, final String worldName, final double amount) {
+        return has(player, amount);
     }
 
     // ------------------------------[ Withddraw ]------------------------------
+    /**
+     * Withdraw an amount from a player - DO NOT USE NEGATIVE AMOUNTS
+     * 
+     * @param playerModel to withdraw from
+     * @param amount      to withdraw
+     * @return Detailed response of transaction
+     */
+    public EconomyResponse withdrawPlayer(final PlayerModel playerModel, final double amount) {
+        if (playerModel != null) {
+            playerModel.balance -= amount;
+            this.playersDataManager.markPlayerModelForSave(playerModel.uuid);
+            return new EconomyResponse(amount, playerModel.balance, ResponseType.SUCCESS, "success");
+        } else {
+            return new EconomyResponse(0, 0, ResponseType.FAILURE,
+                    "Could not deposit the amount; Player data does not exist");
+        }
+    }
+
     /**
      * @deprecated As of VaultAPI 1.4 use
      *             {@link #withdrawPlayer(OfflinePlayer, double)} instead.
      */
     @Override
     @Deprecated
-    public EconomyResponse withdrawPlayer(String playerName, double amount) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'withdrawPlayer'");
+    public EconomyResponse withdrawPlayer(final String playerName, final double amount) {
+        return withdrawPlayer(this.playersDataManager.getPlayerModel(playerName), amount);
+    }
+
+    /**
+     * @deprecated As of VaultAPI 1.4 use
+     *             {@link #withdrawPlayer(OfflinePlayer, String, double)} instead.
+     */
+    @Override
+    @Deprecated
+    public EconomyResponse withdrawPlayer(final String playerName, final String worldName, final double amount) {
+        return withdrawPlayer(playerName, amount);
     }
 
     /**
@@ -264,19 +321,8 @@ public class FeatherEconomy extends AbstractEconomy {
      * @return Detailed response of transaction
      */
     @Override
-    public EconomyResponse withdrawPlayer(OfflinePlayer player, double amount) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'withdrawPlayer'");
-    }
-
-    /**
-     * @deprecated As of VaultAPI 1.4 use
-     *             {@link #withdrawPlayer(OfflinePlayer, String, double)} instead.
-     */
-    @Override
-    @Deprecated
-    public EconomyResponse withdrawPlayer(String playerName, String worldName, double amount) {
-        return withdrawPlayer(playerName, amount);
+    public EconomyResponse withdrawPlayer(final OfflinePlayer player, final double amount) {
+        return withdrawPlayer(this.playersDataManager.getPlayerModel(player), amount);
     }
 
     /**
@@ -290,7 +336,7 @@ public class FeatherEconomy extends AbstractEconomy {
      * @param amount    Amount to withdraw
      * @return Detailed response of transaction
      */
-    public EconomyResponse withdrawPlayer(OfflinePlayer player, String worldName, double amount) {
+    public EconomyResponse withdrawPlayer(final OfflinePlayer player, final String worldName, final double amount) {
         return withdrawPlayer(player, amount);
     }
 
@@ -301,7 +347,7 @@ public class FeatherEconomy extends AbstractEconomy {
      */
     @Override
     @Deprecated
-    public boolean createPlayerAccount(String playerName) {
+    public boolean createPlayerAccount(final String playerName) {
         return this.playersDataManager.getPlayerModel(playerName) != null;
     }
 
@@ -312,7 +358,7 @@ public class FeatherEconomy extends AbstractEconomy {
      * @return if the account creation was successful
      */
     @Override
-    public boolean createPlayerAccount(OfflinePlayer player) {
+    public boolean createPlayerAccount(final OfflinePlayer player) {
         return this.playersDataManager.getPlayerModel(player) != null;
     }
 
@@ -322,7 +368,7 @@ public class FeatherEconomy extends AbstractEconomy {
      */
     @Override
     @Deprecated
-    public boolean createPlayerAccount(String playerName, String worldName) {
+    public boolean createPlayerAccount(final String playerName, final String worldName) {
         return createPlayerAccount(playerName);
     }
 
@@ -337,7 +383,7 @@ public class FeatherEconomy extends AbstractEconomy {
      * @return if the account creation was successful
      */
     @Override
-    public boolean createPlayerAccount(OfflinePlayer player, String worldName) {
+    public boolean createPlayerAccount(final OfflinePlayer player, final String worldName) {
         return createPlayerAccount(player);
     }
 
@@ -348,7 +394,7 @@ public class FeatherEconomy extends AbstractEconomy {
      */
     @Override
     @Deprecated
-    public boolean hasAccount(String playerName) {
+    public boolean hasAccount(final String playerName) {
         return this.playersDataManager.getPlayerModel(playerName) != null;
     }
 
@@ -362,7 +408,7 @@ public class FeatherEconomy extends AbstractEconomy {
      * @param player to check
      * @return if the player has an account
      */
-    public boolean hasAccount(OfflinePlayer player) {
+    public boolean hasAccount(final OfflinePlayer player) {
         return this.playersDataManager.getPlayerModel(player) != null;
     }
 
@@ -372,7 +418,7 @@ public class FeatherEconomy extends AbstractEconomy {
      */
     @Override
     @Deprecated
-    public boolean hasAccount(String playerName, String worldName) {
+    public boolean hasAccount(final String playerName, final String worldName) {
         return hasAccount(playerName);
     }
 
@@ -387,7 +433,7 @@ public class FeatherEconomy extends AbstractEconomy {
      * @param worldName world-specific account
      * @return if the player has an account
      */
-    public boolean hasAccount(OfflinePlayer player, String worldName) {
+    public boolean hasAccount(final OfflinePlayer player, final String worldName) {
         return hasAccount(player);
     }
 
@@ -419,7 +465,7 @@ public class FeatherEconomy extends AbstractEconomy {
      * @return if the operation completed successfully
      */
     @Override
-    public EconomyResponse deleteBank(String name) {
+    public EconomyResponse deleteBank(final String name) {
         return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "");
     }
 
@@ -442,7 +488,7 @@ public class FeatherEconomy extends AbstractEconomy {
      * @return EconomyResponse Object
      */
     @Override
-    public EconomyResponse bankDeposit(String name, double amount) {
+    public EconomyResponse bankDeposit(final String name, final double amount) {
         return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "");
     }
 
@@ -467,7 +513,7 @@ public class FeatherEconomy extends AbstractEconomy {
      * @return EconomyResponse Object
      */
     @Override
-    public EconomyResponse bankWithdraw(String name, double amount) {
+    public EconomyResponse bankWithdraw(final String name, final double amount) {
         return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "");
     }
 
@@ -477,7 +523,7 @@ public class FeatherEconomy extends AbstractEconomy {
      */
     @Override
     @Deprecated
-    public EconomyResponse createBank(String name, String player) {
+    public EconomyResponse createBank(final String name, final String player) {
         return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "");
     }
 
@@ -489,7 +535,7 @@ public class FeatherEconomy extends AbstractEconomy {
      * @return EconomyResponse Object
      */
     @Override
-    public EconomyResponse createBank(String name, OfflinePlayer player) {
+    public EconomyResponse createBank(final String name, final OfflinePlayer player) {
         return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "");
     }
 
@@ -499,7 +545,7 @@ public class FeatherEconomy extends AbstractEconomy {
      */
     @Override
     @Deprecated
-    public EconomyResponse isBankMember(String name, String playerName) {
+    public EconomyResponse isBankMember(final String name, final String playerName) {
         return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "");
     }
 
@@ -510,7 +556,7 @@ public class FeatherEconomy extends AbstractEconomy {
      * @param player to check membership
      * @return EconomyResponse Object
      */
-    public EconomyResponse isBankMember(String name, OfflinePlayer player) {
+    public EconomyResponse isBankMember(final String name, final OfflinePlayer player) {
         return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "");
     }
 
@@ -520,7 +566,7 @@ public class FeatherEconomy extends AbstractEconomy {
      */
     @Override
     @Deprecated
-    public EconomyResponse isBankOwner(String name, String playerName) {
+    public EconomyResponse isBankOwner(final String name, final String playerName) {
         return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "");
     }
 
@@ -531,7 +577,7 @@ public class FeatherEconomy extends AbstractEconomy {
      * @param player to check for ownership
      * @return EconomyResponse Object
      */
-    public EconomyResponse isBankOwner(String name, OfflinePlayer player) {
+    public EconomyResponse isBankOwner(final String name, final OfflinePlayer player) {
         return new EconomyResponse(0, 0, ResponseType.NOT_IMPLEMENTED, "");
     }
 }

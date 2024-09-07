@@ -1,4 +1,15 @@
+starting-balance: 1000
+
+money:
+  min: 0
+  max: 10000000000000
+
+minimum-pay-amount: 0.001
+
 currency:
   name:
     singular: '$'
     plural: '$'
+
+fractional-digits: 2
+currency-format: '#,##0'
