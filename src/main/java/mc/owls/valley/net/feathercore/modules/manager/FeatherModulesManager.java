@@ -1,8 +1,5 @@
 package mc.owls.valley.net.feathercore.modules.manager;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,8 +13,6 @@ import java.util.stream.Collectors;
 import org.jetbrains.annotations.NotNull;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import mc.owls.valley.net.feathercore.core.FeatherCore;
 import mc.owls.valley.net.feathercore.logging.api.IFeatherLoggger;
