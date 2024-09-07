@@ -32,7 +32,16 @@ public class BalanceCommand implements IFeatherCommand {
         String playerName = null;
         double balance = -1;
 
-        if (commandSender instanceof Player) {
+        if (args.length > 0) { // console and players can see players balance
+            if (args.length == 1) {
+                playerName = args[0];
+                balance = this.economy.getBalance(playerName);
+                message = this.config.getString(MesssageKey.BALANCE_OTHER);
+            } else {
+                message = this.config.getString(MesssageKey.USAGE_INVALID) + "\n"
+                        + this.config.getString(MesssageKey.USAGE_BALANCE);
+            }
+        } else if (command instanceof Player) { // players can see their own balance
             final Player player = (Player) commandSender;
             if (player.hasPermission("feathercore.economy.general.balance")) {
                 playerName = player.getName();
@@ -41,11 +50,7 @@ public class BalanceCommand implements IFeatherCommand {
             } else {
                 message = this.config.getString(MesssageKey.PERMISSION_DENIED);
             }
-        } else if (args.length == 1) {
-            playerName = args[0];
-            balance = this.economy.getBalance(playerName);
-            message = this.config.getString(MesssageKey.BALANCE_OTHER);
-        } else {
+        } else { // console can't see its own balance (lol)
             message = this.config.getString(MesssageKey.COMMAND_SENDER_NOT_PLAYER);
         }
 

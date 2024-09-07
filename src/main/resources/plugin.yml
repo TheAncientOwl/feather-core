@@ -48,3 +48,7 @@ commands:
     usage: /balance <player>
     aliases: [bal]
     class: mc.owls.valley.net.feathercore.modules.economy.commands.BalanceCommand
+  eco:
+    description: Manage server economy
+    usage: /eco give/take/set/reset [player] [amount]
+    class: mc.owls.valley.net.feathercore.modules.economy.commands.EcoCommand
