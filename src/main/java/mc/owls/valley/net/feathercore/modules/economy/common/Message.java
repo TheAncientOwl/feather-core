@@ -7,9 +7,9 @@ public class Message {
     public static final String COMMAND_SENDER_NOT_PLAYER = "command-sender-not-player";
     public static final String PERMISSION_DENIED = "permission-denied";
 
-    public static final String USAGE_INVALID = "usage.invalid";
-    public static final String USAGE_BALANCE = "usage.balance";
-    public static final String USAGE_ECO = "usage.eco";
+    public static final String USAGE_INVALID = "usage-invalid";
+    public static final String USAGE_BALANCE = "balance.usage";
+    public static final String USAGE_ECO = "eco.usage";
 
     public static final String NOT_PLAYER = "not-player";
     public static final String NOT_VALID_NUMBER = "not-valid-number";
