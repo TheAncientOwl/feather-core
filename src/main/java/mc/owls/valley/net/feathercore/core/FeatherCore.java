@@ -1,8 +1,5 @@
 package mc.owls.valley.net.feathercore.core;
 
-import java.util.List;
-
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import mc.owls.valley.net.feathercore.api.IFeatherConfigurationManager;
