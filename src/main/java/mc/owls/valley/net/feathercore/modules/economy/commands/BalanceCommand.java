@@ -10,7 +10,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import mc.owls.valley.net.feathercore.api.IFeatherCommand;
-import mc.owls.valley.net.feathercore.api.configuration.IConfigSection;
+import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.core.FeatherCore;
 import mc.owls.valley.net.feathercore.core.common.Placeholder;
 import mc.owls.valley.net.feathercore.modules.economy.common.Message;
@@ -20,7 +20,7 @@ import net.milkbowl.vault.economy.Economy;
 
 public class BalanceCommand implements IFeatherCommand {
     private Economy economy = null;
-    private IConfigSection config = null;
+    private IPropertyAccessor config = null;
 
     @Override
     public void onCreate(final FeatherCore plugin) {
