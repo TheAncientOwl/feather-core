@@ -17,7 +17,6 @@ import mc.owls.valley.net.feathercore.utils.StringUtils;
 import mc.owls.valley.net.feathercore.utils.YamlUtils;
 
 public class ListenersRegistrator extends FeatherModule {
-    private static final String EVENTS_FILE_NAME = "plugin.yml";
 
     public ListenersRegistrator(String name) {
         super(name);
@@ -26,8 +25,7 @@ public class ListenersRegistrator extends FeatherModule {
     @Override
     protected ModuleEnableStatus onModuleEnable(final FeatherCore plugin) throws FeatherSetupException {
 
-        final FileConfiguration config = YamlUtils.loadYaml(plugin,
-                ListenersRegistrator.EVENTS_FILE_NAME);
+        final FileConfiguration config = YamlUtils.loadYaml(plugin, FeatherCore.PLUGIN_YML);
         final List<String> listeners = config.getStringList("feathercore.listeners");
 
         final PluginManager pluginManager = plugin.getServer().getPluginManager();

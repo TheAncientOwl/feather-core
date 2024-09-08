@@ -17,7 +17,6 @@ import mc.owls.valley.net.feathercore.utils.StringUtils;
 import mc.owls.valley.net.feathercore.utils.YamlUtils;
 
 public class CommandsRegistrator extends FeatherModule {
-    private static final String COMMANDS_FILE_NAME = "plugin.yml";
 
     public CommandsRegistrator(String name) {
         super(name);
@@ -26,8 +25,7 @@ public class CommandsRegistrator extends FeatherModule {
     @Override
     protected ModuleEnableStatus onModuleEnable(final FeatherCore plugin) throws FeatherSetupException {
 
-        final FileConfiguration config = YamlUtils.loadYaml(plugin,
-                CommandsRegistrator.COMMANDS_FILE_NAME);
+        final FileConfiguration config = YamlUtils.loadYaml(plugin, FeatherCore.PLUGIN_YML);
         final ConfigurationSection commands = config.getConfigurationSection("commands");
 
         for (final String commandName : commands.getKeys(false)) {
