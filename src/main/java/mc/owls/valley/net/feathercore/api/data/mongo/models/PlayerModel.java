@@ -28,7 +28,7 @@ public class PlayerModel {
     public double balance;
 
     @Property("accepts_payments")
-    public boolean acceptsPayments;
+    public boolean acceptsPayments = true;
 
     public PlayerModel() {
     }
