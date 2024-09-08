@@ -1,7 +1,6 @@
 package mc.owls.valley.net.feathercore.modules.economy.commands;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.bukkit.Bukkit;
@@ -9,7 +8,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.util.StringUtil;
 
 import mc.owls.valley.net.feathercore.api.IFeatherCommand;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
