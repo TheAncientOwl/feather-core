@@ -87,6 +87,7 @@ public class PlayersDataModule extends FeatherModule implements IPlayersDataMana
         playerModel.registrationDate = new Date();
         playerModel.lastLogin = new Date();
         playerModel.balance = this.economyConfig.getDouble("starting-balance");
+        playerModel.acceptsPayments = true;
 
         this.playersDataCache.put(playerModel.uuid, playerModel);
         this.playersDAO.save(playerModel);
@@ -165,8 +166,13 @@ public class PlayersDataModule extends FeatherModule implements IPlayersDataMana
     }
 
     @Override
-    public boolean markPlayerModelForSave(OfflinePlayer player) {
+    public boolean markPlayerModelForSave(final OfflinePlayer player) {
         return markPlayerModelForSave(player.getUniqueId());
+    }
+
+    @Override
+    public boolean markPlayerModelForSave(final PlayerModel playerModel) {
+        return markPlayerModelForSave(playerModel.uuid);
     }
 
     private void registerEvents(final FeatherCore plugin) {

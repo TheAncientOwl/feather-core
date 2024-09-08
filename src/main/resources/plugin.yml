@@ -56,3 +56,7 @@ commands:
     description: Pay an amout to a player
     usage: /pay [player] [amount]
     class: mc.owls.valley.net.feathercore.modules.economy.commands.PayCommand
+  paytoggle:
+    description: Toggle if you accept or not payments
+    usage: /paytoggle
+    class: mc.owls.valley.net.feathercore.modules.economy.commands.PayToggleCommand

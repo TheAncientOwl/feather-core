@@ -11,6 +11,7 @@ public class Message {
     public static final String USAGE_BALANCE = "balance.usage";
     public static final String USAGE_ECO = "eco.usage";
     public static final String USAGE_PAY = "pay.error.usage";
+    public static final String USAGE_PAYTOGGLE = "paytoggle.error.usage";
 
     public static final String NOT_PLAYER = "not-player";
     public static final String NOT_ONLINE_PLAYER = "not-online-player";
@@ -27,4 +28,8 @@ public class Message {
     public static final String PAY_BALANCE_EXCEEDS = "pay.error.balance-exceeds";
     public static final String PAY_SEND = "pay.success.send";
     public static final String PAY_RECEIVE = "pay.success.receive";
+
+    public static final String PAY_TOGGLE_NOT_ACCEPTING = "paytoggle.error.does-not-accept";
+    public static final String PAY_TOGGLE_TRUE = "paytoggle.success.status-true";
+    public static final String PAY_TOGGLE_FALSE = "paytoggle.success.status-false";
 }

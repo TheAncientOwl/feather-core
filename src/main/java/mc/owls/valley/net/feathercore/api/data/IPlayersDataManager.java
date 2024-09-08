@@ -40,4 +40,6 @@ public interface IPlayersDataManager {
 
     public boolean markPlayerModelForSave(final OfflinePlayer player);
 
+    public boolean markPlayerModelForSave(final PlayerModel playerModel);
+
 }

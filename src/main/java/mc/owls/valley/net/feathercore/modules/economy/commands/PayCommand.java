@@ -11,6 +11,8 @@ import org.bukkit.entity.Player;
 
 import mc.owls.valley.net.feathercore.api.IFeatherCommand;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
+import mc.owls.valley.net.feathercore.api.data.IPlayersDataManager;
+import mc.owls.valley.net.feathercore.api.data.mongo.models.PlayerModel;
 import mc.owls.valley.net.feathercore.core.FeatherCore;
 import mc.owls.valley.net.feathercore.core.common.Placeholder;
 import mc.owls.valley.net.feathercore.modules.economy.common.Message;
@@ -21,6 +23,7 @@ import net.milkbowl.vault.economy.Economy;
 
 public class PayCommand implements IFeatherCommand {
     private Economy economy = null;
+    private IPlayersDataManager playersData = null;
     private IPropertyAccessor economyConfig = null;
     private IPropertyAccessor messages = null;
 
@@ -29,6 +32,7 @@ public class PayCommand implements IFeatherCommand {
         this.economyConfig = plugin.getConfigurationManager().getEconomyConfigFile();
         this.messages = plugin.getConfigurationManager().getMessagesConfigFile().getConfigurationSection("economy");
         this.economy = plugin.getEconomy();
+        this.playersData = plugin.getPlayersDataManager();
     }
 
     @Override
@@ -59,6 +63,17 @@ public class PayCommand implements IFeatherCommand {
 
         if (!receiverPlayer.isOnline()) {
             ChatUtils.sendPlaceholderMessage(commandSender, this.messages, Message.NOT_ONLINE_PLAYER,
+                    Pair.of(Placeholder.PLAYER_NAME, receiverPlayer.getName()));
+            return true;
+        }
+
+        final PlayerModel playerModel = this.playersData.getPlayerModel(receiverPlayer);
+        if (playerModel == null) {
+            return false;
+        }
+
+        if (!playerModel.acceptsPayments && !commandSender.hasPermission("feathercore.economy.general.pay.override")) {
+            ChatUtils.sendPlaceholderMessage(commandSender, this.messages, Message.PAY_TOGGLE_NOT_ACCEPTING,
                     Pair.of(Placeholder.PLAYER_NAME, receiverPlayer.getName()));
             return true;
         }

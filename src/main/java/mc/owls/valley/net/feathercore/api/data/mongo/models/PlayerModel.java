@@ -27,6 +27,9 @@ public class PlayerModel {
     @Property("balance")
     public double balance;
 
+    @Property("accepts_payments")
+    public boolean acceptsPayments;
+
     public PlayerModel() {
     }
 }
