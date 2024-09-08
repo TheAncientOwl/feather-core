@@ -26,7 +26,6 @@ public class PayToggleCommand implements IFeatherCommand {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public boolean onCommand(final CommandSender commandSender, final Command command, final String label,
             final String[] args) {
         if (!commandSender.hasPermission("feathercore.economy.general.paytoggle")) {
