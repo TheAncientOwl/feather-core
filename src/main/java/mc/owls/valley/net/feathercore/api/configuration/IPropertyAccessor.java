@@ -2,7 +2,6 @@ package mc.owls.valley.net.feathercore.api.configuration;
 
 import java.util.List;
 
-import org.bukkit.Material;
 import org.jetbrains.annotations.NotNull;
 
 public interface IPropertyAccessor {
