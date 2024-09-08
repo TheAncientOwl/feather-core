@@ -15,11 +15,7 @@ currency:
 fractional-digits: 2
 currency-format: '#,##0'
 
-banknotes:
-  material: 'PAPER'
-  display-name: '&8&l< &aBanknote &8&l>'
-  lore:
-    - '&eValue: &a{MONEY}$'
-    - '&eGame currency'
-    - '&eCan be used to buy items from warp shop'
-  minimum-withdraw-amount: 10.0
+banknote:
+  # material: 'PAPER'
+  material: 'SUNFLOWER'
+  minimum-value: 10.0

@@ -12,6 +12,8 @@ public class Message {
     public static final String USAGE_ECO = "eco.usage";
     public static final String USAGE_PAY = "pay.error.usage";
     public static final String USAGE_PAYTOGGLE = "paytoggle.error.usage";
+    public static final String USAGE_WITHDRAW = "withdraw.error.usage";
+    public static final String USAGE_DEPOSIT = "deposit.error.usage";
 
     public static final String NOT_PLAYER = "not-player";
     public static final String NOT_ONLINE_PLAYER = "not-online-player";
@@ -32,4 +34,22 @@ public class Message {
     public static final String PAY_TOGGLE_NOT_ACCEPTING = "paytoggle.error.does-not-accept";
     public static final String PAY_TOGGLE_TRUE = "paytoggle.success.status-true";
     public static final String PAY_TOGGLE_FALSE = "paytoggle.success.status-false";
+
+    public static final String WITHDRAW_MIN_AMOUNT = "withdraw.error.minimum-value";
+    public static final String WITHDRAW_NO_FUNDS = "withdraw.error.not-enough-funds";
+    public static final String WITHDRAW_NO_SPACE = "withdraw.error.not-enough-space";
+    public static final String WITHDRAW_SUCCESS = "withdraw.success";
+
+    public static final String DEPOSIT_SUCCESS = "deposit.success";
+    public static final String DEPOSIT_INVALID_AMOUNT = "deposit.error.invalid-amount";
+    public static final String DEPOSIT_BALANCE_EXCEEDS = "deposit.error.balance-exceeds";
+    public static final String DEPOSIT_NEGATIVE_AMOUNT = "deposit.error.negative-amount";
+
+    public static final String BANKNOTE_METADATA_KEY = "feathercore-banknote-value";
+
+    public static final String BANKNOTE_NAME = "banknote.display-name";
+    public static final String BANKNOTE_LORE = "banknote.lore";
+    public static final String BANKNOTE_INVALID_MATERIAL = "banknote.invalid-material";
+    public static final String BANKNOTE_PLACE = "banknote.error.place";
+    public static final String BANKNOTE_INVALID = "banknote.error.invalid";
 }

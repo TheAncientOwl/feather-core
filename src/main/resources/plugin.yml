@@ -41,6 +41,12 @@ feathercore:
       class: mc.owls.valley.net.feathercore.core.common.CommandsRegistrator
       mandatory: true
       dependencies: [ConfigurationManager, MongoModule, PlayersDataModule, FeatherEconomyProviderModule, VaultModule]
+    - name: EventsRegistrator
+      class: mc.owls.valley.net.feathercore.core.common.EventsRegistrator
+      mandatory: true
+      dependencies: [ConfigurationManager, MongoModule, PlayersDataModule, FeatherEconomyProviderModule, VaultModule]
+  listeners:
+    - mc.owls.valley.net.feathercore.modules.economy.listeners.BanknotePlaceListener
 
 commands:
   balance:
@@ -60,3 +66,11 @@ commands:
     description: Toggle if you accept or not payments
     usage: /paytoggle
     class: mc.owls.valley.net.feathercore.modules.economy.commands.PayToggleCommand
+  withdraw:
+    description: Withdraw money from player's balance in physical form
+    usage: /withdraw [banknote-value] [amount]
+    class: mc.owls.valley.net.feathercore.modules.economy.commands.WithdrawCommand
+  deposit:
+    description: Deposit physical form of money to player's balance
+    usage: /deposit [amount]
+    class: mc.owls.valley.net.feathercore.modules.economy.commands.DepositCommand

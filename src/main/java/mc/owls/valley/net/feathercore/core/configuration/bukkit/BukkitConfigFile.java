@@ -2,10 +2,11 @@ package mc.owls.valley.net.feathercore.core.configuration.bukkit;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.jetbrains.annotations.NotNull;
 
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigSection;
@@ -56,28 +57,33 @@ public class BukkitConfigFile implements IConfigFile {
     }
 
     @Override
-    public String getString(@NotNull final String path) {
+    public String getString(final String path) {
         return this.fileConfiguration.getString(path);
     }
 
     @Override
-    public IConfigSection getConfigurationSection(@NotNull String path) {
+    public IConfigSection getConfigurationSection(final String path) {
         return new BukkitConfigSection(this.fileConfiguration.getConfigurationSection(path));
     }
 
     @Override
-    public boolean getBoolean(@NotNull String path) {
+    public boolean getBoolean(final String path) {
         return this.fileConfiguration.getBoolean(path);
     }
 
     @Override
-    public int getInt(@NotNull String path) {
+    public int getInt(final String path) {
         return this.fileConfiguration.getInt(path);
     }
 
     @Override
-    public double getDouble(@NotNull String path) {
+    public double getDouble(final String path) {
         return this.fileConfiguration.getDouble(path);
+    }
+
+    @Override
+    public List<String> getStringList(final String path) {
+        return this.fileConfiguration.getStringList(path);
     }
 
 }

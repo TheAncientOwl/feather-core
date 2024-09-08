@@ -85,7 +85,7 @@ commands:
         arguments:
           player: |
             if present
-            then player's name
+            then player's nme
             else issuer's player name
         permission: feathercore.economy.general.balance
     balancetop:
@@ -116,12 +116,13 @@ commands:
     withdraw:
       description: Withdraw money from player's balance in physical form (configured in economyl.yml:banknotes)
       command:
-        usage: /withdraw [amount]
+        usage: /withdraw [banknote-value] [amount]
         arguments:
+          banknote-value: symbolic value of the banknote
           amount: amount
         permission: feathercore.economy.general.withdraw
     deposit:
-      description: Deposit money from player's balance in physical form (configured in economyl.yml:banknotes)
+      description: Deposit physical form (configured in economyl.yml:banknotes) of money to player's balance
       command:
         usage: /deposit [amount]
         arguments:
