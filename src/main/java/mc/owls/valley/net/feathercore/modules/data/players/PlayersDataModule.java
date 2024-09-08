@@ -11,7 +11,6 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import mc.owls.valley.net.feathercore.api.IFeatherConfigurationManager;
@@ -24,7 +23,6 @@ import mc.owls.valley.net.feathercore.api.data.mongo.models.PlayerModel;
 import mc.owls.valley.net.feathercore.api.module.FeatherModule;
 import mc.owls.valley.net.feathercore.api.module.ModuleEnableStatus;
 import mc.owls.valley.net.feathercore.core.FeatherCore;
-import mc.owls.valley.net.feathercore.modules.data.players.listeners.PlayerJoinEventListener;
 
 public class PlayersDataModule extends FeatherModule implements IPlayersDataManager {
     private final Map<UUID, PlayerModel> playersDataCache = new HashMap<>();
@@ -47,8 +45,6 @@ public class PlayersDataModule extends FeatherModule implements IPlayersDataMana
         final IFeatherConfigurationManager configManager = plugin.getConfigurationManager();
         this.dataConfig = configManager.getDataConfiguration();
         this.economyConfig = configManager.getEconomyConfigFile();
-
-        registerEvents(plugin);
 
         setupAutoSave(plugin);
 
@@ -173,12 +169,6 @@ public class PlayersDataModule extends FeatherModule implements IPlayersDataMana
     @Override
     public boolean markPlayerModelForSave(final PlayerModel playerModel) {
         return markPlayerModelForSave(playerModel.uuid);
-    }
-
-    private void registerEvents(final FeatherCore plugin) {
-        final PluginManager pluginManager = plugin.getServer().getPluginManager();
-
-        pluginManager.registerEvents(new PlayerJoinEventListener(this, this.logger), plugin);
     }
 
     private void setupAutoSave(final JavaPlugin plugin) {

@@ -46,6 +46,7 @@ feathercore:
       mandatory: true
       dependencies: [ConfigurationManager, MongoModule, PlayersDataModule, FeatherEconomyProviderModule, VaultModule]
   listeners:
+    - mc.owls.valley.net.feathercore.modules.data.players.listeners.PlayerJoinDataListener
     - mc.owls.valley.net.feathercore.modules.economy.listeners.BanknotePlaceListener
 
 commands:

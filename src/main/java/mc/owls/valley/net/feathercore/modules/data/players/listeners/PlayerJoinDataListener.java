@@ -6,21 +6,22 @@ import java.util.UUID;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
-import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.jetbrains.annotations.NotNull;
 
+import mc.owls.valley.net.feathercore.api.IFeatherListener;
 import mc.owls.valley.net.feathercore.api.IFeatherLoggger;
+import mc.owls.valley.net.feathercore.api.data.IPlayersDataManager;
 import mc.owls.valley.net.feathercore.api.data.mongo.models.PlayerModel;
-import mc.owls.valley.net.feathercore.modules.data.players.PlayersDataModule;
+import mc.owls.valley.net.feathercore.core.FeatherCore;
 
-public class PlayerJoinEventListener implements Listener {
-    final PlayersDataModule dataManager;
-    final IFeatherLoggger logger;
+public class PlayerJoinDataListener implements IFeatherListener {
+    private IPlayersDataManager dataManager = null;
+    private IFeatherLoggger logger = null;
 
-    public PlayerJoinEventListener(@NotNull final PlayersDataModule dataManager, final IFeatherLoggger logger) {
-        this.dataManager = dataManager;
-        this.logger = logger;
+    @Override
+    public void onCreate(final FeatherCore plugin) {
+        this.dataManager = plugin.getPlayersDataManager();
+        this.logger = plugin.getFeatherLogger();
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -38,4 +39,5 @@ public class PlayerJoinEventListener implements Listener {
 
         this.dataManager.markPlayerModelForSave(playerUUID);
     }
+
 }
