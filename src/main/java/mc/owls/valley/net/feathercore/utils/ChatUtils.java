@@ -26,11 +26,11 @@ public class ChatUtils {
                 .sendMessage(translateColors(StringUtils.replacePlaceholders(properties.getString(key), placeholders)));
     }
 
-    public static void sendMessages(final CommandSender commandSender, String... messages) {
+    public static void sendMessage(final CommandSender commandSender, String... messages) {
         sendMessage(commandSender, String.join("\n", messages));
     }
 
-    public static void sendMessages(final CommandSender commandSender, final IPropertyAccessor propertyAccessor,
+    public static void sendMessage(final CommandSender commandSender, final IPropertyAccessor propertyAccessor,
             String... keys) {
         final StringBuilder sb = new StringBuilder();
 

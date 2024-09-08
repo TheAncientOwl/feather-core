@@ -2,6 +2,10 @@ package mc.owls.valley.net.feathercore.utils;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bukkit.Bukkit;
 
 public class StringUtils {
     public static String exceptionToStr(final Exception e) {
@@ -17,5 +21,24 @@ public class StringUtils {
             message = message.replace(replacement.first, replacement.second.toString());
         }
         return message;
+    }
+
+    public static List<String> getOnlinePlayers() {
+        return Bukkit.getOnlinePlayers().stream().map(player -> player.getName())
+                .toList();
+    }
+
+    public static List<String> filterStartingWith(final List<String> list, String what) {
+        what = what.toLowerCase();
+
+        List<String> out = new ArrayList<>();
+
+        for (final var str : list) {
+            if (str.toLowerCase().startsWith(what)) {
+                out.add(str);
+            }
+        }
+
+        return out;
     }
 }

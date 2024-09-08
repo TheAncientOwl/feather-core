@@ -15,16 +15,17 @@ import mc.owls.valley.net.feathercore.core.common.Placeholder;
 import mc.owls.valley.net.feathercore.modules.economy.common.Message;
 import mc.owls.valley.net.feathercore.utils.ChatUtils;
 import mc.owls.valley.net.feathercore.utils.Pair;
+import mc.owls.valley.net.feathercore.utils.StringUtils;
 import net.milkbowl.vault.economy.Economy;
 
 public class EcoCommand implements IFeatherCommand {
     private Economy economy = null;
-    private IPropertyAccessor config = null;
+    private IPropertyAccessor messages = null;
     private IPropertyAccessor economyConfig = null;
 
     @Override
     public void onCreate(final FeatherCore plugin) {
-        this.config = plugin.getConfigurationManager().getMessagesConfigFile().getConfigurationSection("economy");
+        this.messages = plugin.getConfigurationManager().getMessagesConfigFile().getConfigurationSection("economy");
         this.economyConfig = plugin.getConfigurationManager().getEconomyConfigFile();
         this.economy = plugin.getEconomy();
     }
@@ -34,7 +35,7 @@ public class EcoCommand implements IFeatherCommand {
     public boolean onCommand(final CommandSender commandSender, final Command command, final String label,
             final String[] args) {
         if (!commandSender.hasPermission("feathercore.economy.setup.eco")) {
-            ChatUtils.sendMessage(commandSender, this.config.getString(Message.PERMISSION_DENIED));
+            ChatUtils.sendMessage(commandSender, this.messages, Message.PERMISSION_DENIED);
             return true;
         }
 
@@ -45,7 +46,7 @@ public class EcoCommand implements IFeatherCommand {
 
             final OfflinePlayer player = Bukkit.getOfflinePlayer(playerName);
             if (!player.hasPlayedBefore()) {
-                ChatUtils.sendPlaceholderMessage(commandSender, this.config, Message.NOT_PLAYER,
+                ChatUtils.sendPlaceholderMessage(commandSender, this.messages, Message.NOT_PLAYER,
                         Pair.of(Placeholder.STRING, playerName));
                 return true;
             }
@@ -54,13 +55,13 @@ public class EcoCommand implements IFeatherCommand {
             try {
                 amount = Double.parseDouble(amountStr);
             } catch (final Exception e) {
-                ChatUtils.sendPlaceholderMessage(commandSender, this.config, Message.NOT_VALID_NUMBER,
+                ChatUtils.sendPlaceholderMessage(commandSender, this.messages, Message.NOT_VALID_NUMBER,
                         Pair.of(Placeholder.STRING, amountStr));
                 return true;
             }
 
             if (amount < 0 && (actionStr.equals("give") || actionStr.equals("take"))) {
-                ChatUtils.sendPlaceholderMessage(commandSender, this.config, Message.ECO_NO_NEGATIVE_AMOUNT,
+                ChatUtils.sendPlaceholderMessage(commandSender, this.messages, Message.ECO_NO_NEGATIVE_AMOUNT,
                         Pair.of(Placeholder.STRING, actionStr));
                 return true;
             }
@@ -71,7 +72,7 @@ public class EcoCommand implements IFeatherCommand {
                 case "give": {
                     final var max = this.economyConfig.getDouble("money.max");
                     if (oldBalance + amount > max) {
-                        ChatUtils.sendPlaceholderMessage(commandSender, this.config, Message.ECO_BOUNDS_MAX,
+                        ChatUtils.sendPlaceholderMessage(commandSender, this.messages, Message.ECO_BOUNDS_MAX,
                                 Pair.of(Placeholder.MAX, this.economy.format(max)));
                         return true;
                     }
@@ -81,7 +82,7 @@ public class EcoCommand implements IFeatherCommand {
                 case "take": {
                     final var min = this.economyConfig.getDouble("money.min");
                     if (oldBalance - amount < min) {
-                        ChatUtils.sendPlaceholderMessage(commandSender, this.config, Message.ECO_BOUNDS_MIN,
+                        ChatUtils.sendPlaceholderMessage(commandSender, this.messages, Message.ECO_BOUNDS_MIN,
                                 Pair.of(Placeholder.MIN, this.economy.format(min)));
                         return true;
                     }
@@ -91,14 +92,14 @@ public class EcoCommand implements IFeatherCommand {
                 case "set": {
                     final var max = this.economyConfig.getDouble("money.max");
                     if (amount > max) {
-                        ChatUtils.sendPlaceholderMessage(commandSender, this.config, Message.ECO_BOUNDS_MAX,
+                        ChatUtils.sendPlaceholderMessage(commandSender, this.messages, Message.ECO_BOUNDS_MAX,
                                 Pair.of(Placeholder.MAX, this.economy.format(max)));
                         return true;
                     }
 
                     final var min = this.economyConfig.getDouble("money.min");
                     if (amount < min) {
-                        ChatUtils.sendPlaceholderMessage(commandSender, this.config, Message.ECO_BOUNDS_MIN,
+                        ChatUtils.sendPlaceholderMessage(commandSender, this.messages, Message.ECO_BOUNDS_MIN,
                                 Pair.of(Placeholder.MIN, this.economy.format(min)));
                         return true;
                     }
@@ -108,20 +109,20 @@ public class EcoCommand implements IFeatherCommand {
                     break;
                 }
                 default: {
-                    ChatUtils.sendMessages(commandSender, this.config, Message.USAGE_INVALID, Message.USAGE_ECO);
+                    ChatUtils.sendMessage(commandSender, this.messages, Message.USAGE_INVALID, Message.USAGE_ECO);
                     return true;
                 }
             }
 
             final double newBalance = this.economy.getBalance(player);
-            ChatUtils.sendPlaceholderMessage(commandSender, this.config, Message.ECO_SUCCESS,
+            ChatUtils.sendPlaceholderMessage(commandSender, this.messages, Message.ECO_SUCCESS,
                     Pair.of(Placeholder.PLAYER_NAME, player.getName()),
                     Pair.of(Placeholder.OLD, this.economy.format(oldBalance)),
                     Pair.of(Placeholder.NEW, this.economy.format(newBalance)));
             return true;
         }
 
-        ChatUtils.sendMessages(commandSender, this.config, Message.USAGE_INVALID,
+        ChatUtils.sendMessage(commandSender, this.messages, Message.USAGE_INVALID,
                 Message.USAGE_ECO);
         return true;
     }
@@ -145,23 +146,20 @@ public class EcoCommand implements IFeatherCommand {
                 completions.add("take");
             }
         } else if (args.length == 2) {
-            final var arg = args[1].toLowerCase();
+            final var arg = args[1];
+            final List<String> onlinePlayers = StringUtils.getOnlinePlayers();
 
             if (arg.isEmpty()) {
-                for (final var player : Bukkit.getOnlinePlayers()) {
-                    completions.add(player.getName());
-                }
+                completions = onlinePlayers;
             } else {
-                for (final var player : Bukkit.getOnlinePlayers()) {
-                    if (player.getName().toLowerCase().startsWith(arg)) {
-                        completions.add(player.getName());
-                    }
-                }
+                completions = StringUtils.filterStartingWith(onlinePlayers, arg);
             }
+
         } else if (args.length == 3) {
             completions.add("amount");
         }
 
         return completions;
     }
+
 }

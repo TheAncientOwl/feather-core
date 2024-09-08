@@ -1,7 +1,8 @@
 economy:
   command-sender-not-player: '&cThis command can be issued by players only&8.'
   permission-denied: "&8[&4Economy&8] &cYou don't have permission to use that&8!"
-  not-player: '&8[&4Economy&8] &c{string} is not a player&8!'
+  not-player: '&8[&4Economy&8] &c{string} is not a player&8.'
+  not-online-player: '&8[&4Economy&8] &c{player} is not online&8.'
   not-valid-number: '&8[&4Economy&8] &c{string} is not a valid number&8!'
   usage-invalid: '&8[&4Economy&8] &cInvalid command usage&8.'
   eco:
@@ -15,3 +16,13 @@ economy:
     usage: '&8[&6Usage&8] &e/balance <player>'
     self: '&8[&2Economy&8] &7Your balance&8: &a{balance}'
     other: "&8[&2Economy&8] &7{player}'s balance&8: &a{balance}"
+  pay:
+    error:
+      usage: '&8[&6Usage&8] &e/pay [player] [amount]'
+      self: '&8[&4Economy&8]] &cYou cannot pay yourself&8...'
+      min-amount: '&8[&4Economy&8] &cThe minimum amount that can be sent is {amount}&8.'
+      not-enough-funds: '&8[&4Economy] &cNot enough funds&8.'
+      balance-exceeds: "&8[&4Economy] &cReceiver's balance would exceed the max allowed balance &8(&c{max}&8)"
+    success:
+      send: '&8[&2Economy&8] &7You sent &a{amount} &7to {player}&8.'
+      receive: '&8[&2Economy&8] &7{player} sent you &a{amount}&8.'
