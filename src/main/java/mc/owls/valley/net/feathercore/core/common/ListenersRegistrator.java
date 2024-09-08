@@ -16,10 +16,10 @@ import mc.owls.valley.net.feathercore.core.FeatherCore;
 import mc.owls.valley.net.feathercore.utils.StringUtils;
 import mc.owls.valley.net.feathercore.utils.YamlUtils;
 
-public class EventsRegistrator extends FeatherModule {
+public class ListenersRegistrator extends FeatherModule {
     private static final String EVENTS_FILE_NAME = "plugin.yml";
 
-    public EventsRegistrator(String name) {
+    public ListenersRegistrator(String name) {
         super(name);
     }
 
@@ -27,7 +27,7 @@ public class EventsRegistrator extends FeatherModule {
     protected ModuleEnableStatus onModuleEnable(final FeatherCore plugin) throws FeatherSetupException {
 
         final FileConfiguration config = YamlUtils.loadYaml(plugin,
-                EventsRegistrator.EVENTS_FILE_NAME);
+                ListenersRegistrator.EVENTS_FILE_NAME);
         final List<String> listeners = config.getStringList("feathercore.listeners");
 
         final PluginManager pluginManager = plugin.getServer().getPluginManager();

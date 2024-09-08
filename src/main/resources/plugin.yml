@@ -41,8 +41,8 @@ feathercore:
       class: mc.owls.valley.net.feathercore.core.common.CommandsRegistrator
       mandatory: true
       dependencies: [ConfigurationManager, MongoModule, PlayersDataModule, FeatherEconomyProviderModule, VaultModule]
-    - name: EventsRegistrator
-      class: mc.owls.valley.net.feathercore.core.common.EventsRegistrator
+    - name: ListenersRegistrator
+      class: mc.owls.valley.net.feathercore.core.common.ListenersRegistrator
       mandatory: true
       dependencies: [ConfigurationManager, MongoModule, PlayersDataModule, FeatherEconomyProviderModule, VaultModule]
   listeners:
