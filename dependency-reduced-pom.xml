@@ -4,7 +4,7 @@
   <groupId>mc.owls.valley.net.feathercore</groupId>
   <artifactId>FeatherCore</artifactId>
   <name>FeatherCore</name>
-  <version>0.2.7</version>
+  <version>0.2.8</version>
   <build>
     <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
     <resources>
@@ -210,4 +210,3 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 </project>
-

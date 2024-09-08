@@ -6,7 +6,7 @@
 
   <groupId>mc.owls.valley.net.feathercore</groupId>
   <artifactId>FeatherCore</artifactId>
-  <version>0.2.7</version>
+  <version>0.2.8</version>
 
   <name>FeatherCore</name>
   <packaging>jar</packaging>
