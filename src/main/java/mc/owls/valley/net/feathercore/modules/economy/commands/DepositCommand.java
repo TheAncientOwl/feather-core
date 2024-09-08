@@ -54,8 +54,7 @@ public class DepositCommand implements IFeatherCommand {
             return true;
         }
 
-        // TODO: Replace deprecated method
-        final ItemStack itemInHand = ((Player) commandSender).getItemInHand();
+        final ItemStack itemInHand = ((Player) commandSender).getInventory().getItemInMainHand();
         if (itemInHand == null || itemInHand.getItemMeta() == null
                 || itemInHand.getItemMeta().getPersistentDataContainer() == null) {
             ChatUtils.sendMessage(commandSender, this.messages, Message.BANKNOTE_INVALID);

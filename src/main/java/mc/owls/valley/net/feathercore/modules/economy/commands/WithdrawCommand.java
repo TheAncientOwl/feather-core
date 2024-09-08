@@ -11,7 +11,6 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -23,6 +22,7 @@ import mc.owls.valley.net.feathercore.modules.economy.common.Message;
 import mc.owls.valley.net.feathercore.utils.ChatUtils;
 import mc.owls.valley.net.feathercore.utils.Pair;
 import mc.owls.valley.net.feathercore.utils.StringUtils;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.milkbowl.vault.economy.Economy;
 
 public class WithdrawCommand implements IFeatherCommand {
@@ -162,20 +162,16 @@ public class WithdrawCommand implements IFeatherCommand {
             lore.add("&8Value: &a{amount}");
         }
 
-        final List<String> coloredLore = lore.stream().map(
-                line -> ChatUtils.translateColors(
-                        StringUtils.replacePlaceholders(line, Pair.of(Placeholder.AMOUNT, banknoteValue))))
-                .toList();
-
         // 3. setup item meta
         final ItemMeta meta = banknote.getItemMeta();
-        // TODO: Replace deprecated methods
-        meta.setDisplayName(ChatUtils.translateColors(this.messages.getString(Message.BANKNOTE_NAME)));
-        meta.setLore(coloredLore);
-
-        final NamespacedKey namespacedKey = new NamespacedKey(this.plugin, Message.BANKNOTE_METADATA_KEY);
-        final PersistentDataContainer dataContainer = meta.getPersistentDataContainer();
-        dataContainer.set(namespacedKey, PersistentDataType.DOUBLE, banknoteValue);
+        meta.displayName(LegacyComponentSerializer.legacyAmpersand()
+                .deserialize(this.messages.getString(Message.BANKNOTE_NAME)));
+        meta.lore(lore.stream()
+                .map(line -> LegacyComponentSerializer.legacyAmpersand()
+                        .deserialize(StringUtils.replacePlaceholders(line, Pair.of(Placeholder.AMOUNT, banknoteValue))))
+                .toList());
+        meta.getPersistentDataContainer().set(new NamespacedKey(this.plugin, Message.BANKNOTE_METADATA_KEY),
+                PersistentDataType.DOUBLE, banknoteValue);
 
         // 4. finish itemstack setup
         banknote.setItemMeta(meta);
