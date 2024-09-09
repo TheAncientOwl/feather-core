@@ -6,7 +6,7 @@
 
   <groupId>mc.owls.valley.net.feathercore</groupId>
   <artifactId>FeatherCore</artifactId>
-  <version>0.2.2</version>
+  <version>0.3.0</version>
 
   <name>FeatherCore</name>
   <packaging>jar</packaging>
@@ -20,9 +20,16 @@
 
 
   <repositories>
+    <!-- Paper -->
     <repository>
       <id>paper-repo</id>
       <url>https://repo.papermc.io/repository/maven-public/</url>
+    </repository>
+
+    <!-- Vault -->
+    <repository>
+      <id>Vault-repo</id>
+      <url>https://jitpack.io</url>
     </repository>
   </repositories>
 
@@ -46,6 +53,14 @@
       <groupId>org.mongodb</groupId>
       <artifactId>mongo-java-driver</artifactId>
       <version>3.9.1</version>
+    </dependency>
+
+    <!-- Vault -->
+    <dependency>
+      <groupId>com.github.MilkBowl</groupId>
+      <artifactId>VaultAPI</artifactId>
+      <version>1.7</version>
+      <scope>provided</scope>
     </dependency>
 
     <!-- Testing -->
@@ -83,8 +98,8 @@
         <includes>
           <include>plugin.yml</include>
           <include>data.yml</include>
-          <include>modules.json</include>
-          <include>config-manager.json</include>
+          <include>economy.yml</include>
+          <include>messages.yml</include>
         </includes>
       </resource>
     </resources>

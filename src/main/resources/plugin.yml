@@ -1,5 +1,82 @@
-main: mc.owls.valley.net.feathercore.core.FeatherCore
 name: FeatherCore
-version: 0.2.2
-api-version: 1.21.1
+version: 0.3.0
+main: mc.owls.valley.net.feathercore.core.FeatherCore
 author: DefaultyBuf
+description: Core plugin for server bukkit/spigot/paper servers
+
+depend: [Vault]
+
+api-version: 1.21.1
+
+feathercore:
+  configs:
+    - field: dataConfigFile
+      config: data.yml
+    - field: economyConfigFile
+      config: economy.yml
+    - field: messagesConfigFile
+      config: messages.yml
+  literals:
+    - field: LITERAL_MONGO_MANAGER
+      literal: MongoManager
+    - field: LITERAL_PLAYERS_DATA_MANAGER
+      literal: PlayersDataManager
+    - field: LITERAL_CONFIG_MANAGER
+      literal: ConfigurationManager
+    - field: LITERAL_ECONOMY_PROVIDER
+      literal: FeatherEconomyProvider
+  modules:
+    - name: ConfigurationManager
+      class: mc.owls.valley.net.feathercore.core.modules.ConfigurationManager
+      mandatory: true
+      dependencies: []
+    - name: MongoManager
+      class: mc.owls.valley.net.feathercore.core.modules.MongoManager
+      mandatory: true
+      dependencies: [ConfigurationManager]
+    - name: PlayersDataManager
+      class: mc.owls.valley.net.feathercore.modules.data.components.PlayersDataManager
+      mandatory: true
+      dependencies: [ConfigurationManager, MongoManager]
+    - name: FeatherEconomyProvider
+      class: mc.owls.valley.net.feathercore.modules.economy.components.FeatherEconomyProvider
+      mandatory: true
+      dependencies: [PlayersDataManager]
+    - name: CommandsRegistrator
+      class: mc.owls.valley.net.feathercore.core.modules.CommandsRegistrator
+      mandatory: true
+      dependencies: [ConfigurationManager, MongoManager, PlayersDataManager, FeatherEconomyProvider]
+    - name: ListenersRegistrator
+      class: mc.owls.valley.net.feathercore.core.modules.ListenersRegistrator
+      mandatory: true
+      dependencies: [ConfigurationManager, MongoManager, PlayersDataManager, FeatherEconomyProvider]
+  listeners:
+    - mc.owls.valley.net.feathercore.modules.data.listeners.PlayerJoinDataListener
+    - mc.owls.valley.net.feathercore.modules.economy.listeners.BanknotePlaceListener
+
+commands:
+  balance:
+    description: State the current balance of a given player
+    usage: /balance <player>
+    aliases: [bal]
+    class: mc.owls.valley.net.feathercore.modules.economy.commands.BalanceCommand
+  eco:
+    description: Manage server economy
+    usage: /eco give/take/set/reset [player] [amount]
+    class: mc.owls.valley.net.feathercore.modules.economy.commands.EcoCommand
+  pay:
+    description: Pay an amout to a player
+    usage: /pay [player] [amount]
+    class: mc.owls.valley.net.feathercore.modules.economy.commands.PayCommand
+  paytoggle:
+    description: Toggle if you accept or not payments
+    usage: /paytoggle
+    class: mc.owls.valley.net.feathercore.modules.economy.commands.PayToggleCommand
+  withdraw:
+    description: Withdraw money from player's balance in physical form
+    usage: /withdraw [banknote-value] [amount]
+    class: mc.owls.valley.net.feathercore.modules.economy.commands.WithdrawCommand
+  deposit:
+    description: Deposit physical form of money to player's balance
+    usage: /deposit [amount]
+    class: mc.owls.valley.net.feathercore.modules.economy.commands.DepositCommand

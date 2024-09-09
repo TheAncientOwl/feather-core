@@ -1,0 +1,21 @@
+starting-balance: 1000
+
+money:
+  min: 0
+  max: 1000000000
+
+minimum-pay-amount: 0.001
+
+currency:
+  name:
+    symbol: '$'
+    singular: '$'
+    plural: '$'
+
+fractional-digits: 2
+currency-format: '#,##0'
+
+banknote:
+  # material: 'PAPER'
+  material: 'SUNFLOWER'
+  minimum-value: 10.0
