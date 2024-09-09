@@ -7,22 +7,22 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import mc.owls.valley.net.feathercore.api.IFeatherCommand;
+import mc.owls.valley.net.feathercore.api.common.ChatUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
-import mc.owls.valley.net.feathercore.api.data.IPlayersDataManager;
-import mc.owls.valley.net.feathercore.api.data.mongo.models.PlayerModel;
-import mc.owls.valley.net.feathercore.core.FeatherCore;
+import mc.owls.valley.net.feathercore.api.core.IFeatherCommand;
+import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
+import mc.owls.valley.net.feathercore.api.core.IPlayersDataManager;
+import mc.owls.valley.net.feathercore.api.database.mongo.models.PlayerModel;
 import mc.owls.valley.net.feathercore.modules.economy.common.Message;
-import mc.owls.valley.net.feathercore.utils.ChatUtils;
 
 public class PayToggleCommand implements IFeatherCommand {
     private IPlayersDataManager playersData = null;
     private IPropertyAccessor messages = null;
 
     @Override
-    public void onCreate(final FeatherCore plugin) {
-        this.playersData = plugin.getPlayersDataManager();
-        this.messages = plugin.getConfigurationManager().getMessagesConfigFile().getConfigurationSection("economy");
+    public void onCreate(final IFeatherCoreProvider core) {
+        this.playersData = core.getPlayersDataManager();
+        this.messages = core.getConfigurationManager().getMessagesConfigFile().getConfigurationSection("economy");
     }
 
     @Override

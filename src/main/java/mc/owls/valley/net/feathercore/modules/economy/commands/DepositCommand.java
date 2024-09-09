@@ -12,13 +12,13 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import mc.owls.valley.net.feathercore.api.IFeatherCommand;
+import mc.owls.valley.net.feathercore.api.common.ChatUtils;
+import mc.owls.valley.net.feathercore.api.common.Pair;
+import mc.owls.valley.net.feathercore.api.common.Placeholder;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
-import mc.owls.valley.net.feathercore.core.FeatherCore;
-import mc.owls.valley.net.feathercore.core.common.Placeholder;
+import mc.owls.valley.net.feathercore.api.core.IFeatherCommand;
+import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.modules.economy.common.Message;
-import mc.owls.valley.net.feathercore.utils.ChatUtils;
-import mc.owls.valley.net.feathercore.utils.Pair;
 import net.milkbowl.vault.economy.Economy;
 
 public class DepositCommand implements IFeatherCommand {
@@ -28,11 +28,11 @@ public class DepositCommand implements IFeatherCommand {
     private JavaPlugin plugin = null;
 
     @Override
-    public void onCreate(final FeatherCore plugin) {
-        this.plugin = plugin;
-        this.economy = plugin.getEconomy();
-        this.economyConfig = plugin.getConfigurationManager().getEconomyConfigFile();
-        this.messages = plugin.getConfigurationManager().getMessagesConfigFile().getConfigurationSection("economy");
+    public void onCreate(final IFeatherCoreProvider core) {
+        this.plugin = core.getPlugin();
+        this.economy = core.getEconomy();
+        this.economyConfig = core.getConfigurationManager().getEconomyConfigFile();
+        this.messages = core.getConfigurationManager().getMessagesConfigFile().getConfigurationSection("economy");
     }
 
     @Override

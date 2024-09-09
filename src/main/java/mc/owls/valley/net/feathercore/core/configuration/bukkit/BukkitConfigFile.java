@@ -6,19 +6,18 @@ import java.util.List;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigSection;
-import mc.owls.valley.net.feathercore.core.FeatherCore;
-import mc.owls.valley.net.feathercore.utils.StringUtils;
 
 public class BukkitConfigFile implements IConfigFile {
-    private final FeatherCore plugin;
+    private final JavaPlugin plugin;
     private final String fileName;
     private File configFile;
     private FileConfiguration fileConfiguration;
 
-    public BukkitConfigFile(final FeatherCore plugin, final String fileName) {
+    public BukkitConfigFile(final JavaPlugin plugin, final String fileName) {
         this.plugin = plugin;
         this.fileName = fileName;
 
@@ -36,13 +35,8 @@ public class BukkitConfigFile implements IConfigFile {
     }
 
     @Override
-    public void saveConfig() {
-        try {
-            this.fileConfiguration.save(this.configFile);
-        } catch (final IOException e) {
-            this.plugin.getFeatherLogger()
-                    .error("Could not save config to " + this.fileName + "\nReason: " + StringUtils.exceptionToStr(e));
-        }
+    public void saveConfig() throws IOException {
+        this.fileConfiguration.save(this.configFile);
     }
 
     @Override

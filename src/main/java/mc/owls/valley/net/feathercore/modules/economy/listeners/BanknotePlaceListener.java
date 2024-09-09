@@ -6,20 +6,20 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import mc.owls.valley.net.feathercore.api.IFeatherListener;
+import mc.owls.valley.net.feathercore.api.common.ChatUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
-import mc.owls.valley.net.feathercore.core.FeatherCore;
+import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
+import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
 import mc.owls.valley.net.feathercore.modules.economy.common.Message;
-import mc.owls.valley.net.feathercore.utils.ChatUtils;
 
 public class BanknotePlaceListener implements IFeatherListener {
     private JavaPlugin plugin = null;
     private IPropertyAccessor messages = null;
 
     @Override
-    public void onCreate(final FeatherCore plugin) {
-        this.plugin = plugin;
-        this.messages = plugin.getConfigurationManager().getMessagesConfigFile().getConfigurationSection("economy");
+    public void onCreate(final IFeatherCoreProvider core) {
+        this.plugin = core.getPlugin();
+        this.messages = core.getConfigurationManager().getMessagesConfigFile().getConfigurationSection("economy");
     }
 
     @EventHandler(priority = EventPriority.LOWEST)

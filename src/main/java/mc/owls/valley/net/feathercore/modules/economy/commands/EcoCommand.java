@@ -8,14 +8,14 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
-import mc.owls.valley.net.feathercore.api.IFeatherCommand;
+import mc.owls.valley.net.feathercore.api.common.ChatUtils;
+import mc.owls.valley.net.feathercore.api.common.Pair;
+import mc.owls.valley.net.feathercore.api.common.Placeholder;
+import mc.owls.valley.net.feathercore.api.common.StringUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
-import mc.owls.valley.net.feathercore.core.FeatherCore;
-import mc.owls.valley.net.feathercore.core.common.Placeholder;
+import mc.owls.valley.net.feathercore.api.core.IFeatherCommand;
+import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.modules.economy.common.Message;
-import mc.owls.valley.net.feathercore.utils.ChatUtils;
-import mc.owls.valley.net.feathercore.utils.Pair;
-import mc.owls.valley.net.feathercore.utils.StringUtils;
 import net.milkbowl.vault.economy.Economy;
 
 public class EcoCommand implements IFeatherCommand {
@@ -24,10 +24,10 @@ public class EcoCommand implements IFeatherCommand {
     private IPropertyAccessor economyConfig = null;
 
     @Override
-    public void onCreate(final FeatherCore plugin) {
-        this.messages = plugin.getConfigurationManager().getMessagesConfigFile().getConfigurationSection("economy");
-        this.economyConfig = plugin.getConfigurationManager().getEconomyConfigFile();
-        this.economy = plugin.getEconomy();
+    public void onCreate(final IFeatherCoreProvider core) {
+        this.messages = core.getConfigurationManager().getMessagesConfigFile().getConfigurationSection("economy");
+        this.economyConfig = core.getConfigurationManager().getEconomyConfigFile();
+        this.economy = core.getEconomy();
     }
 
     @Override

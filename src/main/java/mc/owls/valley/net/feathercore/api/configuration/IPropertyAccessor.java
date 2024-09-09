@@ -2,18 +2,16 @@ package mc.owls.valley.net.feathercore.api.configuration;
 
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
-
 public interface IPropertyAccessor {
-    public String getString(@NotNull final String path);
+    public String getString(final String path);
 
-    public boolean getBoolean(@NotNull final String path);
+    public boolean getBoolean(final String path);
 
-    public int getInt(@NotNull final String path);
+    public int getInt(final String path);
 
-    public double getDouble(@NotNull final String path);
+    public double getDouble(final String path);
 
-    public IConfigSection getConfigurationSection(@NotNull final String path);
+    public IConfigSection getConfigurationSection(final String path);
 
-    public List<String> getStringList(@NotNull final String path);
+    public List<String> getStringList(final String path);
 }

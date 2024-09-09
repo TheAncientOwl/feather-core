@@ -9,16 +9,16 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import mc.owls.valley.net.feathercore.api.IFeatherCommand;
+import mc.owls.valley.net.feathercore.api.common.ChatUtils;
+import mc.owls.valley.net.feathercore.api.common.Pair;
+import mc.owls.valley.net.feathercore.api.common.Placeholder;
+import mc.owls.valley.net.feathercore.api.common.StringUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
-import mc.owls.valley.net.feathercore.api.data.IPlayersDataManager;
-import mc.owls.valley.net.feathercore.api.data.mongo.models.PlayerModel;
-import mc.owls.valley.net.feathercore.core.FeatherCore;
-import mc.owls.valley.net.feathercore.core.common.Placeholder;
+import mc.owls.valley.net.feathercore.api.core.IFeatherCommand;
+import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
+import mc.owls.valley.net.feathercore.api.core.IPlayersDataManager;
+import mc.owls.valley.net.feathercore.api.database.mongo.models.PlayerModel;
 import mc.owls.valley.net.feathercore.modules.economy.common.Message;
-import mc.owls.valley.net.feathercore.utils.ChatUtils;
-import mc.owls.valley.net.feathercore.utils.Pair;
-import mc.owls.valley.net.feathercore.utils.StringUtils;
 import net.milkbowl.vault.economy.Economy;
 
 public class PayCommand implements IFeatherCommand {
@@ -28,11 +28,11 @@ public class PayCommand implements IFeatherCommand {
     private IPropertyAccessor messages = null;
 
     @Override
-    public void onCreate(final FeatherCore plugin) {
-        this.economyConfig = plugin.getConfigurationManager().getEconomyConfigFile();
-        this.messages = plugin.getConfigurationManager().getMessagesConfigFile().getConfigurationSection("economy");
-        this.economy = plugin.getEconomy();
-        this.playersData = plugin.getPlayersDataManager();
+    public void onCreate(final IFeatherCoreProvider core) {
+        this.economyConfig = core.getConfigurationManager().getEconomyConfigFile();
+        this.messages = core.getConfigurationManager().getMessagesConfigFile().getConfigurationSection("economy");
+        this.economy = core.getEconomy();
+        this.playersData = core.getPlayersDataManager();
     }
 
     @Override

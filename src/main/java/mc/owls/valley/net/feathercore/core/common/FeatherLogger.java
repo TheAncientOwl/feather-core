@@ -3,10 +3,10 @@ package mc.owls.valley.net.feathercore.core.common;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import mc.owls.valley.net.feathercore.api.IFeatherLoggger;
-import mc.owls.valley.net.feathercore.utils.ChatUtils;
+import mc.owls.valley.net.feathercore.api.common.ChatUtils;
+import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
 
-public class FeatherLogger implements IFeatherLoggger {
+public class FeatherLogger implements IFeatherLogger {
     public static final String PLUGIN_TAG = "&8[&eFeather&6Core&8]&r ";
 
     private final ConsoleCommandSender console;
@@ -20,19 +20,19 @@ public class FeatherLogger implements IFeatherLoggger {
     }
 
     public void info(final String message) {
-        sendMessage("&3" + message);
+        sendMessage("&8» &b" + message);
     }
 
     public void warn(final String message) {
-        sendMessage("&e" + message);
+        sendMessage("&8» &e" + message);
     }
 
     public void error(final String message) {
-        sendMessage("&4" + message);
+        sendMessage("&8» &c" + message);
     }
 
     public void debug(final String message) {
-        sendMessage("&a" + message);
+        sendMessage("&8» &a" + message);
     }
 
     private void sendMessage(final String message) {

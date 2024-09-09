@@ -16,37 +16,42 @@ feathercore:
       config: economy.yml
     - field: messagesConfigFile
       config: messages.yml
+  literals:
+    - field: LITERAL_MONGO_MANAGER
+      literal: MongoManager
+    - field: LITERAL_PLAYERS_DATA_MANAGER
+      literal: PlayersDataManager
+    - field: LITERAL_CONFIG_MANAGER
+      literal: ConfigurationManager
+    - field: LITERAL_ECONOMY_PROVIDER
+      literal: FeatherEconomyProvider
   modules:
     - name: ConfigurationManager
-      class: mc.owls.valley.net.feathercore.core.common.ConfigurationManager
+      class: mc.owls.valley.net.feathercore.core.modules.ConfigurationManager
       mandatory: true
       dependencies: []
-    - name: MongoModule
-      class: mc.owls.valley.net.feathercore.modules.data.mongodb.MongoModule
+    - name: MongoManager
+      class: mc.owls.valley.net.feathercore.core.modules.MongoManager
       mandatory: true
       dependencies: [ConfigurationManager]
-    - name: PlayersDataModule
-      class: mc.owls.valley.net.feathercore.modules.data.players.PlayersDataModule
+    - name: PlayersDataManager
+      class: mc.owls.valley.net.feathercore.modules.data.components.PlayersDataManager
       mandatory: true
-      dependencies: [ConfigurationManager, MongoModule]
-    - name: FeatherEconomyProviderModule
-      class: mc.owls.valley.net.feathercore.modules.economy.provider.FeatherEconomyProviderModule
+      dependencies: [ConfigurationManager, MongoManager]
+    - name: FeatherEconomyProvider
+      class: mc.owls.valley.net.feathercore.modules.economy.components.FeatherEconomyProvider
       mandatory: true
-      dependencies: [PlayersDataModule]
-    - name: VaultModule
-      class: mc.owls.valley.net.feathercore.modules.economy.vault.VaultModule
-      mandatory: true
-      dependencies: [FeatherEconomyProviderModule]
+      dependencies: [PlayersDataManager]
     - name: CommandsRegistrator
-      class: mc.owls.valley.net.feathercore.core.common.CommandsRegistrator
+      class: mc.owls.valley.net.feathercore.core.modules.CommandsRegistrator
       mandatory: true
-      dependencies: [ConfigurationManager, MongoModule, PlayersDataModule, FeatherEconomyProviderModule, VaultModule]
+      dependencies: [ConfigurationManager, MongoManager, PlayersDataManager, FeatherEconomyProvider]
     - name: ListenersRegistrator
-      class: mc.owls.valley.net.feathercore.core.common.ListenersRegistrator
+      class: mc.owls.valley.net.feathercore.core.modules.ListenersRegistrator
       mandatory: true
-      dependencies: [ConfigurationManager, MongoModule, PlayersDataModule, FeatherEconomyProviderModule, VaultModule]
+      dependencies: [ConfigurationManager, MongoManager, PlayersDataManager, FeatherEconomyProvider]
   listeners:
-    - mc.owls.valley.net.feathercore.modules.data.players.listeners.PlayerJoinDataListener
+    - mc.owls.valley.net.feathercore.modules.data.listeners.PlayerJoinDataListener
     - mc.owls.valley.net.feathercore.modules.economy.listeners.BanknotePlaceListener
 
 commands:
