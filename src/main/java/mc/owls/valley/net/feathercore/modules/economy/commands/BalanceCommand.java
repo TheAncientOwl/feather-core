@@ -31,16 +31,15 @@ public class BalanceCommand implements IFeatherCommand {
 
     @Override
     @SuppressWarnings({ "unchecked" })
-    public boolean onCommand(final CommandSender commandSender, final Command command, final String label,
-            final String[] args) {
-        if (!commandSender.hasPermission("feathercore.economy.general.balance")) {
-            ChatUtils.sendMessage(commandSender, this.messages, Message.PERMISSION_DENIED);
+    public boolean onCommand(final CommandSender sender, final Command cmd, final String label, final String[] args) {
+        if (!sender.hasPermission("feathercore.economy.general.balance")) {
+            ChatUtils.sendMessage(sender, this.messages, Message.PERMISSION_DENIED);
             return true;
         }
 
         if (args.length != 0) { // console and players can see other player's balance
             if (args.length != 1) {
-                ChatUtils.sendMessage(commandSender, this.messages, Message.USAGE_INVALID, Message.USAGE_BALANCE);
+                ChatUtils.sendMessage(sender, this.messages, Message.USAGE_INVALID, Message.USAGE_BALANCE);
                 return true;
             }
 
@@ -48,24 +47,24 @@ public class BalanceCommand implements IFeatherCommand {
             final OfflinePlayer player = Bukkit.getOfflinePlayer(playerName);
 
             if (!player.hasPlayedBefore()) {
-                ChatUtils.sendMessage(commandSender, this.messages, Message.NOT_PLAYER,
+                ChatUtils.sendMessage(sender, this.messages, Message.NOT_PLAYER,
                         Pair.of(Placeholder.STRING, playerName));
                 return true;
             }
 
-            ChatUtils.sendMessage(commandSender, this.messages, Message.BALANCE_OTHER,
+            ChatUtils.sendMessage(sender, this.messages, Message.BALANCE_OTHER,
                     Pair.of(Placeholder.PLAYER_NAME, playerName),
                     Pair.of(Placeholder.BALANCE, this.economy.format(this.economy.getBalance(player))));
-        } else if (commandSender instanceof Player) { // players can see their own balance
-            if (!commandSender.hasPermission("feathercore.economy.general.balance")) {
-                ChatUtils.sendMessage(commandSender, this.messages, Message.PERMISSION_DENIED);
+        } else if (sender instanceof Player) { // players can see their own balance
+            if (!sender.hasPermission("feathercore.economy.general.balance")) {
+                ChatUtils.sendMessage(sender, this.messages, Message.PERMISSION_DENIED);
                 return true;
             }
 
-            ChatUtils.sendMessage(commandSender, this.messages, Message.BALANCE_SELF,
-                    Pair.of(Placeholder.BALANCE, this.economy.format(this.economy.getBalance((Player) commandSender))));
+            ChatUtils.sendMessage(sender, this.messages, Message.BALANCE_SELF,
+                    Pair.of(Placeholder.BALANCE, this.economy.format(this.economy.getBalance((Player) sender))));
         } else { // console can't see its own balance (lol)
-            ChatUtils.sendMessage(commandSender, this.messages, Message.COMMAND_SENDER_NOT_PLAYER);
+            ChatUtils.sendMessage(sender, this.messages, Message.COMMAND_SENDER_NOT_PLAYER);
             return true;
         }
 
@@ -73,8 +72,8 @@ public class BalanceCommand implements IFeatherCommand {
     }
 
     @Override
-    public List<String> onTabComplete(final CommandSender sender, final Command command,
-            final String alias, final String[] args) {
+    public List<String> onTabComplete(final CommandSender sender, final Command cmd, final String alias,
+            final String[] args) {
         List<String> completions = new ArrayList<>();
 
         if (args.length == 1) {

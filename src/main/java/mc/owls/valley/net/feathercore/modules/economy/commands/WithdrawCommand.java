@@ -41,20 +41,19 @@ public class WithdrawCommand implements IFeatherCommand {
 
     @Override
     @SuppressWarnings("unchecked")
-    public boolean onCommand(final CommandSender commandSender, final Command command, final String label,
-            final String[] args) {
-        if (!commandSender.hasPermission("feathercore.economy.general.withdraw")) {
-            ChatUtils.sendMessage(commandSender, this.messages, Message.PERMISSION_DENIED);
+    public boolean onCommand(final CommandSender sender, final Command cmd, final String label, final String[] args) {
+        if (!sender.hasPermission("feathercore.economy.general.withdraw")) {
+            ChatUtils.sendMessage(sender, this.messages, Message.PERMISSION_DENIED);
             return true;
         }
 
-        if (!(commandSender instanceof Player)) {
-            ChatUtils.sendMessage(commandSender, this.messages, Message.COMMAND_SENDER_NOT_PLAYER);
+        if (!(sender instanceof Player)) {
+            ChatUtils.sendMessage(sender, this.messages, Message.COMMAND_SENDER_NOT_PLAYER);
             return true;
         }
 
         if (args.length != 2) {
-            ChatUtils.sendMessage(commandSender, this.messages, Message.USAGE_INVALID, Message.USAGE_WITHDRAW);
+            ChatUtils.sendMessage(sender, this.messages, Message.USAGE_INVALID, Message.USAGE_WITHDRAW);
             return true;
         }
 
@@ -62,7 +61,7 @@ public class WithdrawCommand implements IFeatherCommand {
         try {
             banknoteValue = Double.parseDouble(args[0]);
         } catch (final Exception e) {
-            ChatUtils.sendMessage(commandSender, this.messages, Message.NOT_VALID_NUMBER,
+            ChatUtils.sendMessage(sender, this.messages, Message.NOT_VALID_NUMBER,
                     Pair.of(Placeholder.STRING, args[0]));
             return true;
         }
@@ -71,46 +70,46 @@ public class WithdrawCommand implements IFeatherCommand {
         try {
             banknotesCount = Integer.parseInt(args[1]);
         } catch (final Exception e) {
-            ChatUtils.sendMessage(commandSender, this.messages, Message.NOT_VALID_NUMBER,
+            ChatUtils.sendMessage(sender, this.messages, Message.NOT_VALID_NUMBER,
                     Pair.of(Placeholder.STRING, args[1]));
             return true;
         }
 
         final var minWithdraw = Math.max(0, this.economyConfig.getDouble("banknote.minimum-value"));
         if (banknoteValue < minWithdraw) {
-            ChatUtils.sendMessage(commandSender, this.messages, Message.WITHDRAW_MIN_AMOUNT,
+            ChatUtils.sendMessage(sender, this.messages, Message.WITHDRAW_MIN_AMOUNT,
                     Pair.of(Placeholder.MIN, this.economy.format(minWithdraw)));
             return true;
         }
 
         final var withdrawValue = banknoteValue * banknotesCount;
 
-        if (!this.economy.has((Player) commandSender, withdrawValue)) {
-            ChatUtils.sendMessage(commandSender, this.messages, Message.WITHDRAW_NO_FUNDS);
+        if (!this.economy.has((Player) sender, withdrawValue)) {
+            ChatUtils.sendMessage(sender, this.messages, Message.WITHDRAW_NO_FUNDS);
             return true;
         }
 
-        final ItemStack banknote = makeBanknotes(commandSender, banknoteValue, banknotesCount,
+        final ItemStack banknote = makeBanknotes(sender, banknoteValue, banknotesCount,
                 this.messages.getStringList(Message.BANKNOTE_LORE));
 
-        if (!canAddBanknote((Player) commandSender, banknote)) {
-            ChatUtils.sendMessage(commandSender, this.messages, Message.WITHDRAW_NO_SPACE);
+        if (!canAddBanknote((Player) sender, banknote)) {
+            ChatUtils.sendMessage(sender, this.messages, Message.WITHDRAW_NO_SPACE);
             return true;
         }
 
-        this.economy.withdrawPlayer((Player) commandSender, withdrawValue);
-        ((Player) commandSender).getInventory().addItem(banknote);
+        this.economy.withdrawPlayer((Player) sender, withdrawValue);
+        ((Player) sender).getInventory().addItem(banknote);
 
-        ChatUtils.sendMessage(commandSender, this.messages, Message.WITHDRAW_SUCCESS,
+        ChatUtils.sendMessage(sender, this.messages, Message.WITHDRAW_SUCCESS,
                 Pair.of(Placeholder.AMOUNT, this.economy.format(withdrawValue)),
-                Pair.of(Placeholder.BALANCE, this.economy.format(this.economy.getBalance((Player) commandSender))));
+                Pair.of(Placeholder.BALANCE, this.economy.format(this.economy.getBalance((Player) sender))));
 
         return true;
     }
 
     @Override
-    public List<String> onTabComplete(final CommandSender sender, final Command command,
-            final String alias, final String[] args) {
+    public List<String> onTabComplete(final CommandSender sender, final Command cmd, final String alias,
+            final String[] args) {
         List<String> completions = new ArrayList<>();
 
         if (args.length == 1) {
@@ -143,9 +142,8 @@ public class WithdrawCommand implements IFeatherCommand {
     }
 
     @SuppressWarnings("unchecked")
-    private ItemStack makeBanknotes(
-            final CommandSender commandSender, final double banknoteValue, final int banknotesCount,
-            final List<String> lore) {
+    private ItemStack makeBanknotes(final CommandSender sender,
+            final double banknoteValue, final int banknotesCount, final List<String> lore) {
         // 1. create item stack
         final Material material = Material.getMaterial(this.economyConfig.getString("banknote.material"));
         ItemStack banknote = null;
@@ -154,7 +152,7 @@ public class WithdrawCommand implements IFeatherCommand {
             banknote = new ItemStack(material);
         } catch (final IllegalArgumentException e) {
             banknote = new ItemStack(Material.PAPER);
-            ChatUtils.sendMessage(commandSender, this.messages, Message.BANKNOTE_INVALID_MATERIAL);
+            ChatUtils.sendMessage(sender, this.messages, Message.BANKNOTE_INVALID_MATERIAL);
         }
 
         // 2. check lore for {amount} placeholder
