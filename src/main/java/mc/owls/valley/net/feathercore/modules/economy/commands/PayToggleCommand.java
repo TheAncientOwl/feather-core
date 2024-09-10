@@ -7,13 +7,13 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import mc.owls.valley.net.feathercore.api.common.ChatUtils;
+import mc.owls.valley.net.feathercore.api.common.Message;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IPlayersDataManager;
 import mc.owls.valley.net.feathercore.api.database.mongo.models.PlayerModel;
-import mc.owls.valley.net.feathercore.modules.economy.common.Message;
+import mc.owls.valley.net.feathercore.modules.economy.common.Messages;
 
 public class PayToggleCommand implements IFeatherCommand {
     private IPlayersDataManager playersData = null;
@@ -22,23 +22,24 @@ public class PayToggleCommand implements IFeatherCommand {
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
         this.playersData = core.getPlayersDataManager();
-        this.messages = core.getConfigurationManager().getMessagesConfigFile().getConfigurationSection("economy");
+        this.messages = core.getConfigurationManager().getMessagesConfigFile()
+                .getConfigurationSection(Messages.ECONOMY);
     }
 
     @Override
     public boolean onCommand(final CommandSender sender, final Command cmd, final String label, final String[] args) {
         if (!sender.hasPermission("feathercore.economy.general.paytoggle")) {
-            ChatUtils.sendMessage(sender, this.messages, Message.PERMISSION_DENIED);
+            Message.to(sender, this.messages, Messages.PERMISSION_DENIED);
             return true;
         }
 
         if (!(sender instanceof Player)) {
-            ChatUtils.sendMessage(sender, this.messages, Message.COMMAND_SENDER_NOT_PLAYER);
+            Message.to(sender, this.messages, Messages.COMMAND_SENDER_NOT_PLAYER);
             return true;
         }
 
         if (args.length != 0) {
-            ChatUtils.sendMessage(sender, this.messages, Message.USAGE_INVALID, Message.USAGE_PAY);
+            Message.to(sender, this.messages, Messages.USAGE_INVALID, Messages.USAGE_PAY);
             return true;
         }
 
@@ -51,8 +52,8 @@ public class PayToggleCommand implements IFeatherCommand {
         playerModel.acceptsPayments = !playerModel.acceptsPayments;
         this.playersData.markPlayerModelForSave(playerModel);
 
-        ChatUtils.sendMessage(sender, this.messages,
-                playerModel.acceptsPayments ? Message.PAY_TOGGLE_TRUE : Message.PAY_TOGGLE_FALSE);
+        Message.to(sender, this.messages,
+                playerModel.acceptsPayments ? Messages.PAY_TOGGLE_TRUE : Messages.PAY_TOGGLE_FALSE);
 
         return true;
     }

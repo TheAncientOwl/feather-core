@@ -1,30 +1,30 @@
 package mc.owls.valley.net.feathercore.api.common;
 
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import net.md_5.bungee.api.ChatColor;
 
-public class ChatUtils {
+public class Message {
+
     public static String translateColors(final String message) {
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 
-    public static void sendMessage(final CommandSender commandSender, final String message) {
-        commandSender.sendMessage(translateColors(message));
+    public static void to(final CommandSender reciver, final String message) {
+        reciver.sendMessage(translateColors(message));
     }
 
-    public static void sendMessage(final CommandSender commandSender, String... messages) {
-        sendMessage(commandSender, String.join("\n", messages));
+    public static void to(final CommandSender reciver, String... messages) {
+        reciver.sendMessage(translateColors(String.join("\n", messages)));
     }
 
-    public static void sendMessage(final CommandSender commandSender, final IPropertyAccessor propertyAccessor,
+    public static void to(final CommandSender reciver, final IPropertyAccessor propertyAccessor,
             final String key) {
-        sendMessage(commandSender, propertyAccessor.getString(key));
+        reciver.sendMessage(translateColors(propertyAccessor.getString(key)));
     }
 
-    public static void sendMessage(final CommandSender commandSender, final IPropertyAccessor propertyAccessor,
+    public static void to(final CommandSender reciver, final IPropertyAccessor propertyAccessor,
             String... keys) {
         final StringBuilder sb = new StringBuilder();
 
@@ -36,13 +36,13 @@ public class ChatUtils {
             sb.setLength(sb.length() - 1);
         }
 
-        sendMessage(commandSender, sb.toString());
+        reciver.sendMessage(translateColors(sb.toString()));
     }
 
     @SuppressWarnings("unchecked")
-    public static void sendMessage(final CommandSender commandSender, final IPropertyAccessor properties,
+    public static void to(final CommandSender reciver, final IPropertyAccessor properties,
             final String key, Pair<String, Object>... placeholders) {
-        commandSender
+        reciver
                 .sendMessage(translateColors(StringUtils.replacePlaceholders(properties.getString(key), placeholders)));
     }
 

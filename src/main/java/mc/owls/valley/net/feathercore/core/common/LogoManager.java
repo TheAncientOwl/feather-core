@@ -2,7 +2,7 @@ package mc.owls.valley.net.feathercore.core.common;
 
 import org.bukkit.Server;
 
-import mc.owls.valley.net.feathercore.api.common.ChatUtils;
+import mc.owls.valley.net.feathercore.api.common.Message;
 
 public class LogoManager {
     public static void logLogo(final Server server) {
@@ -19,7 +19,7 @@ public class LogoManager {
         final var console = server.getConsoleSender();
 
         for (var line : logo) {
-            console.sendMessage(ChatUtils.translateColors(line));
+            console.sendMessage(Message.translateColors(line));
         }
     }
 

@@ -3,7 +3,7 @@ package mc.owls.valley.net.feathercore.core.common;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import mc.owls.valley.net.feathercore.api.common.ChatUtils;
+import mc.owls.valley.net.feathercore.api.common.Message;
 import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
 
 public class FeatherLogger implements IFeatherLogger {
@@ -36,6 +36,6 @@ public class FeatherLogger implements IFeatherLogger {
     }
 
     private void sendMessage(final String message) {
-        this.console.sendMessage(ChatUtils.translateColors(PLUGIN_TAG + message));
+        this.console.sendMessage(Message.translateColors(PLUGIN_TAG + message));
     }
 }
