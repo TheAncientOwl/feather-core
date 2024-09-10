@@ -48,12 +48,12 @@ public class BalanceCommand implements IFeatherCommand {
             final OfflinePlayer player = Bukkit.getOfflinePlayer(playerName);
 
             if (!player.hasPlayedBefore()) {
-                ChatUtils.sendPlaceholderMessage(commandSender, this.messages, Message.NOT_PLAYER,
+                ChatUtils.sendMessage(commandSender, this.messages, Message.NOT_PLAYER,
                         Pair.of(Placeholder.STRING, playerName));
                 return true;
             }
 
-            ChatUtils.sendPlaceholderMessage(commandSender, this.messages, Message.BALANCE_OTHER,
+            ChatUtils.sendMessage(commandSender, this.messages, Message.BALANCE_OTHER,
                     Pair.of(Placeholder.PLAYER_NAME, playerName),
                     Pair.of(Placeholder.BALANCE, this.economy.format(this.economy.getBalance(player))));
         } else if (commandSender instanceof Player) { // players can see their own balance
@@ -62,7 +62,7 @@ public class BalanceCommand implements IFeatherCommand {
                 return true;
             }
 
-            ChatUtils.sendPlaceholderMessage(commandSender, this.messages, Message.BALANCE_SELF,
+            ChatUtils.sendMessage(commandSender, this.messages, Message.BALANCE_SELF,
                     Pair.of(Placeholder.BALANCE, this.economy.format(this.economy.getBalance((Player) commandSender))));
         } else { // console can't see its own balance (lol)
             ChatUtils.sendMessage(commandSender, this.messages, Message.COMMAND_SENDER_NOT_PLAYER);

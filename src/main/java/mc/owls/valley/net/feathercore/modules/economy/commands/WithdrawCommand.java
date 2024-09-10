@@ -62,7 +62,7 @@ public class WithdrawCommand implements IFeatherCommand {
         try {
             banknoteValue = Double.parseDouble(args[0]);
         } catch (final Exception e) {
-            ChatUtils.sendPlaceholderMessage(commandSender, this.messages, Message.NOT_VALID_NUMBER,
+            ChatUtils.sendMessage(commandSender, this.messages, Message.NOT_VALID_NUMBER,
                     Pair.of(Placeholder.STRING, args[0]));
             return true;
         }
@@ -71,14 +71,14 @@ public class WithdrawCommand implements IFeatherCommand {
         try {
             banknotesCount = Integer.parseInt(args[1]);
         } catch (final Exception e) {
-            ChatUtils.sendPlaceholderMessage(commandSender, this.messages, Message.NOT_VALID_NUMBER,
+            ChatUtils.sendMessage(commandSender, this.messages, Message.NOT_VALID_NUMBER,
                     Pair.of(Placeholder.STRING, args[1]));
             return true;
         }
 
         final var minWithdraw = Math.max(0, this.economyConfig.getDouble("banknote.minimum-value"));
         if (banknoteValue < minWithdraw) {
-            ChatUtils.sendPlaceholderMessage(commandSender, this.messages, Message.WITHDRAW_MIN_AMOUNT,
+            ChatUtils.sendMessage(commandSender, this.messages, Message.WITHDRAW_MIN_AMOUNT,
                     Pair.of(Placeholder.MIN, this.economy.format(minWithdraw)));
             return true;
         }
@@ -101,7 +101,7 @@ public class WithdrawCommand implements IFeatherCommand {
         this.economy.withdrawPlayer((Player) commandSender, withdrawValue);
         ((Player) commandSender).getInventory().addItem(banknote);
 
-        ChatUtils.sendPlaceholderMessage(commandSender, this.messages, Message.WITHDRAW_SUCCESS,
+        ChatUtils.sendMessage(commandSender, this.messages, Message.WITHDRAW_SUCCESS,
                 Pair.of(Placeholder.AMOUNT, this.economy.format(withdrawValue)),
                 Pair.of(Placeholder.BALANCE, this.economy.format(this.economy.getBalance((Player) commandSender))));
 

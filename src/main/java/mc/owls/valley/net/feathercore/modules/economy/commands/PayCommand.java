@@ -56,13 +56,13 @@ public class PayCommand implements IFeatherCommand {
 
         final OfflinePlayer receiverPlayer = Bukkit.getOfflinePlayer(args[0]);
         if (!receiverPlayer.hasPlayedBefore()) {
-            ChatUtils.sendPlaceholderMessage(commandSender, this.messages, Message.NOT_PLAYER,
+            ChatUtils.sendMessage(commandSender, this.messages, Message.NOT_PLAYER,
                     Pair.of(Placeholder.STRING, args[0]));
             return true;
         }
 
         if (!receiverPlayer.isOnline()) {
-            ChatUtils.sendPlaceholderMessage(commandSender, this.messages, Message.NOT_ONLINE_PLAYER,
+            ChatUtils.sendMessage(commandSender, this.messages, Message.NOT_ONLINE_PLAYER,
                     Pair.of(Placeholder.PLAYER_NAME, receiverPlayer.getName()));
             return true;
         }
@@ -73,7 +73,7 @@ public class PayCommand implements IFeatherCommand {
         }
 
         if (!playerModel.acceptsPayments && !commandSender.hasPermission("feathercore.economy.general.pay.override")) {
-            ChatUtils.sendPlaceholderMessage(commandSender, this.messages, Message.PAY_TOGGLE_NOT_ACCEPTING,
+            ChatUtils.sendMessage(commandSender, this.messages, Message.PAY_TOGGLE_NOT_ACCEPTING,
                     Pair.of(Placeholder.PLAYER_NAME, receiverPlayer.getName()));
             return true;
         }
@@ -82,14 +82,14 @@ public class PayCommand implements IFeatherCommand {
         try {
             amount = Double.parseDouble(args[1]);
         } catch (final Exception e) {
-            ChatUtils.sendPlaceholderMessage(commandSender, this.messages, Message.NOT_VALID_NUMBER,
+            ChatUtils.sendMessage(commandSender, this.messages, Message.NOT_VALID_NUMBER,
                     Pair.of(Placeholder.STRING, args[1]));
             return true;
         }
 
         final var minAmount = this.economyConfig.getDouble("minimum-pay-amount");
         if (amount < minAmount) {
-            ChatUtils.sendPlaceholderMessage(commandSender, this.messages, Message.PAY_MIN_AMOUNT,
+            ChatUtils.sendMessage(commandSender, this.messages, Message.PAY_MIN_AMOUNT,
                     Pair.of(Placeholder.AMOUNT, minAmount));
             return true;
         }
@@ -101,7 +101,7 @@ public class PayCommand implements IFeatherCommand {
 
         final var maxBalance = this.economyConfig.getDouble("money.max");
         if (this.economy.getBalance(receiverPlayer) + amount > maxBalance) {
-            ChatUtils.sendPlaceholderMessage(commandSender, this.messages, Message.PAY_BALANCE_EXCEEDS,
+            ChatUtils.sendMessage(commandSender, this.messages, Message.PAY_BALANCE_EXCEEDS,
                     Pair.of(Placeholder.MAX, maxBalance));
             return true;
         }
@@ -109,9 +109,9 @@ public class PayCommand implements IFeatherCommand {
         this.economy.withdrawPlayer((Player) commandSender, amount);
         this.economy.depositPlayer(receiverPlayer, amount);
 
-        ChatUtils.sendPlaceholderMessage(commandSender, this.messages, Message.PAY_SEND,
+        ChatUtils.sendMessage(commandSender, this.messages, Message.PAY_SEND,
                 Pair.of(Placeholder.PLAYER_NAME, receiverPlayer.getName()), Pair.of(Placeholder.AMOUNT, amount));
-        ChatUtils.sendPlaceholderMessage((Player) receiverPlayer, this.messages, Message.PAY_RECEIVE,
+        ChatUtils.sendMessage((Player) receiverPlayer, this.messages, Message.PAY_RECEIVE,
                 Pair.of(Placeholder.PLAYER_NAME, ((Player) commandSender).getName()),
                 Pair.of(Placeholder.AMOUNT, amount));
 

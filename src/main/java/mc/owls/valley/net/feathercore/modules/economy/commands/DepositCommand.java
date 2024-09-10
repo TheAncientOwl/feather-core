@@ -73,7 +73,7 @@ public class DepositCommand implements IFeatherCommand {
         try {
             banknotesCount = Integer.parseInt(args[0]);
         } catch (final Exception e) {
-            ChatUtils.sendPlaceholderMessage(commandSender, this.messages, Message.NOT_VALID_NUMBER,
+            ChatUtils.sendMessage(commandSender, this.messages, Message.NOT_VALID_NUMBER,
                     Pair.of(Placeholder.STRING, args[0]));
             return true;
         }
@@ -84,7 +84,7 @@ public class DepositCommand implements IFeatherCommand {
         }
 
         if (banknotesCount > itemInHand.getAmount()) {
-            ChatUtils.sendPlaceholderMessage(commandSender, this.messages, Message.DEPOSIT_INVALID_AMOUNT,
+            ChatUtils.sendMessage(commandSender, this.messages, Message.DEPOSIT_INVALID_AMOUNT,
                     Pair.of(Placeholder.AMOUNT, banknotesCount));
             return true;
         }
@@ -92,7 +92,7 @@ public class DepositCommand implements IFeatherCommand {
         final var depositValue = banknoteValue * banknotesCount;
         final var maxBalance = this.economyConfig.getDouble("money.max");
         if (this.economy.getBalance((Player) commandSender) + depositValue > maxBalance) {
-            ChatUtils.sendPlaceholderMessage(commandSender, this.messages, Message.DEPOSIT_BALANCE_EXCEEDS,
+            ChatUtils.sendMessage(commandSender, this.messages, Message.DEPOSIT_BALANCE_EXCEEDS,
                     Pair.of(Placeholder.MAX, this.economy.format(maxBalance)));
             return true;
         }
@@ -100,7 +100,7 @@ public class DepositCommand implements IFeatherCommand {
         this.economy.depositPlayer((Player) commandSender, depositValue);
         itemInHand.setAmount(itemInHand.getAmount() - banknotesCount);
 
-        ChatUtils.sendPlaceholderMessage(commandSender, this.messages, Message.DEPOSIT_SUCCESS,
+        ChatUtils.sendMessage(commandSender, this.messages, Message.DEPOSIT_SUCCESS,
                 Pair.of(Placeholder.AMOUNT, this.economy.format(depositValue)),
                 Pair.of(Placeholder.BALANCE, this.economy.format(this.economy.getBalance((Player) commandSender))));
 

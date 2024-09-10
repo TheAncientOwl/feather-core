@@ -15,19 +15,13 @@ public class ChatUtils {
         commandSender.sendMessage(translateColors(message));
     }
 
-    public static void sendMessage(final Player player, final String message) {
-        player.sendMessage(translateColors(message));
-    }
-
-    @SuppressWarnings("unchecked")
-    public static void sendPlaceholderMessage(final CommandSender commandSender, final IPropertyAccessor properties,
-            final String key, Pair<String, Object>... placeholders) {
-        commandSender
-                .sendMessage(translateColors(StringUtils.replacePlaceholders(properties.getString(key), placeholders)));
-    }
-
     public static void sendMessage(final CommandSender commandSender, String... messages) {
         sendMessage(commandSender, String.join("\n", messages));
+    }
+
+    public static void sendMessage(final CommandSender commandSender, final IPropertyAccessor propertyAccessor,
+            final String key) {
+        sendMessage(commandSender, propertyAccessor.getString(key));
     }
 
     public static void sendMessage(final CommandSender commandSender, final IPropertyAccessor propertyAccessor,
@@ -44,4 +38,12 @@ public class ChatUtils {
 
         sendMessage(commandSender, sb.toString());
     }
+
+    @SuppressWarnings("unchecked")
+    public static void sendMessage(final CommandSender commandSender, final IPropertyAccessor properties,
+            final String key, Pair<String, Object>... placeholders) {
+        commandSender
+                .sendMessage(translateColors(StringUtils.replacePlaceholders(properties.getString(key), placeholders)));
+    }
+
 }
