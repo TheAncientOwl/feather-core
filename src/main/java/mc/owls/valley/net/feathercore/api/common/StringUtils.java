@@ -7,7 +7,10 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 
+import net.md_5.bungee.api.ChatColor;
+
 public class StringUtils {
+
     public static String exceptionToStr(final Exception e) {
         final StringWriter sw = new StringWriter();
         final PrintWriter pw = new PrintWriter(sw);
@@ -41,4 +44,9 @@ public class StringUtils {
 
         return out;
     }
+
+    public static String translateColors(final String message) {
+        return ChatColor.translateAlternateColorCodes('&', message);
+    }
+
 }
