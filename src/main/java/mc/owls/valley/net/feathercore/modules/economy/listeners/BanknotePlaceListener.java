@@ -6,11 +6,11 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import mc.owls.valley.net.feathercore.api.common.ChatUtils;
+import mc.owls.valley.net.feathercore.api.common.Message;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
-import mc.owls.valley.net.feathercore.modules.economy.common.Message;
+import mc.owls.valley.net.feathercore.modules.economy.common.Messages;
 
 public class BanknotePlaceListener implements IFeatherListener {
     private JavaPlugin plugin = null;
@@ -29,9 +29,9 @@ public class BanknotePlaceListener implements IFeatherListener {
         }
 
         if (event.getItemInHand().getItemMeta().getPersistentDataContainer()
-                .has(new NamespacedKey(this.plugin, Message.BANKNOTE_METADATA_KEY))) {
+                .has(new NamespacedKey(this.plugin, Messages.BANKNOTE_METADATA_KEY))) {
             event.setCancelled(true);
-            ChatUtils.sendMessage(event.getPlayer(), this.messages, Message.BANKNOTE_PLACE);
+            Message.to(event.getPlayer(), this.messages, Messages.BANKNOTE_PLACE);
         }
     }
 

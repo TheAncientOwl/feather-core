@@ -14,47 +14,47 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import mc.owls.valley.net.feathercore.api.common.ChatUtils;
+import mc.owls.valley.net.feathercore.api.common.Message;
 import mc.owls.valley.net.feathercore.api.common.Pair;
 import mc.owls.valley.net.feathercore.api.common.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.StringUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.modules.economy.common.Message;
+import mc.owls.valley.net.feathercore.modules.economy.common.Messages;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.milkbowl.vault.economy.Economy;
 
 public class WithdrawCommand implements IFeatherCommand {
     private Economy economy = null;
-    private IPropertyAccessor economyConfig = null;
-    private IPropertyAccessor messages = null;
     private JavaPlugin plugin = null;
+    private IPropertyAccessor messages = null;
+    private IPropertyAccessor economyConfig = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
         this.plugin = core.getPlugin();
         this.economy = core.getEconomy();
         this.economyConfig = core.getConfigurationManager().getEconomyConfigFile();
-        this.messages = core.getConfigurationManager().getMessagesConfigFile().getConfigurationSection("economy");
+        this.messages = core.getConfigurationManager().getMessagesConfigFile()
+                .getConfigurationSection(Messages.ECONOMY);
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public boolean onCommand(final CommandSender commandSender, final Command command, final String label,
-            final String[] args) {
-        if (!commandSender.hasPermission("feathercore.economy.general.withdraw")) {
-            ChatUtils.sendMessage(commandSender, this.messages, Message.PERMISSION_DENIED);
+    public boolean onCommand(final CommandSender sender, final Command cmd, final String label, final String[] args) {
+        if (!sender.hasPermission("feathercore.economy.general.withdraw")) {
+            Message.to(sender, this.messages, Messages.PERMISSION_DENIED);
             return true;
         }
 
-        if (!(commandSender instanceof Player)) {
-            ChatUtils.sendMessage(commandSender, this.messages, Message.COMMAND_SENDER_NOT_PLAYER);
+        if (!(sender instanceof Player)) {
+            Message.to(sender, this.messages, Messages.COMMAND_SENDER_NOT_PLAYER);
             return true;
         }
 
         if (args.length != 2) {
-            ChatUtils.sendMessage(commandSender, this.messages, Message.USAGE_INVALID, Message.USAGE_WITHDRAW);
+            Message.to(sender, this.messages, Messages.USAGE_INVALID, Messages.USAGE_WITHDRAW);
             return true;
         }
 
@@ -62,7 +62,7 @@ public class WithdrawCommand implements IFeatherCommand {
         try {
             banknoteValue = Double.parseDouble(args[0]);
         } catch (final Exception e) {
-            ChatUtils.sendPlaceholderMessage(commandSender, this.messages, Message.NOT_VALID_NUMBER,
+            Message.to(sender, this.messages, Messages.NOT_VALID_NUMBER,
                     Pair.of(Placeholder.STRING, args[0]));
             return true;
         }
@@ -71,46 +71,46 @@ public class WithdrawCommand implements IFeatherCommand {
         try {
             banknotesCount = Integer.parseInt(args[1]);
         } catch (final Exception e) {
-            ChatUtils.sendPlaceholderMessage(commandSender, this.messages, Message.NOT_VALID_NUMBER,
+            Message.to(sender, this.messages, Messages.NOT_VALID_NUMBER,
                     Pair.of(Placeholder.STRING, args[1]));
             return true;
         }
 
         final var minWithdraw = Math.max(0, this.economyConfig.getDouble("banknote.minimum-value"));
         if (banknoteValue < minWithdraw) {
-            ChatUtils.sendPlaceholderMessage(commandSender, this.messages, Message.WITHDRAW_MIN_AMOUNT,
+            Message.to(sender, this.messages, Messages.WITHDRAW_MIN_AMOUNT,
                     Pair.of(Placeholder.MIN, this.economy.format(minWithdraw)));
             return true;
         }
 
         final var withdrawValue = banknoteValue * banknotesCount;
 
-        if (!this.economy.has((Player) commandSender, withdrawValue)) {
-            ChatUtils.sendMessage(commandSender, this.messages, Message.WITHDRAW_NO_FUNDS);
+        if (!this.economy.has((Player) sender, withdrawValue)) {
+            Message.to(sender, this.messages, Messages.WITHDRAW_NO_FUNDS);
             return true;
         }
 
-        final ItemStack banknote = makeBanknotes(commandSender, banknoteValue, banknotesCount,
-                this.messages.getStringList(Message.BANKNOTE_LORE));
+        final ItemStack banknote = makeBanknotes(sender, banknoteValue, banknotesCount,
+                this.messages.getStringList(Messages.BANKNOTE_LORE));
 
-        if (!canAddBanknote((Player) commandSender, banknote)) {
-            ChatUtils.sendMessage(commandSender, this.messages, Message.WITHDRAW_NO_SPACE);
+        if (!canAddBanknote((Player) sender, banknote)) {
+            Message.to(sender, this.messages, Messages.WITHDRAW_NO_SPACE);
             return true;
         }
 
-        this.economy.withdrawPlayer((Player) commandSender, withdrawValue);
-        ((Player) commandSender).getInventory().addItem(banknote);
+        this.economy.withdrawPlayer((Player) sender, withdrawValue);
+        ((Player) sender).getInventory().addItem(banknote);
 
-        ChatUtils.sendPlaceholderMessage(commandSender, this.messages, Message.WITHDRAW_SUCCESS,
+        Message.to(sender, this.messages, Messages.WITHDRAW_SUCCESS,
                 Pair.of(Placeholder.AMOUNT, this.economy.format(withdrawValue)),
-                Pair.of(Placeholder.BALANCE, this.economy.format(this.economy.getBalance((Player) commandSender))));
+                Pair.of(Placeholder.BALANCE, this.economy.format(this.economy.getBalance((Player) sender))));
 
         return true;
     }
 
     @Override
-    public List<String> onTabComplete(final CommandSender sender, final Command command,
-            final String alias, final String[] args) {
+    public List<String> onTabComplete(final CommandSender sender, final Command cmd, final String alias,
+            final String[] args) {
         List<String> completions = new ArrayList<>();
 
         if (args.length == 1) {
@@ -143,9 +143,8 @@ public class WithdrawCommand implements IFeatherCommand {
     }
 
     @SuppressWarnings("unchecked")
-    private ItemStack makeBanknotes(
-            final CommandSender commandSender, final double banknoteValue, final int banknotesCount,
-            final List<String> lore) {
+    private ItemStack makeBanknotes(final CommandSender sender,
+            final double banknoteValue, final int banknotesCount, final List<String> lore) {
         // 1. create item stack
         final Material material = Material.getMaterial(this.economyConfig.getString("banknote.material"));
         ItemStack banknote = null;
@@ -154,7 +153,7 @@ public class WithdrawCommand implements IFeatherCommand {
             banknote = new ItemStack(material);
         } catch (final IllegalArgumentException e) {
             banknote = new ItemStack(Material.PAPER);
-            ChatUtils.sendMessage(commandSender, this.messages, Message.BANKNOTE_INVALID_MATERIAL);
+            Message.to(sender, this.messages, Messages.BANKNOTE_INVALID_MATERIAL);
         }
 
         // 2. check lore for {amount} placeholder
@@ -165,12 +164,12 @@ public class WithdrawCommand implements IFeatherCommand {
         // 3. setup item meta
         final ItemMeta meta = banknote.getItemMeta();
         meta.displayName(LegacyComponentSerializer.legacyAmpersand()
-                .deserialize(this.messages.getString(Message.BANKNOTE_NAME)));
+                .deserialize(this.messages.getString(Messages.BANKNOTE_NAME)));
         meta.lore(lore.stream()
                 .map(line -> LegacyComponentSerializer.legacyAmpersand()
                         .deserialize(StringUtils.replacePlaceholders(line, Pair.of(Placeholder.AMOUNT, banknoteValue))))
                 .toList());
-        meta.getPersistentDataContainer().set(new NamespacedKey(this.plugin, Message.BANKNOTE_METADATA_KEY),
+        meta.getPersistentDataContainer().set(new NamespacedKey(this.plugin, Messages.BANKNOTE_METADATA_KEY),
                 PersistentDataType.DOUBLE, banknoteValue);
 
         // 4. finish itemstack setup

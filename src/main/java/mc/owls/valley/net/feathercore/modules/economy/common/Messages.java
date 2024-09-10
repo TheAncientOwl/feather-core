@@ -1,6 +1,8 @@
 package mc.owls.valley.net.feathercore.modules.economy.common;
 
-public class Message {
+public class Messages {
+    public static final String ECONOMY = "economy";
+
     public static final String BALANCE_SELF = "balance.self";
     public static final String BALANCE_OTHER = "balance.other";
 
