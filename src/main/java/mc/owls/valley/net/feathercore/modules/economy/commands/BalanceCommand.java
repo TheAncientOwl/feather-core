@@ -31,45 +31,49 @@ public class BalanceCommand implements IFeatherCommand {
     }
 
     @Override
-    @SuppressWarnings({ "unchecked" })
     public boolean onCommand(final CommandSender sender, final Command cmd, final String label, final String[] args) {
         if (!sender.hasPermission("feathercore.economy.general.balance")) {
             Message.to(sender, this.messages, Messages.PERMISSION_DENIED);
             return true;
         }
 
-        if (args.length != 0) { // console and players can see other player's balance
-            if (args.length != 1) {
-                Message.to(sender, this.messages, Messages.USAGE_INVALID, Messages.USAGE_BALANCE);
-                return true;
-            }
-
-            final String playerName = args[0];
-            final OfflinePlayer player = Bukkit.getOfflinePlayer(playerName);
-
-            if (!player.hasPlayedBefore()) {
-                Message.to(sender, this.messages, Messages.NOT_PLAYER,
-                        Pair.of(Placeholder.STRING, playerName));
-                return true;
-            }
-
-            Message.to(sender, this.messages, Messages.BALANCE_OTHER,
-                    Pair.of(Placeholder.PLAYER_NAME, playerName),
-                    Pair.of(Placeholder.BALANCE, this.economy.format(this.economy.getBalance(player))));
-        } else if (sender instanceof Player) { // players can see their own balance
-            if (!sender.hasPermission("feathercore.economy.general.balance")) {
-                Message.to(sender, this.messages, Messages.PERMISSION_DENIED);
-                return true;
-            }
-
-            Message.to(sender, this.messages, Messages.BALANCE_SELF,
-                    Pair.of(Placeholder.BALANCE, this.economy.format(this.economy.getBalance((Player) sender))));
-        } else { // console can't see its own balance (lol)
+        if (args.length != 0) {
+            handleBalanceOthers(sender, args);
+        } else if (sender instanceof Player) {
+            handleBalanceSelf(sender);
+        } else {
             Message.to(sender, this.messages, Messages.COMMAND_SENDER_NOT_PLAYER);
             return true;
         }
 
         return true;
+    }
+
+    @SuppressWarnings("unchecked")
+    private void handleBalanceOthers(final CommandSender sender, final String[] args) {
+        if (args.length != 1) {
+            Message.to(sender, this.messages, Messages.USAGE_INVALID, Messages.USAGE_BALANCE);
+            return;
+        }
+
+        final String playerName = args[0];
+        final OfflinePlayer player = Bukkit.getOfflinePlayer(playerName);
+
+        if (!player.hasPlayedBefore()) {
+            Message.to(sender, this.messages, Messages.NOT_PLAYER,
+                    Pair.of(Placeholder.STRING, playerName));
+            return;
+        }
+
+        Message.to(sender, this.messages, Messages.BALANCE_OTHER,
+                Pair.of(Placeholder.PLAYER_NAME, playerName),
+                Pair.of(Placeholder.BALANCE, this.economy.format(this.economy.getBalance(player))));
+    }
+
+    @SuppressWarnings("unchecked")
+    private void handleBalanceSelf(final CommandSender sender) {
+        Message.to(sender, this.messages, Messages.BALANCE_SELF,
+                Pair.of(Placeholder.BALANCE, this.economy.format(this.economy.getBalance((Player) sender))));
     }
 
     @Override
