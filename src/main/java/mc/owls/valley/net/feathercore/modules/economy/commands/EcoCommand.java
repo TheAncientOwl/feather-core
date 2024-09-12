@@ -19,6 +19,13 @@ import mc.owls.valley.net.feathercore.modules.economy.common.Messages;
 import net.milkbowl.vault.economy.Economy;
 
 public class EcoCommand implements IFeatherCommand {
+    private static enum CommandType {
+        SET, GIVE, TAKE,
+    }
+
+    private static record CommandData(OfflinePlayer player, CommandType commandType, double oldBalance, double amount) {
+    }
+
     private Economy economy = null;
     private IPropertyAccessor messages = null;
     private IPropertyAccessor economyConfig = null;
@@ -34,96 +41,30 @@ public class EcoCommand implements IFeatherCommand {
     @Override
     @SuppressWarnings("unchecked")
     public boolean onCommand(final CommandSender sender, final Command cmd, final String label, final String[] args) {
-        if (!sender.hasPermission("feathercore.economy.setup.eco")) {
-            Message.to(sender, this.messages, Messages.PERMISSION_DENIED);
+        final CommandData data = parse(sender, args);
+
+        if (data == null) {
             return true;
         }
 
-        if (args.length == 3) {
-            final String actionStr = args[0].toLowerCase();
-            final String playerName = args[1];
-            final String amountStr = args[2];
-
-            final OfflinePlayer player = Bukkit.getOfflinePlayer(playerName);
-            if (!player.hasPlayedBefore()) {
-                Message.to(sender, this.messages, Messages.NOT_PLAYER,
-                        Pair.of(Placeholder.STRING, playerName));
-                return true;
-            }
-
-            double amount = 0;
-            try {
-                amount = Double.parseDouble(amountStr);
-            } catch (final Exception e) {
-                Message.to(sender, this.messages, Messages.NOT_VALID_NUMBER,
-                        Pair.of(Placeholder.STRING, amountStr));
-                return true;
-            }
-
-            if (amount < 0 && (actionStr.equals("give") || actionStr.equals("take"))) {
-                Message.to(sender, this.messages, Messages.ECO_NO_NEGATIVE_AMOUNT,
-                        Pair.of(Placeholder.STRING, actionStr));
-                return true;
-            }
-
-            final double oldBalance = this.economy.getBalance(player);
-
-            switch (actionStr) {
-                case "give": {
-                    final var max = this.economyConfig.getDouble("money.max");
-                    if (oldBalance + amount > max) {
-                        Message.to(sender, this.messages, Messages.ECO_BOUNDS_MAX,
-                                Pair.of(Placeholder.MAX, this.economy.format(max)));
-                        return true;
-                    }
-                    this.economy.depositPlayer(player, amount);
-                    break;
-                }
-                case "take": {
-                    final var min = this.economyConfig.getDouble("money.min");
-                    if (oldBalance - amount < min) {
-                        Message.to(sender, this.messages, Messages.ECO_BOUNDS_MIN,
-                                Pair.of(Placeholder.MIN, this.economy.format(min)));
-                        return true;
-                    }
-                    this.economy.withdrawPlayer(player, amount);
-                    break;
-                }
-                case "set": {
-                    final var max = this.economyConfig.getDouble("money.max");
-                    if (amount > max) {
-                        Message.to(sender, this.messages, Messages.ECO_BOUNDS_MAX,
-                                Pair.of(Placeholder.MAX, this.economy.format(max)));
-                        return true;
-                    }
-
-                    final var min = this.economyConfig.getDouble("money.min");
-                    if (amount < min) {
-                        Message.to(sender, this.messages, Messages.ECO_BOUNDS_MIN,
-                                Pair.of(Placeholder.MIN, this.economy.format(min)));
-                        return true;
-                    }
-
-                    this.economy.withdrawPlayer(player, oldBalance);
-                    this.economy.depositPlayer(player, amount);
-                    break;
-                }
-                default: {
-                    Message.to(sender, this.messages, Messages.USAGE_INVALID, Messages.USAGE_ECO);
-                    return true;
-                }
-            }
-
-            final double newBalance = this.economy.getBalance(player);
-            Message.to(sender, this.messages, Messages.ECO_SUCCESS,
-                    Pair.of(Placeholder.PLAYER_NAME, player.getName()),
-                    Pair.of(Placeholder.OLD, this.economy.format(oldBalance)),
-                    Pair.of(Placeholder.NEW, this.economy.format(newBalance)));
-            return true;
+        switch (data.commandType) {
+            case GIVE:
+                this.economy.depositPlayer(data.player, data.amount);
+                break;
+            case TAKE:
+                this.economy.withdrawPlayer(data.player, data.amount);
+                break;
+            case SET:
+                this.economy.withdrawPlayer(data.player, data.oldBalance);
+                this.economy.depositPlayer(data.player, data.amount);
+                break;
         }
 
-        Message.to(sender, this.messages, Messages.USAGE_INVALID,
-                Messages.USAGE_ECO);
+        Message.to(sender, this.messages, Messages.ECO_SUCCESS,
+                Pair.of(Placeholder.PLAYER_NAME, data.player.getName()),
+                Pair.of(Placeholder.OLD, this.economy.format(data.oldBalance)),
+                Pair.of(Placeholder.NEW, this.economy.format(this.economy.getBalance(data.player))));
+
         return true;
     }
 
@@ -160,6 +101,99 @@ public class EcoCommand implements IFeatherCommand {
         }
 
         return completions;
+    }
+
+    @SuppressWarnings("unchecked")
+    private CommandData parse(final CommandSender sender, final String[] args) {
+        // 1. check the basics
+        if (!sender.hasPermission("feathercore.economy.setup.eco")) {
+            Message.to(sender, this.messages, Messages.PERMISSION_DENIED);
+            return null;
+        }
+
+        if (args.length != 3) {
+            Message.to(sender, this.messages, Messages.USAGE_INVALID,
+                    Messages.USAGE_ECO);
+            return null;
+        }
+
+        final String actionStr = args[0].toLowerCase();
+        final String playerName = args[1];
+        final String amountStr = args[2];
+
+        // 2. get the player
+        final OfflinePlayer player = Bukkit.getOfflinePlayer(playerName);
+        if (!player.hasPlayedBefore()) {
+            Message.to(sender, this.messages, Messages.NOT_PLAYER,
+                    Pair.of(Placeholder.STRING, playerName));
+            return null;
+        }
+
+        // 3. get the amount
+        double amount = 0;
+        try {
+            amount = Double.parseDouble(amountStr);
+        } catch (final Exception e) {
+            Message.to(sender, this.messages, Messages.NOT_VALID_NUMBER,
+                    Pair.of(Placeholder.STRING, amountStr));
+            return null;
+        }
+
+        if (amount < 0 && (actionStr.equals("give") || actionStr.equals("take"))) {
+            Message.to(sender, this.messages, Messages.ECO_NO_NEGATIVE_AMOUNT,
+                    Pair.of(Placeholder.STRING, actionStr));
+            return null;
+        }
+
+        // 4. parse command type and validate the ranges
+        final double oldBalance = this.economy.getBalance(player);
+        CommandType commandType = null;
+        switch (actionStr) {
+            case "give": {
+                final var max = this.economyConfig.getDouble("money.max");
+                if (oldBalance + amount > max) {
+                    Message.to(sender, this.messages, Messages.ECO_BOUNDS_MAX,
+                            Pair.of(Placeholder.MAX, this.economy.format(max)));
+                    return null;
+                }
+                commandType = CommandType.GIVE;
+                break;
+            }
+            case "take": {
+                final var min = this.economyConfig.getDouble("money.min");
+                if (oldBalance - amount < min) {
+                    Message.to(sender, this.messages, Messages.ECO_BOUNDS_MIN,
+                            Pair.of(Placeholder.MIN, this.economy.format(min)));
+                    return null;
+                }
+                commandType = CommandType.TAKE;
+                break;
+            }
+            case "set": {
+                final var max = this.economyConfig.getDouble("money.max");
+                if (amount > max) {
+                    Message.to(sender, this.messages, Messages.ECO_BOUNDS_MAX,
+                            Pair.of(Placeholder.MAX, this.economy.format(max)));
+                    return null;
+                }
+
+                final var min = this.economyConfig.getDouble("money.min");
+                if (amount < min) {
+                    Message.to(sender, this.messages, Messages.ECO_BOUNDS_MIN,
+                            Pair.of(Placeholder.MIN, this.economy.format(min)));
+                    return null;
+                }
+
+                commandType = CommandType.SET;
+                break;
+            }
+            default: {
+                Message.to(sender, this.messages, Messages.USAGE_INVALID, Messages.USAGE_ECO);
+                return null;
+            }
+        }
+
+        return new CommandData(player, commandType, oldBalance, amount);
     }
 
 }

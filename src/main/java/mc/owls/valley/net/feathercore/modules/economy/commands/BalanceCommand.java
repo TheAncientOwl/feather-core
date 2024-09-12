@@ -20,6 +20,13 @@ import mc.owls.valley.net.feathercore.modules.economy.common.Messages;
 import net.milkbowl.vault.economy.Economy;
 
 public class BalanceCommand implements IFeatherCommand {
+    private static enum CommandType {
+        SELF, OTHER
+    }
+
+    private static record CommandData(CommandType commandType, OfflinePlayer other) {
+    }
+
     private Economy economy = null;
     private IPropertyAccessor messages = null;
 
@@ -31,49 +38,28 @@ public class BalanceCommand implements IFeatherCommand {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public boolean onCommand(final CommandSender sender, final Command cmd, final String label, final String[] args) {
-        if (!sender.hasPermission("feathercore.economy.general.balance")) {
-            Message.to(sender, this.messages, Messages.PERMISSION_DENIED);
+        final CommandData data = parse(sender, args);
+
+        if (data == null) {
             return true;
         }
 
-        if (args.length != 0) {
-            handleBalanceOthers(sender, args);
-        } else if (sender instanceof Player) {
-            handleBalanceSelf(sender);
-        } else {
-            Message.to(sender, this.messages, Messages.COMMAND_SENDER_NOT_PLAYER);
-            return true;
+        switch (data.commandType) {
+            case SELF:
+                Message.to(sender, this.messages, Messages.BALANCE_SELF,
+                        Pair.of(Placeholder.BALANCE, this.economy.format(this.economy.getBalance((Player) sender))));
+                break;
+            case OTHER:
+                Message.to(sender, this.messages, Messages.BALANCE_OTHER,
+                        Pair.of(Placeholder.PLAYER_NAME, data.other.getName()),
+                        Pair.of(Placeholder.BALANCE, this.economy.format(this.economy.getBalance(data.other))));
+
+                break;
         }
 
         return true;
-    }
-
-    @SuppressWarnings("unchecked")
-    private void handleBalanceOthers(final CommandSender sender, final String[] args) {
-        if (args.length != 1) {
-            Message.to(sender, this.messages, Messages.USAGE_INVALID, Messages.USAGE_BALANCE);
-            return;
-        }
-
-        final String playerName = args[0];
-        final OfflinePlayer player = Bukkit.getOfflinePlayer(playerName);
-
-        if (!player.hasPlayedBefore()) {
-            Message.to(sender, this.messages, Messages.NOT_PLAYER,
-                    Pair.of(Placeholder.STRING, playerName));
-            return;
-        }
-
-        Message.to(sender, this.messages, Messages.BALANCE_OTHER,
-                Pair.of(Placeholder.PLAYER_NAME, playerName),
-                Pair.of(Placeholder.BALANCE, this.economy.format(this.economy.getBalance(player))));
-    }
-
-    @SuppressWarnings("unchecked")
-    private void handleBalanceSelf(final CommandSender sender) {
-        Message.to(sender, this.messages, Messages.BALANCE_SELF,
-                Pair.of(Placeholder.BALANCE, this.economy.format(this.economy.getBalance((Player) sender))));
     }
 
     @Override
@@ -93,6 +79,40 @@ public class BalanceCommand implements IFeatherCommand {
         }
 
         return completions;
+    }
+
+    @SuppressWarnings("unchecked")
+    private CommandData parse(final CommandSender sender, final String[] args) {
+        CommandType commandType = null;
+        OfflinePlayer targetPlayer = null;
+
+        if (!sender.hasPermission("feathercore.economy.general.balance")) {
+            Message.to(sender, this.messages, Messages.PERMISSION_DENIED);
+            return null;
+        }
+
+        if (args.length != 0) {
+            if (args.length == 1) {
+                Message.to(sender, this.messages, Messages.USAGE_INVALID, Messages.USAGE_BALANCE);
+                return null;
+            }
+
+            commandType = CommandType.OTHER;
+            targetPlayer = Bukkit.getOfflinePlayer(args[0]);
+
+            if (!targetPlayer.hasPlayedBefore()) {
+                Message.to(sender, this.messages, Messages.NOT_PLAYER,
+                        Pair.of(Placeholder.STRING, args[0]));
+                return null;
+            }
+        } else if (sender instanceof Player) {
+            commandType = CommandType.SELF;
+        } else {
+            Message.to(sender, this.messages, Messages.COMMAND_SENDER_NOT_PLAYER);
+            return null;
+        }
+
+        return new CommandData(commandType, targetPlayer);
     }
 
 }

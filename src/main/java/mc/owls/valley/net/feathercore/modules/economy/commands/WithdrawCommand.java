@@ -26,6 +26,9 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.milkbowl.vault.economy.Economy;
 
 public class WithdrawCommand implements IFeatherCommand {
+    private static record CommandData(ItemStack banknote, double withdrawValue) {
+    }
+
     private Economy economy = null;
     private JavaPlugin plugin = null;
     private IPropertyAccessor messages = null;
@@ -43,66 +46,17 @@ public class WithdrawCommand implements IFeatherCommand {
     @Override
     @SuppressWarnings("unchecked")
     public boolean onCommand(final CommandSender sender, final Command cmd, final String label, final String[] args) {
-        if (!sender.hasPermission("feathercore.economy.general.withdraw")) {
-            Message.to(sender, this.messages, Messages.PERMISSION_DENIED);
+        final CommandData data = parse(sender, args);
+
+        if (data == null) {
             return true;
         }
 
-        if (!(sender instanceof Player)) {
-            Message.to(sender, this.messages, Messages.COMMAND_SENDER_NOT_PLAYER);
-            return true;
-        }
-
-        if (args.length != 2) {
-            Message.to(sender, this.messages, Messages.USAGE_INVALID, Messages.USAGE_WITHDRAW);
-            return true;
-        }
-
-        double banknoteValue = 0;
-        try {
-            banknoteValue = Double.parseDouble(args[0]);
-        } catch (final Exception e) {
-            Message.to(sender, this.messages, Messages.NOT_VALID_NUMBER,
-                    Pair.of(Placeholder.STRING, args[0]));
-            return true;
-        }
-
-        int banknotesCount = 0;
-        try {
-            banknotesCount = Integer.parseInt(args[1]);
-        } catch (final Exception e) {
-            Message.to(sender, this.messages, Messages.NOT_VALID_NUMBER,
-                    Pair.of(Placeholder.STRING, args[1]));
-            return true;
-        }
-
-        final var minWithdraw = Math.max(0, this.economyConfig.getDouble("banknote.minimum-value"));
-        if (banknoteValue < minWithdraw) {
-            Message.to(sender, this.messages, Messages.WITHDRAW_MIN_AMOUNT,
-                    Pair.of(Placeholder.MIN, this.economy.format(minWithdraw)));
-            return true;
-        }
-
-        final var withdrawValue = banknoteValue * banknotesCount;
-
-        if (!this.economy.has((Player) sender, withdrawValue)) {
-            Message.to(sender, this.messages, Messages.WITHDRAW_NO_FUNDS);
-            return true;
-        }
-
-        final ItemStack banknote = makeBanknotes(sender, banknoteValue, banknotesCount,
-                this.messages.getStringList(Messages.BANKNOTE_LORE));
-
-        if (!canAddBanknote((Player) sender, banknote)) {
-            Message.to(sender, this.messages, Messages.WITHDRAW_NO_SPACE);
-            return true;
-        }
-
-        this.economy.withdrawPlayer((Player) sender, withdrawValue);
-        ((Player) sender).getInventory().addItem(banknote);
+        this.economy.withdrawPlayer((Player) sender, data.withdrawValue);
+        ((Player) sender).getInventory().addItem(data.banknote);
 
         Message.to(sender, this.messages, Messages.WITHDRAW_SUCCESS,
-                Pair.of(Placeholder.AMOUNT, this.economy.format(withdrawValue)),
+                Pair.of(Placeholder.AMOUNT, this.economy.format(data.withdrawValue)),
                 Pair.of(Placeholder.BALANCE, this.economy.format(this.economy.getBalance((Player) sender))));
 
         return true;
@@ -178,6 +132,71 @@ public class WithdrawCommand implements IFeatherCommand {
         banknote.addUnsafeEnchantment(Enchantment.INFINITY, 1);
 
         return banknote;
+    }
+
+    @SuppressWarnings("unchecked")
+    private CommandData parse(final CommandSender sender, final String[] args) {
+        // 1. basic checks
+        if (!sender.hasPermission("feathercore.economy.general.withdraw")) {
+            Message.to(sender, this.messages, Messages.PERMISSION_DENIED);
+            return null;
+        }
+
+        if (!(sender instanceof Player)) {
+            Message.to(sender, this.messages, Messages.COMMAND_SENDER_NOT_PLAYER);
+            return null;
+        }
+
+        if (args.length != 2) {
+            Message.to(sender, this.messages, Messages.USAGE_INVALID, Messages.USAGE_WITHDRAW);
+            return null;
+        }
+
+        // 2. parse banknote value
+        double banknoteValue = 0;
+        try {
+            banknoteValue = Double.parseDouble(args[0]);
+        } catch (final Exception e) {
+            Message.to(sender, this.messages, Messages.NOT_VALID_NUMBER,
+                    Pair.of(Placeholder.STRING, args[0]));
+            return null;
+        }
+
+        // 3. parse banknotes count
+        int banknotesCount = 0;
+        try {
+            banknotesCount = Integer.parseInt(args[1]);
+        } catch (final Exception e) {
+            Message.to(sender, this.messages, Messages.NOT_VALID_NUMBER,
+                    Pair.of(Placeholder.STRING, args[1]));
+            return null;
+        }
+
+        // 4. check if withdraw data is valid
+        final var minWithdraw = Math.max(0, this.economyConfig.getDouble("banknote.minimum-value"));
+        if (banknoteValue < minWithdraw) {
+            Message.to(sender, this.messages, Messages.WITHDRAW_MIN_AMOUNT,
+                    Pair.of(Placeholder.MIN, this.economy.format(minWithdraw)));
+            return null;
+        }
+
+        final var withdrawValue = banknoteValue * banknotesCount;
+
+        if (!this.economy.has((Player) sender, withdrawValue)) {
+            Message.to(sender, this.messages, Messages.WITHDRAW_NO_FUNDS);
+            return null;
+        }
+
+        // 5. create banknote and check if it can be added to player's inventory
+        final ItemStack banknote = makeBanknotes(sender, banknoteValue, banknotesCount,
+                this.messages.getStringList(Messages.BANKNOTE_LORE));
+
+        if (!canAddBanknote((Player) sender, banknote)) {
+            Message.to(sender, this.messages, Messages.WITHDRAW_NO_SPACE);
+            return null;
+        }
+
+        return new CommandData(banknote, withdrawValue);
     }
 
 }
