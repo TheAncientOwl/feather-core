@@ -92,7 +92,7 @@ public class BalanceCommand implements IFeatherCommand {
         }
 
         if (args.length != 0) {
-            if (args.length == 1) {
+            if (args.length != 1) {
                 Message.to(sender, this.messages, Messages.USAGE_INVALID, Messages.USAGE_BALANCE);
                 return null;
             }
