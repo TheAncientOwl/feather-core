@@ -51,12 +51,14 @@ public class PayCommand implements IFeatherCommand {
         this.economy.withdrawPlayer((Player) sender, data.amount);
         this.economy.depositPlayer(data.receiver, data.amount);
 
+        final var amount = this.economy.format(data.amount);
+
         Message.to(sender, this.messages, Messages.PAY_SEND,
                 Pair.of(Placeholder.PLAYER_NAME, data.receiver.getName()),
-                Pair.of(Placeholder.AMOUNT, data.amount));
+                Pair.of(Placeholder.AMOUNT, amount));
         Message.to((Player) data.receiver, this.messages, Messages.PAY_RECEIVE,
                 Pair.of(Placeholder.PLAYER_NAME, ((Player) sender).getName()),
-                Pair.of(Placeholder.AMOUNT, data.amount));
+                Pair.of(Placeholder.AMOUNT, amount));
 
         return true;
     }
