@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.NamespacedKey;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -16,13 +15,13 @@ import mc.owls.valley.net.feathercore.api.common.Message;
 import mc.owls.valley.net.feathercore.api.common.Pair;
 import mc.owls.valley.net.feathercore.api.common.Placeholder;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
-import mc.owls.valley.net.feathercore.api.core.IFeatherCommand;
+import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.modules.economy.common.Messages;
 import net.milkbowl.vault.economy.Economy;
 
-public class DepositCommand implements IFeatherCommand {
-    private static record CommandData(ItemStack itemInHand, int banknotesCount, double depositValue) {
+public class DepositCommand extends FeatherCommand<DepositCommand.CommandData> {
+    public static record CommandData(ItemStack itemInHand, int banknotesCount, double depositValue) {
     }
 
     private Economy economy = null;
@@ -40,37 +39,15 @@ public class DepositCommand implements IFeatherCommand {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public boolean onCommand(final CommandSender sender, final Command cmd, final String label, final String[] args) {
-        final CommandData data = parse(sender, args);
-
-        if (data == null) {
-            return true;
-        }
-
+    protected void execute(final CommandSender sender, final CommandData data) {
         this.economy.depositPlayer((Player) sender, data.depositValue);
         data.itemInHand.setAmount(data.itemInHand.getAmount() - data.banknotesCount);
 
         Message.to(sender, this.messages, Messages.DEPOSIT_SUCCESS,
                 Pair.of(Placeholder.AMOUNT, this.economy.format(data.depositValue)),
                 Pair.of(Placeholder.BALANCE, this.economy.format(this.economy.getBalance((Player) sender))));
-
-        return true;
     }
 
-    @Override
-    public List<String> onTabComplete(final CommandSender sender, final Command cmd, final String alias,
-            final String[] args) {
-        List<String> completions = new ArrayList<>();
-
-        if (args.length == 1) {
-            completions.add("amount");
-        }
-
-        return completions;
-    }
-
-    @SuppressWarnings("unchecked")
     public CommandData parse(final CommandSender sender, final String[] args) {
         // 1. check for basics
         if (!sender.hasPermission("feathercore.economy.general.deposit")) {
@@ -135,6 +112,17 @@ public class DepositCommand implements IFeatherCommand {
         }
 
         return new CommandData(itemInHand, banknotesCount, depositValue);
+    }
+
+    @Override
+    public List<String> onTabComplete(final String[] args) {
+        List<String> completions = new ArrayList<>();
+
+        if (args.length == 1) {
+            completions.add("amount");
+        }
+
+        return completions;
     }
 
 }

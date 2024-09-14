@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -14,17 +13,17 @@ import mc.owls.valley.net.feathercore.api.common.Pair;
 import mc.owls.valley.net.feathercore.api.common.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.StringUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
-import mc.owls.valley.net.feathercore.api.core.IFeatherCommand;
+import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.modules.economy.common.Messages;
 import net.milkbowl.vault.economy.Economy;
 
-public class BalanceCommand implements IFeatherCommand {
+public class BalanceCommand extends FeatherCommand<BalanceCommand.CommandData> {
     private static enum CommandType {
         SELF, OTHER
     }
 
-    private static record CommandData(CommandType commandType, OfflinePlayer other) {
+    public static record CommandData(CommandType commandType, OfflinePlayer other) {
     }
 
     private Economy economy = null;
@@ -38,14 +37,7 @@ public class BalanceCommand implements IFeatherCommand {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public boolean onCommand(final CommandSender sender, final Command cmd, final String label, final String[] args) {
-        final CommandData data = parse(sender, args);
-
-        if (data == null) {
-            return true;
-        }
-
+    protected void execute(final CommandSender sender, final CommandData data) {
         switch (data.commandType) {
             case SELF:
                 Message.to(sender, this.messages, Messages.BALANCE_SELF,
@@ -58,31 +50,9 @@ public class BalanceCommand implements IFeatherCommand {
 
                 break;
         }
-
-        return true;
     }
 
-    @Override
-    public List<String> onTabComplete(final CommandSender sender, final Command cmd, final String alias,
-            final String[] args) {
-        List<String> completions = new ArrayList<>();
-
-        if (args.length == 1) {
-            final var arg = args[0];
-            final List<String> onlinePlayers = StringUtils.getOnlinePlayers();
-
-            if (arg.isEmpty()) {
-                completions = onlinePlayers;
-            } else {
-                completions = StringUtils.filterStartingWith(onlinePlayers, arg);
-            }
-        }
-
-        return completions;
-    }
-
-    @SuppressWarnings("unchecked")
-    private CommandData parse(final CommandSender sender, final String[] args) {
+    protected CommandData parse(final CommandSender sender, final String[] args) {
         CommandType commandType = null;
         OfflinePlayer targetPlayer = null;
 
@@ -113,6 +83,24 @@ public class BalanceCommand implements IFeatherCommand {
         }
 
         return new CommandData(commandType, targetPlayer);
+    }
+
+    @Override
+    public List<String> onTabComplete(final String[] args) {
+        List<String> completions = new ArrayList<>();
+
+        if (args.length == 1) {
+            final var arg = args[0];
+            final List<String> onlinePlayers = StringUtils.getOnlinePlayers();
+
+            if (arg.isEmpty()) {
+                completions = onlinePlayers;
+            } else {
+                completions = StringUtils.filterStartingWith(onlinePlayers, arg);
+            }
+        }
+
+        return completions;
     }
 
 }

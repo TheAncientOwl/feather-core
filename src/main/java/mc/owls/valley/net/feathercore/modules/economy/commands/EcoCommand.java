@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
 import mc.owls.valley.net.feathercore.api.common.Message;
@@ -13,17 +12,17 @@ import mc.owls.valley.net.feathercore.api.common.Pair;
 import mc.owls.valley.net.feathercore.api.common.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.StringUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
-import mc.owls.valley.net.feathercore.api.core.IFeatherCommand;
+import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.modules.economy.common.Messages;
 import net.milkbowl.vault.economy.Economy;
 
-public class EcoCommand implements IFeatherCommand {
+public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
     private static enum CommandType {
         SET, GIVE, TAKE,
     }
 
-    private static record CommandData(OfflinePlayer player, CommandType commandType, double oldBalance, double amount) {
+    public static record CommandData(OfflinePlayer player, CommandType commandType, double oldBalance, double amount) {
     }
 
     private Economy economy = null;
@@ -39,14 +38,7 @@ public class EcoCommand implements IFeatherCommand {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public boolean onCommand(final CommandSender sender, final Command cmd, final String label, final String[] args) {
-        final CommandData data = parse(sender, args);
-
-        if (data == null) {
-            return true;
-        }
-
+    protected void execute(final CommandSender sender, final CommandData data) {
         switch (data.commandType) {
             case GIVE:
                 this.economy.depositPlayer(data.player, data.amount);
@@ -64,47 +56,9 @@ public class EcoCommand implements IFeatherCommand {
                 Pair.of(Placeholder.PLAYER_NAME, data.player.getName()),
                 Pair.of(Placeholder.OLD, this.economy.format(data.oldBalance)),
                 Pair.of(Placeholder.NEW, this.economy.format(this.economy.getBalance(data.player))));
-
-        return true;
     }
 
-    @Override
-    public List<String> onTabComplete(final CommandSender sender, final Command cmd, final String alias,
-            final String[] args) {
-        List<String> completions = new ArrayList<>();
-
-        if (args.length == 1) {
-            final var arg = args[0].toLowerCase();
-            if (arg.startsWith("s")) {
-                completions.add("set");
-            } else if (arg.startsWith("g")) {
-                completions.add("give");
-            } else if (arg.startsWith("t")) {
-                completions.add("take");
-            } else {
-                completions.add("set");
-                completions.add("give");
-                completions.add("take");
-            }
-        } else if (args.length == 2) {
-            final var arg = args[1];
-            final List<String> onlinePlayers = StringUtils.getOnlinePlayers();
-
-            if (arg.isEmpty()) {
-                completions = onlinePlayers;
-            } else {
-                completions = StringUtils.filterStartingWith(onlinePlayers, arg);
-            }
-
-        } else if (args.length == 3) {
-            completions.add("amount");
-        }
-
-        return completions;
-    }
-
-    @SuppressWarnings("unchecked")
-    private CommandData parse(final CommandSender sender, final String[] args) {
+    protected CommandData parse(final CommandSender sender, final String[] args) {
         // 1. check the basics
         if (!sender.hasPermission("feathercore.economy.setup.eco")) {
             Message.to(sender, this.messages, Messages.PERMISSION_DENIED);
@@ -194,6 +148,40 @@ public class EcoCommand implements IFeatherCommand {
         }
 
         return new CommandData(player, commandType, oldBalance, amount);
+    }
+
+    @Override
+    public List<String> onTabComplete(final String[] args) {
+        List<String> completions = new ArrayList<>();
+
+        if (args.length == 1) {
+            final var arg = args[0].toLowerCase();
+            if (arg.startsWith("s")) {
+                completions.add("set");
+            } else if (arg.startsWith("g")) {
+                completions.add("give");
+            } else if (arg.startsWith("t")) {
+                completions.add("take");
+            } else {
+                completions.add("set");
+                completions.add("give");
+                completions.add("take");
+            }
+        } else if (args.length == 2) {
+            final var arg = args[1];
+            final List<String> onlinePlayers = StringUtils.getOnlinePlayers();
+
+            if (arg.isEmpty()) {
+                completions = onlinePlayers;
+            } else {
+                completions = StringUtils.filterStartingWith(onlinePlayers, arg);
+            }
+
+        } else if (args.length == 3) {
+            completions.add("amount");
+        }
+
+        return completions;
     }
 
 }
