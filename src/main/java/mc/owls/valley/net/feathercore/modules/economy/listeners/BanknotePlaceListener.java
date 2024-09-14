@@ -22,7 +22,7 @@ public class BanknotePlaceListener implements IFeatherListener {
         this.messages = core.getConfigurationManager().getMessagesConfigFile().getConfigurationSection("economy");
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onBlockPlace(final BlockPlaceEvent event) {
         if (event.isCancelled()) {
             return;

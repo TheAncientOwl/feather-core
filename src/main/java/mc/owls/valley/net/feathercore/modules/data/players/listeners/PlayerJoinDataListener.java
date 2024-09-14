@@ -1,4 +1,4 @@
-package mc.owls.valley.net.feathercore.modules.data.listeners;
+package mc.owls.valley.net.feathercore.modules.data.players.listeners;
 
 import java.util.Date;
 import java.util.UUID;
@@ -11,8 +11,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
 import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
-import mc.owls.valley.net.feathercore.api.core.IPlayersDataManager;
 import mc.owls.valley.net.feathercore.api.database.mongo.models.PlayerModel;
+import mc.owls.valley.net.feathercore.api.module.interfaces.IPlayersDataManager;
 
 public class PlayerJoinDataListener implements IFeatherListener {
     private IPlayersDataManager dataManager = null;
@@ -24,7 +24,7 @@ public class PlayerJoinDataListener implements IFeatherListener {
         this.logger = core.getFeatherLogger();
     }
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlayerJoinEvent(final PlayerJoinEvent e) {
         final Player player = e.getPlayer();
         final UUID playerUUID = player.getUniqueId();

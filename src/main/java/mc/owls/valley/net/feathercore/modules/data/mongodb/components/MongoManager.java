@@ -1,4 +1,4 @@
-package mc.owls.valley.net.feathercore.core.modules;
+package mc.owls.valley.net.feathercore.modules.data.mongodb.components;
 
 import java.util.concurrent.TimeUnit;
 

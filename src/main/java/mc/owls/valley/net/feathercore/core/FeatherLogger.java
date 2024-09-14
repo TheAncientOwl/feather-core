@@ -1,4 +1,4 @@
-package mc.owls.valley.net.feathercore.core.common;
+package mc.owls.valley.net.feathercore.core;
 
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.plugin.java.JavaPlugin;

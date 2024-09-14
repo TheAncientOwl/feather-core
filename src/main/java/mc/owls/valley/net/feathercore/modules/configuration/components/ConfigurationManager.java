@@ -1,26 +1,25 @@
-package mc.owls.valley.net.feathercore.core.modules;
+package mc.owls.valley.net.feathercore.modules.configuration.components;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import mc.owls.valley.net.feathercore.api.common.StringUtils;
 import mc.owls.valley.net.feathercore.api.common.YamlUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.api.core.IConfigurationManager;
 import mc.owls.valley.net.feathercore.api.core.module.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.module.ModuleEnableStatus;
 import mc.owls.valley.net.feathercore.api.exception.FeatherSetupException;
+import mc.owls.valley.net.feathercore.api.module.interfaces.IConfigurationManager;
 import mc.owls.valley.net.feathercore.core.FeatherCore;
-import mc.owls.valley.net.feathercore.core.configuration.bukkit.BukkitConfigFile;
+import mc.owls.valley.net.feathercore.modules.configuration.components.bukkit.BukkitConfigFile;
 
 public class ConfigurationManager extends FeatherModule implements IConfigurationManager {
     private IConfigFile dataConfigFile = null;
     private IConfigFile economyConfigFile = null;
     private IConfigFile messagesConfigFile = null;
+    private IConfigFile pvpConfigFile = null;
 
     public ConfigurationManager(final String name) {
         super(name);
@@ -30,19 +29,18 @@ public class ConfigurationManager extends FeatherModule implements IConfiguratio
     protected ModuleEnableStatus onModuleEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
         final JavaPlugin plugin = core.getPlugin();
 
-        final FileConfiguration pluginConfig = YamlUtils.loadYaml(plugin, FeatherCore.PLUGIN_YML);
-        final var configs = pluginConfig.getMapList("feathercore.configs");
+        final var configs = YamlUtils.loadYaml(plugin, FeatherCore.FEATHER_CORE_YML).getConfigurationSection("configs");
 
-        for (final var config : configs) {
-            final String fieldName = (String) config.get("field");
-            final String configName = (String) config.get("config");
+        for (final var config : configs.getKeys(false)) {
+            final String fieldName = config;
+            final String configName = configs.getString(config);
 
             try {
-                final Class<?> clazz = this.getClass();
-                final Field field = clazz.getDeclaredField(fieldName);
+                final var clazz = this.getClass();
+                final var field = clazz.getDeclaredField(fieldName);
                 field.setAccessible(true);
                 field.set(this, new BukkitConfigFile(plugin, configName));
-            } catch (NoSuchFieldException | IllegalAccessException | SecurityException e) {
+            } catch (final Exception e) {
                 throw new FeatherSetupException("Could not setup config connection {" + fieldName + " -> " + configName
                         + "}\nReason: " + StringUtils.exceptionToStr(e));
             }
@@ -57,6 +55,7 @@ public class ConfigurationManager extends FeatherModule implements IConfiguratio
             this.dataConfigFile.saveConfig();
             this.economyConfigFile.saveConfig();
             this.messagesConfigFile.saveConfig();
+            this.pvpConfigFile.saveConfig();
         } catch (final IOException e) {
         }
     }
@@ -74,6 +73,11 @@ public class ConfigurationManager extends FeatherModule implements IConfiguratio
     @Override
     public IConfigFile getMessagesConfigFile() {
         return this.messagesConfigFile;
+    }
+
+    @Override
+    public IConfigFile getPvPConfigFile() {
+        return this.pvpConfigFile;
     }
 
 }

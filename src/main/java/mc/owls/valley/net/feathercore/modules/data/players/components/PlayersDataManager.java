@@ -1,4 +1,4 @@
-package mc.owls.valley.net.feathercore.modules.data.components;
+package mc.owls.valley.net.feathercore.modules.data.players.components;
 
 import java.util.Collections;
 import java.util.Date;
@@ -15,14 +15,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigSection;
-import mc.owls.valley.net.feathercore.api.core.IConfigurationManager;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
-import mc.owls.valley.net.feathercore.api.core.IPlayersDataManager;
 import mc.owls.valley.net.feathercore.api.core.module.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.module.ModuleEnableStatus;
 import mc.owls.valley.net.feathercore.api.database.mongo.accessors.PlayersDAO;
 import mc.owls.valley.net.feathercore.api.database.mongo.models.PlayerModel;
+import mc.owls.valley.net.feathercore.api.module.interfaces.IConfigurationManager;
+import mc.owls.valley.net.feathercore.api.module.interfaces.IPlayersDataManager;
 
 public class PlayersDataManager extends FeatherModule implements IPlayersDataManager {
     private final Map<UUID, PlayerModel> playersDataCache = new HashMap<>();

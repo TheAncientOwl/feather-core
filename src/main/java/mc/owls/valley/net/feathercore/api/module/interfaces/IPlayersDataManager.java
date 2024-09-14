@@ -1,4 +1,4 @@
-package mc.owls.valley.net.feathercore.api.core;
+package mc.owls.valley.net.feathercore.api.module.interfaces;
 
 import java.util.UUID;
 

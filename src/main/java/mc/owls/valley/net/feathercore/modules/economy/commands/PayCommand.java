@@ -15,8 +15,8 @@ import mc.owls.valley.net.feathercore.api.common.StringUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.api.core.IPlayersDataManager;
 import mc.owls.valley.net.feathercore.api.database.mongo.models.PlayerModel;
+import mc.owls.valley.net.feathercore.api.module.interfaces.IPlayersDataManager;
 import mc.owls.valley.net.feathercore.modules.economy.common.Messages;
 import net.milkbowl.vault.economy.Economy;
 

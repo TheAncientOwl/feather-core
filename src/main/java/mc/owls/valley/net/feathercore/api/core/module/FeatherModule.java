@@ -51,4 +51,5 @@ public abstract class FeatherModule {
             throws FeatherSetupException;
 
     protected abstract void onModuleDisable();
+
 }
