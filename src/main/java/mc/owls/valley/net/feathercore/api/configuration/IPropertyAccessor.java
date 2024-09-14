@@ -7,6 +7,8 @@ public interface IPropertyAccessor {
 
     public boolean getBoolean(final String path);
 
+    public boolean getBoolean(final String path, final boolean defaultValue);
+
     public int getInt(final String path);
 
     public double getDouble(final String path);

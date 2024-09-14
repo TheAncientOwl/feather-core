@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import mc.owls.valley.net.feathercore.api.common.Pair;
 import mc.owls.valley.net.feathercore.api.common.StringUtils;
 import mc.owls.valley.net.feathercore.api.common.YamlUtils;
+import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
@@ -20,6 +21,7 @@ import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
 import mc.owls.valley.net.feathercore.api.core.module.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.module.ModuleEnableStatus;
 import mc.owls.valley.net.feathercore.api.exception.FeatherSetupException;
+import mc.owls.valley.net.feathercore.modules.configuration.components.bukkit.BukkitConfigFile;
 
 public class ModulesManager {
 
@@ -48,7 +50,7 @@ public class ModulesManager {
     public void onEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
         loadModules(core);
         computeEnableOrder();
-        core.getFeatherLogger().info("Enabling modules: " + String.join("&8,&b ", this.enableOrder));
+        core.getFeatherLogger().info("Registered modules: " + String.join("&8,&b ", this.enableOrder));
 
         this.modules = this.moduleConfigs.entrySet().stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().instance));
@@ -58,6 +60,7 @@ public class ModulesManager {
         for (final var module : this.moduleConfigs.keySet()) {
             if (!this.enabledModules.contains(module)) {
                 this.modules.remove(module);
+                this.enableOrder.remove(module);
             }
         }
 
@@ -191,9 +194,17 @@ public class ModulesManager {
     }
 
     private void enableModules(final IFeatherCoreProvider core) throws FeatherSetupException {
+        final IConfigFile modulesEnabledConfig = new BukkitConfigFile(core.getPlugin(), "modules.yml");
+
         for (final var moduleName : enableOrder) {
             // try to enable the module
             final var module = this.moduleConfigs.get(moduleName);
+            final var configEnabled = modulesEnabledConfig.getBoolean(moduleName, true);
+
+            if (!configEnabled && !module.mandatory) {
+                continue;
+            }
+
             final var status = module.instance.onEnable(core);
 
             if (module.mandatory && status != ModuleEnableStatus.SUCCESS) {

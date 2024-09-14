@@ -79,4 +79,9 @@ public class BukkitConfigFile implements IConfigFile {
         return this.fileConfiguration.getStringList(path);
     }
 
+    @Override
+    public boolean getBoolean(final String path, final boolean defaultValue) {
+        return this.fileConfiguration.getBoolean(path, defaultValue);
+    }
+
 }
