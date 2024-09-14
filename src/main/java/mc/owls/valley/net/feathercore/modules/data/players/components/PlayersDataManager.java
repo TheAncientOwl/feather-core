@@ -15,10 +15,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigSection;
+import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
-import mc.owls.valley.net.feathercore.api.core.module.FeatherModule;
-import mc.owls.valley.net.feathercore.api.core.module.ModuleEnableStatus;
 import mc.owls.valley.net.feathercore.api.database.mongo.accessors.PlayersDAO;
 import mc.owls.valley.net.feathercore.api.database.mongo.models.PlayerModel;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IConfigurationManager;
@@ -38,7 +37,7 @@ public class PlayersDataManager extends FeatherModule implements IPlayersDataMan
     }
 
     @Override
-    protected ModuleEnableStatus onModuleEnable(final IFeatherCoreProvider core) {
+    protected void onModuleEnable(final IFeatherCoreProvider core) {
         this.logger = core.getFeatherLogger();
         this.playersDAO = core.getMongoDAO().getPlayersDAO();
 
@@ -47,8 +46,6 @@ public class PlayersDataManager extends FeatherModule implements IPlayersDataMan
         this.economyConfig = configManager.getEconomyConfigFile();
 
         setupAutoSave(core.getPlugin());
-
-        return ModuleEnableStatus.SUCCESS;
     }
 
     @Override

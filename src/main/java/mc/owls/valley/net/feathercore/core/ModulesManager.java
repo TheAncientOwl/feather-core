@@ -15,11 +15,11 @@ import mc.owls.valley.net.feathercore.api.common.StringUtils;
 import mc.owls.valley.net.feathercore.api.common.YamlUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
+import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
 import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
-import mc.owls.valley.net.feathercore.api.core.module.FeatherModule;
-import mc.owls.valley.net.feathercore.api.core.module.ModuleEnableStatus;
+
 import mc.owls.valley.net.feathercore.api.exception.FeatherSetupException;
 import mc.owls.valley.net.feathercore.modules.configuration.components.bukkit.BukkitConfigFile;
 
@@ -205,15 +205,9 @@ public class ModulesManager {
                 continue;
             }
 
-            final var status = module.instance.onEnable(core);
+            module.instance.onEnable(core);
 
-            if (module.mandatory && status != ModuleEnableStatus.SUCCESS) {
-                throw new FeatherSetupException("Mandatory module '" + moduleName + "' failed to enable");
-            }
-
-            if (status == ModuleEnableStatus.SUCCESS) {
-                this.enabledModules.add(moduleName);
-            }
+            this.enabledModules.add(moduleName);
 
             // register commands
             final var plugin = core.getPlugin();
