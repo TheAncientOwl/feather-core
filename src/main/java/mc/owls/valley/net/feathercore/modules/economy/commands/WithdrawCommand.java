@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -19,14 +18,14 @@ import mc.owls.valley.net.feathercore.api.common.Pair;
 import mc.owls.valley.net.feathercore.api.common.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.StringUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
-import mc.owls.valley.net.feathercore.api.core.IFeatherCommand;
+import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.modules.economy.common.Messages;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.milkbowl.vault.economy.Economy;
 
-public class WithdrawCommand implements IFeatherCommand {
-    private static record CommandData(ItemStack banknote, double withdrawValue) {
+public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData> {
+    public static record CommandData(ItemStack banknote, double withdrawValue) {
     }
 
     private Economy economy = null;
@@ -44,98 +43,16 @@ public class WithdrawCommand implements IFeatherCommand {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    public boolean onCommand(final CommandSender sender, final Command cmd, final String label, final String[] args) {
-        final CommandData data = parse(sender, args);
-
-        if (data == null) {
-            return true;
-        }
-
+    protected void execute(final CommandSender sender, final CommandData data) {
         this.economy.withdrawPlayer((Player) sender, data.withdrawValue);
         ((Player) sender).getInventory().addItem(data.banknote);
 
         Message.to(sender, this.messages, Messages.WITHDRAW_SUCCESS,
                 Pair.of(Placeholder.AMOUNT, this.economy.format(data.withdrawValue)),
                 Pair.of(Placeholder.BALANCE, this.economy.format(this.economy.getBalance((Player) sender))));
-
-        return true;
     }
 
-    @Override
-    public List<String> onTabComplete(final CommandSender sender, final Command cmd, final String alias,
-            final String[] args) {
-        List<String> completions = new ArrayList<>();
-
-        if (args.length == 1) {
-            completions.add("banknote-value");
-        } else if (args.length == 2) {
-            completions.add("amount");
-        }
-
-        return completions;
-    }
-
-    public boolean canAddBanknote(final Player player, final ItemStack banknote) {
-        final ItemStack[] items = player.getInventory().getContents();
-        final var targetAmount = banknote.getAmount();
-        final var STACK_SIZE = 64;
-
-        int freeSpace = 0;
-        // @note 36 boots, 37 leggings, 38 chestplate, 39 helmet, 40 off hand
-        for (int index = 0; index < 36; ++index) {
-            if (items[index] == null) {
-                freeSpace += STACK_SIZE;
-            } else if (items[index].isSimilar(banknote) && items[index].getAmount() < STACK_SIZE) {
-                freeSpace += (STACK_SIZE - items[index].getAmount());
-            }
-            if (targetAmount <= freeSpace) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @SuppressWarnings("unchecked")
-    private ItemStack makeBanknotes(final CommandSender sender,
-            final double banknoteValue, final int banknotesCount, final List<String> lore) {
-        // 1. create item stack
-        final Material material = Material.getMaterial(this.economyConfig.getString("banknote.material"));
-        ItemStack banknote = null;
-
-        try {
-            banknote = new ItemStack(material);
-        } catch (final IllegalArgumentException e) {
-            banknote = new ItemStack(Material.PAPER);
-            Message.to(sender, this.messages, Messages.BANKNOTE_INVALID_MATERIAL);
-        }
-
-        // 2. check lore for {amount} placeholder
-        if (!lore.stream().anyMatch(line -> line.contains(Placeholder.AMOUNT))) {
-            lore.add("&8Value: &a{amount}");
-        }
-
-        // 3. setup item meta
-        final ItemMeta meta = banknote.getItemMeta();
-        meta.displayName(LegacyComponentSerializer.legacyAmpersand()
-                .deserialize(this.messages.getString(Messages.BANKNOTE_NAME)));
-        meta.lore(lore.stream()
-                .map(line -> LegacyComponentSerializer.legacyAmpersand()
-                        .deserialize(StringUtils.replacePlaceholders(line, Pair.of(Placeholder.AMOUNT, banknoteValue))))
-                .toList());
-        meta.getPersistentDataContainer().set(new NamespacedKey(this.plugin, Messages.BANKNOTE_METADATA_KEY),
-                PersistentDataType.DOUBLE, banknoteValue);
-
-        // 4. finish itemstack setup
-        banknote.setItemMeta(meta);
-        banknote.setAmount(banknotesCount);
-        banknote.addUnsafeEnchantment(Enchantment.INFINITY, 1);
-
-        return banknote;
-    }
-
-    @SuppressWarnings("unchecked")
-    private CommandData parse(final CommandSender sender, final String[] args) {
+    protected CommandData parse(final CommandSender sender, final String[] args) {
         // 1. basic checks
         if (!sender.hasPermission("feathercore.economy.general.withdraw")) {
             Message.to(sender, this.messages, Messages.PERMISSION_DENIED);
@@ -197,6 +114,76 @@ public class WithdrawCommand implements IFeatherCommand {
         }
 
         return new CommandData(banknote, withdrawValue);
+    }
+
+    @Override
+    public List<String> onTabComplete(final String[] args) {
+        List<String> completions = new ArrayList<>();
+
+        if (args.length == 1) {
+            completions.add("banknote-value");
+        } else if (args.length == 2) {
+            completions.add("amount");
+        }
+
+        return completions;
+    }
+
+    public boolean canAddBanknote(final Player player, final ItemStack banknote) {
+        final ItemStack[] items = player.getInventory().getContents();
+        final var targetAmount = banknote.getAmount();
+        final var STACK_SIZE = 64;
+
+        int freeSpace = 0;
+        // @note 36 boots, 37 leggings, 38 chestplate, 39 helmet, 40 off hand
+        for (int index = 0; index < 36; ++index) {
+            if (items[index] == null) {
+                freeSpace += STACK_SIZE;
+            } else if (items[index].isSimilar(banknote) && items[index].getAmount() < STACK_SIZE) {
+                freeSpace += (STACK_SIZE - items[index].getAmount());
+            }
+            if (targetAmount <= freeSpace) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private ItemStack makeBanknotes(final CommandSender sender,
+            final double banknoteValue, final int banknotesCount, final List<String> lore) {
+        // 1. create item stack
+        final Material material = Material.getMaterial(this.economyConfig.getString("banknote.material"));
+        ItemStack banknote = null;
+
+        try {
+            banknote = new ItemStack(material);
+        } catch (final IllegalArgumentException e) {
+            banknote = new ItemStack(Material.PAPER);
+            Message.to(sender, this.messages, Messages.BANKNOTE_INVALID_MATERIAL);
+        }
+
+        // 2. check lore for {amount} placeholder
+        if (!lore.stream().anyMatch(line -> line.contains(Placeholder.AMOUNT))) {
+            lore.add("&8Value: &a{amount}");
+        }
+
+        // 3. setup item meta
+        final ItemMeta meta = banknote.getItemMeta();
+        meta.displayName(LegacyComponentSerializer.legacyAmpersand()
+                .deserialize(this.messages.getString(Messages.BANKNOTE_NAME)));
+        meta.lore(lore.stream()
+                .map(line -> LegacyComponentSerializer.legacyAmpersand()
+                        .deserialize(StringUtils.replacePlaceholders(line, Pair.of(Placeholder.AMOUNT, banknoteValue))))
+                .toList());
+        meta.getPersistentDataContainer().set(new NamespacedKey(this.plugin, Messages.BANKNOTE_METADATA_KEY),
+                PersistentDataType.DOUBLE, banknoteValue);
+
+        // 4. finish itemstack setup
+        banknote.setItemMeta(meta);
+        banknote.setAmount(banknotesCount);
+        banknote.addUnsafeEnchantment(Enchantment.INFINITY, 1);
+
+        return banknote;
     }
 
 }

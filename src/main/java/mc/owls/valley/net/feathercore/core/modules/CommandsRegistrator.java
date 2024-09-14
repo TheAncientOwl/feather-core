@@ -12,7 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import mc.owls.valley.net.feathercore.api.common.StringUtils;
 import mc.owls.valley.net.feathercore.api.common.YamlUtils;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.api.core.IFeatherCommand;
+import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.module.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.module.ModuleEnableStatus;
 import mc.owls.valley.net.feathercore.api.exception.FeatherSetupException;
@@ -40,7 +40,7 @@ public class CommandsRegistrator extends FeatherModule {
                 final Method method = clazz.getMethod("onCreate", IFeatherCoreProvider.class);
                 method.setAccessible(true);
 
-                final IFeatherCommand instance = (IFeatherCommand) constructor.newInstance();
+                final FeatherCommand<?> instance = (FeatherCommand<?>) constructor.newInstance();
                 method.invoke(instance, core);
 
                 final PluginCommand command = plugin.getCommand(commandName);

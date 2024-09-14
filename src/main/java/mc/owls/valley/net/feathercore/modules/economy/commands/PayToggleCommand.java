@@ -3,20 +3,19 @@ package mc.owls.valley.net.feathercore.modules.economy.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import mc.owls.valley.net.feathercore.api.common.Message;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
-import mc.owls.valley.net.feathercore.api.core.IFeatherCommand;
+import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IPlayersDataManager;
 import mc.owls.valley.net.feathercore.api.database.mongo.models.PlayerModel;
 import mc.owls.valley.net.feathercore.modules.economy.common.Messages;
 
-public class PayToggleCommand implements IFeatherCommand {
-    private static record CommandData(PlayerModel playerModel) {
+public class PayToggleCommand extends FeatherCommand<PayToggleCommand.CommandData> {
+    public static record CommandData(PlayerModel playerModel) {
     }
 
     private IPlayersDataManager playersData = null;
@@ -30,31 +29,15 @@ public class PayToggleCommand implements IFeatherCommand {
     }
 
     @Override
-    public boolean onCommand(final CommandSender sender, final Command cmd, final String label, final String[] args) {
-        final CommandData data = parse(sender, args);
-
-        if (data == null) {
-            return true;
-        }
-
+    protected void execute(final CommandSender sender, final CommandData data) {
         data.playerModel.acceptsPayments = !data.playerModel.acceptsPayments;
         this.playersData.markPlayerModelForSave(data.playerModel);
 
         Message.to(sender, this.messages,
                 data.playerModel.acceptsPayments ? Messages.PAY_TOGGLE_TRUE : Messages.PAY_TOGGLE_FALSE);
-
-        return true;
     }
 
-    @Override
-    public List<String> onTabComplete(final CommandSender sender, final Command cmd, final String alias,
-            final String[] args) {
-        List<String> completions = new ArrayList<>();
-
-        return completions;
-    }
-
-    private CommandData parse(final CommandSender sender, final String args[]) {
+    protected CommandData parse(final CommandSender sender, final String args[]) {
         // 3. check the basics
         if (!sender.hasPermission("feathercore.economy.general.paytoggle")) {
             Message.to(sender, this.messages, Messages.PERMISSION_DENIED);
@@ -78,6 +61,13 @@ public class PayToggleCommand implements IFeatherCommand {
         }
 
         return new CommandData(playerModel);
+    }
+
+    @Override
+    public List<String> onTabComplete(final String[] args) {
+        List<String> completions = new ArrayList<>();
+
+        return completions;
     }
 
 }

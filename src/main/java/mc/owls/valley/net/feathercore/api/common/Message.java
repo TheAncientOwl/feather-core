@@ -6,20 +6,20 @@ import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 
 public class Message {
 
-    public static void to(final CommandSender reciver, final String message) {
-        reciver.sendMessage(StringUtils.translateColors(message));
+    public static void to(final CommandSender receiver, final String message) {
+        receiver.sendMessage(StringUtils.translateColors(message));
     }
 
-    public static void to(final CommandSender reciver, String... messages) {
-        reciver.sendMessage(StringUtils.translateColors(String.join("\n", messages)));
+    public static void to(final CommandSender receiver, String... messages) {
+        receiver.sendMessage(StringUtils.translateColors(String.join("\n", messages)));
     }
 
-    public static void to(final CommandSender reciver, final IPropertyAccessor propertyAccessor,
+    public static void to(final CommandSender receiver, final IPropertyAccessor propertyAccessor,
             final String key) {
-        reciver.sendMessage(StringUtils.translateColors(propertyAccessor.getString(key)));
+        receiver.sendMessage(StringUtils.translateColors(propertyAccessor.getString(key)));
     }
 
-    public static void to(final CommandSender reciver, final IPropertyAccessor propertyAccessor,
+    public static void to(final CommandSender receiver, final IPropertyAccessor propertyAccessor,
             String... keys) {
         final StringBuilder sb = new StringBuilder();
 
@@ -31,13 +31,13 @@ public class Message {
             sb.setLength(sb.length() - 1);
         }
 
-        reciver.sendMessage(StringUtils.translateColors(sb.toString()));
+        receiver.sendMessage(StringUtils.translateColors(sb.toString()));
     }
 
-    @SuppressWarnings("unchecked")
-    public static void to(final CommandSender reciver, final IPropertyAccessor properties,
+    @SafeVarargs
+    public static void to(final CommandSender receiver, final IPropertyAccessor properties,
             final String key, Pair<String, Object>... placeholders) {
-        reciver
+        receiver
                 .sendMessage(StringUtils
                         .translateColors(StringUtils.replacePlaceholders(properties.getString(key), placeholders)));
     }

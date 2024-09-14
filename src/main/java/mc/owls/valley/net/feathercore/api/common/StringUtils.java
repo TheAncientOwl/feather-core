@@ -18,7 +18,7 @@ public class StringUtils {
         return sw.toString();
     }
 
-    @SuppressWarnings("unchecked")
+    @SafeVarargs
     public static String replacePlaceholders(String message, Pair<String, Object>... replacements) {
         for (final var replacement : replacements) {
             message = message.replace(replacement.first, replacement.second.toString());
