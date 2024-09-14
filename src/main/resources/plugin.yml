@@ -16,6 +16,8 @@ feathercore:
       config: economy.yml
     - field: messagesConfigFile
       config: messages.yml
+    - field: pvpConfigFile
+      config: pvp.yml
   literals:
     - field: LITERAL_MONGO_MANAGER
       literal: MongoManager
@@ -25,6 +27,8 @@ feathercore:
       literal: ConfigurationManager
     - field: LITERAL_ECONOMY_PROVIDER
       literal: FeatherEconomyProvider
+    - field: LITERAL_PVP_MANAGER
+      literal: PvPManager
   modules:
     - name: ConfigurationManager
       class: mc.owls.valley.net.feathercore.core.modules.ConfigurationManager
@@ -42,17 +46,26 @@ feathercore:
       class: mc.owls.valley.net.feathercore.modules.economy.components.FeatherEconomyProvider
       mandatory: true
       dependencies: [PlayersDataManager]
+    - name: PvPManager
+      class: mc.owls.valley.net.feathercore.modules.restricted.pvp.components.PvPManager
+      mandatory: false
+      dependencies: [ConfigurationManager]
     - name: CommandsRegistrator
       class: mc.owls.valley.net.feathercore.core.modules.CommandsRegistrator
       mandatory: true
-      dependencies: [ConfigurationManager, MongoManager, PlayersDataManager, FeatherEconomyProvider]
+      dependencies: [ConfigurationManager, MongoManager, PlayersDataManager, FeatherEconomyProvider, PvPManager]
     - name: ListenersRegistrator
       class: mc.owls.valley.net.feathercore.core.modules.ListenersRegistrator
       mandatory: true
-      dependencies: [ConfigurationManager, MongoManager, PlayersDataManager, FeatherEconomyProvider]
+      dependencies: [ConfigurationManager, MongoManager, PlayersDataManager, FeatherEconomyProvider, PvPManager]
   listeners:
     - mc.owls.valley.net.feathercore.modules.data.listeners.PlayerJoinDataListener
     - mc.owls.valley.net.feathercore.modules.economy.listeners.BanknotePlaceListener
+    - mc.owls.valley.net.feathercore.modules.restricted.pvp.listeners.BlockCommandsListener
+    - mc.owls.valley.net.feathercore.modules.restricted.pvp.listeners.PlayerDamageListener
+    - mc.owls.valley.net.feathercore.modules.restricted.pvp.listeners.PlayerDeathListener
+    - mc.owls.valley.net.feathercore.modules.restricted.pvp.listeners.PlayerLogoutListener
+    - mc.owls.valley.net.feathercore.modules.restricted.pvp.listeners.TeleportListener
 
 commands:
   balance:

@@ -10,10 +10,10 @@ import mc.owls.valley.net.feathercore.api.common.StringUtils;
 import mc.owls.valley.net.feathercore.api.common.YamlUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.api.core.IConfigurationManager;
 import mc.owls.valley.net.feathercore.api.core.module.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.module.ModuleEnableStatus;
 import mc.owls.valley.net.feathercore.api.exception.FeatherSetupException;
+import mc.owls.valley.net.feathercore.api.module.IConfigurationManager;
 import mc.owls.valley.net.feathercore.core.FeatherCore;
 import mc.owls.valley.net.feathercore.core.configuration.bukkit.BukkitConfigFile;
 
@@ -21,6 +21,7 @@ public class ConfigurationManager extends FeatherModule implements IConfiguratio
     private IConfigFile dataConfigFile = null;
     private IConfigFile economyConfigFile = null;
     private IConfigFile messagesConfigFile = null;
+    private IConfigFile pvpConfigFile = null;
 
     public ConfigurationManager(final String name) {
         super(name);
@@ -57,6 +58,7 @@ public class ConfigurationManager extends FeatherModule implements IConfiguratio
             this.dataConfigFile.saveConfig();
             this.economyConfigFile.saveConfig();
             this.messagesConfigFile.saveConfig();
+            this.pvpConfigFile.saveConfig();
         } catch (final IOException e) {
         }
     }
@@ -74,6 +76,11 @@ public class ConfigurationManager extends FeatherModule implements IConfiguratio
     @Override
     public IConfigFile getMessagesConfigFile() {
         return this.messagesConfigFile;
+    }
+
+    @Override
+    public IConfigFile getPvPConfigFile() {
+        return this.pvpConfigFile;
     }
 
 }

@@ -57,3 +57,12 @@ economy:
       invalid-amount: "&8[&4Economy&8] &cYou don't have {amount} banknotes in hand&8."
       negative-amount: '&8[&4Economy&8] &cYou cannot deposit negative amounts&8...'
     success: '&8[&2Economy&8] &7You have successfully deposited &a{amount}&8. &7Your balance is now &a{balance}&8.'
+
+pvp:
+  combat:
+    tag: '&8[&4PvP&8] &7You tagged &c{player} &7in combat&8.'
+    tagged: '&8[&4PvP&8] &c{player} &7tagged you in combat&8.'
+    ended: '&8[&4Pvp&8] &7You are no longer in combat&8.'
+  block-command: '&8[&4PvP&8] &cYou cannot use this command during combat&8!'
+  logout: '&8[&4PvP&8] &c{player} &7disconnected during combat&8!'
+  teleport: '&8[&4PvP&8] &cYou cannot teleport during combat&8!'

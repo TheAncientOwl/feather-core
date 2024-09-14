@@ -1,0 +1,24 @@
+combat:
+  # How long combat should last (seconds)
+  time: 15
+  # How frequently should check if a player is no longer in combat (seconds)
+  check-interval: 5
+
+block-tp:
+  # Block chorus fruit teleportation
+  chorus-fruit: true
+  # Block ender pearl teleportation
+  ender-pearl: true
+
+on-logout:
+  # If players should be killed when logout during combat
+  kill: true
+  # Broadcast player's logout during combat
+  broadcast: true
+
+commands:
+  # These commands will be whitelisted during combat time.
+  # All other commands will be blocked
+  whitelist:
+    - '/msg'
+    - '/r'
