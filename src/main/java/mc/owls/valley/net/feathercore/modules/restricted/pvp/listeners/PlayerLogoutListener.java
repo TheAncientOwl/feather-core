@@ -49,7 +49,7 @@ public class PlayerLogoutListener implements IFeatherListener {
             return;
         }
 
-        Message.broadcast(this.messages, Messages.LOGOUT, Pair.of(Placeholder.PLAYER_NAME, player.getName()));
+        Message.broadcast(this.messages, Messages.LOGOUT, Pair.of(Placeholder.PLAYER, player.getName()));
 
     }
 }

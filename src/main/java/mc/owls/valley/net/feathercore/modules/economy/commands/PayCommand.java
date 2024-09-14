@@ -46,10 +46,10 @@ public class PayCommand extends FeatherCommand<PayCommand.CommandData> {
         final var amount = this.economy.format(data.amount);
 
         Message.to(sender, this.messages, Messages.PAY_SEND,
-                Pair.of(Placeholder.PLAYER_NAME, data.receiver.getName()),
+                Pair.of(Placeholder.PLAYER, data.receiver.getName()),
                 Pair.of(Placeholder.AMOUNT, amount));
         Message.to((Player) data.receiver, this.messages, Messages.PAY_RECEIVE,
-                Pair.of(Placeholder.PLAYER_NAME, ((Player) sender).getName()),
+                Pair.of(Placeholder.PLAYER, ((Player) sender).getName()),
                 Pair.of(Placeholder.AMOUNT, amount));
     }
 
@@ -80,7 +80,7 @@ public class PayCommand extends FeatherCommand<PayCommand.CommandData> {
 
         if (!receiverPlayer.isOnline()) {
             Message.to(sender, this.messages, Messages.NOT_ONLINE_PLAYER,
-                    Pair.of(Placeholder.PLAYER_NAME, receiverPlayer.getName()));
+                    Pair.of(Placeholder.PLAYER, receiverPlayer.getName()));
             return null;
         }
 
@@ -92,7 +92,7 @@ public class PayCommand extends FeatherCommand<PayCommand.CommandData> {
 
         if (!playerModel.acceptsPayments && !sender.hasPermission("feathercore.economy.general.pay.override")) {
             Message.to(sender, this.messages, Messages.PAY_TOGGLE_NOT_ACCEPTING,
-                    Pair.of(Placeholder.PLAYER_NAME, receiverPlayer.getName()));
+                    Pair.of(Placeholder.PLAYER, receiverPlayer.getName()));
             return null;
         }
 

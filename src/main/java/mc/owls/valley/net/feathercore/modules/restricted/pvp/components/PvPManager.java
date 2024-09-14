@@ -73,7 +73,7 @@ public class PvPManager extends FeatherModule implements IPvPManager {
     private void putPlayerInCombat(final Player player, final String otherName,
             final long currentTime, final String messageKey) {
         if (!this.playersInCombat.containsKey(player.getUniqueId())) {
-            Message.to(player, this.messages, messageKey, Pair.of(Placeholder.PLAYER_NAME, otherName));
+            Message.to(player, this.messages, messageKey, Pair.of(Placeholder.PLAYER, otherName));
             if (!player.hasPermission("pvp.bypass.fly")) {
                 player.setFlying(false);
                 player.setAllowFlight(false);

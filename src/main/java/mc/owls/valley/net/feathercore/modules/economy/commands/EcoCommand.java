@@ -53,7 +53,7 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
         }
 
         Message.to(sender, this.messages, Messages.ECO_SUCCESS,
-                Pair.of(Placeholder.PLAYER_NAME, data.player.getName()),
+                Pair.of(Placeholder.PLAYER, data.player.getName()),
                 Pair.of(Placeholder.OLD, this.economy.format(data.oldBalance)),
                 Pair.of(Placeholder.NEW, this.economy.format(this.economy.getBalance(data.player))));
     }

@@ -45,7 +45,7 @@ public class BalanceCommand extends FeatherCommand<BalanceCommand.CommandData> {
                 break;
             case OTHER:
                 Message.to(sender, this.messages, Messages.BALANCE_OTHER,
-                        Pair.of(Placeholder.PLAYER_NAME, data.other.getName()),
+                        Pair.of(Placeholder.PLAYER, data.other.getName()),
                         Pair.of(Placeholder.BALANCE, this.economy.format(this.economy.getBalance(data.other))));
 
                 break;
