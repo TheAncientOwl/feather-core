@@ -1,8 +1,8 @@
 configs:
-  dataConfigFile: data.yml
-  economyConfigFile: economy.yml
-  messagesConfigFile: messages.yml
-  pvpConfigFile: pvp.yml
+  dataConfigFile: modules/data.yml
+  economyConfigFile: modules/economy.yml
+  messagesConfigFile: translations/en.yml
+  pvpConfigFile: modules/pvp.yml
 
 modules:
   ConfigurationManager:
