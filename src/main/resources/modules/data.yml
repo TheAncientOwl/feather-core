@@ -5,6 +5,8 @@ mongodb:
     timeout: 1000
 
 players:
+  default:
+    language: en
   auto-save:
     enabled: true
     logging: true

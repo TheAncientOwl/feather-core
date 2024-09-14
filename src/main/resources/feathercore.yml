@@ -30,6 +30,14 @@ modules:
     listeners:
       - mc.owls.valley.net.feathercore.modules.data.players.listeners.PlayerJoinDataListener
 
+  TranslationManager:
+    class: mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager
+    dependencies: [PlayersDataManager]
+    literal: LITERAL_TRANSLATION_MANAGER
+    mandatory: true
+    commands: []
+    listeners: []
+
   FeatherEconomyProvider:
     class: mc.owls.valley.net.feathercore.modules.economy.components.FeatherEconomyProvider
     dependencies: [PlayersDataManager]

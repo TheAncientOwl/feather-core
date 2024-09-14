@@ -30,6 +30,9 @@ public class PlayerModel {
     @Property("accepts_payments")
     public boolean acceptsPayments = true;
 
+    @Property("language")
+    public String language = "en";
+
     public PlayerModel() {
     }
 }
