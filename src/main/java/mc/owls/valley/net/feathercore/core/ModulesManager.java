@@ -33,7 +33,6 @@ public class ModulesManager {
         public List<Pair<String, String>> commands = new ArrayList<>();
     }
 
-    private Map<String, ModuleConfig> moduleConfigs = new HashMap<>();
     private Map<String, FeatherModule> modules = new HashMap<>();
     private Set<String> enabledModules = new HashSet<>();
     private List<String> enableOrder = new ArrayList<>();
@@ -48,30 +47,30 @@ public class ModulesManager {
     }
 
     public void onEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
-        loadModules(core);
-        computeEnableOrder();
+        final var modules = loadModules(core);
+        final var order = computeEnableOrder(modules);
         core.getFeatherLogger().info("Registered modules: " + String.join("&8,&b ", this.enableOrder));
 
-        this.modules = this.moduleConfigs.entrySet().stream()
+        this.modules = modules.entrySet().stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().instance));
 
-        enableModules(core);
+        enableModules(core, order, modules);
 
-        for (final var module : this.moduleConfigs.keySet()) {
+        for (final var module : modules.keySet()) {
             if (!this.enabledModules.contains(module)) {
                 this.modules.remove(module);
                 this.enableOrder.remove(module);
             }
         }
-
-        this.moduleConfigs = null;
     }
 
     public void onDisable(final IFeatherLogger logger) {
         disableModules(logger);
     }
 
-    private void loadModules(final IFeatherCoreProvider core) throws FeatherSetupException {
+    private Map<String, ModuleConfig> loadModules(final IFeatherCoreProvider core) throws FeatherSetupException {
+        final Map<String, ModuleConfig> modules = new HashMap<>();
+
         final var modulesConfig = YamlUtils.loadYaml(core.getPlugin(), FeatherCore.FEATHER_CORE_YML)
                 .getConfigurationSection("modules");
 
@@ -83,7 +82,7 @@ public class ModulesManager {
 
             // 1. create module config
             final var module = new ModuleConfig();
-            this.moduleConfigs.put(moduleName, module);
+            modules.put(moduleName, module);
 
             // 2. create module instance
             final var moduleClass = moduleConfig.getString("class");
@@ -135,30 +134,35 @@ public class ModulesManager {
         }
 
         // check if dependencies are actual modules
-        for (final var moduleEntry : this.moduleConfigs.entrySet()) {
+        for (final var moduleEntry : modules.entrySet()) {
             final var moduleName = moduleEntry.getKey();
             final var moduleData = moduleEntry.getValue();
 
             for (final var dependency : moduleData.dependencies) {
-                if (this.moduleConfigs.get(dependency) == null) {
+                if (modules.get(dependency) == null) {
                     throw new FeatherSetupException("Dependency '" + dependency + "' of module '" + moduleName
                             + "' does not name any valid module");
                 }
             }
         }
+
+        return modules;
     }
 
-    private void computeEnableOrder() throws FeatherSetupException {
+    private List<String> computeEnableOrder(final Map<String, ModuleConfig> moduleConfigs)
+            throws FeatherSetupException {
+        final List<String> order = new ArrayList<>();
+
         // 1. build the graph and compute in-degrees
         final Map<String, HashSet<String>> graph = new HashMap<>();
         final Map<String, Integer> inDegrees = new HashMap<>();
 
-        for (final var moduleName : this.moduleConfigs.keySet()) {
+        for (final var moduleName : moduleConfigs.keySet()) {
             inDegrees.put(moduleName, 0);
             graph.put(moduleName, new HashSet<>());
         }
 
-        for (final var entry : this.moduleConfigs.entrySet()) {
+        for (final var entry : moduleConfigs.entrySet()) {
             final var moduleName = entry.getKey();
             for (final var dependency : entry.getValue().dependencies) {
                 graph.get(dependency).add(moduleName);
@@ -176,7 +180,7 @@ public class ModulesManager {
 
         while (!queue.isEmpty()) {
             final var moduleName = queue.poll();
-            enableOrder.add(moduleName);
+            order.add(moduleName);
 
             for (final var neighhbor : graph.get(moduleName)) {
                 inDegrees.put(neighhbor, inDegrees.get(neighhbor) - 1);
@@ -187,18 +191,21 @@ public class ModulesManager {
         }
 
         // check for cycles
-        if (enableOrder.size() != moduleConfigs.size()) {
+        if (order.size() != moduleConfigs.size()) {
             throw new FeatherSetupException(
                     "There is a cycle in the dependency graph of modules configuration. This is weird O.o, please contact the developer");
         }
+
+        return order;
     }
 
-    private void enableModules(final IFeatherCoreProvider core) throws FeatherSetupException {
+    private void enableModules(final IFeatherCoreProvider core, final List<String> enableOrder,
+            final Map<String, ModuleConfig> moduleConfigs) throws FeatherSetupException {
         final IConfigFile modulesEnabledConfig = new BukkitConfigFile(core.getPlugin(), "modules.yml");
 
         for (final var moduleName : enableOrder) {
             // try to enable the module
-            final var module = this.moduleConfigs.get(moduleName);
+            final var module = moduleConfigs.get(moduleName);
             final var configEnabled = modulesEnabledConfig.getBoolean(moduleName, true);
 
             if (!configEnabled && !module.mandatory) {

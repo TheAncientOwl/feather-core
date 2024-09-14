@@ -13,9 +13,7 @@ public abstract class FeatherModule {
         final IFeatherLogger logger = core.getFeatherLogger();
 
         logStatus(logger, "&7setup started");
-
         onModuleEnable(core);
-
         logStatus(logger, "&aenabled");
     }
 
