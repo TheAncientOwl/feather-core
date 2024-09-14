@@ -18,9 +18,9 @@ import dev.morphia.mapping.DateStorage;
 import dev.morphia.mapping.MapperOptions;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigSection;
+import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.api.core.module.FeatherModule;
-import mc.owls.valley.net.feathercore.api.core.module.ModuleEnableStatus;
+
 import mc.owls.valley.net.feathercore.api.database.mongo.IDAOAccessor;
 import mc.owls.valley.net.feathercore.api.database.mongo.accessors.PlayersDAO;
 import mc.owls.valley.net.feathercore.api.database.mongo.models.PlayerModel;
@@ -35,7 +35,7 @@ public class MongoManager extends FeatherModule implements IDAOAccessor {
     }
 
     @Override
-    protected ModuleEnableStatus onModuleEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
+    protected void onModuleEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
         final IConfigFile dataConfig = core.getConfigurationManager().getDataConfiguration();
         final IConfigSection mongoConfig = dataConfig.getConfigurationSection("mongodb");
 
@@ -68,8 +68,6 @@ public class MongoManager extends FeatherModule implements IDAOAccessor {
 
         this.datastore.getMapper().map(PlayerModel.class);
         this.datastore.ensureIndexes();
-
-        return ModuleEnableStatus.SUCCESS;
     }
 
     @Override

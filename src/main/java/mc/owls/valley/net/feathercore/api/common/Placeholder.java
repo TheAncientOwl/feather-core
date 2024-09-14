@@ -1,7 +1,7 @@
 package mc.owls.valley.net.feathercore.api.common;
 
 public class Placeholder {
-    public static final String PLAYER_NAME = "{player}";
+    public static final String PLAYER = "{player}";
     public static final String CURRENCY = "{currency}";
     public static final String BALANCE = "{balance}";
     public static final String STRING = "{string}";

@@ -14,11 +14,10 @@ import mc.owls.valley.net.feathercore.api.common.Pair;
 import mc.owls.valley.net.feathercore.api.common.Placeholder;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
+import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.api.core.module.FeatherModule;
-import mc.owls.valley.net.feathercore.api.core.module.ModuleEnableStatus;
+
 import mc.owls.valley.net.feathercore.api.exception.FeatherSetupException;
-import mc.owls.valley.net.feathercore.api.module.interfaces.IConfigurationManager;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IPvPManager;
 import mc.owls.valley.net.feathercore.modules.restricted.pvp.common.Messages;
 
@@ -34,8 +33,8 @@ public class PvPManager extends FeatherModule implements IPvPManager {
     }
 
     @Override
-    protected ModuleEnableStatus onModuleEnable(IFeatherCoreProvider core) throws FeatherSetupException {
-        final IConfigurationManager configManager = core.getConfigurationManager();
+    protected void onModuleEnable(IFeatherCoreProvider core) throws FeatherSetupException {
+        final var configManager = core.getConfigurationManager();
         this.config = configManager.getPvPConfigFile();
         this.messages = configManager.getMessagesConfigFile().getConfigurationSection(Messages.PVP_SECTION);
 
@@ -43,12 +42,11 @@ public class PvPManager extends FeatherModule implements IPvPManager {
 
         this.combatCheckTask = Bukkit.getScheduler().runTaskTimerAsynchronously(core.getPlugin(),
                 new CombatChecker(this), 0, this.config.getInt("combat.check-interval") * 20L);
-
-        return ModuleEnableStatus.SUCCESS;
     }
 
     @Override
     protected void onModuleDisable() {
+        this.playersInCombat.clear();
     }
 
     @Override
@@ -75,7 +73,7 @@ public class PvPManager extends FeatherModule implements IPvPManager {
     private void putPlayerInCombat(final Player player, final String otherName,
             final long currentTime, final String messageKey) {
         if (!this.playersInCombat.containsKey(player.getUniqueId())) {
-            Message.to(player, this.messages, messageKey, Pair.of(Placeholder.PLAYER_NAME, otherName));
+            Message.to(player, this.messages, messageKey, Pair.of(Placeholder.PLAYER, otherName));
             if (!player.hasPermission("pvp.bypass.fly")) {
                 player.setFlying(false);
                 player.setAllowFlight(false);

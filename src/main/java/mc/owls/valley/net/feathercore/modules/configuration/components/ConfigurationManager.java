@@ -7,9 +7,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import mc.owls.valley.net.feathercore.api.common.StringUtils;
 import mc.owls.valley.net.feathercore.api.common.YamlUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
+import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.api.core.module.FeatherModule;
-import mc.owls.valley.net.feathercore.api.core.module.ModuleEnableStatus;
+
 import mc.owls.valley.net.feathercore.api.exception.FeatherSetupException;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IConfigurationManager;
 import mc.owls.valley.net.feathercore.core.FeatherCore;
@@ -26,7 +26,7 @@ public class ConfigurationManager extends FeatherModule implements IConfiguratio
     }
 
     @Override
-    protected ModuleEnableStatus onModuleEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
+    protected void onModuleEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
         final JavaPlugin plugin = core.getPlugin();
 
         final var configs = YamlUtils.loadYaml(plugin, FeatherCore.FEATHER_CORE_YML).getConfigurationSection("configs");
@@ -45,8 +45,6 @@ public class ConfigurationManager extends FeatherModule implements IConfiguratio
                         + "}\nReason: " + StringUtils.exceptionToStr(e));
             }
         }
-
-        return ModuleEnableStatus.SUCCESS;
     }
 
     @Override

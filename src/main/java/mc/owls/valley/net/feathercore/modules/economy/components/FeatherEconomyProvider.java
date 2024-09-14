@@ -5,9 +5,9 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.api.core.module.FeatherModule;
-import mc.owls.valley.net.feathercore.api.core.module.ModuleEnableStatus;
+
 import mc.owls.valley.net.feathercore.api.exception.FeatherSetupException;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IEconomyProvider;
 import net.milkbowl.vault.economy.Economy;
@@ -20,11 +20,9 @@ public class FeatherEconomyProvider extends FeatherModule implements IEconomyPro
     }
 
     @Override
-    protected ModuleEnableStatus onModuleEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
+    protected void onModuleEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
         provideEconomy(core);
         setupVault(core);
-
-        return ModuleEnableStatus.SUCCESS;
     }
 
     private void provideEconomy(final IFeatherCoreProvider core) throws FeatherSetupException {
