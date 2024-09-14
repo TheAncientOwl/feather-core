@@ -1,4 +1,4 @@
-package mc.owls.valley.net.feathercore.api.module;
+package mc.owls.valley.net.feathercore.api.module.interfaces;
 
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 

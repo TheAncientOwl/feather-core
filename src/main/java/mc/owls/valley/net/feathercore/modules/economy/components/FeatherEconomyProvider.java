@@ -9,7 +9,7 @@ import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.module.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.module.ModuleEnableStatus;
 import mc.owls.valley.net.feathercore.api.exception.FeatherSetupException;
-import mc.owls.valley.net.feathercore.api.module.IEconomyProvider;
+import mc.owls.valley.net.feathercore.api.module.interfaces.IEconomyProvider;
 import net.milkbowl.vault.economy.Economy;
 
 public class FeatherEconomyProvider extends FeatherModule implements IEconomyProvider {

@@ -9,12 +9,9 @@ import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
 import mc.owls.valley.net.feathercore.api.database.mongo.IDAOAccessor;
 import mc.owls.valley.net.feathercore.api.exception.FeatherSetupException;
 import mc.owls.valley.net.feathercore.api.exception.ModuleNotEnabledException;
-import mc.owls.valley.net.feathercore.api.module.IConfigurationManager;
-import mc.owls.valley.net.feathercore.api.module.IPlayersDataManager;
-import mc.owls.valley.net.feathercore.api.module.IPvPManager;
-import mc.owls.valley.net.feathercore.core.common.FeatherLogger;
-import mc.owls.valley.net.feathercore.core.common.LogoManager;
-import mc.owls.valley.net.feathercore.core.modules.ModulesManager;
+import mc.owls.valley.net.feathercore.api.module.interfaces.IConfigurationManager;
+import mc.owls.valley.net.feathercore.api.module.interfaces.IPlayersDataManager;
+import mc.owls.valley.net.feathercore.api.module.interfaces.IPvPManager;
 import mc.owls.valley.net.feathercore.modules.economy.components.FeatherEconomyProvider;
 import net.milkbowl.vault.economy.Economy;
 

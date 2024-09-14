@@ -1,4 +1,4 @@
-package mc.owls.valley.net.feathercore.core.modules;
+package mc.owls.valley.net.feathercore.modules.configuration.components;
 
 import java.io.IOException;
 
@@ -11,9 +11,9 @@ import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.module.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.module.ModuleEnableStatus;
 import mc.owls.valley.net.feathercore.api.exception.FeatherSetupException;
-import mc.owls.valley.net.feathercore.api.module.IConfigurationManager;
+import mc.owls.valley.net.feathercore.api.module.interfaces.IConfigurationManager;
 import mc.owls.valley.net.feathercore.core.FeatherCore;
-import mc.owls.valley.net.feathercore.core.configuration.bukkit.BukkitConfigFile;
+import mc.owls.valley.net.feathercore.modules.configuration.components.bukkit.BukkitConfigFile;
 
 public class ConfigurationManager extends FeatherModule implements IConfigurationManager {
     private IConfigFile dataConfigFile = null;

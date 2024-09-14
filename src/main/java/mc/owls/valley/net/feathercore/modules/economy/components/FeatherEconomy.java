@@ -8,7 +8,7 @@ import org.bukkit.OfflinePlayer;
 
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.database.mongo.models.PlayerModel;
-import mc.owls.valley.net.feathercore.api.module.IPlayersDataManager;
+import mc.owls.valley.net.feathercore.api.module.interfaces.IPlayersDataManager;
 import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;

@@ -12,7 +12,7 @@ import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
 import mc.owls.valley.net.feathercore.api.exception.ModuleNotEnabledException;
-import mc.owls.valley.net.feathercore.api.module.IPvPManager;
+import mc.owls.valley.net.feathercore.api.module.interfaces.IPvPManager;
 import mc.owls.valley.net.feathercore.modules.restricted.pvp.common.Messages;
 
 public class PlayerLogoutListener implements IFeatherListener {

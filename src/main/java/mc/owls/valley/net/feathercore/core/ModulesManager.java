@@ -1,4 +1,4 @@
-package mc.owls.valley.net.feathercore.core.modules;
+package mc.owls.valley.net.feathercore.core;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +20,6 @@ import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
 import mc.owls.valley.net.feathercore.api.core.module.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.module.ModuleEnableStatus;
 import mc.owls.valley.net.feathercore.api.exception.FeatherSetupException;
-import mc.owls.valley.net.feathercore.core.FeatherCore;
 
 public class ModulesManager {
 

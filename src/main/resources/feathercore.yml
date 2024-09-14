@@ -6,7 +6,7 @@ configs:
 
 modules:
   ConfigurationManager:
-    class: mc.owls.valley.net.feathercore.core.modules.ConfigurationManager
+    class: mc.owls.valley.net.feathercore.modules.configuration.components.ConfigurationManager
     dependencies: []
     literal: LITERAL_CONFIG_MANAGER
     mandatory: true
@@ -14,7 +14,7 @@ modules:
     listeners: []
 
   MongoManager:
-    class: mc.owls.valley.net.feathercore.core.modules.MongoManager
+    class: mc.owls.valley.net.feathercore.modules.data.mongodb.components.MongoManager
     dependencies: [ConfigurationManager]
     literal: LITERAL_MONGO_MANAGER
     mandatory: true
@@ -22,13 +22,13 @@ modules:
     listeners: []
 
   PlayersDataManager:
-    class: mc.owls.valley.net.feathercore.modules.data.components.PlayersDataManager
+    class: mc.owls.valley.net.feathercore.modules.data.players.components.PlayersDataManager
     dependencies: [ConfigurationManager, MongoManager]
     literal: LITERAL_PLAYERS_DATA_MANAGER
     mandatory: true
     commands: []
     listeners:
-      - mc.owls.valley.net.feathercore.modules.data.listeners.PlayerJoinDataListener
+      - mc.owls.valley.net.feathercore.modules.data.players.listeners.PlayerJoinDataListener
 
   FeatherEconomyProvider:
     class: mc.owls.valley.net.feathercore.modules.economy.components.FeatherEconomyProvider

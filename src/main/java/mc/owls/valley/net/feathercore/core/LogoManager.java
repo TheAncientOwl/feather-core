@@ -1,4 +1,4 @@
-package mc.owls.valley.net.feathercore.core.common;
+package mc.owls.valley.net.feathercore.core;
 
 import org.bukkit.Server;
 

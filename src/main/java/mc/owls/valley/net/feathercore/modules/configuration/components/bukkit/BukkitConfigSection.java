@@ -1,4 +1,4 @@
-package mc.owls.valley.net.feathercore.core.configuration.bukkit;
+package mc.owls.valley.net.feathercore.modules.configuration.components.bukkit;
 
 import java.util.List;
 

@@ -11,7 +11,7 @@ import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.database.mongo.models.PlayerModel;
-import mc.owls.valley.net.feathercore.api.module.IPlayersDataManager;
+import mc.owls.valley.net.feathercore.api.module.interfaces.IPlayersDataManager;
 import mc.owls.valley.net.feathercore.modules.economy.common.Messages;
 
 public class PayToggleCommand extends FeatherCommand<PayToggleCommand.CommandData> {

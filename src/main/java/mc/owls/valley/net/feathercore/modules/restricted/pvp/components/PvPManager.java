@@ -18,8 +18,8 @@ import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.module.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.module.ModuleEnableStatus;
 import mc.owls.valley.net.feathercore.api.exception.FeatherSetupException;
-import mc.owls.valley.net.feathercore.api.module.IConfigurationManager;
-import mc.owls.valley.net.feathercore.api.module.IPvPManager;
+import mc.owls.valley.net.feathercore.api.module.interfaces.IConfigurationManager;
+import mc.owls.valley.net.feathercore.api.module.interfaces.IPvPManager;
 import mc.owls.valley.net.feathercore.modules.restricted.pvp.common.Messages;
 
 public class PvPManager extends FeatherModule implements IPvPManager {
