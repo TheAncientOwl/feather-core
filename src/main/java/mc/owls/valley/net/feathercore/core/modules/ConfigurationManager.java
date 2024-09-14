@@ -1,9 +1,7 @@
 package mc.owls.valley.net.feathercore.core.modules;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import mc.owls.valley.net.feathercore.api.common.StringUtils;
@@ -31,19 +29,18 @@ public class ConfigurationManager extends FeatherModule implements IConfiguratio
     protected ModuleEnableStatus onModuleEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
         final JavaPlugin plugin = core.getPlugin();
 
-        final FileConfiguration pluginConfig = YamlUtils.loadYaml(plugin, FeatherCore.PLUGIN_YML);
-        final var configs = pluginConfig.getMapList("feathercore.configs");
+        final var configs = YamlUtils.loadYaml(plugin, FeatherCore.FEATHER_CORE_YML).getConfigurationSection("configs");
 
-        for (final var config : configs) {
-            final String fieldName = (String) config.get("field");
-            final String configName = (String) config.get("config");
+        for (final var config : configs.getKeys(false)) {
+            final String fieldName = config;
+            final String configName = configs.getString(config);
 
             try {
-                final Class<?> clazz = this.getClass();
-                final Field field = clazz.getDeclaredField(fieldName);
+                final var clazz = this.getClass();
+                final var field = clazz.getDeclaredField(fieldName);
                 field.setAccessible(true);
                 field.set(this, new BukkitConfigFile(plugin, configName));
-            } catch (NoSuchFieldException | IllegalAccessException | SecurityException e) {
+            } catch (final Exception e) {
                 throw new FeatherSetupException("Could not setup config connection {" + fieldName + " -> " + configName
                         + "}\nReason: " + StringUtils.exceptionToStr(e));
             }

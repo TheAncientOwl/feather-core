@@ -13,14 +13,13 @@ import mc.owls.valley.net.feathercore.api.module.IConfigurationManager;
 import mc.owls.valley.net.feathercore.api.module.IPlayersDataManager;
 import mc.owls.valley.net.feathercore.api.module.IPvPManager;
 import mc.owls.valley.net.feathercore.core.common.FeatherLogger;
-import mc.owls.valley.net.feathercore.core.common.Literals;
 import mc.owls.valley.net.feathercore.core.common.LogoManager;
 import mc.owls.valley.net.feathercore.core.modules.ModulesManager;
 import mc.owls.valley.net.feathercore.modules.economy.components.FeatherEconomyProvider;
 import net.milkbowl.vault.economy.Economy;
 
 public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
-    public static final String PLUGIN_YML = "plugin.yml";
+    public static final String FEATHER_CORE_YML = "feathercore.yml";
 
     private static String LITERAL_MONGO_MANAGER = null;
     private static String LITERAL_PLAYERS_DATA_MANAGER = null;
@@ -40,7 +39,6 @@ public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
         this.featherLogger = FeatherLogger.setup(this);
 
         try {
-            Literals.setup(this);
             this.modulesManager.onEnable(this);
 
             final var enableFinishTime = System.currentTimeMillis();
@@ -95,6 +93,10 @@ public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
 
     @Override
     public IPvPManager getPvPManager() throws ModuleNotEnabledException {
+        if (!this.modulesManager.isModuleEnabled(LITERAL_PVP_MANAGER)) {
+            throw new ModuleNotEnabledException(LITERAL_PVP_MANAGER);
+        }
+
         return this.modulesManager.getModule(LITERAL_PVP_MANAGER);
     }
 

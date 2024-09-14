@@ -97,6 +97,7 @@
         <directory>${project.basedir}/src/main/resources</directory>
         <includes>
           <include>plugin.yml</include>
+          <include>feathercore.yml</include>
           <include>data.yml</include>
           <include>economy.yml</include>
           <include>messages.yml</include>
