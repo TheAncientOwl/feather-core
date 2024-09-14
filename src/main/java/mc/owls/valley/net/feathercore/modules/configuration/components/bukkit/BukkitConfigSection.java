@@ -43,4 +43,9 @@ public class BukkitConfigSection implements IConfigSection {
         return this.configSection.getStringList(path);
     }
 
+    @Override
+    public boolean getBoolean(final String path, final boolean defaultValue) {
+        return this.configSection.getBoolean(path, defaultValue);
+    }
+
 }
