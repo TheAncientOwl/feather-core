@@ -13,18 +13,17 @@ import mc.owls.valley.net.feathercore.api.common.Message;
 import mc.owls.valley.net.feathercore.api.common.Pair;
 import mc.owls.valley.net.feathercore.api.common.Placeholder;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
-import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-
 import mc.owls.valley.net.feathercore.api.exception.FeatherSetupException;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IPvPManager;
+import mc.owls.valley.net.feathercore.api.module.interfaces.ITranslationAccessor;
 import mc.owls.valley.net.feathercore.modules.restricted.pvp.common.Messages;
 
 public class PvPManager extends FeatherModule implements IPvPManager {
     private Map<UUID, Long> playersInCombat = null;
     private IConfigFile config = null;
-    private IPropertyAccessor messages = null;
+    private ITranslationAccessor lang = null;
     @SuppressWarnings("unused")
     private BukkitTask combatCheckTask = null;
 
@@ -36,7 +35,7 @@ public class PvPManager extends FeatherModule implements IPvPManager {
     protected void onModuleEnable(IFeatherCoreProvider core) throws FeatherSetupException {
         final var configManager = core.getConfigurationManager();
         this.config = configManager.getPvPConfigFile();
-        this.messages = configManager.getMessagesConfigFile().getConfigurationSection(Messages.PVP_SECTION);
+        this.lang = core.getTranslationManager();
 
         this.playersInCombat = new HashMap<>();
 
@@ -73,7 +72,8 @@ public class PvPManager extends FeatherModule implements IPvPManager {
     private void putPlayerInCombat(final Player player, final String otherName,
             final long currentTime, final String messageKey) {
         if (!this.playersInCombat.containsKey(player.getUniqueId())) {
-            Message.to(player, this.messages, messageKey, Pair.of(Placeholder.PLAYER, otherName));
+            Message.to(player, this.lang.getTranslation(player), messageKey,
+                    Pair.of(Placeholder.PLAYER, otherName));
             if (!player.hasPermission("pvp.bypass.fly")) {
                 player.setFlying(false);
                 player.setAllowFlight(false);
@@ -85,7 +85,7 @@ public class PvPManager extends FeatherModule implements IPvPManager {
     @Override
     public void removePlayerInCombat(final Player player) {
         this.playersInCombat.remove(player.getUniqueId());
-        Message.to(player, this.messages, Messages.COMBAT_ENDED);
+        Message.to(player, this.lang.getTranslation(player), Messages.COMBAT_ENDED);
     }
 
     @Override
@@ -93,7 +93,7 @@ public class PvPManager extends FeatherModule implements IPvPManager {
         this.playersInCombat.remove(uuid);
         final Player player = Bukkit.getPlayer(uuid);
         if (player != null && player.isOnline()) {
-            Message.to(player, this.messages, Messages.COMBAT_ENDED);
+            Message.to(player, this.lang.getTranslation(player), Messages.COMBAT_ENDED);
         }
     }
 

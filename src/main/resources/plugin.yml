@@ -28,3 +28,8 @@ commands:
   deposit:
     description: Deposit physical form of money to player's balance
     usage: /deposit [amount]
+
+  language:
+    description: Set prefered language for messages
+    usage: /language info/list/[language]
+    aliases: [lang]

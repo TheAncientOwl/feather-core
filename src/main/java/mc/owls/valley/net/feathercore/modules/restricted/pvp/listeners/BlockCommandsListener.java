@@ -6,23 +6,22 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import mc.owls.valley.net.feathercore.api.common.Message;
-import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
 import mc.owls.valley.net.feathercore.api.exception.ModuleNotEnabledException;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IPvPManager;
+import mc.owls.valley.net.feathercore.api.module.interfaces.ITranslationAccessor;
 import mc.owls.valley.net.feathercore.modules.restricted.pvp.common.Messages;
 
 public class BlockCommandsListener implements IFeatherListener {
     private IPvPManager pvpManager = null;
-    private IPropertyAccessor messages = null;
+    private ITranslationAccessor lang = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
         try {
             this.pvpManager = core.getPvPManager();
-            this.messages = core.getConfigurationManager().getMessagesConfigFile()
-                    .getConfigurationSection(Messages.PVP_SECTION);
+            this.lang = core.getTranslationManager();
         } catch (final ModuleNotEnabledException e) {
         }
     }
@@ -44,7 +43,7 @@ public class BlockCommandsListener implements IFeatherListener {
         }
 
         event.setCancelled(true);
-        Message.to(player, this.messages, Messages.BLOCK_COMMAND);
+        Message.to(player, this.lang.getTranslation(player), Messages.BLOCK_COMMAND);
     }
 
 }

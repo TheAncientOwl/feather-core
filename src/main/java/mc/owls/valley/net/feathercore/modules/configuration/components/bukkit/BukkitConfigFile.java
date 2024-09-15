@@ -3,6 +3,7 @@ package mc.owls.valley.net.feathercore.modules.configuration.components.bukkit;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -82,6 +83,16 @@ public class BukkitConfigFile implements IConfigFile {
     @Override
     public boolean getBoolean(final String path, final boolean defaultValue) {
         return this.fileConfiguration.getBoolean(path, defaultValue);
+    }
+
+    @Override
+    public Set<String> getKeys(final boolean recurse) {
+        return this.fileConfiguration.getKeys(recurse);
+    }
+
+    @Override
+    public String getString(final String path, final String defaultValue) {
+        return this.fileConfiguration.getString(path, defaultValue);
     }
 
 }

@@ -1,9 +1,12 @@
 package mc.owls.valley.net.feathercore.api.configuration;
 
 import java.util.List;
+import java.util.Set;
 
 public interface IPropertyAccessor {
     public String getString(final String path);
+
+    public String getString(final String path, final String defaultValue);
 
     public boolean getBoolean(final String path);
 
@@ -16,4 +19,6 @@ public interface IPropertyAccessor {
     public IConfigSection getConfigurationSection(final String path);
 
     public List<String> getStringList(final String path);
+
+    public Set<String> getKeys(final boolean recurse);
 }

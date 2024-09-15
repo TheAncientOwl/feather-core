@@ -1,0 +1,75 @@
+language:
+  usage: '&8[&6Usage&8] &e/langue info/list/[langue]'
+  change-success: '&8[&6Langue&8] &eChangement réussi&8!'
+  unknown: '&8[&4Langue&8] &cValeur invalide&8!'
+  info: '&8[&6Langue&8] &e{language}&8.'
+  list: '&8[&6Langue&8] &7Langues disponibles&8: &e{language}&8.'
+
+economy:
+  command-sender-not-player: '&cCette commande peut être exécutée uniquement par des joueurs&8.'
+  permission-denied: "&8[&4Économie&8] &cVous n’avez pas la permission d'utiliser cela&8!"
+  not-player: '&8[&4Économie&8] &c{string} n’est pas un joueur&8.'
+  not-online-player: '&8[&4Économie&8] &c{player} n’est pas en ligne&8.'
+  not-valid-number: '&8[&4Économie&8] &c{string} n’est pas un nombre valide&8!'
+  usage-invalid: '&8[&4Économie&8] &cUtilisation de la commande invalide&8.'
+  eco:
+    usage: '&8[&6Usage&8] &e/eco give/take/set [joueur] [montant]'
+    cannot-negative-amounts: '&8[&4Économie&8] &cImpossible de {string} les montants négatifs&8!'
+    success: '&8[&2Économie&8] &7Le solde de {player} était de &a{old}&7, maintenant il est de &a{new}&8.'
+    bounds:
+      max: '&8[&4Économie&8] &7Le nouveau solde serait > solde maximal autorisé &8(&c{max}&8)'
+      min: '&8[&4Économie&8] &7Le nouveau solde serait < solde minimal autorisé &8(&c{min}&8)'
+  balance:
+    usage: '&8[&6Usage&8] &e/balance <joueur>'
+    self: '&8[&2Économie&8] &7Votre solde&8: &a{balance}'
+    other: '&8[&2Économie&8] &7Le solde de {player}&8: &a{balance}'
+  pay:
+    error:
+      usage: '&8[&6Usage&8] &e/pay [joueur] [montant]'
+      self: '&8[&4Économie&8] &cVous ne pouvez pas vous payer vous-même&8...'
+      min-amount: '&8[&4Économie&8] &cLe montant minimum pouvant être envoyé est {amount}&8.'
+      not-enough-funds: '&8[&4Économie] &cFonds insuffisants&8.'
+      balance-exceeds: '&8[&4Économie] &cLe solde du receveur dépasserait le solde maximal autorisé &8(&c{max}&8)'
+    success:
+      send: '&8[&2Économie&8] &7Vous avez envoyé &a{amount} &7à {player}&8.'
+      receive: '&8[&2Économie&8] &7{player} vous a envoyé &a{amount}&8.'
+  paytoggle:
+    error:
+      usage: '&8[&6Usage&8] &e/paytoggle'
+      does-not-accept: '&8[&4Économie&8] &c{player} n’accepte pas les paiements&8.'
+    success:
+      status-true: '&8[&2Économie&8] &7Désormais, vous acceptez les paiements&8.'
+      status-false: '&8[&2Économie&8] &7Désormais, vous n’acceptez plus les paiements&8.'
+  banknote:
+    display-name: '&8&l< &aBillet de banque &8&l>'
+    lore:
+      - '&eValeur: &a{amount}'
+      - '&eMonnaie du jeu'
+      - '&ePeut être utilisé pour acheter des objets dans le jeu'
+    error:
+      invalid-material: '&8[&4Économie&8] &cMatériau invalide spécifié pour les billets de banque. Utilisation de papier à la place. Veuillez informer les administrateurs à ce sujet.'
+      place: '&8[&4Économie&8] &cLes billets de banque ne peuvent pas être placés&8...'
+      invalid: '&8[&4Économie&8] &cCe n’est pas un billet de banque valide&8!'
+  withdraw:
+    error:
+      usage: '&8[&6Usage&8] &e/withdraw [valeur-du-billet] [montant]'
+      minimum-value: '&8[&4Économie&8] &cLe montant minimum pouvant être retiré est {min}&8.'
+      not-enough-funds: '&8[&4Économie&8] &cFonds insuffisants&8.'
+      not-enough-space: '&8[&4Économie&8] &cPas assez d’espace dans l’inventaire&8.'
+    success: '&8[&2Économie&8] &7Vous avez retiré avec succès &a{amount}&8. &7Votre solde est maintenant de &a{balance}&8.'
+  deposit:
+    error:
+      usage: '&8[&6Usage&8] &e/deposit [montant]'
+      balance-exceeds: '&8[&4Économie&8] &cImpossible de déposer car le solde dépasserait le solde maximal autorisé &8(&c{max}&8)'
+      invalid-amount: '&8[&4Économie&8] &cVous n’avez pas {amount} billets de banque en main&8.'
+      negative-amount: '&8[&4Économie&8] &cVous ne pouvez pas déposer des montants négatifs&8...'
+    success: '&8[&2Économie&8] &7Vous avez déposé avec succès &a{amount}&8. &7Votre solde est maintenant de &a{balance}&8.'
+
+pvp:
+  combat:
+    tag: '&8[&4PvP&8] &7Vous avez marqué &c{player} &7en combat&8.'
+    tagged: '&8[&4PvP&8] &c{player} &7vous a marqué en combat&8.'
+    ended: '&8[&4PvP&8] &7Vous n’êtes plus en combat&8.'
+  block-command: '&8[&4PvP&8] &cVous ne pouvez pas utiliser cette commande pendant un combat&8!'
+  logout: '&8[&4PvP&8] &c{player} &7s’est déconnecté pendant un combat&8!'
+  teleport: '&8[&4PvP&8] &cVous ne pouvez pas téléporter pendant un combat&8!'

@@ -81,6 +81,7 @@ public class PlayersDataManager extends FeatherModule implements IPlayersDataMan
         playerModel.lastLogin = new Date();
         playerModel.balance = this.economyConfig.getDouble("starting-balance");
         playerModel.acceptsPayments = true;
+        playerModel.language = this.economyConfig.getString("players.default.language");
 
         this.playersDataCache.put(playerModel.uuid, playerModel);
         this.playersDAO.save(playerModel);

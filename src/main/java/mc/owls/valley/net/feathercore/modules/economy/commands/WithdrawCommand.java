@@ -20,6 +20,7 @@ import mc.owls.valley.net.feathercore.api.common.StringUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
+import mc.owls.valley.net.feathercore.api.module.interfaces.ITranslationAccessor;
 import mc.owls.valley.net.feathercore.modules.economy.common.Messages;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.milkbowl.vault.economy.Economy;
@@ -30,7 +31,7 @@ public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData>
 
     private Economy economy = null;
     private JavaPlugin plugin = null;
-    private IPropertyAccessor messages = null;
+    private ITranslationAccessor lang = null;
     private IPropertyAccessor economyConfig = null;
 
     @Override
@@ -38,8 +39,7 @@ public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData>
         this.plugin = core.getPlugin();
         this.economy = core.getEconomy();
         this.economyConfig = core.getConfigurationManager().getEconomyConfigFile();
-        this.messages = core.getConfigurationManager().getMessagesConfigFile()
-                .getConfigurationSection(Messages.ECONOMY);
+        this.lang = core.getTranslationManager();
     }
 
     @Override
@@ -47,7 +47,7 @@ public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData>
         this.economy.withdrawPlayer((Player) sender, data.withdrawValue);
         ((Player) sender).getInventory().addItem(data.banknote);
 
-        Message.to(sender, this.messages, Messages.WITHDRAW_SUCCESS,
+        Message.to(sender, this.lang.getTranslation(sender), Messages.WITHDRAW_SUCCESS,
                 Pair.of(Placeholder.AMOUNT, this.economy.format(data.withdrawValue)),
                 Pair.of(Placeholder.BALANCE, this.economy.format(this.economy.getBalance((Player) sender))));
     }
@@ -55,17 +55,18 @@ public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData>
     protected CommandData parse(final CommandSender sender, final String[] args) {
         // 1. basic checks
         if (!sender.hasPermission("feathercore.economy.general.withdraw")) {
-            Message.to(sender, this.messages, Messages.PERMISSION_DENIED);
+            Message.to(sender, this.lang.getTranslation(sender), Messages.PERMISSION_DENIED);
             return null;
         }
 
         if (!(sender instanceof Player)) {
-            Message.to(sender, this.messages, Messages.COMMAND_SENDER_NOT_PLAYER);
+            Message.to(sender, this.lang.getTranslation(sender), Messages.COMMAND_SENDER_NOT_PLAYER);
             return null;
         }
 
         if (args.length != 2) {
-            Message.to(sender, this.messages, Messages.USAGE_INVALID, Messages.USAGE_WITHDRAW);
+            Message.to(sender, this.lang.getTranslation(sender), Messages.USAGE_INVALID,
+                    Messages.USAGE_WITHDRAW);
             return null;
         }
 
@@ -74,7 +75,7 @@ public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData>
         try {
             banknoteValue = Double.parseDouble(args[0]);
         } catch (final Exception e) {
-            Message.to(sender, this.messages, Messages.NOT_VALID_NUMBER,
+            Message.to(sender, this.lang.getTranslation(sender), Messages.NOT_VALID_NUMBER,
                     Pair.of(Placeholder.STRING, args[0]));
             return null;
         }
@@ -84,7 +85,7 @@ public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData>
         try {
             banknotesCount = Integer.parseInt(args[1]);
         } catch (final Exception e) {
-            Message.to(sender, this.messages, Messages.NOT_VALID_NUMBER,
+            Message.to(sender, this.lang.getTranslation(sender), Messages.NOT_VALID_NUMBER,
                     Pair.of(Placeholder.STRING, args[1]));
             return null;
         }
@@ -92,7 +93,7 @@ public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData>
         // 4. check if withdraw data is valid
         final var minWithdraw = Math.max(0, this.economyConfig.getDouble("banknote.minimum-value"));
         if (banknoteValue < minWithdraw) {
-            Message.to(sender, this.messages, Messages.WITHDRAW_MIN_AMOUNT,
+            Message.to(sender, this.lang.getTranslation(sender), Messages.WITHDRAW_MIN_AMOUNT,
                     Pair.of(Placeholder.MIN, this.economy.format(minWithdraw)));
             return null;
         }
@@ -100,16 +101,16 @@ public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData>
         final var withdrawValue = banknoteValue * banknotesCount;
 
         if (!this.economy.has((Player) sender, withdrawValue)) {
-            Message.to(sender, this.messages, Messages.WITHDRAW_NO_FUNDS);
+            Message.to(sender, this.lang.getTranslation(sender), Messages.WITHDRAW_NO_FUNDS);
             return null;
         }
 
         // 5. create banknote and check if it can be added to player's inventory
         final ItemStack banknote = makeBanknotes(sender, banknoteValue, banknotesCount,
-                this.messages.getStringList(Messages.BANKNOTE_LORE));
+                this.lang.getTranslation(sender).getStringList(Messages.BANKNOTE_LORE));
 
         if (!canAddBanknote((Player) sender, banknote)) {
-            Message.to(sender, this.messages, Messages.WITHDRAW_NO_SPACE);
+            Message.to(sender, this.lang.getTranslation(sender), Messages.WITHDRAW_NO_SPACE);
             return null;
         }
 
@@ -159,7 +160,7 @@ public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData>
             banknote = new ItemStack(material);
         } catch (final IllegalArgumentException e) {
             banknote = new ItemStack(Material.PAPER);
-            Message.to(sender, this.messages, Messages.BANKNOTE_INVALID_MATERIAL);
+            Message.to(sender, this.lang.getTranslation(sender), Messages.BANKNOTE_INVALID_MATERIAL);
         }
 
         // 2. check lore for {amount} placeholder
@@ -170,7 +171,7 @@ public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData>
         // 3. setup item meta
         final ItemMeta meta = banknote.getItemMeta();
         meta.displayName(LegacyComponentSerializer.legacyAmpersand()
-                .deserialize(this.messages.getString(Messages.BANKNOTE_NAME)));
+                .deserialize(this.lang.getTranslation(sender).getString(Messages.BANKNOTE_NAME)));
         meta.lore(lore.stream()
                 .map(line -> LegacyComponentSerializer.legacyAmpersand()
                         .deserialize(StringUtils.replacePlaceholders(line, Pair.of(Placeholder.AMOUNT, banknoteValue))))
