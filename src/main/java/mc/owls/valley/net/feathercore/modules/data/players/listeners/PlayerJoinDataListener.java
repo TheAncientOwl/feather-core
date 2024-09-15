@@ -35,7 +35,6 @@ public class PlayerJoinDataListener implements IFeatherListener {
             this.dataManager.handleNewPlayer(player);
         } else {
             playerModel.lastLogin = new Date();
-            player.sendMessage(playerModel.language);
         }
 
         this.dataManager.markPlayerModelForSave(playerUUID);

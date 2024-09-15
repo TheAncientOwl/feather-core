@@ -20,6 +20,7 @@ public class ConfigurationManager extends FeatherModule implements IConfiguratio
     private IConfigFile economyConfigFile = null;
     private IConfigFile messagesConfigFile = null;
     private IConfigFile pvpConfigFile = null;
+    private IConfigFile translationsConfigFile = null;
 
     public ConfigurationManager(final String name) {
         super(name);
@@ -54,6 +55,7 @@ public class ConfigurationManager extends FeatherModule implements IConfiguratio
             this.economyConfigFile.saveConfig();
             this.messagesConfigFile.saveConfig();
             this.pvpConfigFile.saveConfig();
+            this.translationsConfigFile.saveConfig();
         } catch (final IOException e) {
         }
     }
@@ -69,13 +71,13 @@ public class ConfigurationManager extends FeatherModule implements IConfiguratio
     }
 
     @Override
-    public IConfigFile getMessagesConfigFile() {
-        return this.messagesConfigFile;
+    public IConfigFile getPvPConfigFile() {
+        return this.pvpConfigFile;
     }
 
     @Override
-    public IConfigFile getPvPConfigFile() {
-        return this.pvpConfigFile;
+    public IConfigFile getTranslationsConfigFile() {
+        return this.translationsConfigFile;
     }
 
 }

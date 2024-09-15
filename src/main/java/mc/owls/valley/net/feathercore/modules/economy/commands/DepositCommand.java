@@ -17,6 +17,8 @@ import mc.owls.valley.net.feathercore.api.common.Placeholder;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
+import mc.owls.valley.net.feathercore.api.module.interfaces.IPlayersDataManager;
+import mc.owls.valley.net.feathercore.api.module.interfaces.ITranslationAccessor;
 import mc.owls.valley.net.feathercore.modules.economy.common.Messages;
 import net.milkbowl.vault.economy.Economy;
 
@@ -26,7 +28,8 @@ public class DepositCommand extends FeatherCommand<DepositCommand.CommandData> {
 
     private Economy economy = null;
     private JavaPlugin plugin = null;
-    private IPropertyAccessor messages = null;
+    private ITranslationAccessor lang = null;
+    private IPlayersDataManager playersData = null;
     private IPropertyAccessor economyConfig = null;
 
     @Override
@@ -34,8 +37,8 @@ public class DepositCommand extends FeatherCommand<DepositCommand.CommandData> {
         this.plugin = core.getPlugin();
         this.economy = core.getEconomy();
         this.economyConfig = core.getConfigurationManager().getEconomyConfigFile();
-        this.messages = core.getConfigurationManager().getMessagesConfigFile()
-                .getConfigurationSection(Messages.ECONOMY);
+        this.lang = core.getTranslationManager();
+        this.playersData = core.getPlayersDataManager();
     }
 
     @Override
@@ -43,7 +46,7 @@ public class DepositCommand extends FeatherCommand<DepositCommand.CommandData> {
         this.economy.depositPlayer((Player) sender, data.depositValue);
         data.itemInHand.setAmount(data.itemInHand.getAmount() - data.banknotesCount);
 
-        Message.to(sender, this.messages, Messages.DEPOSIT_SUCCESS,
+        Message.to(sender, this.lang.getTranslation(sender, this.playersData), Messages.DEPOSIT_SUCCESS,
                 Pair.of(Placeholder.AMOUNT, this.economy.format(data.depositValue)),
                 Pair.of(Placeholder.BALANCE, this.economy.format(this.economy.getBalance((Player) sender))));
     }
@@ -51,17 +54,18 @@ public class DepositCommand extends FeatherCommand<DepositCommand.CommandData> {
     public CommandData parse(final CommandSender sender, final String[] args) {
         // 1. check for basics
         if (!sender.hasPermission("feathercore.economy.general.deposit")) {
-            Message.to(sender, this.messages, Messages.PERMISSION_DENIED);
+            Message.to(sender, this.lang.getTranslation(sender, this.playersData), Messages.PERMISSION_DENIED);
             return null;
         }
 
         if (!(sender instanceof Player)) {
-            Message.to(sender, this.messages, Messages.COMMAND_SENDER_NOT_PLAYER);
+            Message.to(sender, this.lang.getTranslation(sender, this.playersData), Messages.COMMAND_SENDER_NOT_PLAYER);
             return null;
         }
 
         if (args.length != 1) {
-            Message.to(sender, this.messages, Messages.USAGE_INVALID, Messages.USAGE_DEPOSIT);
+            Message.to(sender, this.lang.getTranslation(sender, this.playersData), Messages.USAGE_INVALID,
+                    Messages.USAGE_DEPOSIT);
             return null;
         }
 
@@ -69,14 +73,14 @@ public class DepositCommand extends FeatherCommand<DepositCommand.CommandData> {
         final ItemStack itemInHand = ((Player) sender).getInventory().getItemInMainHand();
         if (itemInHand == null || itemInHand.getItemMeta() == null
                 || itemInHand.getItemMeta().getPersistentDataContainer() == null) {
-            Message.to(sender, this.messages, Messages.BANKNOTE_INVALID);
+            Message.to(sender, this.lang.getTranslation(sender, this.playersData), Messages.BANKNOTE_INVALID);
             return null;
         }
 
         final NamespacedKey namespacedKey = new NamespacedKey(this.plugin, Messages.BANKNOTE_METADATA_KEY);
         final PersistentDataContainer dataContainer = itemInHand.getItemMeta().getPersistentDataContainer();
         if (!dataContainer.has(new NamespacedKey(this.plugin, Messages.BANKNOTE_METADATA_KEY))) {
-            Message.to(sender, this.messages, Messages.BANKNOTE_INVALID);
+            Message.to(sender, this.lang.getTranslation(sender, this.playersData), Messages.BANKNOTE_INVALID);
             return null;
         }
         final double banknoteValue = dataContainer.get(namespacedKey, PersistentDataType.DOUBLE);
@@ -86,18 +90,18 @@ public class DepositCommand extends FeatherCommand<DepositCommand.CommandData> {
         try {
             banknotesCount = Integer.parseInt(args[0]);
         } catch (final Exception e) {
-            Message.to(sender, this.messages, Messages.NOT_VALID_NUMBER,
+            Message.to(sender, this.lang.getTranslation(sender, this.playersData), Messages.NOT_VALID_NUMBER,
                     Pair.of(Placeholder.STRING, args[0]));
             return null;
         }
 
         if (banknotesCount < 0) {
-            Message.to(sender, this.messages, Messages.DEPOSIT_NEGATIVE_AMOUNT);
+            Message.to(sender, this.lang.getTranslation(sender, this.playersData), Messages.DEPOSIT_NEGATIVE_AMOUNT);
             return null;
         }
 
         if (banknotesCount > itemInHand.getAmount()) {
-            Message.to(sender, this.messages, Messages.DEPOSIT_INVALID_AMOUNT,
+            Message.to(sender, this.lang.getTranslation(sender, this.playersData), Messages.DEPOSIT_INVALID_AMOUNT,
                     Pair.of(Placeholder.AMOUNT, banknotesCount));
             return null;
         }
@@ -106,7 +110,7 @@ public class DepositCommand extends FeatherCommand<DepositCommand.CommandData> {
         final var depositValue = banknoteValue * banknotesCount;
         final var maxBalance = this.economyConfig.getDouble("money.max");
         if (this.economy.getBalance((Player) sender) + depositValue > maxBalance) {
-            Message.to(sender, this.messages, Messages.DEPOSIT_BALANCE_EXCEEDS,
+            Message.to(sender, this.lang.getTranslation(sender, this.playersData), Messages.DEPOSIT_BALANCE_EXCEEDS,
                     Pair.of(Placeholder.MAX, this.economy.format(maxBalance)));
             return null;
         }

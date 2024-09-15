@@ -12,12 +12,15 @@ import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
 import mc.owls.valley.net.feathercore.api.exception.ModuleNotEnabledException;
+import mc.owls.valley.net.feathercore.api.module.interfaces.IPlayersDataManager;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IPvPManager;
+import mc.owls.valley.net.feathercore.api.module.interfaces.ITranslationAccessor;
 import mc.owls.valley.net.feathercore.modules.restricted.pvp.common.Messages;
 
 public class PlayerLogoutListener implements IFeatherListener {
     private IPvPManager pvpManager = null;
-    private IPropertyAccessor messages = null;
+    private ITranslationAccessor lang = null;
+    private IPlayersDataManager playersData = null;
     private IPropertyAccessor config = null;
 
     @Override
@@ -25,10 +28,10 @@ public class PlayerLogoutListener implements IFeatherListener {
         try {
             this.pvpManager = core.getPvPManager();
 
-            final var configManager = core.getConfigurationManager();
+            this.config = core.getConfigurationManager().getPvPConfigFile();
 
-            this.messages = configManager.getMessagesConfigFile().getConfigurationSection(Messages.PVP_SECTION);
-            this.config = configManager.getPvPConfigFile();
+            this.lang = core.getTranslationManager();
+            this.playersData = core.getPlayersDataManager();
         } catch (final ModuleNotEnabledException e) {
         }
     }
@@ -49,7 +52,9 @@ public class PlayerLogoutListener implements IFeatherListener {
             return;
         }
 
-        Message.broadcast(this.messages, Messages.LOGOUT, Pair.of(Placeholder.PLAYER, player.getName()));
+        // TODO: Broadcast for each player in prefered language
+        Message.broadcast(this.lang.getTranslation("en"), Messages.LOGOUT,
+                Pair.of(Placeholder.PLAYER, player.getName()));
 
     }
 }

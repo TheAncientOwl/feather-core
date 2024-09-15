@@ -1,8 +1,8 @@
 configs:
   dataConfigFile: modules/data.yml
   economyConfigFile: modules/economy.yml
-  messagesConfigFile: translations/en.yml
   pvpConfigFile: modules/pvp.yml
+  translationsConfigFile: translations.yml
 
 modules:
   ConfigurationManager:
@@ -32,7 +32,7 @@ modules:
 
   TranslationManager:
     class: mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager
-    dependencies: [PlayersDataManager]
+    dependencies: [ConfigurationManager, PlayersDataManager]
     literal: LITERAL_TRANSLATION_MANAGER
     mandatory: true
     commands: []
@@ -40,7 +40,7 @@ modules:
 
   FeatherEconomyProvider:
     class: mc.owls.valley.net.feathercore.modules.economy.components.FeatherEconomyProvider
-    dependencies: [PlayersDataManager]
+    dependencies: [PlayersDataManager, TranslationManager]
     literal: LITERAL_ECONOMY_PROVIDER
     mandatory: true
     commands:
@@ -55,7 +55,7 @@ modules:
 
   PvPManager:
     class: mc.owls.valley.net.feathercore.modules.restricted.pvp.components.PvPManager
-    dependencies: [ConfigurationManager]
+    dependencies: [ConfigurationManager, TranslationManager]
     literal: LITERAL_PVP_MANAGER
     mandatory: false
     commands: []

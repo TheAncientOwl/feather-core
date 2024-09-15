@@ -8,7 +8,7 @@ import mc.owls.valley.net.feathercore.api.module.interfaces.IConfigurationManage
 import mc.owls.valley.net.feathercore.api.module.interfaces.IEconomyProvider;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IPlayersDataManager;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IPvPManager;
-import mc.owls.valley.net.feathercore.api.module.interfaces.ITranslationManager;
+import mc.owls.valley.net.feathercore.api.module.interfaces.ITranslationAccessor;
 
 public interface IFeatherCoreProvider extends IEconomyProvider {
     public JavaPlugin getPlugin();
@@ -23,5 +23,5 @@ public interface IFeatherCoreProvider extends IEconomyProvider {
 
     public IPvPManager getPvPManager() throws ModuleNotEnabledException;
 
-    public ITranslationManager getTranslationManager();
+    public ITranslationAccessor getTranslationManager();
 }

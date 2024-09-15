@@ -1,12 +1,10 @@
 package mc.owls.valley.net.feathercore.modules.restricted.pvp.common;
 
 public class Messages {
-    public static String PVP_SECTION = "pvp";
-
-    public static String TAG = "combat.tag";
-    public static String TAGGED = "combat.tagged";
-    public static String COMBAT_ENDED = "combat.ended";
-    public static String BLOCK_COMMAND = "block-command";
-    public static String LOGOUT = "logout";
-    public static String TELEPORT = "teleport";
+    public static String TAG = "pvp.combat.tag";
+    public static String TAGGED = "pvp.combat.tagged";
+    public static String COMBAT_ENDED = "pvp.combat.ended";
+    public static String BLOCK_COMMAND = "pvp.block-command";
+    public static String LOGOUT = "pvp.logout";
+    public static String TELEPORT = "pvp.teleport";
 }

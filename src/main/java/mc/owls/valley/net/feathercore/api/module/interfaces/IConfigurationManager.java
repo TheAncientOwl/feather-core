@@ -7,7 +7,7 @@ public interface IConfigurationManager {
 
     public IConfigFile getEconomyConfigFile();
 
-    public IConfigFile getMessagesConfigFile();
-
     public IConfigFile getPvPConfigFile();
+
+    public IConfigFile getTranslationsConfigFile();
 }
