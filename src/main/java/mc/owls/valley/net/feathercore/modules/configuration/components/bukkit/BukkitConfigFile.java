@@ -90,4 +90,9 @@ public class BukkitConfigFile implements IConfigFile {
         return this.fileConfiguration.getKeys(recurse);
     }
 
+    @Override
+    public String getString(final String path, final String defaultValue) {
+        return this.fileConfiguration.getString(path, defaultValue);
+    }
+
 }

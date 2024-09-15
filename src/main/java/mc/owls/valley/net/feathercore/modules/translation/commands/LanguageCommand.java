@@ -2,7 +2,6 @@ package mc.owls.valley.net.feathercore.modules.translation.commands;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -40,17 +39,19 @@ public class LanguageCommand extends FeatherCommand<LanguageCommand.CommandData>
     @Override
     protected void execute(final CommandSender sender, final CommandData data) {
         switch (data.commandType) {
-            case INFO:
+            case INFO: {
+                final var playerLangPrefix = this.playerData.getPlayerModel((OfflinePlayer) sender).language;
+                final var langExtended = this.translationsConfig.getConfigurationSection("languages")
+                        .getString(playerLangPrefix, "");
                 Message.to(sender, this.lang.getTranslation(sender, this.playerData), Messages.INFO,
-                        Pair.of(Placeholder.LANGUAGE, this.playerData.getPlayerModel((OfflinePlayer) sender).language));
+                        Pair.of(Placeholder.LANGUAGE, langExtended));
                 break;
+            }
             case LIST:
-                final var languagesConfig = this.translationsConfig.getConfigurationSection("languages");
-
+                final var langConfig = this.translationsConfig.getConfigurationSection("languages");
                 final StringBuilder sb = new StringBuilder();
-
-                for (final var lang : languagesConfig.getKeys(false)) {
-                    final var longForm = languagesConfig.getString(lang);
+                for (final var lang : langConfig.getKeys(false)) {
+                    final var longForm = langConfig.getString(lang);
                     sb.append("\n   ").append(lang).append(": ").append(longForm);
                 }
 

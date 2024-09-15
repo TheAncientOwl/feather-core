@@ -54,4 +54,9 @@ public class BukkitConfigSection implements IConfigSection {
         return this.configSection.getKeys(recurse);
     }
 
+    @Override
+    public String getString(final String path, final String defaultValue) {
+        return this.configSection.getString(path, defaultValue);
+    }
+
 }

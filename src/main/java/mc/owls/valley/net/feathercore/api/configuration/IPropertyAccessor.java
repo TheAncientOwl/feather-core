@@ -6,6 +6,8 @@ import java.util.Set;
 public interface IPropertyAccessor {
     public String getString(final String path);
 
+    public String getString(final String path, final String defaultValue);
+
     public boolean getBoolean(final String path);
 
     public boolean getBoolean(final String path, final boolean defaultValue);
