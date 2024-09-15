@@ -22,6 +22,7 @@ public class TranslationManager extends FeatherModule implements ITranslationAcc
     private Map<String, IConfigFile> translations = null;
     private JavaPlugin plugin = null;
     private IFeatherLogger logger = null;
+    private IPlayersDataManager playersData = null;
 
     public TranslationManager(String name) {
         super(name);
@@ -31,6 +32,7 @@ public class TranslationManager extends FeatherModule implements ITranslationAcc
     protected void onModuleEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
         this.plugin = core.getPlugin();
         this.logger = core.getFeatherLogger();
+        this.playersData = core.getPlayersDataManager();
 
         this.translations = new HashMap<>();
         this.translations.put("en", loadTranslation("en"));
@@ -57,10 +59,9 @@ public class TranslationManager extends FeatherModule implements ITranslationAcc
     }
 
     @Override
-    public IConfigFile getTranslation(final CommandSender sender, final IPlayersDataManager playersData) {
-        String language = sender instanceof Player ? playersData.getPlayerModel((Player) sender).language : "en";
-
-        return getTranslation(language);
+    public IConfigFile getTranslation(final CommandSender sender) {
+        return getTranslation(
+                sender instanceof Player ? this.playersData.getPlayerModel((Player) sender).language : "en");
     }
 
     private IConfigFile loadTranslation(final String language) {

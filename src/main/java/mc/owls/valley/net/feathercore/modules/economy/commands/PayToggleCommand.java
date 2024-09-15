@@ -33,25 +33,24 @@ public class PayToggleCommand extends FeatherCommand<PayToggleCommand.CommandDat
         data.playerModel.acceptsPayments = !data.playerModel.acceptsPayments;
         this.playersData.markPlayerModelForSave(data.playerModel);
 
-        Message.to(sender, this.lang.getTranslation(sender, this.playersData),
+        Message.to(sender, this.lang.getTranslation(sender),
                 data.playerModel.acceptsPayments ? Messages.PAY_TOGGLE_TRUE : Messages.PAY_TOGGLE_FALSE);
     }
 
     protected CommandData parse(final CommandSender sender, final String args[]) {
         // 3. check the basics
         if (!sender.hasPermission("feathercore.economy.general.paytoggle")) {
-            Message.to(sender, this.lang.getTranslation(sender, this.playersData), Messages.PERMISSION_DENIED);
+            Message.to(sender, this.lang.getTranslation(sender), Messages.PERMISSION_DENIED);
             return null;
         }
 
         if (!(sender instanceof Player)) {
-            Message.to(sender, this.lang.getTranslation(sender, this.playersData), Messages.COMMAND_SENDER_NOT_PLAYER);
+            Message.to(sender, this.lang.getTranslation(sender), Messages.COMMAND_SENDER_NOT_PLAYER);
             return null;
         }
 
         if (args.length != 0) {
-            Message.to(sender, this.lang.getTranslation(sender, this.playersData), Messages.USAGE_INVALID,
-                    Messages.USAGE_PAY);
+            Message.to(sender, this.lang.getTranslation(sender), Messages.USAGE_INVALID, Messages.USAGE_PAY);
             return null;
         }
 

@@ -43,7 +43,7 @@ public class LanguageCommand extends FeatherCommand<LanguageCommand.CommandData>
                 final var playerLangPrefix = this.playerData.getPlayerModel((OfflinePlayer) sender).language;
                 final var langExtended = this.translationsConfig.getConfigurationSection("languages")
                         .getString(playerLangPrefix, "");
-                Message.to(sender, this.lang.getTranslation(sender, this.playerData), Messages.INFO,
+                Message.to(sender, this.lang.getTranslation(sender), Messages.INFO,
                         Pair.of(Placeholder.LANGUAGE, langExtended));
                 break;
             }
@@ -55,21 +55,21 @@ public class LanguageCommand extends FeatherCommand<LanguageCommand.CommandData>
                     sb.append("\n   ").append(lang).append(": ").append(longForm);
                 }
 
-                Message.to(sender, this.lang.getTranslation(sender, this.playerData), Messages.LIST,
+                Message.to(sender, this.lang.getTranslation(sender), Messages.LIST,
                         Pair.of(Placeholder.LANGUAGE, sb.toString()));
                 break;
             case CHANGE:
                 final var playerModel = this.playerData.getPlayerModel((OfflinePlayer) sender);
                 playerModel.language = data.language;
                 this.playerData.markPlayerModelForSave(playerModel);
-                Message.to(sender, this.lang.getTranslation(sender, this.playerData), Messages.CHANGE_SUCCESS);
+                Message.to(sender, this.lang.getTranslation(sender), Messages.CHANGE_SUCCESS);
                 break;
         }
     }
 
     protected CommandData parse(final CommandSender sender, final String[] args) {
         if (args.length != 1) {
-            Message.to(sender, this.lang.getTranslation(sender, this.playerData), Messages.UNKNOWN, Messages.USAGE);
+            Message.to(sender, this.lang.getTranslation(sender), Messages.UNKNOWN, Messages.USAGE);
             return null;
         }
 
@@ -83,7 +83,7 @@ public class LanguageCommand extends FeatherCommand<LanguageCommand.CommandData>
             commandType = CommandType.LIST;
         } else {
             if (!this.translationsConfig.getConfigurationSection("languages").getKeys(false).contains(option)) {
-                Message.to(sender, this.lang.getTranslation(sender, this.playerData), Messages.UNKNOWN, Messages.USAGE);
+                Message.to(sender, this.lang.getTranslation(sender), Messages.UNKNOWN, Messages.USAGE);
                 return null;
             }
             commandType = CommandType.CHANGE;

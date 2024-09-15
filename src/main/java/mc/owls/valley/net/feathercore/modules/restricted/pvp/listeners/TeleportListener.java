@@ -11,7 +11,6 @@ import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
 import mc.owls.valley.net.feathercore.api.exception.ModuleNotEnabledException;
-import mc.owls.valley.net.feathercore.api.module.interfaces.IPlayersDataManager;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IPvPManager;
 import mc.owls.valley.net.feathercore.api.module.interfaces.ITranslationAccessor;
 import mc.owls.valley.net.feathercore.modules.restricted.pvp.common.Messages;
@@ -20,17 +19,13 @@ public class TeleportListener implements IFeatherListener {
     private IPvPManager pvpManager = null;
     private IConfigFile config = null;
     private ITranslationAccessor lang = null;
-    private IPlayersDataManager playersData = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
         try {
             this.pvpManager = core.getPvPManager();
-
             this.config = core.getConfigurationManager().getPvPConfigFile();
-
             this.lang = core.getTranslationManager();
-            this.playersData = core.getPlayersDataManager();
         } catch (final ModuleNotEnabledException e) {
         }
     }
@@ -47,7 +42,7 @@ public class TeleportListener implements IFeatherListener {
         if ((event.getCause() == TeleportCause.CHORUS_FRUIT && !this.config.getBoolean("block-tp.chorus-fruit")) ||
                 (event.getCause() == TeleportCause.ENDER_PEARL && !this.config.getBoolean("block-tp.ender-pearl"))) {
             event.setCancelled(true);
-            Message.to(player, this.lang.getTranslation(player, this.playersData), Messages.TELEPORT);
+            Message.to(player, this.lang.getTranslation(player), Messages.TELEPORT);
         }
     }
 }

@@ -45,10 +45,10 @@ public class PayCommand extends FeatherCommand<PayCommand.CommandData> {
 
         final var amount = this.economy.format(data.amount);
 
-        Message.to(sender, this.lang.getTranslation(sender, this.playersData), Messages.PAY_SEND,
+        Message.to(sender, this.lang.getTranslation(sender), Messages.PAY_SEND,
                 Pair.of(Placeholder.PLAYER, data.receiver.getName()),
                 Pair.of(Placeholder.AMOUNT, amount));
-        Message.to((Player) data.receiver, this.lang.getTranslation(sender, this.playersData), Messages.PAY_RECEIVE,
+        Message.to((Player) data.receiver, this.lang.getTranslation(sender), Messages.PAY_RECEIVE,
                 Pair.of(Placeholder.PLAYER, ((Player) sender).getName()),
                 Pair.of(Placeholder.AMOUNT, amount));
     }
@@ -56,17 +56,17 @@ public class PayCommand extends FeatherCommand<PayCommand.CommandData> {
     protected CommandData parse(final CommandSender sender, final String[] args) {
         // 1. check the basics
         if (!sender.hasPermission("feathercore.economy.general.pay")) {
-            Message.to(sender, this.lang.getTranslation(sender, this.playersData), Messages.PERMISSION_DENIED);
+            Message.to(sender, this.lang.getTranslation(sender), Messages.PERMISSION_DENIED);
             return null;
         }
 
         if (!(sender instanceof Player)) {
-            Message.to(sender, this.lang.getTranslation(sender, this.playersData), Messages.COMMAND_SENDER_NOT_PLAYER);
+            Message.to(sender, this.lang.getTranslation(sender), Messages.COMMAND_SENDER_NOT_PLAYER);
             return null;
         }
 
         if (args.length != 2) {
-            Message.to(sender, this.lang.getTranslation(sender, this.playersData), Messages.USAGE_INVALID,
+            Message.to(sender, this.lang.getTranslation(sender), Messages.USAGE_INVALID,
                     Messages.USAGE_PAY);
             return null;
         }
@@ -74,13 +74,13 @@ public class PayCommand extends FeatherCommand<PayCommand.CommandData> {
         // 3. check if receiver is player
         final OfflinePlayer receiverPlayer = Bukkit.getOfflinePlayer(args[0]);
         if (!receiverPlayer.hasPlayedBefore()) {
-            Message.to(sender, this.lang.getTranslation(sender, this.playersData), Messages.NOT_PLAYER,
+            Message.to(sender, this.lang.getTranslation(sender), Messages.NOT_PLAYER,
                     Pair.of(Placeholder.STRING, args[0]));
             return null;
         }
 
         if (!receiverPlayer.isOnline()) {
-            Message.to(sender, this.lang.getTranslation(sender, this.playersData), Messages.NOT_ONLINE_PLAYER,
+            Message.to(sender, this.lang.getTranslation(sender), Messages.NOT_ONLINE_PLAYER,
                     Pair.of(Placeholder.PLAYER, receiverPlayer.getName()));
             return null;
         }
@@ -92,7 +92,7 @@ public class PayCommand extends FeatherCommand<PayCommand.CommandData> {
         }
 
         if (!playerModel.acceptsPayments && !sender.hasPermission("feathercore.economy.general.pay.override")) {
-            Message.to(sender, this.lang.getTranslation(sender, this.playersData), Messages.PAY_TOGGLE_NOT_ACCEPTING,
+            Message.to(sender, this.lang.getTranslation(sender), Messages.PAY_TOGGLE_NOT_ACCEPTING,
                     Pair.of(Placeholder.PLAYER, receiverPlayer.getName()));
             return null;
         }
@@ -102,7 +102,7 @@ public class PayCommand extends FeatherCommand<PayCommand.CommandData> {
         try {
             amount = Double.parseDouble(args[1]);
         } catch (final Exception e) {
-            Message.to(sender, this.lang.getTranslation(sender, this.playersData), Messages.NOT_VALID_NUMBER,
+            Message.to(sender, this.lang.getTranslation(sender), Messages.NOT_VALID_NUMBER,
                     Pair.of(Placeholder.STRING, args[1]));
             return null;
         }
@@ -110,19 +110,19 @@ public class PayCommand extends FeatherCommand<PayCommand.CommandData> {
         // 6. check if amount is viable to be transferred
         final var minAmount = this.economyConfig.getDouble("minimum-pay-amount");
         if (amount < minAmount) {
-            Message.to(sender, this.lang.getTranslation(sender, this.playersData), Messages.PAY_MIN_AMOUNT,
+            Message.to(sender, this.lang.getTranslation(sender), Messages.PAY_MIN_AMOUNT,
                     Pair.of(Placeholder.AMOUNT, minAmount));
             return null;
         }
 
         if (!this.economy.has((Player) sender, amount)) {
-            Message.to(sender, this.lang.getTranslation(sender, this.playersData), Messages.PAY_NO_FUNDS);
+            Message.to(sender, this.lang.getTranslation(sender), Messages.PAY_NO_FUNDS);
             return null;
         }
 
         final var maxBalance = this.economyConfig.getDouble("money.max");
         if (this.economy.getBalance(receiverPlayer) + amount > maxBalance) {
-            Message.to(sender, this.lang.getTranslation(sender, this.playersData), Messages.PAY_BALANCE_EXCEEDS,
+            Message.to(sender, this.lang.getTranslation(sender), Messages.PAY_BALANCE_EXCEEDS,
                     Pair.of(Placeholder.MAX, maxBalance));
             return null;
         }

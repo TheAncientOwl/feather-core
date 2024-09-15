@@ -9,7 +9,6 @@ import mc.owls.valley.net.feathercore.api.common.Message;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
 import mc.owls.valley.net.feathercore.api.exception.ModuleNotEnabledException;
-import mc.owls.valley.net.feathercore.api.module.interfaces.IPlayersDataManager;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IPvPManager;
 import mc.owls.valley.net.feathercore.api.module.interfaces.ITranslationAccessor;
 import mc.owls.valley.net.feathercore.modules.restricted.pvp.common.Messages;
@@ -17,14 +16,12 @@ import mc.owls.valley.net.feathercore.modules.restricted.pvp.common.Messages;
 public class BlockCommandsListener implements IFeatherListener {
     private IPvPManager pvpManager = null;
     private ITranslationAccessor lang = null;
-    private IPlayersDataManager playersData = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
         try {
             this.pvpManager = core.getPvPManager();
             this.lang = core.getTranslationManager();
-            this.playersData = core.getPlayersDataManager();
         } catch (final ModuleNotEnabledException e) {
         }
     }
@@ -46,7 +43,7 @@ public class BlockCommandsListener implements IFeatherListener {
         }
 
         event.setCancelled(true);
-        Message.to(player, this.lang.getTranslation(player, this.playersData), Messages.BLOCK_COMMAND);
+        Message.to(player, this.lang.getTranslation(player), Messages.BLOCK_COMMAND);
     }
 
 }

@@ -2,7 +2,7 @@ language:
   usage: '&8[&6Usage&8] &e/langue info/list/[langue]'
   change-success: '&8[&6Langue&8] &eChangement réussi&8!'
   unknown: '&8[&4Langue&8] &cValeur invalide&8!'
-  info: '&8[&6Langue&8] &cVos messages sont en &e{language}&8.'
+  info: '&8[&6Langue&8] &e{language}&8.'
   list: '&8[&6Langue&8] &7Langues disponibles&8: &e{language}&8.'
 
 economy:

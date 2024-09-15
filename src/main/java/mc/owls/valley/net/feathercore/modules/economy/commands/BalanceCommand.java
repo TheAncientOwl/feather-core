@@ -14,7 +14,6 @@ import mc.owls.valley.net.feathercore.api.common.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.api.module.interfaces.IPlayersDataManager;
 import mc.owls.valley.net.feathercore.api.module.interfaces.ITranslationAccessor;
 import mc.owls.valley.net.feathercore.modules.economy.common.Messages;
 import net.milkbowl.vault.economy.Economy;
@@ -29,24 +28,22 @@ public class BalanceCommand extends FeatherCommand<BalanceCommand.CommandData> {
 
     private Economy economy = null;
     private ITranslationAccessor lang = null;
-    private IPlayersDataManager playersData = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
         this.economy = core.getEconomy();
         this.lang = core.getTranslationManager();
-        this.playersData = core.getPlayersDataManager();
     }
 
     @Override
     protected void execute(final CommandSender sender, final CommandData data) {
         switch (data.commandType) {
             case SELF:
-                Message.to(sender, this.lang.getTranslation(sender, this.playersData), Messages.BALANCE_SELF,
+                Message.to(sender, this.lang.getTranslation(sender), Messages.BALANCE_SELF,
                         Pair.of(Placeholder.BALANCE, this.economy.format(this.economy.getBalance((Player) sender))));
                 break;
             case OTHER:
-                Message.to(sender, this.lang.getTranslation(sender, this.playersData), Messages.BALANCE_OTHER,
+                Message.to(sender, this.lang.getTranslation(sender), Messages.BALANCE_OTHER,
                         Pair.of(Placeholder.PLAYER, data.other.getName()),
                         Pair.of(Placeholder.BALANCE, this.economy.format(this.economy.getBalance(data.other))));
 
@@ -59,14 +56,13 @@ public class BalanceCommand extends FeatherCommand<BalanceCommand.CommandData> {
         OfflinePlayer targetPlayer = null;
 
         if (!sender.hasPermission("feathercore.economy.general.balance")) {
-            Message.to(sender, this.lang.getTranslation(sender, this.playersData), Messages.PERMISSION_DENIED);
+            Message.to(sender, this.lang.getTranslation(sender), Messages.PERMISSION_DENIED);
             return null;
         }
 
         if (args.length != 0) {
             if (args.length != 1) {
-                Message.to(sender, this.lang.getTranslation(sender, this.playersData), Messages.USAGE_INVALID,
-                        Messages.USAGE_BALANCE);
+                Message.to(sender, this.lang.getTranslation(sender), Messages.USAGE_INVALID, Messages.USAGE_BALANCE);
                 return null;
             }
 
@@ -74,15 +70,14 @@ public class BalanceCommand extends FeatherCommand<BalanceCommand.CommandData> {
             targetPlayer = Bukkit.getOfflinePlayer(args[0]);
 
             if (!targetPlayer.hasPlayedBefore()) {
-                Message.to(sender, this.lang.getTranslation(sender, this.playersData), Messages.NOT_PLAYER,
+                Message.to(sender, this.lang.getTranslation(sender), Messages.NOT_PLAYER,
                         Pair.of(Placeholder.STRING, args[0]));
                 return null;
             }
         } else if (sender instanceof Player) {
             commandType = CommandType.SELF;
         } else {
-            Message.to(sender, this.lang.getTranslation(sender, this.playersData),
-                    Messages.COMMAND_SENDER_NOT_PLAYER);
+            Message.to(sender, this.lang.getTranslation(sender), Messages.COMMAND_SENDER_NOT_PLAYER);
             return null;
         }
 
