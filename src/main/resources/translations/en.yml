@@ -1,3 +1,10 @@
+language:
+  usage: '&8[&6Usage&8] &e/language info/list/[language]'
+  change-success: '&8[&6Language&8] &eChanged successfully&8!'
+  unknown: '&8[&4Language&8] &cInvalid value&8!'
+  info: '&8[&6Language&8] &cYour messages are in &e{language}&8.'
+  list: '&8[&6Language&8] &7Available languages&8: &e{language}&8.'
+
 economy:
   command-sender-not-player: '&cThis command can be issued by players only&8.'
   permission-denied: "&8[&4Economy&8] &cYou don't have permission to use that&8!"

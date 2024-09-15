@@ -1,6 +1,7 @@
 package mc.owls.valley.net.feathercore.modules.configuration.components.bukkit;
 
 import java.util.List;
+import java.util.Set;
 
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -46,6 +47,11 @@ public class BukkitConfigSection implements IConfigSection {
     @Override
     public boolean getBoolean(final String path, final boolean defaultValue) {
         return this.configSection.getBoolean(path, defaultValue);
+    }
+
+    @Override
+    public Set<String> getKeys(final boolean recurse) {
+        return this.configSection.getKeys(recurse);
     }
 
 }

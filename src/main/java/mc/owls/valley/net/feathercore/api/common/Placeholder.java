@@ -11,4 +11,5 @@ public class Placeholder {
     public static final String AMOUNT = "{amount}";
     public static final String MAX = "{max}";
     public static final String MIN = "{min}";
+    public static final String LANGUAGE = "{language}";
 }

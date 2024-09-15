@@ -35,7 +35,8 @@ modules:
     dependencies: [ConfigurationManager, PlayersDataManager]
     literal: LITERAL_TRANSLATION_MANAGER
     mandatory: true
-    commands: []
+    commands:
+      language: mc.owls.valley.net.feathercore.modules.translation.commands.LanguageCommand
     listeners: []
 
   FeatherEconomyProvider:
