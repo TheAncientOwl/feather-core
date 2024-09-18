@@ -45,7 +45,9 @@ public class PvPManager extends FeatherModule implements IPvPManager {
 
     @Override
     protected void onModuleDisable() {
-        this.playersInCombat.clear();
+        if (this.playersInCombat != null) {
+            this.playersInCombat.clear();
+        }
     }
 
     @Override
