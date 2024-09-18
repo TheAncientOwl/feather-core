@@ -48,12 +48,12 @@ public class ModulesManager {
 
     public void onEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
         final var modules = loadModules(core);
-        final var order = computeEnableOrder(modules);
+        this.enableOrder = computeEnableOrder(modules);
 
         this.modules = modules.entrySet().stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().instance));
 
-        enableModules(core, order, modules);
+        enableModules(core, this.enableOrder, modules);
 
         for (final var module : modules.keySet()) {
             if (!this.enabledModules.contains(module)) {
