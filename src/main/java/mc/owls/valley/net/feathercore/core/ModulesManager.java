@@ -49,7 +49,6 @@ public class ModulesManager {
     public void onEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
         final var modules = loadModules(core);
         final var order = computeEnableOrder(modules);
-        core.getFeatherLogger().info("Registered modules: " + String.join("&8,&b ", this.enableOrder));
 
         this.modules = modules.entrySet().stream()
                 .collect(Collectors.toMap(Map.Entry::getKey, entry -> entry.getValue().instance));

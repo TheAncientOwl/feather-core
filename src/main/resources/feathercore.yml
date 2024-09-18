@@ -66,3 +66,11 @@ modules:
       - mc.owls.valley.net.feathercore.modules.restricted.pvp.listeners.PlayerDeathListener
       - mc.owls.valley.net.feathercore.modules.restricted.pvp.listeners.PlayerLogoutListener
       - mc.owls.valley.net.feathercore.modules.restricted.pvp.listeners.TeleportListener
+
+  LootChests:
+    class: mc.owls.valley.net.feathercore.modules.loot.chests.components.LootChests
+    dependencies: [ConfigurationManager, TranslationManager]
+    literal: LITERAL_LOOT_CHESTS_MANAGER
+    mandatory: false
+    commands: []
+    listeners: []

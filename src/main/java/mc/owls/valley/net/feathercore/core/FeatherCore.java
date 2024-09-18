@@ -10,6 +10,7 @@ import mc.owls.valley.net.feathercore.api.database.mongo.IDAOAccessor;
 import mc.owls.valley.net.feathercore.api.exception.FeatherSetupException;
 import mc.owls.valley.net.feathercore.api.exception.ModuleNotEnabledException;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IConfigurationManager;
+import mc.owls.valley.net.feathercore.api.module.interfaces.ILootChestsModule;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IPlayersDataManager;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IPvPManager;
 import mc.owls.valley.net.feathercore.api.module.interfaces.ITranslationAccessor;
@@ -25,6 +26,7 @@ public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
     private static String LITERAL_ECONOMY_PROVIDER = null;
     private static String LITERAL_PVP_MANAGER = null;
     private static String LITERAL_TRANSLATION_MANAGER = null;
+    private static String LITERAL_LOOT_CHESTS_MANAGER = null;
 
     private IFeatherLogger featherLogger = null;
     private ModulesManager modulesManager = new ModulesManager();
@@ -102,6 +104,11 @@ public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
     @Override
     public ITranslationAccessor getTranslationManager() {
         return this.modulesManager.getModule(LITERAL_TRANSLATION_MANAGER);
+    }
+
+    @Override
+    public ILootChestsModule getLootChestsModule() {
+        return this.modulesManager.getModule(LITERAL_LOOT_CHESTS_MANAGER);
     }
 
 }
