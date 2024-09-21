@@ -1,8 +1,9 @@
 configs:
+  translationsConfigFile: translations.yml
   dataConfigFile: modules/data.yml
   economyConfigFile: modules/economy.yml
   pvpConfigFile: modules/pvp.yml
-  translationsConfigFile: translations.yml
+  lootChestsConfigFile: modules/loot-chests.yml
 
 modules:
   ConfigurationManager:
@@ -69,7 +70,7 @@ modules:
 
   LootChests:
     class: mc.owls.valley.net.feathercore.modules.loot.chests.components.LootChests
-    dependencies: [ConfigurationManager, TranslationManager]
+    dependencies: [ConfigurationManager, PlayersDataManager, TranslationManager]
     literal: LITERAL_LOOT_CHESTS_MANAGER
     mandatory: false
     commands: []

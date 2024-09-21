@@ -14,11 +14,13 @@ import mc.owls.valley.net.feathercore.api.module.interfaces.IConfigurationManage
 import mc.owls.valley.net.feathercore.core.FeatherCore;
 import mc.owls.valley.net.feathercore.modules.configuration.components.bukkit.BukkitConfigFile;
 
+// TODO: Refactor to not load all the config files in the beginning
 public class ConfigurationManager extends FeatherModule implements IConfigurationManager {
     private IConfigFile dataConfigFile = null;
     private IConfigFile economyConfigFile = null;
     private IConfigFile pvpConfigFile = null;
     private IConfigFile translationsConfigFile = null;
+    private IConfigFile lootChestsConfigFile = null;
 
     public ConfigurationManager(final String name) {
         super(name);
@@ -75,6 +77,11 @@ public class ConfigurationManager extends FeatherModule implements IConfiguratio
     @Override
     public IConfigFile getTranslationsConfigFile() {
         return this.translationsConfigFile;
+    }
+
+    @Override
+    public IConfigFile getLootChestsConfigFile() {
+        return this.lootChestsConfigFile;
     }
 
 }

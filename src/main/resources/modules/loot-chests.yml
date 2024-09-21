@@ -1,0 +1,50 @@
+# =========================== #
+# Chest configuration example #
+# =========================== #
+# name:
+#   display-name: '&8Tier &7eI &8loot'
+#   cooldown: 60 (seconds)
+#   size: 9 (multiple of 9, would be rounded to closest one if not (eg. 8 -> 9))
+#   inventory:
+#     - slot: 0
+#       material: 'DIAMOND_SWORD'
+#       amount: 1
+#       chance: 100 (0-100)
+#       enchantments:
+#         - type: 'DAMAGE_ALL'
+#           level: 5
+#       meta:
+#         display_name: '&5Legendary Sword'
+#         lore:
+#           - '&A sword of great power'
+#           - '77Wield it wisely'
+
+chests:
+  tier1:
+    display-name: '&8Tier &7eI &8loot'
+    cooldown: 60
+    size: 9
+    inventory:
+      - slot: 0
+        material: 'DIAMOND_SWORD'
+        amount: 1
+        chance: 100
+        enchantments:
+          - type: 'DAMAGE_ALL'
+            level: 5
+        meta:
+          display_name: '&5Legendary Sword'
+          lore:
+            - '&A sword of great power'
+            - '&7Wield it wisely'
+      - slot: 8
+        material: 'GOLD_SWORD'
+        amount: 1
+        enchantments:
+          - type: 'DAMAGE_ALL'
+            level: 5
+        meta:
+          display_name: '&5Legendary Sword'
+          lore:
+            - '&A sword of great power'
+            - '77Wield it wisely'
