@@ -13,8 +13,8 @@ import mc.owls.valley.net.feathercore.api.module.interfaces.IConfigurationManage
 import mc.owls.valley.net.feathercore.api.module.interfaces.ILootChestsModule;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IPlayersDataManager;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IPvPManager;
-import mc.owls.valley.net.feathercore.api.module.interfaces.ITranslationAccessor;
 import mc.owls.valley.net.feathercore.modules.economy.components.FeatherEconomyProvider;
+import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 import net.milkbowl.vault.economy.Economy;
 
 public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
@@ -102,7 +102,7 @@ public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
     }
 
     @Override
-    public ITranslationAccessor getTranslationManager() {
+    public TranslationManager getTranslationManager() {
         return this.modulesManager.getModule(LITERAL_TRANSLATION_MANAGER);
     }
 

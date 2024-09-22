@@ -5,17 +5,16 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-import mc.owls.valley.net.feathercore.api.common.Message;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
 import mc.owls.valley.net.feathercore.api.exception.ModuleNotEnabledException;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IPvPManager;
-import mc.owls.valley.net.feathercore.api.module.interfaces.ITranslationAccessor;
-import mc.owls.valley.net.feathercore.modules.restricted.pvp.common.Messages;
+import mc.owls.valley.net.feathercore.modules.restricted.pvp.common.Message;
+import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 
 public class BlockCommandsListener implements IFeatherListener {
     private IPvPManager pvpManager = null;
-    private ITranslationAccessor lang = null;
+    private TranslationManager lang = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
@@ -43,7 +42,7 @@ public class BlockCommandsListener implements IFeatherListener {
         }
 
         event.setCancelled(true);
-        Message.to(player, this.lang.getTranslation(player), Messages.BLOCK_COMMAND);
+        this.lang.message(player, Message.BLOCK_COMMAND);
     }
 
 }

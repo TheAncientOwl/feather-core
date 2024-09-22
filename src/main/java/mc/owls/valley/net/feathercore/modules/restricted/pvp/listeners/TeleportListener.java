@@ -6,19 +6,18 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
-import mc.owls.valley.net.feathercore.api.common.Message;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
 import mc.owls.valley.net.feathercore.api.exception.ModuleNotEnabledException;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IPvPManager;
-import mc.owls.valley.net.feathercore.api.module.interfaces.ITranslationAccessor;
-import mc.owls.valley.net.feathercore.modules.restricted.pvp.common.Messages;
+import mc.owls.valley.net.feathercore.modules.restricted.pvp.common.Message;
+import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 
 public class TeleportListener implements IFeatherListener {
     private IPvPManager pvpManager = null;
     private IConfigFile config = null;
-    private ITranslationAccessor lang = null;
+    private TranslationManager lang = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
@@ -42,7 +41,7 @@ public class TeleportListener implements IFeatherListener {
         if ((event.getCause() == TeleportCause.CHORUS_FRUIT && !this.config.getBoolean("block-tp.chorus-fruit")) ||
                 (event.getCause() == TeleportCause.ENDER_PEARL && !this.config.getBoolean("block-tp.ender-pearl"))) {
             event.setCancelled(true);
-            Message.to(player, this.lang.getTranslation(player), Messages.TELEPORT);
+            this.lang.message(player, Message.TELEPORT);
         }
     }
 }

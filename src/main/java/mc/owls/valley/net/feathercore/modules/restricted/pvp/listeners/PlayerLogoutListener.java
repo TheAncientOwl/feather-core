@@ -5,7 +5,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import mc.owls.valley.net.feathercore.api.common.Message;
+import mc.owls.valley.net.feathercore.api.common.Broadcast;
 import mc.owls.valley.net.feathercore.api.common.Pair;
 import mc.owls.valley.net.feathercore.api.common.Placeholder;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
@@ -13,12 +13,12 @@ import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
 import mc.owls.valley.net.feathercore.api.exception.ModuleNotEnabledException;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IPvPManager;
-import mc.owls.valley.net.feathercore.api.module.interfaces.ITranslationAccessor;
-import mc.owls.valley.net.feathercore.modules.restricted.pvp.common.Messages;
+import mc.owls.valley.net.feathercore.modules.restricted.pvp.common.Message;
+import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 
 public class PlayerLogoutListener implements IFeatherListener {
     private IPvPManager pvpManager = null;
-    private ITranslationAccessor lang = null;
+    private TranslationManager lang = null;
     private IPropertyAccessor config = null;
 
     @Override
@@ -48,8 +48,7 @@ public class PlayerLogoutListener implements IFeatherListener {
         }
 
         // TODO: Broadcast for each player in prefered language
-        Message.broadcast(this.lang.getTranslation("en"), Messages.LOGOUT,
+        Broadcast.broadcast(this.lang.getTranslation("en"), Message.LOGOUT,
                 Pair.of(Placeholder.PLAYER, player.getName()));
-
     }
 }

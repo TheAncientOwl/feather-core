@@ -7,15 +7,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
-import mc.owls.valley.net.feathercore.api.common.Message;
 import mc.owls.valley.net.feathercore.api.common.Pair;
 import mc.owls.valley.net.feathercore.api.common.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.StringUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.api.module.interfaces.ITranslationAccessor;
-import mc.owls.valley.net.feathercore.modules.economy.common.Messages;
+import mc.owls.valley.net.feathercore.modules.economy.common.Message;
+import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 import net.milkbowl.vault.economy.Economy;
 
 public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
@@ -27,7 +26,7 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
     }
 
     private Economy economy = null;
-    private ITranslationAccessor lang = null;
+    private TranslationManager lang = null;
     private IPropertyAccessor economyConfig = null;
 
     @Override
@@ -52,7 +51,7 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
                 break;
         }
 
-        Message.to(sender, this.lang.getTranslation(sender), Messages.ECO_SUCCESS,
+        this.lang.message(sender, Message.ECO_SUCCESS,
                 Pair.of(Placeholder.PLAYER, data.player.getName()),
                 Pair.of(Placeholder.OLD, this.economy.format(data.oldBalance)),
                 Pair.of(Placeholder.NEW, this.economy.format(this.economy.getBalance(data.player))));
@@ -61,13 +60,12 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
     protected CommandData parse(final CommandSender sender, final String[] args) {
         // 1. check the basics
         if (!sender.hasPermission("feathercore.economy.setup.eco")) {
-            Message.to(sender, this.lang.getTranslation(sender), Messages.PERMISSION_DENIED);
+            this.lang.message(sender, Message.PERMISSION_DENIED);
             return null;
         }
 
         if (args.length != 3) {
-            Message.to(sender, this.lang.getTranslation(sender), Messages.USAGE_INVALID,
-                    Messages.USAGE_ECO);
+            this.lang.message(sender, Message.USAGE_INVALID, Message.USAGE_ECO);
             return null;
         }
 
@@ -78,8 +76,7 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
         // 2. get the player
         final OfflinePlayer player = Bukkit.getOfflinePlayer(playerName);
         if (!player.hasPlayedBefore()) {
-            Message.to(sender, this.lang.getTranslation(sender), Messages.NOT_PLAYER,
-                    Pair.of(Placeholder.STRING, playerName));
+            this.lang.message(sender, Message.NOT_PLAYER, Pair.of(Placeholder.STRING, playerName));
             return null;
         }
 
@@ -88,14 +85,13 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
         try {
             amount = Double.parseDouble(amountStr);
         } catch (final Exception e) {
-            Message.to(sender, this.lang.getTranslation(sender), Messages.NOT_VALID_NUMBER,
+            this.lang.message(sender, Message.NOT_VALID_NUMBER,
                     Pair.of(Placeholder.STRING, amountStr));
             return null;
         }
 
         if (amount < 0 && (actionStr.equals("give") || actionStr.equals("take"))) {
-            Message.to(sender, this.lang.getTranslation(sender), Messages.ECO_NO_NEGATIVE_AMOUNT,
-                    Pair.of(Placeholder.STRING, actionStr));
+            this.lang.message(sender, Message.ECO_NO_NEGATIVE_AMOUNT, Pair.of(Placeholder.STRING, actionStr));
             return null;
         }
 
@@ -106,7 +102,7 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
             case "give": {
                 final var max = this.economyConfig.getDouble("money.max");
                 if (oldBalance + amount > max) {
-                    Message.to(sender, this.lang.getTranslation(sender), Messages.ECO_BOUNDS_MAX,
+                    this.lang.message(sender, Message.ECO_BOUNDS_MAX,
                             Pair.of(Placeholder.MAX, this.economy.format(max)));
                     return null;
                 }
@@ -116,7 +112,7 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
             case "take": {
                 final var min = this.economyConfig.getDouble("money.min");
                 if (oldBalance - amount < min) {
-                    Message.to(sender, this.lang.getTranslation(sender), Messages.ECO_BOUNDS_MIN,
+                    this.lang.message(sender, Message.ECO_BOUNDS_MIN,
                             Pair.of(Placeholder.MIN, this.economy.format(min)));
                     return null;
                 }
@@ -126,14 +122,14 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
             case "set": {
                 final var max = this.economyConfig.getDouble("money.max");
                 if (amount > max) {
-                    Message.to(sender, this.lang.getTranslation(sender), Messages.ECO_BOUNDS_MAX,
+                    this.lang.message(sender, Message.ECO_BOUNDS_MAX,
                             Pair.of(Placeholder.MAX, this.economy.format(max)));
                     return null;
                 }
 
                 final var min = this.economyConfig.getDouble("money.min");
                 if (amount < min) {
-                    Message.to(sender, this.lang.getTranslation(sender), Messages.ECO_BOUNDS_MIN,
+                    this.lang.message(sender, Message.ECO_BOUNDS_MIN,
                             Pair.of(Placeholder.MIN, this.economy.format(min)));
                     return null;
                 }
@@ -142,8 +138,7 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
                 break;
             }
             default: {
-                Message.to(sender, this.lang.getTranslation(sender), Messages.USAGE_INVALID,
-                        Messages.USAGE_ECO);
+                this.lang.message(sender, Message.USAGE_INVALID, Message.USAGE_ECO);
                 return null;
             }
         }

@@ -18,12 +18,10 @@ import mc.owls.valley.net.feathercore.api.database.mongo.models.PlayerModel;
 import mc.owls.valley.net.feathercore.api.exception.FeatherSetupException;
 import mc.owls.valley.net.feathercore.api.module.interfaces.ILootChestsModule;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IPlayersDataManager;
-import mc.owls.valley.net.feathercore.api.module.interfaces.ITranslationAccessor;
 
 public class LootChests extends FeatherModule implements ILootChestsModule {
     private IFeatherLogger logger = null;
     private IPlayersDataManager playersData = null;
-    private ITranslationAccessor lang = null;
     private IConfigFile config = null;
     private LootChestsDAO lootChestsDAO = null;
     private LootChestsModel lootChests = null;
@@ -36,7 +34,6 @@ public class LootChests extends FeatherModule implements ILootChestsModule {
     protected void onModuleEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
         this.logger = core.getFeatherLogger();
         this.playersData = core.getPlayersDataManager();
-        this.lang = core.getTranslationManager();
         this.config = core.getConfigurationManager().getLootChestsConfigFile();
         this.lootChestsDAO = core.getMongoDAO().getLootChestsDAO();
         this.lootChests = this.lootChestsDAO.getChests();

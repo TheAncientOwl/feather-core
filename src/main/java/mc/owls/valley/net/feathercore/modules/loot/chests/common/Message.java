@@ -1,6 +1,6 @@
 package mc.owls.valley.net.feathercore.modules.loot.chests.common;
 
-public class Messages {
+public class Message {
     public static String NO_PERMISSION = "general.no-permission";
     public static String PLAYERS_ONLY = "general.command.players-only";
     public static String NOT_A_CHEST = "loot-chests.not-a-chest";

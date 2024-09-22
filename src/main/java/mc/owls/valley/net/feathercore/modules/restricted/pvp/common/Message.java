@@ -1,6 +1,6 @@
 package mc.owls.valley.net.feathercore.modules.restricted.pvp.common;
 
-public class Messages {
+public class Message {
     public static String TAG = "pvp.combat.tag";
     public static String TAGGED = "pvp.combat.tagged";
     public static String COMBAT_ENDED = "pvp.combat.ended";
