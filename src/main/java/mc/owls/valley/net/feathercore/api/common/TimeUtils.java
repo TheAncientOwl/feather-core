@@ -3,9 +3,19 @@ package mc.owls.valley.net.feathercore.api.common;
 import java.util.concurrent.TimeUnit;
 
 public class TimeUtils {
-    public static String formatDuration(long startMillis, long endMillis) {
-        long millis = endMillis - startMillis;
+    public static String formatElapsed(long startMillis, long endMillis) {
+        long elapsed = endMillis - startMillis;
+        return formatDuration(elapsed);
+    }
 
+    public static String formatRemaining(long startMillis, long duration) {
+        final long now = System.currentTimeMillis();
+        final long elapsed = now - startMillis;
+        final long remaining = duration - elapsed;
+        return formatDuration(remaining);
+    }
+
+    private static String formatDuration(long millis) {
         long hours = TimeUnit.MILLISECONDS.toHours(millis);
         millis -= TimeUnit.HOURS.toMillis(hours);
 
@@ -43,4 +53,5 @@ public class TimeUtils {
 
         return sb.toString();
     }
+
 }

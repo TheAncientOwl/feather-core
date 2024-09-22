@@ -1,6 +1,6 @@
 chests:
   test:
-    cooldown: 0
+    cooldown: 10
     display-name: TestChest
     size: 54
     content:

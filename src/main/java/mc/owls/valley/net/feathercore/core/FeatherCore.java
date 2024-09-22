@@ -44,7 +44,7 @@ public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
 
             final var enableFinishTime = System.currentTimeMillis();
             this.featherLogger.info("Successfully enabled&8. (&btook&8: &b"
-                    + TimeUtils.formatDuration(enableStartTime, enableFinishTime) + "&8)");
+                    + TimeUtils.formatElapsed(enableStartTime, enableFinishTime) + "&8)");
         } catch (final FeatherSetupException e) {
             this.featherLogger.error(StringUtils.exceptionToStr(e));
 
