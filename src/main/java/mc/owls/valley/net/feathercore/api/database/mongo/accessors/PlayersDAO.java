@@ -14,7 +14,7 @@ public class PlayersDAO extends AbstractDAO<PlayerModel> {
         PlayerModel playerModel = null;
         try {
             playerModel = findFirst("username", playerName);
-        } catch (IndexOutOfBoundsException e) {
+        } catch (final IndexOutOfBoundsException e) {
             return null;
         }
         return playerModel;

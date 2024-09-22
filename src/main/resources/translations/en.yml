@@ -1,3 +1,13 @@
+general:
+  no-permission: '&8[&eFeather&6Core&8] &cYou do not have permission to do that&8.'
+  command:
+    no-permission: '&8[&eFeather&6Core&8] &cYou do not have permission to use that&8.'
+    invalid: '&8[&eFeather&6Core&8] &cInvalid command usage&8.'
+    players-only: '&8[&eFeather&6Core&8] &cThat command can be issued by players only&8.'
+  not-player: '&8[&eFeather&6Core&8] &c{string} is not a player&8.'
+  not-online-player: '&8[&eFeather&6Core&8] &c{player} is not online&8.'
+  not-valid-number: '&8[&eFeather&6Core&8] &c{string} is not a valid number&8!'
+
 language:
   usage: '&8[&6Usage&8] &e/language info/list/[language]'
   change-success: '&8[&6Language&8] &eChanged successfully&8!'
@@ -73,3 +83,15 @@ pvp:
   block-command: '&8[&4PvP&8] &cYou cannot use this command during combat&8!'
   logout: '&8[&4PvP&8] &c{player} &7disconnected during combat&8!'
   teleport: '&8[&4PvP&8] &cYou cannot teleport during combat&8!'
+
+loot-chests:
+  not-a-chest: '&8[&2Loot&aChests&8] &cThat is {misc}, not a valid chest&8!'
+  not-a-registered-chest: '&8[&2Loot&aChests&8] &cThat is not a registered chest&8!'
+  not-a-chest-type: '&8[&2Loot&aChests&8] &c{string} is not a valid chest type&8!'
+  set-success: '&8[&2Loot&aChests&8] &7Chest at &a{location} &7was set to type &a{type}&8!'
+  unset-success: '&8[&2Loot&aChests&8] &7Chest at &a{location} &7is no longer &a{type}&8!'
+  create-success: '&8[&2Loot&aChests&8] &7Created new chest type &a{type}&8!'
+  delete-success: '&8[&2Loot&aChests&8] &7Successfully deleted chest type &a{type}&8!'
+  info: '&8[&2Loot&aChests&8] &7Targeted chest is of type &a{type}&8.'
+  locations: '&8[&2Loot&aChests&8] &a{type} &7chest locations: &a{locations}'
+  usage: '&8[&6Usage&8] &e/lootchests [set/unset/create/delete/info/locations] <type> <display-name> <cooldown (seconds)>'

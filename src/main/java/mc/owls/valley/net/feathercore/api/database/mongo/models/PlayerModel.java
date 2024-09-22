@@ -1,6 +1,8 @@
 package mc.owls.valley.net.feathercore.api.database.mongo.models;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import dev.morphia.annotations.Entity;
@@ -32,6 +34,9 @@ public class PlayerModel {
 
     @Property("language")
     public String language = "en";
+
+    @Property("loot_chests_open_times")
+    public Map<String, Long> chestLocationToOpenTime = new HashMap<>();
 
     public PlayerModel() {
     }

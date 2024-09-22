@@ -9,7 +9,6 @@
 #     - slot: 0
 #       material: 'DIAMOND_SWORD'
 #       amount: 1
-#       chance: 100 (0-100)
 #       enchantments:
 #         - type: 'DAMAGE_ALL'
 #           level: 5

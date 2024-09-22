@@ -73,5 +73,6 @@ modules:
     dependencies: [ConfigurationManager, PlayersDataManager, TranslationManager]
     literal: LITERAL_LOOT_CHESTS_MANAGER
     mandatory: false
-    commands: []
+    commands:
+      lootchests: mc.owls.valley.net.feathercore.modules.loot.chests.commands.LootChestsCommand
     listeners: []
