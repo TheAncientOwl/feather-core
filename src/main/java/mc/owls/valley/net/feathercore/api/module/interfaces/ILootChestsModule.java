@@ -46,15 +46,7 @@ public interface ILootChestsModule {
      * @param location
      * @param now      usually System.now()
      */
-    public void openChest(final Player player, final Inventory chestInventory, final String location, final Long now);
-
-    /**
-     * Self explanatory
-     * 
-     * @param type
-     * @return inventory of the @type chest
-     */
-    public Inventory getChestInventory(final String type);
+    public void openChest(final Player player, final String chestType, final String location, final Long now);
 
     /**
      * Saves given chest to config

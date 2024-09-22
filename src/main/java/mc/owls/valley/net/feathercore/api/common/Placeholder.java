@@ -16,4 +16,5 @@ public class Placeholder {
     public static final String LOCATION = "{location}";
     public static final String TYPE = "{type}";
     public static final String LOCATIONS = "{locations}";
+    public static final String COOLDOWN = "{cooldown}";
 }

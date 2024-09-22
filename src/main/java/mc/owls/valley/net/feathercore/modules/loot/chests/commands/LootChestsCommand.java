@@ -65,7 +65,7 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
     }
 
     protected CommandData parse(final CommandSender sender, final String[] args) {
-        if (!sender.hasPermission("feathercore.loot-chests")) {
+        if (!sender.hasPermission("feathercore.lootchests")) {
             this.lang.message(sender, Message.NO_PERMISSION);
             return null;
         }

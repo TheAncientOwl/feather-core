@@ -109,7 +109,7 @@ public class BukkitConfigFile implements IConfigFile {
 
     @Override
     public Inventory getInventory(final String path) {
-        return InventoryConfig.deserialize(this, path);
+        return InventoryConfig.deserialize(this.getConfigurationSection(path));
     }
 
     @Override

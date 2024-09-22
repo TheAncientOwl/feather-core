@@ -75,4 +75,5 @@ modules:
     mandatory: false
     commands:
       lootchests: mc.owls.valley.net.feathercore.modules.loot.chests.commands.LootChestsCommand
-    listeners: []
+    listeners:
+      - mc.owls.valley.net.feathercore.modules.loot.chests.listeners.LootChestOpenListener

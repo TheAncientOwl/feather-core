@@ -8,7 +8,6 @@ import org.bukkit.inventory.Inventory;
 
 import mc.owls.valley.net.feathercore.api.common.StringUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
-import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
@@ -72,27 +71,24 @@ public class LootChests extends FeatherModule implements ILootChestsModule {
     }
 
     @Override
-    public void openChest(final Player player, final Inventory chestInventory, final String location, final Long now) {
+    public void openChest(final Player player, final String chestType, final String location, final Long now) {
         final PlayerModel playerModel = this.playersData.getPlayerModel(player);
         playerModel.chestLocationToOpenTime.put(location, now);
         this.playersData.markPlayerModelForSave(playerModel);
-        player.openInventory(chestInventory);
-    }
 
-    @Override
-    public Inventory getChestInventory(final String type) {
-        return this.config.getInventory("chests." + type);
+        final Inventory chest = this.config.getInventory("chests." + chestType);
+
+        player.openInventory(chest);
     }
 
     @Override
     public void createChest(final String type, final String displayName, final long cooldown,
             final Inventory inventory) {
-        this.config.setString("chests." + type + ".display-name", displayName);
-        final IPropertyAccessor chestConfig = this.config.getConfigurationSection("chests." + type);
+        final String configPath = "chests." + type;
 
-        chestConfig.setLong("cooldown", cooldown);
-        chestConfig.setInt("size", inventory.getSize());
-        chestConfig.setInventory("inventory", inventory);
+        this.config.setLong(configPath + ".cooldown", cooldown);
+        this.config.setString(configPath + ".display-name", displayName);
+        this.config.setInventory(configPath, inventory);
 
         try {
             this.config.saveConfig();
@@ -104,7 +100,7 @@ public class LootChests extends FeatherModule implements ILootChestsModule {
 
     @Override
     public void deleteChest(final String type) {
-
+        this.config.remove("chests." + type);
     }
 
     @Override

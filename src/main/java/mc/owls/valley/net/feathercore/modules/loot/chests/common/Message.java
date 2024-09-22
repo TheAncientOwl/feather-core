@@ -15,4 +15,5 @@ public class Message {
     public static String USAGE = "loot-chests.usage";
     public static String NOT_CHEST_TYPE = "loot-chests.not-a-chest-type";
     public static String NAN = "general.not-valid-number";
+    public static String COOLDOWN = "loot-chests.cooldown";
 }
