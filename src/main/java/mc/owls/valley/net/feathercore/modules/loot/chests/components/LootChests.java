@@ -40,7 +40,9 @@ public class LootChests extends FeatherModule implements ILootChestsModule {
 
     @Override
     protected void onModuleDisable() {
+        this.logger.info("Saving chests data&7...");
         saveData();
+        this.logger.info("Chests data saved&7.");
     }
 
     private void saveData() {

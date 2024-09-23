@@ -163,4 +163,9 @@ public class BukkitConfigFile implements IConfigFile {
         this.fileConfiguration.set(path, null);
     }
 
+    @Override
+    public String getFileName() {
+        return this.fileName;
+    }
+
 }

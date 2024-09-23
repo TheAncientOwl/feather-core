@@ -20,6 +20,7 @@ import net.milkbowl.vault.economy.Economy;
 public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
     public static final String FEATHER_CORE_YML = "feathercore.yml";
 
+    private static String LITERAL_FEATHER_LOGGER = null;
     private static String LITERAL_MONGO_MANAGER = null;
     private static String LITERAL_PLAYERS_DATA_MANAGER = null;
     private static String LITERAL_CONFIG_MANAGER = null;
@@ -28,7 +29,6 @@ public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
     private static String LITERAL_TRANSLATION_MANAGER = null;
     private static String LITERAL_LOOT_CHESTS_MANAGER = null;
 
-    private IFeatherLogger featherLogger = null;
     private ModulesManager modulesManager = new ModulesManager();
 
     @Override
@@ -37,16 +37,14 @@ public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
 
         LogoManager.logLogo(getServer());
 
-        this.featherLogger = FeatherLogger.setup(this);
-
         try {
             this.modulesManager.onEnable(this);
 
             final var enableFinishTime = System.currentTimeMillis();
-            this.featherLogger.info("Successfully enabled&8. (&btook&8: &b"
+            getFeatherLogger().info("Successfully enabled&8. (&btook&8: &b"
                     + TimeUtils.formatElapsed(enableStartTime, enableFinishTime) + "&8)");
         } catch (final FeatherSetupException e) {
-            this.featherLogger.error(StringUtils.exceptionToStr(e));
+            getFeatherLogger().error(StringUtils.exceptionToStr(e));
 
             getServer().getPluginManager().disablePlugin(this);
         }
@@ -56,9 +54,9 @@ public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
     public void onDisable() {
         LogoManager.logLogo(getServer());
 
-        this.modulesManager.onDisable(this.featherLogger);
+        this.modulesManager.onDisable(getFeatherLogger());
 
-        this.featherLogger.info("Goodbye&8!");
+        getFeatherLogger().info("Goodbye&8!");
     }
 
     @Override
@@ -68,7 +66,7 @@ public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
 
     @Override
     public IFeatherLogger getFeatherLogger() {
-        return this.featherLogger;
+        return this.modulesManager.getModule(LITERAL_FEATHER_LOGGER);
     }
 
     @Override

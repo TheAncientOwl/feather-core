@@ -12,7 +12,10 @@ public abstract class FeatherModule {
     public void onEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
         final IFeatherLogger logger = core.getFeatherLogger();
 
-        logStatus(logger, "&7setup started");
+        if (logger.isInitialized()) {
+            logStatus(logger, "&7setup started");
+        }
+
         onModuleEnable(core);
         logStatus(logger, "&aenabled");
     }

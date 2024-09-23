@@ -1,26 +1,33 @@
 package mc.owls.valley.net.feathercore.core;
 
 import org.bukkit.command.ConsoleCommandSender;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import mc.owls.valley.net.feathercore.api.common.StringUtils;
+import mc.owls.valley.net.feathercore.api.core.FeatherModule;
+import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
+import mc.owls.valley.net.feathercore.api.exception.FeatherSetupException;
 
-public class FeatherLogger implements IFeatherLogger {
+public class FeatherLogger extends FeatherModule implements IFeatherLogger {
     public static final String PLUGIN_TAG = "&8[&eFeather&6Core&8]&r ";
 
-    private final ConsoleCommandSender console;
+    private ConsoleCommandSender console = null;
 
-    public static FeatherLogger setup(final JavaPlugin plugin) {
-        return new FeatherLogger(plugin);
+    public FeatherLogger(final String name) {
+        super(name);
     }
 
-    public FeatherLogger(final JavaPlugin plugin) {
-        this.console = plugin.getServer().getConsoleSender();
+    @Override
+    protected void onModuleEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
+        this.console = core.getPlugin().getServer().getConsoleSender();
+    }
+
+    @Override
+    protected void onModuleDisable() {
     }
 
     public void info(final String message) {
-        sendMessage("&8» &b" + message);
+        sendMessage("&8» &3" + message);
     }
 
     public void warn(final String message) {
@@ -37,5 +44,10 @@ public class FeatherLogger implements IFeatherLogger {
 
     private void sendMessage(final String message) {
         this.console.sendMessage(StringUtils.translateColors(PLUGIN_TAG + message));
+    }
+
+    @Override
+    public boolean isInitialized() {
+        return this.console != null;
     }
 }
