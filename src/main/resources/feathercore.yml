@@ -15,7 +15,7 @@ modules:
     listeners: []
 
   FeatherLogger:
-    class: mc.owls.valley.net.feathercore.core.FeatherLogger
+    class: mc.owls.valley.net.feathercore.modules.log.components.FeatherLogger
     dependencies: [$LogoManager]
     cache-field: featherLogger
     mandatory: true
