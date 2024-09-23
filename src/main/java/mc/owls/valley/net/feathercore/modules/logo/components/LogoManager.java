@@ -29,7 +29,7 @@ public class LogoManager extends FeatherModule {
         final String[] logo = new String[] {
                 "",
                 " &e&l░░░░░ &6&l  ░░░░",
-                " &e&l░░    &6&l░░    ░░  &eFeather&6Core &bv0.5.0",
+                " &e&l░░    &6&l░░    ░░  &eFeather&6Core &bv0.5.1",
                 " &e&l░░░░  &6&l░░        &7&oRunning on " + getServerType() + " " + server.getVersion(),
                 " &e&l░░    &6&l░░    ░░  &7&oAuthor: DefaultyBuf",
                 " &e&l░░    &6&l  ░░░░",
