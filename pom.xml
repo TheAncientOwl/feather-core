@@ -99,7 +99,6 @@
           <include>plugin.yml</include>
           <include>feathercore.yml</include>
           <include>modules.yml</include>
-          <include>translations.yml</include>
           <include>modules/**</include>
           <include>translations/**</include>
         </includes>

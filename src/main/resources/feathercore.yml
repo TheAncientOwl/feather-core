@@ -1,5 +1,5 @@
 configs:
-  translationsConfigFile: translations.yml
+  translationsConfigFile: translations/languages.yml
   dataConfigFile: modules/data.yml
   economyConfigFile: modules/economy.yml
   pvpConfigFile: modules/pvp.yml
