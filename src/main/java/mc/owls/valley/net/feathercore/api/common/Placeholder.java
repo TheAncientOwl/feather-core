@@ -12,4 +12,9 @@ public class Placeholder {
     public static final String MAX = "{max}";
     public static final String MIN = "{min}";
     public static final String LANGUAGE = "{language}";
+    public static final String MISC = "{misc}";
+    public static final String LOCATION = "{location}";
+    public static final String TYPE = "{type}";
+    public static final String LOCATIONS = "{locations}";
+    public static final String COOLDOWN = "{cooldown}";
 }

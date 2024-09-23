@@ -9,18 +9,18 @@ import mc.owls.valley.net.feathercore.api.common.YamlUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-
 import mc.owls.valley.net.feathercore.api.exception.FeatherSetupException;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IConfigurationManager;
 import mc.owls.valley.net.feathercore.core.FeatherCore;
 import mc.owls.valley.net.feathercore.modules.configuration.components.bukkit.BukkitConfigFile;
 
+// TODO: Refactor to not load all the config files in the beginning
 public class ConfigurationManager extends FeatherModule implements IConfigurationManager {
     private IConfigFile dataConfigFile = null;
     private IConfigFile economyConfigFile = null;
-    private IConfigFile messagesConfigFile = null;
     private IConfigFile pvpConfigFile = null;
     private IConfigFile translationsConfigFile = null;
+    private IConfigFile lootChestsConfigFile = null;
 
     public ConfigurationManager(final String name) {
         super(name);
@@ -53,7 +53,6 @@ public class ConfigurationManager extends FeatherModule implements IConfiguratio
         try {
             this.dataConfigFile.saveConfig();
             this.economyConfigFile.saveConfig();
-            this.messagesConfigFile.saveConfig();
             this.pvpConfigFile.saveConfig();
             this.translationsConfigFile.saveConfig();
         } catch (final IOException e) {
@@ -78,6 +77,11 @@ public class ConfigurationManager extends FeatherModule implements IConfiguratio
     @Override
     public IConfigFile getTranslationsConfigFile() {
         return this.translationsConfigFile;
+    }
+
+    @Override
+    public IConfigFile getLootChestsConfigFile() {
+        return this.lootChestsConfigFile;
     }
 
 }

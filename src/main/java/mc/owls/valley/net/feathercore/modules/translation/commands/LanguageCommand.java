@@ -6,7 +6,6 @@ import java.util.List;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
-import mc.owls.valley.net.feathercore.api.common.Message;
 import mc.owls.valley.net.feathercore.api.common.Pair;
 import mc.owls.valley.net.feathercore.api.common.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.StringUtils;
@@ -14,8 +13,8 @@ import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IPlayersDataManager;
-import mc.owls.valley.net.feathercore.api.module.interfaces.ITranslationAccessor;
 import mc.owls.valley.net.feathercore.modules.translation.common.Messages;
+import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 
 public class LanguageCommand extends FeatherCommand<LanguageCommand.CommandData> {
     private static enum CommandType {
@@ -26,7 +25,7 @@ public class LanguageCommand extends FeatherCommand<LanguageCommand.CommandData>
     }
 
     private IPlayersDataManager playerData = null;
-    private ITranslationAccessor lang = null;
+    private TranslationManager lang = null;
     private IPropertyAccessor translationsConfig = null;
 
     @Override
@@ -43,8 +42,7 @@ public class LanguageCommand extends FeatherCommand<LanguageCommand.CommandData>
                 final var playerLangPrefix = this.playerData.getPlayerModel((OfflinePlayer) sender).language;
                 final var langExtended = this.translationsConfig.getConfigurationSection("languages")
                         .getString(playerLangPrefix, "");
-                Message.to(sender, this.lang.getTranslation(sender), Messages.INFO,
-                        Pair.of(Placeholder.LANGUAGE, langExtended));
+                this.lang.message(sender, Messages.INFO, Pair.of(Placeholder.LANGUAGE, langExtended));
                 break;
             }
             case LIST:
@@ -55,21 +53,20 @@ public class LanguageCommand extends FeatherCommand<LanguageCommand.CommandData>
                     sb.append("\n   ").append(lang).append(": ").append(longForm);
                 }
 
-                Message.to(sender, this.lang.getTranslation(sender), Messages.LIST,
-                        Pair.of(Placeholder.LANGUAGE, sb.toString()));
+                this.lang.message(sender, Messages.LIST, Pair.of(Placeholder.LANGUAGE, sb.toString()));
                 break;
             case CHANGE:
                 final var playerModel = this.playerData.getPlayerModel((OfflinePlayer) sender);
                 playerModel.language = data.language;
                 this.playerData.markPlayerModelForSave(playerModel);
-                Message.to(sender, this.lang.getTranslation(sender), Messages.CHANGE_SUCCESS);
+                this.lang.message(sender, Messages.CHANGE_SUCCESS);
                 break;
         }
     }
 
     protected CommandData parse(final CommandSender sender, final String[] args) {
         if (args.length != 1) {
-            Message.to(sender, this.lang.getTranslation(sender), Messages.UNKNOWN, Messages.USAGE);
+            this.lang.message(sender, Messages.UNKNOWN, Messages.USAGE);
             return null;
         }
 
@@ -83,7 +80,7 @@ public class LanguageCommand extends FeatherCommand<LanguageCommand.CommandData>
             commandType = CommandType.LIST;
         } else {
             if (!this.translationsConfig.getConfigurationSection("languages").getKeys(false).contains(option)) {
-                Message.to(sender, this.lang.getTranslation(sender), Messages.UNKNOWN, Messages.USAGE);
+                this.lang.message(sender, Messages.UNKNOWN, Messages.USAGE);
                 return null;
             }
             commandType = CommandType.CHANGE;

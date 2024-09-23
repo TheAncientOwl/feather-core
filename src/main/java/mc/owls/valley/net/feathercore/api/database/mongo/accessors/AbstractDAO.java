@@ -10,7 +10,7 @@ import dev.morphia.query.filters.Filters;
 public abstract class AbstractDAO<T> {
     private final Datastore datastore;
 
-    public AbstractDAO(Datastore datastore) {
+    public AbstractDAO(final Datastore datastore) {
         this.datastore = datastore;
     }
 

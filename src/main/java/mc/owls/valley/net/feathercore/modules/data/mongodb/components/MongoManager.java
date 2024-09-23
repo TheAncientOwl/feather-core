@@ -20,9 +20,10 @@ import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigSection;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-
 import mc.owls.valley.net.feathercore.api.database.mongo.IDAOAccessor;
+import mc.owls.valley.net.feathercore.api.database.mongo.accessors.LootChestsDAO;
 import mc.owls.valley.net.feathercore.api.database.mongo.accessors.PlayersDAO;
+import mc.owls.valley.net.feathercore.api.database.mongo.models.LootChestsModel;
 import mc.owls.valley.net.feathercore.api.database.mongo.models.PlayerModel;
 import mc.owls.valley.net.feathercore.api.exception.FeatherSetupException;
 
@@ -66,7 +67,9 @@ public class MongoManager extends FeatherModule implements IDAOAccessor {
                         .dateStorage(DateStorage.SYSTEM_DEFAULT)
                         .build());
 
-        this.datastore.getMapper().map(PlayerModel.class);
+        final var mapper = this.datastore.getMapper();
+        mapper.map(PlayerModel.class);
+        mapper.map(LootChestsModel.class);
         this.datastore.ensureIndexes();
     }
 
@@ -81,6 +84,11 @@ public class MongoManager extends FeatherModule implements IDAOAccessor {
     @Override
     public PlayersDAO getPlayersDAO() {
         return new PlayersDAO(this.datastore);
+    }
+
+    @Override
+    public LootChestsDAO getLootChestsDAO() {
+        return new LootChestsDAO(this.datastore);
     }
 
 }

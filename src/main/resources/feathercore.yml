@@ -1,8 +1,9 @@
 configs:
+  translationsConfigFile: translations.yml
   dataConfigFile: modules/data.yml
   economyConfigFile: modules/economy.yml
   pvpConfigFile: modules/pvp.yml
-  translationsConfigFile: translations.yml
+  lootChestsConfigFile: modules/loot-chests.yml
 
 modules:
   ConfigurationManager:
@@ -66,3 +67,13 @@ modules:
       - mc.owls.valley.net.feathercore.modules.restricted.pvp.listeners.PlayerDeathListener
       - mc.owls.valley.net.feathercore.modules.restricted.pvp.listeners.PlayerLogoutListener
       - mc.owls.valley.net.feathercore.modules.restricted.pvp.listeners.TeleportListener
+
+  LootChests:
+    class: mc.owls.valley.net.feathercore.modules.loot.chests.components.LootChests
+    dependencies: [ConfigurationManager, PlayersDataManager, TranslationManager]
+    literal: LITERAL_LOOT_CHESTS_MANAGER
+    mandatory: false
+    commands:
+      lootchests: mc.owls.valley.net.feathercore.modules.loot.chests.commands.LootChestsCommand
+    listeners:
+      - mc.owls.valley.net.feathercore.modules.loot.chests.listeners.LootChestOpenListener

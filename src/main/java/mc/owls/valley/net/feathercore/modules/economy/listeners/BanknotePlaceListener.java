@@ -6,15 +6,14 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import mc.owls.valley.net.feathercore.api.common.Message;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
-import mc.owls.valley.net.feathercore.api.module.interfaces.ITranslationAccessor;
-import mc.owls.valley.net.feathercore.modules.economy.common.Messages;
+import mc.owls.valley.net.feathercore.modules.economy.common.Message;
+import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 
 public class BanknotePlaceListener implements IFeatherListener {
     private JavaPlugin plugin = null;
-    private ITranslationAccessor lang = null;
+    private TranslationManager lang = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
@@ -29,9 +28,9 @@ public class BanknotePlaceListener implements IFeatherListener {
         }
 
         if (event.getItemInHand().getItemMeta().getPersistentDataContainer()
-                .has(new NamespacedKey(this.plugin, Messages.BANKNOTE_METADATA_KEY))) {
+                .has(new NamespacedKey(this.plugin, Message.BANKNOTE_METADATA_KEY))) {
             event.setCancelled(true);
-            Message.to(event.getPlayer(), this.lang.getTranslation(event.getPlayer()), Messages.BANKNOTE_PLACE);
+            this.lang.message(event.getPlayer(), Message.BANKNOTE_PLACE);
         }
     }
 

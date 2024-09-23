@@ -33,3 +33,7 @@ commands:
     description: Set prefered language for messages
     usage: /language info/list/[language]
     aliases: [lang]
+
+  lootchests:
+    description: Manage loot chests
+    usage: /lootchests [set/unset/create/delete/info/locations] <type> <display-name> <cooldown (seconds)>

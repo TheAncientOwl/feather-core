@@ -10,4 +10,6 @@ public interface IConfigurationManager {
     public IConfigFile getPvPConfigFile();
 
     public IConfigFile getTranslationsConfigFile();
+
+    public IConfigFile getLootChestsConfigFile();
 }
