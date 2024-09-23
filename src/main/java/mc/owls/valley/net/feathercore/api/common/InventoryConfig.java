@@ -8,9 +8,11 @@ import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 public class InventoryConfig {
+    private static final int MAX_INVENTORY_SIZE = 54;
+
     public static void serialize(final IPropertyAccessor config, final String path, final Inventory inventory) {
         final var inventorySize = inventory.getSize();
-        config.setInt(path + ".size", inventorySize);
+        config.setInt(path + ".size", Math.min(inventorySize, MAX_INVENTORY_SIZE));
 
         for (int index = 0; index < inventorySize; index++) {
             final ItemStack itemStack = inventory.getItem(index);
@@ -26,7 +28,7 @@ public class InventoryConfig {
         }
 
         try {
-            final var inventorySize = inventoryConfig.getInt("size");
+            final var inventorySize = Math.min(inventoryConfig.getInt("size"), MAX_INVENTORY_SIZE);
             Inventory inventory = Bukkit.createInventory(null, inventorySize,
                     LegacyComponentSerializer.legacyAmpersand().deserialize(
                             inventoryConfig.getString("display-name")));

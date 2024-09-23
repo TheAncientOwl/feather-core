@@ -72,13 +72,20 @@ public class LootChests extends FeatherModule implements ILootChestsModule {
 
     @Override
     public void openChest(final Player player, final String chestType, final String location, final Long now) {
-        final PlayerModel playerModel = this.playersData.getPlayerModel(player);
-        playerModel.chestLocationToOpenTime.put(location, now);
-        this.playersData.markPlayerModelForSave(playerModel);
-
         final Inventory chest = this.config.getInventory("chests." + chestType);
+        final PlayerModel playerModel = this.playersData.getPlayerModel(player);
 
-        player.openInventory(chest);
+        if (chest != null) {
+            player.openInventory(chest);
+
+            playerModel.chestLocationToOpenTime.put(location, now);
+            this.playersData.markPlayerModelForSave(playerModel);
+        } else {
+            this.logger.warn("&8[&2Loot&aChests&8] &eUnknown chest type &6'" + chestType + "' &efound at location &6"
+                    + location + "&e. Removing chest location from internal database.");
+            unsetChest(location);
+            playerModel.chestLocationToOpenTime.remove(location);
+        }
     }
 
     @Override
