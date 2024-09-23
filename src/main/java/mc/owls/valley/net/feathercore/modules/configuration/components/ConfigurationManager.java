@@ -9,6 +9,7 @@ import mc.owls.valley.net.feathercore.api.common.YamlUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
+import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
 import mc.owls.valley.net.feathercore.api.exception.FeatherSetupException;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IConfigurationManager;
 import mc.owls.valley.net.feathercore.core.FeatherCore;
@@ -16,6 +17,7 @@ import mc.owls.valley.net.feathercore.modules.configuration.components.bukkit.Bu
 
 // TODO: Refactor to not load all the config files in the beginning
 public class ConfigurationManager extends FeatherModule implements IConfigurationManager {
+    private IFeatherLogger logger = null;
     private IConfigFile dataConfigFile = null;
     private IConfigFile economyConfigFile = null;
     private IConfigFile pvpConfigFile = null;
@@ -28,6 +30,8 @@ public class ConfigurationManager extends FeatherModule implements IConfiguratio
 
     @Override
     protected void onModuleEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
+        this.logger = core.getFeatherLogger();
+
         final JavaPlugin plugin = core.getPlugin();
 
         final var configs = YamlUtils.loadYaml(plugin, FeatherCore.FEATHER_CORE_YML).getConfigurationSection("configs");
@@ -50,13 +54,27 @@ public class ConfigurationManager extends FeatherModule implements IConfiguratio
 
     @Override
     protected void onModuleDisable() {
-        try {
-            this.dataConfigFile.saveConfig();
-            this.economyConfigFile.saveConfig();
-            this.pvpConfigFile.saveConfig();
-            this.translationsConfigFile.saveConfig();
-        } catch (final IOException e) {
+        saveConfigFile(this.dataConfigFile);
+        saveConfigFile(this.economyConfigFile);
+        saveConfigFile(this.pvpConfigFile);
+        saveConfigFile(this.translationsConfigFile);
+    }
+
+    private void saveConfigFile(final IConfigFile config) {
+        if (config == null) {
+            return;
         }
+
+        this.logger.info(config.getFileName() + " » saving&7...");
+        try {
+            config.saveConfig();
+        } catch (final IOException e) {
+            this.logger.error(config.getFileName() + " » save failed...\nReason: "
+                    + StringUtils.exceptionToStr(e));
+            return;
+        }
+        this.logger.info(config.getFileName() + " » saved&7.");
+
     }
 
     @Override

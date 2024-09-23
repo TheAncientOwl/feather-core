@@ -4,10 +4,10 @@ public class Message {
     public static final String BALANCE_SELF = "economy.balance.self";
     public static final String BALANCE_OTHER = "economy.balance.other";
 
-    public static final String COMMAND_SENDER_NOT_PLAYER = "economy.command-sender-not-player";
-    public static final String PERMISSION_DENIED = "economy.permission-denied";
+    public static final String COMMAND_SENDER_NOT_PLAYER = "general.command.players-only";
+    public static final String PERMISSION_DENIED = "general.command.no-permission";
 
-    public static final String USAGE_INVALID = "economy.usage-invalid";
+    public static final String USAGE_INVALID = "general.command.invalid";
     public static final String USAGE_BALANCE = "economy.balance.usage";
     public static final String USAGE_ECO = "economy.eco.usage";
     public static final String USAGE_PAY = "economy.pay.error.usage";
@@ -15,9 +15,9 @@ public class Message {
     public static final String USAGE_WITHDRAW = "economy.withdraw.error.usage";
     public static final String USAGE_DEPOSIT = "economy.deposit.error.usage";
 
-    public static final String NOT_PLAYER = "economy.not-player";
-    public static final String NOT_ONLINE_PLAYER = "economy.not-online-player";
-    public static final String NOT_VALID_NUMBER = "economy.not-valid-number";
+    public static final String NOT_PLAYER = "general.not-player";
+    public static final String NOT_ONLINE_PLAYER = "general.not-online-player";
+    public static final String NOT_VALID_NUMBER = "general.not-valid-number";
 
     public static final String ECO_NO_NEGATIVE_AMOUNT = "economy.eco.cannot-negative-amounts";
     public static final String ECO_SUCCESS = "economy.eco.success";

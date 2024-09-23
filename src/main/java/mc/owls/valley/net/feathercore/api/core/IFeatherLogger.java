@@ -9,4 +9,5 @@ public interface IFeatherLogger {
 
     public void debug(final String message);
 
+    public boolean isInitialized();
 }

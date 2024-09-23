@@ -10,4 +10,6 @@ public interface IConfigFile extends IPropertyAccessor {
     public void loadConfig();
 
     public void reloadConfig();
+
+    public String getFileName();
 }

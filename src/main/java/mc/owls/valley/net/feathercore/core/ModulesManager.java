@@ -10,6 +10,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import mc.owls.valley.net.feathercore.api.common.Cache;
 import mc.owls.valley.net.feathercore.api.common.Pair;
 import mc.owls.valley.net.feathercore.api.common.StringUtils;
 import mc.owls.valley.net.feathercore.api.common.YamlUtils;
@@ -113,21 +114,21 @@ public class ModulesManager {
                 module.dependencies.add(dependency);
             }
 
-            // 7. set plugin literal
-            final var literalFieldName = moduleConfig.getString("literal");
+            // 7. set module cache
+            final var cacheFieldName = moduleConfig.getString("cache-field");
 
-            if (literalFieldName.isEmpty()) {
+            if (cacheFieldName.isEmpty()) {
                 throw new FeatherSetupException(
                         "Missing literal on '" + moduleName + "', please contact the developer");
             }
 
             try {
-                final var field = pluginClass.getDeclaredField(literalFieldName);
+                final var field = pluginClass.getDeclaredField(cacheFieldName);
                 field.setAccessible(true);
-                field.set(plugin, moduleName);
+                field.set(plugin, Cache.of(() -> this.getModule(moduleName)));
             } catch (final Exception e) {
                 throw new FeatherSetupException(
-                        "Could not setup config connection {" + literalFieldName + " -> " + moduleName
+                        "Could not setup config connection {" + cacheFieldName + " -> " + moduleName
                                 + "}\nReason: " + StringUtils.exceptionToStr(e));
             }
         }

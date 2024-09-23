@@ -3,6 +3,7 @@ package mc.owls.valley.net.feathercore.api.core;
 import mc.owls.valley.net.feathercore.api.exception.FeatherSetupException;
 
 public abstract class FeatherModule {
+    private final static String HIDE_LIFECYCLE_PREFIX = "$";
     private final String name;
 
     public FeatherModule(final String name) {
@@ -12,15 +13,31 @@ public abstract class FeatherModule {
     public void onEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
         final IFeatherLogger logger = core.getFeatherLogger();
 
-        logStatus(logger, "&7setup started");
+        if (logger.isInitialized() && !name.startsWith(HIDE_LIFECYCLE_PREFIX)) {
+            logStatus(logger, "&7setup started");
+        }
+
         onModuleEnable(core);
-        logStatus(logger, "&aenabled");
+
+        if (logger.isInitialized() && !name.startsWith(HIDE_LIFECYCLE_PREFIX)) {
+            logStatus(logger, "&aenabled");
+        }
     }
 
     public void onDisable(final IFeatherLogger logger) {
-        logStatus(logger, "&7disabling started");
+        if (!name.startsWith(HIDE_LIFECYCLE_PREFIX)) {
+            logStatus(logger, "&7disabling started");
+        }
+
         onModuleDisable();
-        logStatus(logger, "&adisabled");
+
+        if (!name.startsWith(HIDE_LIFECYCLE_PREFIX)) {
+            logStatus(logger, "&adisabled");
+        }
+    }
+
+    public String getModuleName() {
+        return this.name;
     }
 
     private void logStatus(final IFeatherLogger logger, final String message) {

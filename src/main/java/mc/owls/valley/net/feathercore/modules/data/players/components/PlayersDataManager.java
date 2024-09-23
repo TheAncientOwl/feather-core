@@ -50,7 +50,10 @@ public class PlayersDataManager extends FeatherModule implements IPlayersDataMan
 
     @Override
     protected void onModuleDisable() {
+        this.logger.info("Saving players data&7...");
+        final var playersCount = this.saveMarks.size();
         savePlayersData();
+        this.logger.info("Saved the data of " + playersCount + " players&7.");
     }
 
     @Override
