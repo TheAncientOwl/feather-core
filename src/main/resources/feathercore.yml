@@ -6,9 +6,17 @@ configs:
   lootChestsConfigFile: modules/loot-chests.yml
 
 modules:
+  $LogoManager:
+    class: mc.owls.valley.net.feathercore.modules.logo.components.LogoManager
+    dependencies: []
+    cache-field: logoManager
+    mandatory: true
+    commands: []
+    listeners: []
+
   FeatherLogger:
     class: mc.owls.valley.net.feathercore.core.FeatherLogger
-    dependencies: []
+    dependencies: [$LogoManager]
     cache-field: featherLogger
     mandatory: true
     commands: []
