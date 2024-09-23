@@ -26,6 +26,10 @@ public abstract class FeatherModule {
         logStatus(logger, "&adisabled");
     }
 
+    public String getModuleName() {
+        return this.name;
+    }
+
     private void logStatus(final IFeatherLogger logger, final String message) {
         logger.info("&2" + this.name + "&8: &r" + message);
 

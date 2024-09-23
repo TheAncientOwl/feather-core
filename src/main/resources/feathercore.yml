@@ -9,7 +9,7 @@ modules:
   FeatherLogger:
     class: mc.owls.valley.net.feathercore.core.FeatherLogger
     dependencies: []
-    literal: LITERAL_FEATHER_LOGGER
+    cache-field: featherLogger
     mandatory: true
     commands: []
     listeners: []
@@ -17,7 +17,7 @@ modules:
   ConfigurationManager:
     class: mc.owls.valley.net.feathercore.modules.configuration.components.ConfigurationManager
     dependencies: [FeatherLogger]
-    literal: LITERAL_CONFIG_MANAGER
+    cache-field: configurationManager
     mandatory: true
     commands: []
     listeners: []
@@ -25,7 +25,7 @@ modules:
   MongoManager:
     class: mc.owls.valley.net.feathercore.modules.data.mongodb.components.MongoManager
     dependencies: [FeatherLogger, ConfigurationManager]
-    literal: LITERAL_MONGO_MANAGER
+    cache-field: mongoManager
     mandatory: true
     commands: []
     listeners: []
@@ -33,7 +33,7 @@ modules:
   PlayersDataManager:
     class: mc.owls.valley.net.feathercore.modules.data.players.components.PlayersDataManager
     dependencies: [FeatherLogger, ConfigurationManager, MongoManager]
-    literal: LITERAL_PLAYERS_DATA_MANAGER
+    cache-field: playersDataManager
     mandatory: true
     commands: []
     listeners:
@@ -42,7 +42,7 @@ modules:
   TranslationManager:
     class: mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager
     dependencies: [FeatherLogger, ConfigurationManager, PlayersDataManager]
-    literal: LITERAL_TRANSLATION_MANAGER
+    cache-field: translationManager
     mandatory: true
     commands:
       language: mc.owls.valley.net.feathercore.modules.translation.commands.LanguageCommand
@@ -51,7 +51,7 @@ modules:
   FeatherEconomyProvider:
     class: mc.owls.valley.net.feathercore.modules.economy.components.FeatherEconomyProvider
     dependencies: [FeatherLogger, PlayersDataManager, TranslationManager]
-    literal: LITERAL_ECONOMY_PROVIDER
+    cache-field: economyProvider
     mandatory: true
     commands:
       balance: mc.owls.valley.net.feathercore.modules.economy.commands.BalanceCommand
@@ -66,7 +66,7 @@ modules:
   PvPManager:
     class: mc.owls.valley.net.feathercore.modules.restricted.pvp.components.PvPManager
     dependencies: [FeatherLogger, ConfigurationManager, TranslationManager]
-    literal: LITERAL_PVP_MANAGER
+    cache-field: pvpManager
     mandatory: false
     commands: []
     listeners:
@@ -79,7 +79,7 @@ modules:
   LootChests:
     class: mc.owls.valley.net.feathercore.modules.loot.chests.components.LootChests
     dependencies: [FeatherLogger, ConfigurationManager, PlayersDataManager, TranslationManager]
-    literal: LITERAL_LOOT_CHESTS_MANAGER
+    cache-field: lootChests
     mandatory: false
     commands:
       lootchests: mc.owls.valley.net.feathercore.modules.loot.chests.commands.LootChestsCommand
