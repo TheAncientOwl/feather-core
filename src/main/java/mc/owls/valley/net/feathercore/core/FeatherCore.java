@@ -5,7 +5,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import mc.owls.valley.net.feathercore.api.common.Cache;
 import mc.owls.valley.net.feathercore.api.common.StringUtils;
 import mc.owls.valley.net.feathercore.api.common.TimeUtils;
-import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
 import mc.owls.valley.net.feathercore.api.database.mongo.IDAOAccessor;
@@ -40,18 +39,18 @@ public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
     @Override
     public void onEnable() {
         final var enableStartTime = System.currentTimeMillis();
-        this.featherLogger = new FeatherLogger(this);
 
         try {
+            this.featherLogger = new FeatherLogger(this);
             this.modulesManager.onEnable(this);
 
             final var enableFinishTime = System.currentTimeMillis();
+
             getFeatherLogger().info("Successfully enabled&8. (&btook&8: &b"
                     + TimeUtils.formatElapsed(enableStartTime, enableFinishTime) + "&8)");
-        } catch (final FeatherSetupException e) {
-            getFeatherLogger().error(StringUtils.exceptionToStr(e));
-
-            getServer().getPluginManager().disablePlugin(this);
+        } catch (final FeatherSetupException | ModuleNotEnabledException e) {
+            this.featherLogger.error(StringUtils.exceptionToStr(e));
+            this.getServer().getPluginManager().disablePlugin(this);
         }
     }
 
@@ -92,21 +91,8 @@ public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
     }
 
     @Override
-    public IPvPManager getPvPManager() throws ModuleNotEnabledException {
-        final var module = this.pvpManager.get();
-
-        if (module instanceof FeatherModule) {
-            final var moduleName = ((FeatherModule) module).getModuleName();
-
-            if (!this.modulesManager.isModuleEnabled(moduleName)) {
-                throw new ModuleNotEnabledException(moduleName);
-            }
-        } else {
-            getFeatherLogger()
-                    .error("Implementation error on FeatherCore.getPvPManager. Please ping the developer o.O");
-        }
-
-        return module;
+    public IPvPManager getPvPManager() {
+        return this.pvpManager.get();
     }
 
     @Override

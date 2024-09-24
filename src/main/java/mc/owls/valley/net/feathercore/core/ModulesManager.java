@@ -20,6 +20,7 @@ import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
 import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
 import mc.owls.valley.net.feathercore.api.exception.FeatherSetupException;
+import mc.owls.valley.net.feathercore.api.exception.ModuleNotEnabledException;
 import mc.owls.valley.net.feathercore.modules.configuration.components.bukkit.BukkitConfigFile;
 
 public class ModulesManager {
@@ -35,17 +36,13 @@ public class ModulesManager {
     private static class InitializationData {
         public Map<String, ModuleConfig> moduleConfigs = new HashMap<>();
         public Set<String> enabledModules = new HashSet<>();
-
-        public void clear() {
-            this.moduleConfigs.clear();
-            this.enabledModules.clear();
-        }
     }
 
     private InitializationData init = new InitializationData();
 
     private Map<String, FeatherModule> modules = new HashMap<>();
     private List<String> enableOrder = new ArrayList<>();
+    private IFeatherCoreProvider core = null;
 
     @SuppressWarnings("unchecked")
     public <T extends FeatherModule> T getModule(final String name) {
@@ -58,17 +55,17 @@ public class ModulesManager {
      * @note After ModulesManager.onEnable(core) was finished, this method will
      *       always return false
      * @param name of the module
-     * @return true if the module was enabled before the time of calling,
-     *         false otherwise
      */
     public boolean isModuleEnabled(final String name) {
         return this.init.enabledModules.contains(name);
     }
 
-    public void onEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
-        this.init.clear();
+    public void onEnable(final IFeatherCoreProvider core) throws FeatherSetupException, ModuleNotEnabledException {
+        this.init.moduleConfigs.clear();
+        this.init.enabledModules.clear();
         this.modules.clear();
         this.enableOrder.clear();
+        this.core = core;
 
         loadModules(core);
         computeEnableOrder();
@@ -83,6 +80,13 @@ public class ModulesManager {
 
     public void onDisable(final IFeatherLogger logger) {
         disableModules(logger);
+    }
+
+    private void disablePlugin(final String reason) {
+        core.getFeatherLogger().error(reason);
+
+        final var plugin = this.core.getPlugin();
+        plugin.getServer().getPluginManager().disablePlugin(plugin);
     }
 
     /**
@@ -142,7 +146,15 @@ public class ModulesManager {
             try {
                 final var field = pluginClass.getDeclaredField(cacheFieldName);
                 field.setAccessible(true);
-                field.set(plugin, Cache.of(() -> this.getModule(moduleName)));
+                field.set(plugin, Cache.of(() -> {
+                    final var mod = this.getModule(moduleName);
+
+                    if (!this.init.enabledModules.contains(moduleName)) {
+                        disablePlugin("Dependency module " + moduleName + " is not enabled in config.");
+                    }
+
+                    return mod;
+                }));
             } catch (final Exception e) {
                 throw new FeatherSetupException(
                         "Could not setup config connection {" + cacheFieldName + " -> " + moduleName
@@ -220,7 +232,8 @@ public class ModulesManager {
      * @param core
      * @throws FeatherSetupException
      */
-    private void enableModules(final IFeatherCoreProvider core) throws FeatherSetupException {
+    private void enableModules(final IFeatherCoreProvider core)
+            throws FeatherSetupException, ModuleNotEnabledException {
         final IConfigFile modulesEnabledConfig = new BukkitConfigFile(core.getPlugin(), "modules.yml");
 
         final var plugin = core.getPlugin();
@@ -233,6 +246,14 @@ public class ModulesManager {
 
             if (!configEnabled && !module.mandatory) {
                 continue;
+            }
+
+            // check if all dependencies are enabled
+            for (final var dependency : module.dependencies) {
+                if (!this.init.enabledModules.contains(dependency)) {
+                    throw new FeatherSetupException("Module " + moduleName + " failed to enable because dependency "
+                            + dependency + " is not enabled in config.");
+                }
             }
 
             module.instance.onEnable(core);
@@ -289,12 +310,14 @@ public class ModulesManager {
             }
         }
 
-        this.init.clear();
+        this.init.moduleConfigs.clear();
     }
 
     private void disableModules(final IFeatherLogger logger) {
         for (int index = this.enableOrder.size() - 1; index >= 0; --index) {
-            this.modules.get(this.enableOrder.get(index)).onDisable(logger);
+            if (this.init.enabledModules.contains(this.enableOrder.get(index))) {
+                this.modules.get(this.enableOrder.get(index)).onDisable(logger);
+            }
         }
     }
 
