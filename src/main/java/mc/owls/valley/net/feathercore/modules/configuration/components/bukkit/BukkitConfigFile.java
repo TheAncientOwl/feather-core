@@ -2,6 +2,7 @@ package mc.owls.valley.net.feathercore.modules.configuration.components.bukkit;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -166,6 +167,11 @@ public class BukkitConfigFile implements IConfigFile {
     @Override
     public String getFileName() {
         return this.fileName;
+    }
+
+    @Override
+    public Set<String> getStringSet(final String path) {
+        return new HashSet<String>(getStringList(path));
     }
 
 }

@@ -5,7 +5,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import mc.owls.valley.net.feathercore.api.common.Cache;
 import mc.owls.valley.net.feathercore.api.common.StringUtils;
 import mc.owls.valley.net.feathercore.api.common.TimeUtils;
-import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
 import mc.owls.valley.net.feathercore.api.database.mongo.IDAOAccessor;
@@ -16,6 +15,7 @@ import mc.owls.valley.net.feathercore.api.module.interfaces.IEconomyProvider;
 import mc.owls.valley.net.feathercore.api.module.interfaces.ILootChestsModule;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IPlayersDataManager;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IPvPManager;
+import mc.owls.valley.net.feathercore.modules.log.components.FeatherLogger;
 import mc.owls.valley.net.feathercore.modules.logo.components.LogoManager;
 import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 import net.milkbowl.vault.economy.Economy;
@@ -24,12 +24,12 @@ public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
     public static final String FEATHER_CORE_YML = "feathercore.yml";
 
     private ModulesManager modulesManager = new ModulesManager();
+    private IFeatherLogger featherLogger = null;
 
     @SuppressWarnings("unused")
     private Cache<LogoManager> logoManager = null;
     private Cache<IPvPManager> pvpManager = null;
     private Cache<IDAOAccessor> mongoManager = null;
-    private Cache<IFeatherLogger> featherLogger = null;
     private Cache<IEconomyProvider> economyProvider = null;
     private Cache<ILootChestsModule> lootChests = null;
     private Cache<TranslationManager> translationManager = null;
@@ -41,15 +41,16 @@ public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
         final var enableStartTime = System.currentTimeMillis();
 
         try {
+            this.featherLogger = new FeatherLogger(this);
             this.modulesManager.onEnable(this);
 
             final var enableFinishTime = System.currentTimeMillis();
+
             getFeatherLogger().info("Successfully enabled&8. (&btook&8: &b"
                     + TimeUtils.formatElapsed(enableStartTime, enableFinishTime) + "&8)");
-        } catch (final FeatherSetupException e) {
-            getFeatherLogger().error(StringUtils.exceptionToStr(e));
-
-            getServer().getPluginManager().disablePlugin(this);
+        } catch (final FeatherSetupException | ModuleNotEnabledException e) {
+            this.featherLogger.error(StringUtils.exceptionToStr(e));
+            this.getServer().getPluginManager().disablePlugin(this);
         }
     }
 
@@ -66,7 +67,7 @@ public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
 
     @Override
     public IFeatherLogger getFeatherLogger() {
-        return this.featherLogger.get();
+        return this.featherLogger;
     }
 
     @Override
@@ -90,21 +91,8 @@ public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
     }
 
     @Override
-    public IPvPManager getPvPManager() throws ModuleNotEnabledException {
-        final var module = this.pvpManager.get();
-
-        if (module instanceof FeatherModule) {
-            final var moduleName = ((FeatherModule) module).getModuleName();
-
-            if (!this.modulesManager.isModuleEnabled(moduleName)) {
-                throw new ModuleNotEnabledException(moduleName);
-            }
-        } else {
-            getFeatherLogger()
-                    .error("Implementation error on FeatherCore.getPvPManager. Please ping the developer o.O");
-        }
-
-        return module;
+    public IPvPManager getPvPManager() {
+        return this.pvpManager.get();
     }
 
     @Override

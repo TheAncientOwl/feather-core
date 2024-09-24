@@ -3,27 +3,16 @@ package mc.owls.valley.net.feathercore.modules.log.components;
 import org.bukkit.command.ConsoleCommandSender;
 
 import mc.owls.valley.net.feathercore.api.common.StringUtils;
-import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
-import mc.owls.valley.net.feathercore.api.exception.FeatherSetupException;
 
-public class FeatherLogger extends FeatherModule implements IFeatherLogger {
+public class FeatherLogger implements IFeatherLogger {
     public static final String PLUGIN_TAG = "&8[&eFeather&6Core&8]&r ";
 
     private ConsoleCommandSender console = null;
 
-    public FeatherLogger(final String name) {
-        super(name);
-    }
-
-    @Override
-    protected void onModuleEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
+    public FeatherLogger(final IFeatherCoreProvider core) {
         this.console = core.getPlugin().getServer().getConsoleSender();
-    }
-
-    @Override
-    protected void onModuleDisable() {
     }
 
     public void info(final String message) {

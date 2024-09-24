@@ -3,7 +3,6 @@ package mc.owls.valley.net.feathercore.api.core;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import mc.owls.valley.net.feathercore.api.database.mongo.IDAOAccessor;
-import mc.owls.valley.net.feathercore.api.exception.ModuleNotEnabledException;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IConfigurationManager;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IEconomyProvider;
 import mc.owls.valley.net.feathercore.api.module.interfaces.ILootChestsModule;
@@ -22,7 +21,7 @@ public interface IFeatherCoreProvider extends IEconomyProvider {
 
     public IConfigurationManager getConfigurationManager();
 
-    public IPvPManager getPvPManager() throws ModuleNotEnabledException;
+    public IPvPManager getPvPManager();
 
     public TranslationManager getTranslationManager();
 

@@ -7,7 +7,6 @@ import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
-import mc.owls.valley.net.feathercore.api.exception.ModuleNotEnabledException;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IPvPManager;
 import mc.owls.valley.net.feathercore.modules.restricted.pvp.common.Message;
 import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
@@ -18,11 +17,8 @@ public class BlockCommandsListener implements IFeatherListener {
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
-        try {
-            this.pvpManager = core.getPvPManager();
-            this.lang = core.getTranslationManager();
-        } catch (final ModuleNotEnabledException e) {
-        }
+        this.pvpManager = core.getPvPManager();
+        this.lang = core.getTranslationManager();
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)

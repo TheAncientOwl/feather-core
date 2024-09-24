@@ -9,7 +9,6 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
-import mc.owls.valley.net.feathercore.api.exception.ModuleNotEnabledException;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IPvPManager;
 
 public class PlayerDamageListener implements IFeatherListener {
@@ -17,10 +16,7 @@ public class PlayerDamageListener implements IFeatherListener {
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
-        try {
-            this.pvpManager = core.getPvPManager();
-        } catch (final ModuleNotEnabledException e) {
-        }
+        this.pvpManager = core.getPvPManager();
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
