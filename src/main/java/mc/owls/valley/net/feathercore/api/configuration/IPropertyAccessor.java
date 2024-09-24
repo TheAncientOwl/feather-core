@@ -50,4 +50,6 @@ public interface IPropertyAccessor {
     public long getLong(final String path);
 
     public long getLong(final String path, final long defaultValue);
+
+    public Set<String> getStringSet(final String path);
 }

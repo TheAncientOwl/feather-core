@@ -16,6 +16,7 @@ import mc.owls.valley.net.feathercore.api.module.interfaces.IEconomyProvider;
 import mc.owls.valley.net.feathercore.api.module.interfaces.ILootChestsModule;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IPlayersDataManager;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IPvPManager;
+import mc.owls.valley.net.feathercore.modules.log.components.FeatherLogger;
 import mc.owls.valley.net.feathercore.modules.logo.components.LogoManager;
 import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 import net.milkbowl.vault.economy.Economy;
@@ -24,12 +25,12 @@ public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
     public static final String FEATHER_CORE_YML = "feathercore.yml";
 
     private ModulesManager modulesManager = new ModulesManager();
+    private IFeatherLogger featherLogger = null;
 
     @SuppressWarnings("unused")
     private Cache<LogoManager> logoManager = null;
     private Cache<IPvPManager> pvpManager = null;
     private Cache<IDAOAccessor> mongoManager = null;
-    private Cache<IFeatherLogger> featherLogger = null;
     private Cache<IEconomyProvider> economyProvider = null;
     private Cache<ILootChestsModule> lootChests = null;
     private Cache<TranslationManager> translationManager = null;
@@ -39,6 +40,7 @@ public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
     @Override
     public void onEnable() {
         final var enableStartTime = System.currentTimeMillis();
+        this.featherLogger = new FeatherLogger(this);
 
         try {
             this.modulesManager.onEnable(this);
@@ -66,7 +68,7 @@ public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
 
     @Override
     public IFeatherLogger getFeatherLogger() {
-        return this.featherLogger.get();
+        return this.featherLogger;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package mc.owls.valley.net.feathercore.modules.configuration.components.bukkit;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -125,6 +126,11 @@ public class BukkitConfigSection implements IConfigSection {
     @Override
     public void remove(final String path) {
         this.configSection.set(path, null);
+    }
+
+    @Override
+    public Set<String> getStringSet(final String path) {
+        return new HashSet<String>(getStringList(path));
     }
 
 }
