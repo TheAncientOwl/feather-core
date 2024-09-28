@@ -11,10 +11,10 @@ import mc.owls.valley.net.feathercore.api.exception.FeatherSetupException;
 import mc.owls.valley.net.feathercore.api.exception.ModuleNotEnabledException;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IEconomyProvider;
 import mc.owls.valley.net.feathercore.api.module.interfaces.ILootChestsModule;
-import mc.owls.valley.net.feathercore.api.module.interfaces.IPlayersDataManager;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IPvPManager;
 import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IConfigurationManager;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.IDAOAccessor;
+import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
 import mc.owls.valley.net.feathercore.modules.log.components.FeatherLogger;
 import mc.owls.valley.net.feathercore.modules.logo.components.LogoManager;
 import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
@@ -33,7 +33,7 @@ public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
     private Cache<IEconomyProvider> economyProvider = null;
     private Cache<ILootChestsModule> lootChests = null;
     private Cache<TranslationManager> translationManager = null;
-    private Cache<IPlayersDataManager> playersDataManager = null;
+    private Cache<IPlayersData> playersDataManager = null;
     private Cache<IConfigurationManager> configurationManager = null;
 
     @Override
@@ -76,7 +76,7 @@ public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
     }
 
     @Override
-    public IPlayersDataManager getPlayersDataManager() {
+    public IPlayersData getPlayersDataManager() {
         return this.playersDataManager.get();
     }
 

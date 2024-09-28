@@ -14,15 +14,15 @@ import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
 import mc.owls.valley.net.feathercore.api.exception.FeatherSetupException;
-import mc.owls.valley.net.feathercore.api.module.interfaces.IPlayersDataManager;
 import mc.owls.valley.net.feathercore.modules.configuration.components.bukkit.BukkitConfigFile;
 import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IConfigFile;
+import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
 
 public class TranslationManager extends FeatherModule {
     private Map<String, IConfigFile> translations = null;
     private JavaPlugin plugin = null;
     private IFeatherLogger logger = null;
-    private IPlayersDataManager playersData = null;
+    private IPlayersData playersData = null;
 
     public TranslationManager(String name) {
         super(name);

@@ -16,14 +16,14 @@ import org.bukkit.plugin.java.JavaPlugin;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
-import mc.owls.valley.net.feathercore.api.module.interfaces.IPlayersDataManager;
 import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IConfigFile;
 import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IConfigSection;
 import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IConfigurationManager;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.accessors.PlayersDAO;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
+import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
 
-public class PlayersDataManager extends FeatherModule implements IPlayersDataManager {
+public class PlayersData extends FeatherModule implements IPlayersData {
     private final Map<UUID, PlayerModel> playersDataCache = new HashMap<>();
     private Set<UUID> saveMarks = Collections.synchronizedSet(new HashSet<>());
 
@@ -32,7 +32,7 @@ public class PlayersDataManager extends FeatherModule implements IPlayersDataMan
     private IConfigFile economyConfig = null;
     private PlayersDAO playersDAO = null;
 
-    public PlayersDataManager(final String name) {
+    public PlayersData(final String name) {
         super(name);
     }
 

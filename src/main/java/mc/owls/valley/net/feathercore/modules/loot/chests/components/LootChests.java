@@ -12,15 +12,15 @@ import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
 import mc.owls.valley.net.feathercore.api.exception.FeatherSetupException;
 import mc.owls.valley.net.feathercore.api.module.interfaces.ILootChestsModule;
-import mc.owls.valley.net.feathercore.api.module.interfaces.IPlayersDataManager;
 import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IConfigFile;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.accessors.LootChestsDAO;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.LootChestsModel;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
+import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
 
 public class LootChests extends FeatherModule implements ILootChestsModule {
     private IFeatherLogger logger = null;
-    private IPlayersDataManager playersData = null;
+    private IPlayersData playersData = null;
     private IConfigFile config = null;
     private LootChestsDAO lootChestsDAO = null;
     private LootChestsModel lootChests = null;

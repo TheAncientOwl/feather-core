@@ -6,18 +6,18 @@ import java.util.List;
 
 import org.bukkit.OfflinePlayer;
 
-import mc.owls.valley.net.feathercore.api.module.interfaces.IPlayersDataManager;
 import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IConfigFile;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
+import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
 import net.milkbowl.vault.economy.AbstractEconomy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 
 public class FeatherEconomy extends AbstractEconomy {
-    private IPlayersDataManager playersDataManager = null;
+    private IPlayersData playersDataManager = null;
     private IConfigFile config = null;
 
-    public FeatherEconomy(final IPlayersDataManager playersDataManager, final IConfigFile config) {
+    public FeatherEconomy(final IPlayersData playersDataManager, final IConfigFile config) {
         this.playersDataManager = playersDataManager;
         this.config = config;
     }

@@ -30,8 +30,8 @@ modules:
     commands: []
     listeners: []
 
-  PlayersDataManager:
-    class: mc.owls.valley.net.feathercore.modules.data.players.components.PlayersDataManager
+  PlayersData:
+    class: mc.owls.valley.net.feathercore.modules.data.players.components.PlayersData
     dependencies: [ConfigurationManager, MongoManager]
     cache-field: playersDataManager
     mandatory: true
@@ -41,7 +41,7 @@ modules:
 
   TranslationManager:
     class: mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager
-    dependencies: [ConfigurationManager, PlayersDataManager]
+    dependencies: [ConfigurationManager, PlayersData]
     cache-field: translationManager
     mandatory: true
     commands:
@@ -50,7 +50,7 @@ modules:
 
   FeatherEconomyProvider:
     class: mc.owls.valley.net.feathercore.modules.economy.components.FeatherEconomyProvider
-    dependencies: [PlayersDataManager, TranslationManager]
+    dependencies: [PlayersData, TranslationManager]
     cache-field: economyProvider
     mandatory: true
     commands:
@@ -78,7 +78,7 @@ modules:
 
   LootChests:
     class: mc.owls.valley.net.feathercore.modules.loot.chests.components.LootChests
-    dependencies: [ConfigurationManager, PlayersDataManager, TranslationManager]
+    dependencies: [ConfigurationManager, PlayersData, TranslationManager]
     cache-field: lootChests
     mandatory: false
     commands:
