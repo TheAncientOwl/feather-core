@@ -2,7 +2,7 @@ package mc.owls.valley.net.feathercore.api.common;
 
 import org.bukkit.Bukkit;
 
-import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
+import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IPropertyAccessor;
 
 public class Broadcast {
 

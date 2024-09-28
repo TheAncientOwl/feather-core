@@ -13,8 +13,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import mc.owls.valley.net.feathercore.api.common.InventoryConfig;
-import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
-import mc.owls.valley.net.feathercore.api.configuration.IConfigSection;
+import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IConfigFile;
+import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IConfigSection;
 
 public class BukkitConfigFile implements IConfigFile {
     private final JavaPlugin plugin;

@@ -4,7 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
+import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IPropertyAccessor;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 public class InventoryConfig {

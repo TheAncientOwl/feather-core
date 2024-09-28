@@ -1,4 +1,4 @@
-package mc.owls.valley.net.feathercore.api.configuration;
+package mc.owls.valley.net.feathercore.modules.configuration.interfaces;
 
 import java.io.IOException;
 

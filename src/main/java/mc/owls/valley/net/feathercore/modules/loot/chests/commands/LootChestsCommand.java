@@ -13,10 +13,10 @@ import org.bukkit.entity.Player;
 import mc.owls.valley.net.feathercore.api.common.Pair;
 import mc.owls.valley.net.feathercore.api.common.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.StringUtils;
-import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.module.interfaces.ILootChestsModule;
+import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.modules.loot.chests.common.Message;
 import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 

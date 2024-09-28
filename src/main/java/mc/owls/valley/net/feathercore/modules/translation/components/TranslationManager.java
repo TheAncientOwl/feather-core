@@ -10,13 +10,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import mc.owls.valley.net.feathercore.api.common.Pair;
 import mc.owls.valley.net.feathercore.api.common.StringUtils;
-import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
 import mc.owls.valley.net.feathercore.api.exception.FeatherSetupException;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IPlayersDataManager;
 import mc.owls.valley.net.feathercore.modules.configuration.components.bukkit.BukkitConfigFile;
+import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IConfigFile;
 
 public class TranslationManager extends FeatherModule {
     private Map<String, IConfigFile> translations = null;
