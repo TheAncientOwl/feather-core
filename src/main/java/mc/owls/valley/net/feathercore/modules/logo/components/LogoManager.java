@@ -1,14 +1,16 @@
 package mc.owls.valley.net.feathercore.modules.logo.components;
 
 import org.bukkit.Server;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import mc.owls.valley.net.feathercore.api.common.StringUtils;
+import mc.owls.valley.net.feathercore.api.common.YamlUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
 
 public class LogoManager extends FeatherModule {
-    private Server server = null;
+    private JavaPlugin plugin = null;
 
     public LogoManager(final String name) {
         super(name);
@@ -16,29 +18,35 @@ public class LogoManager extends FeatherModule {
 
     @Override
     protected void onModuleEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
-        this.server = core.getPlugin().getServer();
+        this.plugin = core.getPlugin();
         this.sendLogoMessage();
     }
 
     @Override
     protected void onModuleDisable() {
-        this.sendLogoMessage();
+        try {
+            this.sendLogoMessage();
+        } catch (final Exception e) {
+        }
     }
 
-    private void sendLogoMessage() {
+    private void sendLogoMessage() throws FeatherSetupException {
+        final var server = this.plugin.getServer();
+
         final String[] logo = new String[] {
                 "",
                 " &e&l░░░░░ &6&l  ░░░░",
-                " &e&l░░    &6&l░░    ░░  &eFeather&6Core &bv0.5.3",
+                " &e&l░░    &6&l░░    ░░  &eFeather&6Core &bv"
+                        + YamlUtils.loadYaml(this.plugin, "plugin.yml").getString(
+                                "version"),
                 " &e&l░░░░  &6&l░░        &7&oRunning on " + getServerType() + " " + server.getVersion(),
                 " &e&l░░    &6&l░░    ░░  &7&oAuthor: DefaultyBuf",
                 " &e&l░░    &6&l  ░░░░",
                 "",
         };
 
-        final var console = this.server.getConsoleSender();
-
-        for (var line : logo) {
+        final var console = server.getConsoleSender();
+        for (final var line : logo) {
             console.sendMessage(StringUtils.translateColors(line));
         }
     }
