@@ -4,10 +4,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import mc.owls.valley.net.feathercore.api.module.interfaces.IEconomyProvider;
 import mc.owls.valley.net.feathercore.api.module.interfaces.ILootChestsModule;
-import mc.owls.valley.net.feathercore.api.module.interfaces.IPvPManager;
 import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IConfigurationManager;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.IDAOAccessor;
 import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
+import mc.owls.valley.net.feathercore.modules.restricted.pvp.interfaces.IPvPManager;
 import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 
 public interface IFeatherCoreProvider extends IEconomyProvider {

@@ -1,4 +1,4 @@
-package mc.owls.valley.net.feathercore.api.module.interfaces;
+package mc.owls.valley.net.feathercore.modules.restricted.pvp.interfaces;
 
 import java.util.List;
 import java.util.UUID;
