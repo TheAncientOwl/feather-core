@@ -9,7 +9,7 @@ modules:
   $LogoManager:
     class: mc.owls.valley.net.feathercore.modules.logo.components.LogoManager
     dependencies: []
-    cache-field: logoManager
+    cache-field: null
     mandatory: true
     commands: []
     listeners: []

@@ -26,8 +26,6 @@ public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
     private ModulesManager modulesManager = new ModulesManager();
     private IFeatherLogger featherLogger = null;
 
-    @SuppressWarnings("unused")
-    private Cache<LogoManager> logoManager = null;
     private Cache<IPvPManager> pvpManager = null;
     private Cache<IDAOAccessor> mongoManager = null;
     private Cache<IEconomyProvider> economyProvider = null;

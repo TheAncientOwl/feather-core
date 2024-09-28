@@ -139,26 +139,24 @@ public class ModulesManager {
 
             // 7. set core module cache
             final var cacheFieldName = moduleConfig.getString("cache-field");
-            if (cacheFieldName.isEmpty()) {
-                throw new FeatherSetupException(
-                        "Missing literal on '" + moduleName + "', please contact the developer");
-            }
-            try {
-                final var field = pluginClass.getDeclaredField(cacheFieldName);
-                field.setAccessible(true);
-                field.set(plugin, Cache.of(() -> {
-                    final var mod = this.getModule(moduleName);
+            if (cacheFieldName != null) {
+                try {
+                    final var field = pluginClass.getDeclaredField(cacheFieldName);
+                    field.setAccessible(true);
+                    field.set(plugin, Cache.of(() -> {
+                        final var mod = this.getModule(moduleName);
 
-                    if (!this.init.enabledModules.contains(moduleName)) {
-                        disablePlugin("Dependency module " + moduleName + " is not enabled in config.");
-                    }
+                        if (!this.init.enabledModules.contains(moduleName)) {
+                            disablePlugin("Dependency module " + moduleName + " is not enabled in config.");
+                        }
 
-                    return mod;
-                }));
-            } catch (final Exception e) {
-                throw new FeatherSetupException(
-                        "Could not setup config connection {" + cacheFieldName + " -> " + moduleName
-                                + "}\nReason: " + StringUtils.exceptionToStr(e));
+                        return mod;
+                    }));
+                } catch (final Exception e) {
+                    throw new FeatherSetupException(
+                            "Could not setup config connection {" + cacheFieldName + " -> " + moduleName
+                                    + "}\nReason: " + StringUtils.exceptionToStr(e));
+                }
             }
         }
 
