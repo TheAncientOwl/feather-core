@@ -1,5 +1,5 @@
 name: FeatherCore
-version: 0.5.3
+version: 0.5.4
 main: mc.owls.valley.net.feathercore.core.FeatherCore
 author: DefaultyBuf
 description: Core plugin for server bukkit/spigot/paper servers

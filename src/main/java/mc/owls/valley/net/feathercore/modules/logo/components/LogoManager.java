@@ -1,6 +1,5 @@
 package mc.owls.valley.net.feathercore.modules.logo.components;
 
-import org.bukkit.Server;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import mc.owls.valley.net.feathercore.api.common.StringUtils;
