@@ -5,7 +5,7 @@ import org.bukkit.Server;
 import mc.owls.valley.net.feathercore.api.common.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.api.exception.FeatherSetupException;
+import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
 
 public class LogoManager extends FeatherModule {
     private Server server = null;

@@ -1,6 +1,6 @@
 package mc.owls.valley.net.feathercore.api.core;
 
-import mc.owls.valley.net.feathercore.api.exception.FeatherSetupException;
+import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
 
 public abstract class FeatherModule {
     private final static String HIDE_LIFECYCLE_PREFIX = "$";

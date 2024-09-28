@@ -1,4 +1,4 @@
-package mc.owls.valley.net.feathercore.api.exception;
+package mc.owls.valley.net.feathercore.api.exceptions;
 
 public class ModuleNotEnabledException extends Exception {
 
