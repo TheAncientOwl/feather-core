@@ -8,11 +8,11 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import mc.owls.valley.net.feathercore.api.common.Broadcast;
 import mc.owls.valley.net.feathercore.api.common.Pair;
 import mc.owls.valley.net.feathercore.api.common.Placeholder;
-import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
-import mc.owls.valley.net.feathercore.api.module.interfaces.IPvPManager;
+import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.modules.restricted.pvp.common.Message;
+import mc.owls.valley.net.feathercore.modules.restricted.pvp.interfaces.IPvPManager;
 import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 
 public class PlayerLogoutListener implements IFeatherListener {

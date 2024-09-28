@@ -8,7 +8,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import mc.owls.valley.net.feathercore.api.exception.FeatherSetupException;
+import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
 
 public class YamlUtils {
     public static FileConfiguration loadYaml(final JavaPlugin plugin, final String fileName)

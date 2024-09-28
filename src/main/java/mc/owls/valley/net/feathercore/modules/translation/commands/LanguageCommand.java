@@ -9,10 +9,10 @@ import org.bukkit.command.CommandSender;
 import mc.owls.valley.net.feathercore.api.common.Pair;
 import mc.owls.valley.net.feathercore.api.common.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.StringUtils;
-import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.api.module.interfaces.IPlayersDataManager;
+import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IPropertyAccessor;
+import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
 import mc.owls.valley.net.feathercore.modules.translation.common.Messages;
 import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 
@@ -24,7 +24,7 @@ public class LanguageCommand extends FeatherCommand<LanguageCommand.CommandData>
     public static record CommandData(CommandType commandType, String language) {
     }
 
-    private IPlayersDataManager playerData = null;
+    private IPlayersData playerData = null;
     private TranslationManager lang = null;
     private IPropertyAccessor translationsConfig = null;
 

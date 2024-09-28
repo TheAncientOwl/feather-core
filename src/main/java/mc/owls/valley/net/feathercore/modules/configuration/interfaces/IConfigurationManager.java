@@ -1,6 +1,4 @@
-package mc.owls.valley.net.feathercore.api.module.interfaces;
-
-import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
+package mc.owls.valley.net.feathercore.modules.configuration.interfaces;
 
 public interface IConfigurationManager {
     public IConfigFile getDataConfiguration();

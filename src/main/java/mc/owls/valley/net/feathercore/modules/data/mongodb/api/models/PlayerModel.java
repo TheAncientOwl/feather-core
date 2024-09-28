@@ -1,4 +1,4 @@
-package mc.owls.valley.net.feathercore.api.database.mongo.models;
+package mc.owls.valley.net.feathercore.modules.data.mongodb.api.models;
 
 import java.util.Date;
 import java.util.HashMap;

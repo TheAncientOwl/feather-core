@@ -13,15 +13,15 @@ import mc.owls.valley.net.feathercore.api.common.Cache;
 import mc.owls.valley.net.feathercore.api.common.Pair;
 import mc.owls.valley.net.feathercore.api.common.StringUtils;
 import mc.owls.valley.net.feathercore.api.common.YamlUtils;
-import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
 import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
-import mc.owls.valley.net.feathercore.api.exception.FeatherSetupException;
-import mc.owls.valley.net.feathercore.api.exception.ModuleNotEnabledException;
+import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
+import mc.owls.valley.net.feathercore.api.exceptions.ModuleNotEnabledException;
 import mc.owls.valley.net.feathercore.modules.configuration.components.bukkit.BukkitConfigFile;
+import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IConfigFile;
 
 public class ModulesManager {
 
@@ -139,26 +139,24 @@ public class ModulesManager {
 
             // 7. set core module cache
             final var cacheFieldName = moduleConfig.getString("cache-field");
-            if (cacheFieldName.isEmpty()) {
-                throw new FeatherSetupException(
-                        "Missing literal on '" + moduleName + "', please contact the developer");
-            }
-            try {
-                final var field = pluginClass.getDeclaredField(cacheFieldName);
-                field.setAccessible(true);
-                field.set(plugin, Cache.of(() -> {
-                    final var mod = this.getModule(moduleName);
+            if (cacheFieldName != null) {
+                try {
+                    final var field = pluginClass.getDeclaredField(cacheFieldName);
+                    field.setAccessible(true);
+                    field.set(plugin, Cache.of(() -> {
+                        final var mod = this.getModule(moduleName);
 
-                    if (!this.init.enabledModules.contains(moduleName)) {
-                        disablePlugin("Dependency module " + moduleName + " is not enabled in config.");
-                    }
+                        if (!this.init.enabledModules.contains(moduleName)) {
+                            disablePlugin("Dependency module " + moduleName + " is not enabled in config.");
+                        }
 
-                    return mod;
-                }));
-            } catch (final Exception e) {
-                throw new FeatherSetupException(
-                        "Could not setup config connection {" + cacheFieldName + " -> " + moduleName
-                                + "}\nReason: " + StringUtils.exceptionToStr(e));
+                        return mod;
+                    }));
+                } catch (final Exception e) {
+                    throw new FeatherSetupException(
+                            "Could not setup config connection {" + cacheFieldName + " -> " + moduleName
+                                    + "}\nReason: " + StringUtils.exceptionToStr(e));
+                }
             }
         }
 

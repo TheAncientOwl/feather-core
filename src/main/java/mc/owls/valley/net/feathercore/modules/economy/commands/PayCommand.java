@@ -11,11 +11,11 @@ import org.bukkit.entity.Player;
 import mc.owls.valley.net.feathercore.api.common.Pair;
 import mc.owls.valley.net.feathercore.api.common.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.StringUtils;
-import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.api.database.mongo.models.PlayerModel;
-import mc.owls.valley.net.feathercore.api.module.interfaces.IPlayersDataManager;
+import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IPropertyAccessor;
+import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
+import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
 import mc.owls.valley.net.feathercore.modules.economy.common.Message;
 import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 import net.milkbowl.vault.economy.Economy;
@@ -25,7 +25,7 @@ public class PayCommand extends FeatherCommand<PayCommand.CommandData> {
     }
 
     private Economy economy = null;
-    private IPlayersDataManager playersData = null;
+    private IPlayersData playersData = null;
     private IPropertyAccessor economyConfig = null;
     private TranslationManager lang = null;
 

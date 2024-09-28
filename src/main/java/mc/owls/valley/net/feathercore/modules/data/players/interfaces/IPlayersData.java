@@ -1,13 +1,13 @@
-package mc.owls.valley.net.feathercore.api.module.interfaces;
+package mc.owls.valley.net.feathercore.modules.data.players.interfaces;
 
 import java.util.UUID;
 
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
-import mc.owls.valley.net.feathercore.api.database.mongo.models.PlayerModel;
+import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
 
-public interface IPlayersDataManager {
+public interface IPlayersData {
     public void handleNewPlayer(final Player player);
 
     public void savePlayersData();
