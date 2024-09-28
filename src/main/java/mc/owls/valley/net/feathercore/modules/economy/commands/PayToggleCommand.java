@@ -8,8 +8,8 @@ import org.bukkit.entity.Player;
 
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.api.database.mongo.models.PlayerModel;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IPlayersDataManager;
+import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import mc.owls.valley.net.feathercore.modules.economy.common.Message;
 import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 

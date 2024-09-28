@@ -18,10 +18,10 @@ import mc.owls.valley.net.feathercore.api.configuration.IConfigSection;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
-import mc.owls.valley.net.feathercore.api.database.mongo.accessors.PlayersDAO;
-import mc.owls.valley.net.feathercore.api.database.mongo.models.PlayerModel;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IConfigurationManager;
 import mc.owls.valley.net.feathercore.api.module.interfaces.IPlayersDataManager;
+import mc.owls.valley.net.feathercore.modules.data.mongodb.api.accessors.PlayersDAO;
+import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
 
 public class PlayersDataManager extends FeatherModule implements IPlayersDataManager {
     private final Map<UUID, PlayerModel> playersDataCache = new HashMap<>();

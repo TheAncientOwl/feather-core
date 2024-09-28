@@ -20,12 +20,12 @@ import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigSection;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.api.database.mongo.IDAOAccessor;
-import mc.owls.valley.net.feathercore.api.database.mongo.accessors.LootChestsDAO;
-import mc.owls.valley.net.feathercore.api.database.mongo.accessors.PlayersDAO;
-import mc.owls.valley.net.feathercore.api.database.mongo.models.LootChestsModel;
-import mc.owls.valley.net.feathercore.api.database.mongo.models.PlayerModel;
 import mc.owls.valley.net.feathercore.api.exception.FeatherSetupException;
+import mc.owls.valley.net.feathercore.modules.data.mongodb.api.IDAOAccessor;
+import mc.owls.valley.net.feathercore.modules.data.mongodb.api.accessors.LootChestsDAO;
+import mc.owls.valley.net.feathercore.modules.data.mongodb.api.accessors.PlayersDAO;
+import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.LootChestsModel;
+import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
 
 public class MongoManager extends FeatherModule implements IDAOAccessor {
     private MongoClient mongoClient = null;

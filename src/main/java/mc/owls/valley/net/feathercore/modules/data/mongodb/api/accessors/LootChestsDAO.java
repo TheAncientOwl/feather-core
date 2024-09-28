@@ -1,9 +1,9 @@
-package mc.owls.valley.net.feathercore.api.database.mongo.accessors;
+package mc.owls.valley.net.feathercore.modules.data.mongodb.api.accessors;
 
 import java.util.UUID;
 
 import dev.morphia.Datastore;
-import mc.owls.valley.net.feathercore.api.database.mongo.models.LootChestsModel;
+import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.LootChestsModel;
 
 public class LootChestsDAO extends AbstractDAO<LootChestsModel> {
 

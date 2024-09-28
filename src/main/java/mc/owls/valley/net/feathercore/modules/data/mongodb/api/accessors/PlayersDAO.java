@@ -1,7 +1,7 @@
-package mc.owls.valley.net.feathercore.api.database.mongo.accessors;
+package mc.owls.valley.net.feathercore.modules.data.mongodb.api.accessors;
 
 import dev.morphia.Datastore;
-import mc.owls.valley.net.feathercore.api.database.mongo.models.PlayerModel;
+import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
 
 public class PlayersDAO extends AbstractDAO<PlayerModel> {
 

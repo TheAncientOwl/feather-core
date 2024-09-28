@@ -1,4 +1,4 @@
-package mc.owls.valley.net.feathercore.api.database.mongo.accessors;
+package mc.owls.valley.net.feathercore.modules.data.mongodb.api.accessors;
 
 import java.util.List;
 import java.util.UUID;
