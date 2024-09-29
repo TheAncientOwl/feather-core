@@ -58,6 +58,7 @@ public class ConfigurationManager extends FeatherModule implements IConfiguratio
         saveConfigFile(this.economyConfigFile);
         saveConfigFile(this.pvpConfigFile);
         saveConfigFile(this.translationsConfigFile);
+        saveConfigFile(this.lootChestsConfigFile);
     }
 
     private void saveConfigFile(final IConfigFile config) {
