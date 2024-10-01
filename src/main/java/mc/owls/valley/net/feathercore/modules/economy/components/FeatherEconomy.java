@@ -1,3 +1,15 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file FeatherEconomy.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description Implementation of @see vault AbstractEconomy
+ */
+
 package mc.owls.valley.net.feathercore.modules.economy.components;
 
 import java.text.DecimalFormat;

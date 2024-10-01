@@ -1,3 +1,15 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file TranslationManager.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description Module responsible for managing plugin messages translations
+ */
+
 package mc.owls.valley.net.feathercore.modules.translation.components;
 
 import java.nio.file.Path;

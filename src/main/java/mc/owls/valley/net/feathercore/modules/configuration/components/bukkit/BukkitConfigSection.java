@@ -1,3 +1,15 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file BukkitConfigSection.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description Bukkit implementation of @see IConfigSection
+ */
+
 package mc.owls.valley.net.feathercore.modules.configuration.components.bukkit;
 
 import java.util.HashSet;

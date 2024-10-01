@@ -1,3 +1,15 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file BanknotePlaceListener.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description Prevent player from placing blocks representing banknotes
+ */
+
 package mc.owls.valley.net.feathercore.modules.economy.listeners;
 
 import org.bukkit.NamespacedKey;

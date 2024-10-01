@@ -1,3 +1,15 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file PlayerDamageListener.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description Put players in combat on damage event
+ */
+
 package mc.owls.valley.net.feathercore.modules.restricted.pvp.listeners;
 
 import org.bukkit.entity.Entity;

@@ -1,3 +1,15 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file PlayerLogoutListener.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description Kill player in combat on disconnect
+ */
+
 package mc.owls.valley.net.feathercore.modules.restricted.pvp.listeners;
 
 import org.bukkit.entity.Player;

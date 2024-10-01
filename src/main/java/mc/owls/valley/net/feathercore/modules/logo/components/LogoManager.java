@@ -1,3 +1,15 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file LogoManager.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description Module responsible for sending plugin logo to console
+ */
+
 package mc.owls.valley.net.feathercore.modules.logo.components;
 
 import org.bukkit.plugin.java.JavaPlugin;

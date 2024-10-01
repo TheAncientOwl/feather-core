@@ -1,3 +1,15 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file AbstractDAO.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description MongoDB morphia data accessor base class
+ */
+
 package mc.owls.valley.net.feathercore.modules.data.mongodb.api.accessors;
 
 import java.util.List;

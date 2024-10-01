@@ -1,3 +1,15 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file WithdrawCommand.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description Withdraw banknotes from player's balance
+ */
+
 package mc.owls.valley.net.feathercore.modules.economy.commands;
 
 import java.util.ArrayList;

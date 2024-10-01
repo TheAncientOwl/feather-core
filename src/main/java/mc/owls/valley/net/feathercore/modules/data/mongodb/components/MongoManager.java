@@ -1,3 +1,15 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file MongoManager.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description Module responsible for MongoDB connection
+ */
+
 package mc.owls.valley.net.feathercore.modules.data.mongodb.components;
 
 import java.util.concurrent.TimeUnit;

@@ -1,3 +1,15 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file LootChestOpenListener.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description Open config loot-chest on interact
+ */
+
 package mc.owls.valley.net.feathercore.modules.loot.chests.listeners;
 
 import org.bukkit.Material;

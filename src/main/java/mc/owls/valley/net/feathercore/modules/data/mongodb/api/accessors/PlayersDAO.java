@@ -1,3 +1,15 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file PlayersDAO.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description MongoDB players-data accessor
+ */
+
 package mc.owls.valley.net.feathercore.modules.data.mongodb.api.accessors;
 
 import dev.morphia.Datastore;

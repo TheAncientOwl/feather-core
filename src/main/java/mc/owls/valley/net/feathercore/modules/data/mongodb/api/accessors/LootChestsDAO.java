@@ -1,3 +1,15 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file LootChestsDAO.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description MongoDB loot-chests data accessor
+ */
+
 package mc.owls.valley.net.feathercore.modules.data.mongodb.api.accessors;
 
 import java.util.UUID;

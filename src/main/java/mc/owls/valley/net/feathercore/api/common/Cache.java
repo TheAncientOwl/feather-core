@@ -1,3 +1,15 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file Cache.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description Utility class for caching result of a given supplier
+ */
+
 package mc.owls.valley.net.feathercore.api.common;
 
 import java.util.Optional;

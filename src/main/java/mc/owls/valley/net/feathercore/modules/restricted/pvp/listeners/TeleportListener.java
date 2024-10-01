@@ -1,3 +1,15 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file TeleportListener.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description Block combat teleport
+ */
+
 package mc.owls.valley.net.feathercore.modules.restricted.pvp.listeners;
 
 import org.bukkit.entity.Player;

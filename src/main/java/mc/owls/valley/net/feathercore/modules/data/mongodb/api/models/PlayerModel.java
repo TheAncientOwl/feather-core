@@ -1,3 +1,15 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file PlayerModel.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description Player data model
+ */
+
 package mc.owls.valley.net.feathercore.modules.data.mongodb.api.models;
 
 import java.util.Date;

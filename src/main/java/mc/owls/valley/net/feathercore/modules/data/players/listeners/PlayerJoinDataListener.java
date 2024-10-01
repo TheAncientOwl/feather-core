@@ -1,3 +1,15 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file PlayerJoinDataListener.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description Setup new players data; Update on-login data
+ */
+
 package mc.owls.valley.net.feathercore.modules.data.players.listeners;
 
 import java.util.Date;

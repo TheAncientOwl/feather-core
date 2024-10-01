@@ -1,3 +1,15 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file PlayersData.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description Module responsible for managing plugin players data
+ */
+
 package mc.owls.valley.net.feathercore.modules.data.players.components;
 
 import java.util.Collections;

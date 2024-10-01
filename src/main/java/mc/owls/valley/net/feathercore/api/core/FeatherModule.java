@@ -1,3 +1,15 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file FeatherModule.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description Base class for plugin module
+ */
+
 package mc.owls.valley.net.feathercore.api.core;
 
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;

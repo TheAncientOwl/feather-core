@@ -1,3 +1,15 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file ReloadCommand.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description Reload configurations command
+ */
+
 package mc.owls.valley.net.feathercore.modules.reload.commands;
 
 import java.util.ArrayList;

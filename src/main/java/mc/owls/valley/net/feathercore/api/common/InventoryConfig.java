@@ -1,3 +1,15 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file InventoryConfig.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description Utility class for serializing/deserializing bukking Inventory in yaml format
+ */
+
 package mc.owls.valley.net.feathercore.api.common;
 
 import org.bukkit.Bukkit;

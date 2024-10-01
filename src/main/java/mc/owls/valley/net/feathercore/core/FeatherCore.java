@@ -1,3 +1,15 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file FeatherCore.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description Plugin entry point
+ */
+
 package mc.owls.valley.net.feathercore.core;
 
 import org.bukkit.plugin.java.JavaPlugin;

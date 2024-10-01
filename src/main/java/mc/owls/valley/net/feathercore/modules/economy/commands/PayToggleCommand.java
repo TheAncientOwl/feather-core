@@ -1,3 +1,15 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file PayToggleCommand.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description Toggle on/off receiving in-game payments
+ */
+
 package mc.owls.valley.net.feathercore.modules.economy.commands;
 
 import java.util.ArrayList;

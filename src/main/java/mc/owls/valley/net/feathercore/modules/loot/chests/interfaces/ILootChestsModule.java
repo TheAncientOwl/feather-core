@@ -1,3 +1,15 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file ILootChestsModule.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description Interface of @see LootChests.java
+ */
+
 package mc.owls.valley.net.feathercore.modules.loot.chests.interfaces;
 
 import java.util.List;

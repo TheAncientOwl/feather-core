@@ -1,3 +1,15 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file LanguageCommand.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description Manage player's messages language
+ */
+
 package mc.owls.valley.net.feathercore.modules.translation.commands;
 
 import java.util.ArrayList;

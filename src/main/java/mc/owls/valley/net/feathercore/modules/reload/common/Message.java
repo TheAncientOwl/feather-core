@@ -1,3 +1,15 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file Message.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description Module specific language messages
+ */
+
 package mc.owls.valley.net.feathercore.modules.reload.common;
 
 public class Message {

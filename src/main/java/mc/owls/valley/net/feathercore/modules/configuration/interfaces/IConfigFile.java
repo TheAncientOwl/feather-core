@@ -1,3 +1,15 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file IConfigFile.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description Configuration file interface
+ */
+
 package mc.owls.valley.net.feathercore.modules.configuration.interfaces;
 
 import java.io.IOException;

@@ -1,3 +1,15 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file FeatherCommand.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description Base class for plugin command
+ */
+
 package mc.owls.valley.net.feathercore.api.core;
 
 import java.util.List;

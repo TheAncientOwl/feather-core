@@ -1,3 +1,15 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file ConfigurationManager.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description Module responsible with loading configuration data
+ */
+
 package mc.owls.valley.net.feathercore.modules.configuration.components;
 
 import java.io.IOException;

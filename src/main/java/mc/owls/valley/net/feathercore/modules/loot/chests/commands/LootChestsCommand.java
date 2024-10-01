@@ -1,3 +1,15 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file LootChestsCommand.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description Module main command
+ */
+
 package mc.owls.valley.net.feathercore.modules.loot.chests.commands;
 
 import java.util.ArrayList;

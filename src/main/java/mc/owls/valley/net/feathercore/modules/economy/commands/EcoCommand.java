@@ -1,3 +1,15 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file EcoCommand.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description Manage server economy
+ */
+
 package mc.owls.valley.net.feathercore.modules.economy.commands;
 
 import java.util.ArrayList;

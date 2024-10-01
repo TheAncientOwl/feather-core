@@ -1,3 +1,15 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file FeatherSetupException.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description Exception throw during plugin load
+ */
+
 package mc.owls.valley.net.feathercore.api.exceptions;
 
 public class FeatherSetupException extends Exception {

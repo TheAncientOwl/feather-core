@@ -1,3 +1,15 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file ModulesManager.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description Class responsible for modules lifecycle
+ */
+
 package mc.owls.valley.net.feathercore.core;
 
 import java.util.ArrayDeque;
