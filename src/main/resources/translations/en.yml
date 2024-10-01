@@ -90,3 +90,9 @@ loot-chests:
   locations: '&8[&2Loot&aChests&8] &a{type} &7chest locations: &a{locations}'
   usage: '&8[&6Usage&8] &e/lootchests [set/unset/create/delete/info/locations] <type> <display-name> <cooldown (seconds)>'
   cooldown: '&8[&2Loot&aChests&8] &7You have to wait &c{cooldown} &7before opening this chest&8!'
+
+configuration:
+  usage: '/feather-reload {string}'
+  reload:
+    single: '&8[&6Feather&eCore&8] &aConfiguration reloaded&8!'
+    multiple: '&8[&6Feather&eCore&8] &aConfigurations reloaded&8!'

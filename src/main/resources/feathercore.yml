@@ -48,6 +48,15 @@ modules:
       language: mc.owls.valley.net.feathercore.modules.translation.commands.LanguageCommand
     listeners: []
 
+  $ReloadModule:
+    class: mc.owls.valley.net.feathercore.modules.reload.components.ReloadModule
+    dependencies: [ConfigurationManager, TranslationManager]
+    cache-field: null
+    mandatory: true
+    commands:
+      feather-reload: mc.owls.valley.net.feathercore.modules.reload.commands.ReloadCommand
+    listeners: []
+
   FeatherEconomyProvider:
     class: mc.owls.valley.net.feathercore.modules.economy.components.FeatherEconomyProvider
     dependencies: [PlayersData, TranslationManager]
