@@ -37,3 +37,7 @@ commands:
   lootchests:
     description: Manage loot chests
     usage: /lootchests [set/unset/create/delete/info/locations] <type> <display-name> <cooldown (seconds)>
+
+  feather-reload:
+    description: Reload configurations
+    usage: /feather-reload {MODULE}

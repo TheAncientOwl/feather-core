@@ -74,6 +74,12 @@ public class TranslationManager extends FeatherModule {
         return translation;
     }
 
+    public void reloadTranslations() {
+        this.translations.forEach((name, config) -> {
+            config.reloadConfig();
+        });
+    }
+
     public void message(final CommandSender receiver, final String key) {
         receiver.sendMessage(StringUtils.translateColors(getTranslation(receiver).getString(key)));
     }

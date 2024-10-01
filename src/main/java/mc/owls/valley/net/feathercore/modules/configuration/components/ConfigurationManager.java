@@ -15,7 +15,6 @@ import mc.owls.valley.net.feathercore.modules.configuration.components.bukkit.Bu
 import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IConfigFile;
 import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IConfigurationManager;
 
-// TODO: Refactor to not load all the config files in the beginning
 public class ConfigurationManager extends FeatherModule implements IConfigurationManager {
     private IFeatherLogger logger = null;
     private IConfigFile dataConfigFile = null;
