@@ -7,7 +7,7 @@
  * @file LootChests.java
  * @author Alexandru Delegeanu
  * @version 0.1
- * @description Module responsible for managin loot chests
+ * @description Module responsible for managing loot chests
  */
 
 package mc.owls.valley.net.feathercore.modules.loot.chests.components;
