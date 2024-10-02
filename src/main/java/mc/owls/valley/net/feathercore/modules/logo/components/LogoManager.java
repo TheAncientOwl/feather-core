@@ -6,16 +6,19 @@
  *
  * @file LogoManager.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Module responsible for sending plugin logo to console
  */
 
 package mc.owls.valley.net.feathercore.modules.logo.components;
 
+import java.util.function.Supplier;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 import mc.owls.valley.net.feathercore.api.common.StringUtils;
 import mc.owls.valley.net.feathercore.api.common.YamlUtils;
+import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
@@ -23,8 +26,8 @@ import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
 public class LogoManager extends FeatherModule {
     private JavaPlugin plugin = null;
 
-    public LogoManager(final String name) {
-        super(name);
+    public LogoManager(final String name, final Supplier<IConfigFile> configSupplier) {
+        super(name, configSupplier);
     }
 
     @Override

@@ -6,27 +6,29 @@
  *
  * @file FeatherCore.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Plugin entry point
  */
 
 package mc.owls.valley.net.feathercore.core;
+
+import java.util.List;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
 import mc.owls.valley.net.feathercore.api.common.Cache;
 import mc.owls.valley.net.feathercore.api.common.StringUtils;
 import mc.owls.valley.net.feathercore.api.common.TimeUtils;
+import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
 import mc.owls.valley.net.feathercore.api.exceptions.ModuleNotEnabledException;
-import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IConfigurationManager;
-import mc.owls.valley.net.feathercore.modules.data.mongodb.api.IDAOAccessor;
-import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
-import mc.owls.valley.net.feathercore.modules.economy.interfaces.IEconomyProvider;
-import mc.owls.valley.net.feathercore.modules.loot.chests.interfaces.ILootChestsModule;
-import mc.owls.valley.net.feathercore.modules.restricted.pvp.interfaces.IPvPManager;
+import mc.owls.valley.net.feathercore.modules.data.mongodb.components.MongoManager;
+import mc.owls.valley.net.feathercore.modules.data.players.components.PlayersData;
+import mc.owls.valley.net.feathercore.modules.economy.components.FeatherEconomyProvider;
+import mc.owls.valley.net.feathercore.modules.loot.chests.components.LootChests;
+import mc.owls.valley.net.feathercore.modules.restricted.pvp.components.RestrictedPvP;
 import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 import net.milkbowl.vault.economy.Economy;
 
@@ -36,13 +38,12 @@ public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
     private ModulesManager modulesManager = new ModulesManager();
     private IFeatherLogger featherLogger = null;
 
-    private Cache<IPvPManager> pvpManager = null;
-    private Cache<IDAOAccessor> mongoManager = null;
-    private Cache<IEconomyProvider> economyProvider = null;
-    private Cache<ILootChestsModule> lootChests = null;
+    private Cache<RestrictedPvP> restrictedPvP = null;
+    private Cache<LootChests> lootChests = null;
+    private Cache<MongoManager> mongoManager = null;
+    private Cache<PlayersData> playersDataManager = null;
     private Cache<TranslationManager> translationManager = null;
-    private Cache<IPlayersData> playersDataManager = null;
-    private Cache<IConfigurationManager> configurationManager = null;
+    private Cache<FeatherEconomyProvider> economyProvider = null;
 
     @Override
     public void onEnable() {
@@ -79,28 +80,18 @@ public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
     }
 
     @Override
-    public IDAOAccessor getMongoDAO() {
+    public MongoManager getMongoDB() {
         return this.mongoManager.get();
     }
 
     @Override
-    public IPlayersData getPlayersDataManager() {
+    public PlayersData getPlayersData() {
         return this.playersDataManager.get();
     }
 
     @Override
-    public IConfigurationManager getConfigurationManager() {
-        return this.configurationManager.get();
-    }
-
-    @Override
-    public Economy getEconomy() {
-        return this.economyProvider.get().getEconomy();
-    }
-
-    @Override
-    public IPvPManager getPvPManager() {
-        return this.pvpManager.get();
+    public RestrictedPvP getRestrictedPvP() {
+        return this.restrictedPvP.get();
     }
 
     @Override
@@ -109,8 +100,23 @@ public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
     }
 
     @Override
-    public ILootChestsModule getLootChestsModule() {
+    public LootChests getLootChests() {
         return this.lootChests.get();
+    }
+
+    @Override
+    public Economy getEconomy() {
+        return this.economyProvider.get().getEconomy();
+    }
+
+    @Override
+    public FeatherEconomyProvider getFeatherEconomy() {
+        return this.economyProvider.get();
+    }
+
+    @Override
+    public List<FeatherModule> getEnabledModules() {
+        return this.modulesManager.getEnabledModules();
     }
 
 }

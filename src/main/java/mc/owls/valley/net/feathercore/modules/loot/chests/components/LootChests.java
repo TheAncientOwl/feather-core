@@ -6,7 +6,7 @@
  *
  * @file LootChests.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Module responsible for managing loot chests
  */
 
@@ -14,16 +14,17 @@ package mc.owls.valley.net.feathercore.modules.loot.chests.components;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
 import mc.owls.valley.net.feathercore.api.common.StringUtils;
+import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
-import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IConfigFile;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.accessors.LootChestsDAO;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.LootChestsModel;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
@@ -33,20 +34,18 @@ import mc.owls.valley.net.feathercore.modules.loot.chests.interfaces.ILootChests
 public class LootChests extends FeatherModule implements ILootChestsModule {
     private IFeatherLogger logger = null;
     private IPlayersData playersData = null;
-    private IConfigFile config = null;
     private LootChestsDAO lootChestsDAO = null;
     private LootChestsModel lootChests = null;
 
-    public LootChests(final String name) {
-        super(name);
+    public LootChests(final String name, final Supplier<IConfigFile> configSupplier) {
+        super(name, configSupplier);
     }
 
     @Override
     protected void onModuleEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
         this.logger = core.getFeatherLogger();
-        this.playersData = core.getPlayersDataManager();
-        this.config = core.getConfigurationManager().getLootChestsConfigFile();
-        this.lootChestsDAO = core.getMongoDAO().getLootChestsDAO();
+        this.playersData = core.getPlayersData();
+        this.lootChestsDAO = core.getMongoDB().getLootChestsDAO();
         this.lootChests = this.lootChestsDAO.getChests();
     }
 

@@ -6,7 +6,7 @@
  *
  * @file PlayerJoinDataListener.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Setup new players data; Update on-login data
  */
 
@@ -32,7 +32,7 @@ public class PlayerJoinDataListener implements IFeatherListener {
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
-        this.dataManager = core.getPlayersDataManager();
+        this.dataManager = core.getPlayersData();
         this.logger = core.getFeatherLogger();
     }
 

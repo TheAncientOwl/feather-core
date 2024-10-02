@@ -1,0 +1,5 @@
+uri: 'mongodb://localhost:27017'
+dbname: 'owls_valley'
+timeouts:
+  connection: 1000
+  selection: 1000

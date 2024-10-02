@@ -6,7 +6,7 @@
  *
  * @file PlayerLogoutListener.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Kill player in combat on disconnect
  */
 
@@ -20,22 +20,22 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import mc.owls.valley.net.feathercore.api.common.Broadcast;
 import mc.owls.valley.net.feathercore.api.common.Pair;
 import mc.owls.valley.net.feathercore.api.common.Placeholder;
+import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
-import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.modules.restricted.pvp.common.Message;
-import mc.owls.valley.net.feathercore.modules.restricted.pvp.interfaces.IPvPManager;
+import mc.owls.valley.net.feathercore.modules.restricted.pvp.interfaces.IRestrictedPvP;
 import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 
 public class PlayerLogoutListener implements IFeatherListener {
-    private IPvPManager pvpManager = null;
+    private IRestrictedPvP pvpManager = null;
     private TranslationManager lang = null;
     private IPropertyAccessor config = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
-        this.pvpManager = core.getPvPManager();
-        this.config = core.getConfigurationManager().getPvPConfigFile();
+        this.pvpManager = core.getRestrictedPvP();
+        this.config = core.getRestrictedPvP().getConfig();
         this.lang = core.getTranslationManager();
     }
 

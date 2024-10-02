@@ -10,7 +10,7 @@
  * @description Configuration file interface
  */
 
-package mc.owls.valley.net.feathercore.modules.configuration.interfaces;
+package mc.owls.valley.net.feathercore.api.configuration;
 
 import java.io.IOException;
 

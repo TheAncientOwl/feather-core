@@ -10,7 +10,7 @@
  * @description Bukkit implementation of @see IConfigSection
  */
 
-package mc.owls.valley.net.feathercore.modules.configuration.components.bukkit;
+package mc.owls.valley.net.feathercore.core.configuration.bukkit;
 
 import java.util.HashSet;
 import java.util.List;
@@ -21,7 +21,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import mc.owls.valley.net.feathercore.api.common.InventoryConfig;
-import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IConfigSection;
+import mc.owls.valley.net.feathercore.api.configuration.IConfigSection;
 
 public class BukkitConfigSection implements IConfigSection {
     private final ConfigurationSection configSection;

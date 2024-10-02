@@ -6,7 +6,7 @@
  *
  * @file TeleportListener.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Block combat teleport
  */
 
@@ -18,22 +18,22 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
+import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
-import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IConfigFile;
 import mc.owls.valley.net.feathercore.modules.restricted.pvp.common.Message;
-import mc.owls.valley.net.feathercore.modules.restricted.pvp.interfaces.IPvPManager;
+import mc.owls.valley.net.feathercore.modules.restricted.pvp.interfaces.IRestrictedPvP;
 import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 
 public class TeleportListener implements IFeatherListener {
-    private IPvPManager pvpManager = null;
+    private IRestrictedPvP pvpManager = null;
     private IConfigFile config = null;
     private TranslationManager lang = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
-        this.pvpManager = core.getPvPManager();
-        this.config = core.getConfigurationManager().getPvPConfigFile();
+        this.pvpManager = core.getRestrictedPvP();
+        this.config = core.getRestrictedPvP().getConfig();
         this.lang = core.getTranslationManager();
     }
 

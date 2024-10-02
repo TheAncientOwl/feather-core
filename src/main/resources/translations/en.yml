@@ -92,7 +92,7 @@ loot-chests:
   cooldown: '&8[&2Loot&aChests&8] &7You have to wait &c{cooldown} &7before opening this chest&8!'
 
 configuration:
-  usage: '/feather-reload {string}'
+  usage: '&8[&6Usage&8] &e/feather-reload {string}'
   reload:
     single: '&8[&6Feather&eCore&8] &aConfiguration reloaded&8!'
     multiple: '&8[&6Feather&eCore&8] &aConfigurations reloaded&8!'

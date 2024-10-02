@@ -18,7 +18,7 @@ import java.util.List;
 
 import org.bukkit.OfflinePlayer;
 
-import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IConfigFile;
+import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
 import net.milkbowl.vault.economy.AbstractEconomy;

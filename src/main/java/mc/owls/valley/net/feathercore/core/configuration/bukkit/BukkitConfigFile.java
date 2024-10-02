@@ -10,7 +10,7 @@
  * @description Bukkit implementation of @see IConfigFile
  */
 
-package mc.owls.valley.net.feathercore.modules.configuration.components.bukkit;
+package mc.owls.valley.net.feathercore.core.configuration.bukkit;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,8 +25,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import mc.owls.valley.net.feathercore.api.common.InventoryConfig;
-import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IConfigFile;
-import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IConfigSection;
+import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
+import mc.owls.valley.net.feathercore.api.configuration.IConfigSection;
 
 public class BukkitConfigFile implements IConfigFile {
     private final JavaPlugin plugin;

@@ -10,7 +10,7 @@
  * @description Config property accessor interface
  */
 
-package mc.owls.valley.net.feathercore.modules.configuration.interfaces;
+package mc.owls.valley.net.feathercore.api.configuration;
 
 import java.util.List;
 import java.util.Set;

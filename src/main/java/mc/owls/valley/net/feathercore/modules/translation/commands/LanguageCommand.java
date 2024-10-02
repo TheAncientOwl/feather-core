@@ -6,7 +6,7 @@
  *
  * @file LanguageCommand.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Manage player's messages language
  */
 
@@ -21,9 +21,9 @@ import org.bukkit.command.CommandSender;
 import mc.owls.valley.net.feathercore.api.common.Pair;
 import mc.owls.valley.net.feathercore.api.common.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.StringUtils;
+import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
 import mc.owls.valley.net.feathercore.modules.translation.common.Messages;
 import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
@@ -42,9 +42,9 @@ public class LanguageCommand extends FeatherCommand<LanguageCommand.CommandData>
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
-        this.playerData = core.getPlayersDataManager();
+        this.playerData = core.getPlayersData();
         this.lang = core.getTranslationManager();
-        this.translationsConfig = core.getConfigurationManager().getTranslationsConfigFile();
+        this.translationsConfig = core.getTranslationManager().getConfig();
     }
 
     @Override

@@ -6,7 +6,7 @@
  *
  * @file PayToggleCommand.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Toggle on/off receiving in-game payments
  */
 
@@ -34,9 +34,9 @@ public class PayToggleCommand extends FeatherCommand<PayToggleCommand.CommandDat
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
-        this.playersData = core.getPlayersDataManager();
+        this.playersData = core.getPlayersData();
         this.lang = core.getTranslationManager();
-        this.playersData = core.getPlayersDataManager();
+        this.playersData = core.getPlayersData();
     }
 
     @Override
