@@ -10,7 +10,7 @@
  * @description Config property accessor interface
  */
 
-package mc.owls.valley.net.feathercore.modules.configuration.interfaces;
+package mc.owls.valley.net.feathercore.api.configuration;
 
 import java.util.List;
 import java.util.Set;
@@ -64,4 +64,22 @@ public interface IPropertyAccessor {
     public long getLong(final String path, final long defaultValue);
 
     public Set<String> getStringSet(final String path);
+
+    public long getSeconds(final String path);
+
+    public long getSeconds(final String path, final String defaultValue);
+
+    public void setSeconds(final String path, final long seconds);
+
+    public long getMillis(final String path);
+
+    public long getMillis(final String path, final String defaultValue);
+
+    public void setMillis(final String path, final long millis);
+
+    public long getTicks(final String path);
+
+    public long getTicks(final String path, final String defaultValue);
+
+    public void setTicks(final String path, final long ticks);
 }

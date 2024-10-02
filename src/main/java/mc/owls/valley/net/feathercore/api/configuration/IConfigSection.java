@@ -10,7 +10,7 @@
  * @description Configuration section interface
  */
 
-package mc.owls.valley.net.feathercore.modules.configuration.interfaces;
+package mc.owls.valley.net.feathercore.api.configuration;
 
 public interface IConfigSection extends IPropertyAccessor {
 }

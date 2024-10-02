@@ -1,0 +1,8 @@
+starting-balance: 1000
+
+default-language: en
+
+auto-save:
+  enabled: true
+  logging: true
+  time: 1m

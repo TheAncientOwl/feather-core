@@ -6,17 +6,16 @@
  *
  * @file Cache.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Utility class for caching result of a given supplier
  */
 
 package mc.owls.valley.net.feathercore.api.common;
 
-import java.util.Optional;
 import java.util.function.Supplier;
 
 public class Cache<T> {
-    private final Optional<T> obj = Optional.empty();
+    private T obj = null;
     private final Supplier<T> supplier;
 
     public static <T> Cache<T> of(final Supplier<T> supplier) {
@@ -28,6 +27,9 @@ public class Cache<T> {
     }
 
     public T get() {
-        return this.obj.orElseGet(this.supplier);
+        if (this.obj == null) {
+            this.obj = this.supplier.get();
+        }
+        return obj;
     }
 }

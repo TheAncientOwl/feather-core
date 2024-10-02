@@ -6,7 +6,7 @@
  *
  * @file FeatherLogger.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Plugin logger
  */
 
@@ -47,8 +47,4 @@ public class FeatherLogger implements IFeatherLogger {
         this.console.sendMessage(StringUtils.translateColors(PLUGIN_TAG + message));
     }
 
-    @Override
-    public boolean isInitialized() {
-        return this.console != null;
-    }
 }

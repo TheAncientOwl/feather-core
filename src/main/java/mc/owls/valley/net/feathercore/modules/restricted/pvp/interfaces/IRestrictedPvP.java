@@ -4,10 +4,10 @@
  * ------------------------------------------------------------------------- *
  * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
  *
- * @file IPvPManager.java
+ * @file IRestrictedPvP.java
  * @author Alexandru Delegeanu
  * @version 0.1
- * @description Interface of @see PvPManager.java
+ * @description Interface of @see RestrictedPvP.java
  */
 
 package mc.owls.valley.net.feathercore.modules.restricted.pvp.interfaces;
@@ -17,7 +17,7 @@ import java.util.UUID;
 
 import org.bukkit.entity.Player;
 
-public interface IPvPManager {
+public interface IRestrictedPvP {
 
     /**
      * Check if given player is tagged in combat.

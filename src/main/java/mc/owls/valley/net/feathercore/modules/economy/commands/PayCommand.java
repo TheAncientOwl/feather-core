@@ -6,7 +6,7 @@
  *
  * @file PayCommand.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Pay player with in-game currency
  */
 
@@ -23,9 +23,9 @@ import org.bukkit.entity.Player;
 import mc.owls.valley.net.feathercore.api.common.Pair;
 import mc.owls.valley.net.feathercore.api.common.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.StringUtils;
+import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
 import mc.owls.valley.net.feathercore.modules.economy.common.Message;
@@ -44,8 +44,8 @@ public class PayCommand extends FeatherCommand<PayCommand.CommandData> {
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
         this.economy = core.getEconomy();
-        this.playersData = core.getPlayersDataManager();
-        this.economyConfig = core.getConfigurationManager().getEconomyConfigFile();
+        this.playersData = core.getPlayersData();
+        this.economyConfig = core.getFeatherEconomy().getConfig();
         this.lang = core.getTranslationManager();
     }
 
@@ -126,7 +126,7 @@ public class PayCommand extends FeatherCommand<PayCommand.CommandData> {
             return null;
         }
 
-        final var maxBalance = this.economyConfig.getDouble("money.max");
+        final var maxBalance = this.economyConfig.getDouble("balance.max");
         if (this.economy.getBalance(receiverPlayer) + amount > maxBalance) {
             this.lang.message(sender, Message.PAY_BALANCE_EXCEEDS, Pair.of(Placeholder.MAX, maxBalance));
             return null;

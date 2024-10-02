@@ -6,7 +6,7 @@
  *
  * @file LootChestsCommand.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Module main command
  */
 
@@ -25,9 +25,9 @@ import org.bukkit.entity.Player;
 import mc.owls.valley.net.feathercore.api.common.Pair;
 import mc.owls.valley.net.feathercore.api.common.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.StringUtils;
+import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.modules.loot.chests.common.Message;
 import mc.owls.valley.net.feathercore.modules.loot.chests.interfaces.ILootChestsModule;
 import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
@@ -47,9 +47,9 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
-        this.lootChests = core.getLootChestsModule();
+        this.lootChests = core.getLootChests();
         this.lang = core.getTranslationManager();
-        this.config = core.getConfigurationManager().getLootChestsConfigFile();
+        this.config = core.getLootChests().getConfig();
     }
 
     @Override

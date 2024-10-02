@@ -6,7 +6,7 @@
  *
  * @file ModulesManager.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Class responsible for modules lifecycle
  */
 
@@ -20,11 +20,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
+import java.util.function.Supplier;
 
 import mc.owls.valley.net.feathercore.api.common.Cache;
 import mc.owls.valley.net.feathercore.api.common.Pair;
 import mc.owls.valley.net.feathercore.api.common.StringUtils;
 import mc.owls.valley.net.feathercore.api.common.YamlUtils;
+import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
@@ -32,8 +34,7 @@ import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
 import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
 import mc.owls.valley.net.feathercore.api.exceptions.ModuleNotEnabledException;
-import mc.owls.valley.net.feathercore.modules.configuration.components.bukkit.BukkitConfigFile;
-import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IConfigFile;
+import mc.owls.valley.net.feathercore.core.configuration.bukkit.BukkitConfigFile;
 
 public class ModulesManager {
 
@@ -62,14 +63,23 @@ public class ModulesManager {
     }
 
     /**
-     * This method should be used only in FeatherModule.onEnable(core)
-     * 
-     * @note After ModulesManager.onEnable(core) was finished, this method will
-     *       always return false
      * @param name of the module
+     * @return true if module is enabled, false otherwise
      */
     public boolean isModuleEnabled(final String name) {
         return this.init.enabledModules.contains(name);
+    }
+
+    public List<FeatherModule> getEnabledModules() {
+        final var modules = new ArrayList<FeatherModule>();
+
+        for (final var moduleName : this.enableOrder) {
+            if (!moduleName.startsWith(FeatherModule.HIDE_LIFECYCLE_PREFIX)) {
+                modules.add(this.modules.get(moduleName));
+            }
+        }
+
+        return modules;
     }
 
     public void onEnable(final IFeatherCoreProvider core) throws FeatherSetupException, ModuleNotEnabledException {
@@ -123,10 +133,13 @@ public class ModulesManager {
 
             // 2. create module instance
             final var moduleClass = moduleConfig.getString("class");
+            final var configFilePath = moduleConfig.getString("config");
             try {
                 module.instance = (FeatherModule) Class.forName(moduleClass)
-                        .getConstructor(String.class)
-                        .newInstance(moduleName);
+                        .getConstructor(String.class, Supplier.class)
+                        .newInstance(moduleName, (Supplier<IConfigFile>) () -> {
+                            return configFilePath == null ? null : new BukkitConfigFile(plugin, configFilePath);
+                        });
             } catch (final Exception e) {
                 throw new FeatherSetupException("Could not generate instance of class " + moduleClass + "\nReason: "
                         + StringUtils.exceptionToStr(e));
@@ -156,13 +169,11 @@ public class ModulesManager {
                     final var field = pluginClass.getDeclaredField(cacheFieldName);
                     field.setAccessible(true);
                     field.set(plugin, Cache.of(() -> {
-                        final var mod = this.getModule(moduleName);
-
                         if (!this.init.enabledModules.contains(moduleName)) {
-                            disablePlugin("Dependency module " + moduleName + " is not enabled in config.");
+                            disablePlugin("Dependency module " + moduleName + " is not enabled yet.");
                         }
 
-                        return mod;
+                        return this.getModule(moduleName);
                     }));
                 } catch (final Exception e) {
                     throw new FeatherSetupException(
@@ -262,7 +273,7 @@ public class ModulesManager {
             for (final var dependency : module.dependencies) {
                 if (!this.init.enabledModules.contains(dependency)) {
                     throw new FeatherSetupException("Module " + moduleName + " failed to enable because dependency "
-                            + dependency + " is not enabled in config.");
+                            + dependency + " is not enabled yet.");
                 }
             }
 
@@ -313,10 +324,14 @@ public class ModulesManager {
     }
 
     private void doPostEnableCleanup() {
-        for (final var module : modules.keySet()) {
-            if (!this.init.enabledModules.contains(module)) {
-                this.modules.remove(module);
-                this.enableOrder.remove(module);
+        final var iterator = this.modules.entrySet().iterator();
+        while (iterator.hasNext()) {
+            final var entry = iterator.next();
+            final var moduleName = entry.getKey();
+
+            if (!this.init.enabledModules.contains(moduleName)) {
+                iterator.remove();
+                this.enableOrder.remove(moduleName);
             }
         }
 

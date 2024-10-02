@@ -4,9 +4,9 @@
  * ------------------------------------------------------------------------- *
  * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
  *
- * @file PvPManager.java
+ * @file RestrictedPvP.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Module responsible for managing pvp restrictions
  */
 
@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -23,35 +24,32 @@ import org.bukkit.scheduler.BukkitTask;
 
 import mc.owls.valley.net.feathercore.api.common.Pair;
 import mc.owls.valley.net.feathercore.api.common.Placeholder;
+import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
-import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IConfigFile;
 import mc.owls.valley.net.feathercore.modules.restricted.pvp.common.Message;
-import mc.owls.valley.net.feathercore.modules.restricted.pvp.interfaces.IPvPManager;
+import mc.owls.valley.net.feathercore.modules.restricted.pvp.interfaces.IRestrictedPvP;
 import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 
-public class PvPManager extends FeatherModule implements IPvPManager {
+public class RestrictedPvP extends FeatherModule implements IRestrictedPvP {
     private Map<UUID, Long> playersInCombat = null;
-    private IConfigFile config = null;
     private TranslationManager lang = null;
     @SuppressWarnings("unused")
     private BukkitTask combatCheckTask = null;
 
-    public PvPManager(String name) {
-        super(name);
+    public RestrictedPvP(final String name, final Supplier<IConfigFile> configSupplier) {
+        super(name, configSupplier);
     }
 
     @Override
-    protected void onModuleEnable(IFeatherCoreProvider core) throws FeatherSetupException {
-        final var configManager = core.getConfigurationManager();
-        this.config = configManager.getPvPConfigFile();
+    protected void onModuleEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
         this.lang = core.getTranslationManager();
 
         this.playersInCombat = new HashMap<>();
 
         this.combatCheckTask = Bukkit.getScheduler().runTaskTimerAsynchronously(core.getPlugin(),
-                new CombatChecker(this), 0, this.config.getInt("combat.check-interval") * 20L);
+                new CombatChecker(this), 0, this.config.getTicks("combat.check-interval"));
     }
 
     @Override
@@ -120,13 +118,13 @@ public class PvPManager extends FeatherModule implements IPvPManager {
     }
 
     public long getCombatTimeMillis() {
-        return this.config.getInt("combat.time") * 1000;
+        return this.config.getMillis("combat.time");
     }
 
     private static class CombatChecker implements Runnable {
-        final PvPManager pvpManager;
+        final RestrictedPvP pvpManager;
 
-        public CombatChecker(final PvPManager pvpManager) {
+        public CombatChecker(final RestrictedPvP pvpManager) {
             super();
             this.pvpManager = pvpManager;
         }

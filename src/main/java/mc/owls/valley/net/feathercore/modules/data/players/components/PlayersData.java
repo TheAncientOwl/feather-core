@@ -6,7 +6,7 @@
  *
  * @file PlayersData.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Module responsible for managing plugin players data
  */
 
@@ -19,18 +19,18 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
+import mc.owls.valley.net.feathercore.api.configuration.IConfigSection;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
-import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IConfigFile;
-import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IConfigSection;
-import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IConfigurationManager;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.accessors.PlayersDAO;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
@@ -40,22 +40,16 @@ public class PlayersData extends FeatherModule implements IPlayersData {
     private Set<UUID> saveMarks = Collections.synchronizedSet(new HashSet<>());
 
     private IFeatherLogger logger = null;
-    private IConfigFile dataConfig = null;
-    private IConfigFile economyConfig = null;
     private PlayersDAO playersDAO = null;
 
-    public PlayersData(final String name) {
-        super(name);
+    public PlayersData(final String name, final Supplier<IConfigFile> configSupplier) {
+        super(name, configSupplier);
     }
 
     @Override
     protected void onModuleEnable(final IFeatherCoreProvider core) {
         this.logger = core.getFeatherLogger();
-        this.playersDAO = core.getMongoDAO().getPlayersDAO();
-
-        final IConfigurationManager configManager = core.getConfigurationManager();
-        this.dataConfig = configManager.getDataConfiguration();
-        this.economyConfig = configManager.getEconomyConfigFile();
+        this.playersDAO = core.getMongoDB().getPlayersDAO();
 
         setupAutoSave(core.getPlugin());
     }
@@ -94,9 +88,9 @@ public class PlayersData extends FeatherModule implements IPlayersData {
         playerModel.nickname = "";
         playerModel.registrationDate = new Date();
         playerModel.lastLogin = new Date();
-        playerModel.balance = this.economyConfig.getDouble("starting-balance");
+        playerModel.balance = this.config.getDouble("starting-balance");
         playerModel.acceptsPayments = true;
-        playerModel.language = this.economyConfig.getString("players.default.language");
+        playerModel.language = this.config.getString("default-language");
 
         this.playersDataCache.put(playerModel.uuid, playerModel);
         this.playersDAO.save(playerModel);
@@ -185,16 +179,14 @@ public class PlayersData extends FeatherModule implements IPlayersData {
     }
 
     private void setupAutoSave(final JavaPlugin plugin) {
-        final IConfigSection autoSaveCfg = this.dataConfig.getConfigurationSection("players.auto-save");
+        final IConfigSection autoSaveCfg = this.config.getConfigurationSection("auto-save");
 
         if (autoSaveCfg.getBoolean("enabled")) {
-            final var minutes = autoSaveCfg.getInt("minutes");
+            final var ticks = autoSaveCfg.getTicks("time");
             final var logging = autoSaveCfg.getBoolean("logging");
 
-            final var period = minutes * 60 * 20L;
-
-            if (minutes <= 0) {
-                this.logger.error("players-daata.auto-save.minutes cannot be <= 0");
+            if (ticks <= 0) {
+                this.logger.error("players-data.auto-save.time cannot be <= 0");
             } else if (logging) {
                 Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
                     if (!this.saveMarks.isEmpty()) {
@@ -207,11 +199,11 @@ public class PlayersData extends FeatherModule implements IPlayersData {
                     if (modelsCount > 0) {
                         this.logger.info("Saved the data of " + modelsCount + " players");
                     }
-                }, 0L, period);
+                }, 0L, ticks);
             } else {
                 Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
                     savePlayersData();
-                }, 0L, period);
+                }, 0L, ticks);
             }
         }
     }

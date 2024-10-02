@@ -6,7 +6,7 @@
  *
  * @file LootChestOpenListener.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Open config loot-chest on interact
  */
 
@@ -22,9 +22,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import mc.owls.valley.net.feathercore.api.common.Pair;
 import mc.owls.valley.net.feathercore.api.common.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.TimeUtils;
+import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
-import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.modules.loot.chests.common.Message;
 import mc.owls.valley.net.feathercore.modules.loot.chests.interfaces.ILootChestsModule;
 import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
@@ -37,8 +37,8 @@ public class LootChestOpenListener implements IFeatherListener {
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
         this.lang = core.getTranslationManager();
-        this.lootChests = core.getLootChestsModule();
-        this.config = core.getConfigurationManager().getLootChestsConfigFile();
+        this.lootChests = core.getLootChests();
+        this.config = core.getLootChests().getConfig();
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -62,7 +62,7 @@ public class LootChestOpenListener implements IFeatherListener {
         final Long openChestTime = this.lootChests.getOpenChestTime(player, chestLocation);
 
         final var now = System.currentTimeMillis();
-        final var cooldown = this.config.getLong("chests." + chestType + ".cooldown") * 1000;
+        final var cooldown = this.config.getMillis("chests." + chestType + ".cooldown");
         if (openChestTime != null
                 && openChestTime + cooldown > now
                 && !player.hasPermission("feathercore.lootchests.bypass-cooldown")) {

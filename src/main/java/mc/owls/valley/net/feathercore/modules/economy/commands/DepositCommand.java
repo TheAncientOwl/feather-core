@@ -6,7 +6,7 @@
  *
  * @file DepositCommand.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Deposit banknotes to player's balance
  */
 
@@ -25,9 +25,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import mc.owls.valley.net.feathercore.api.common.Pair;
 import mc.owls.valley.net.feathercore.api.common.Placeholder;
+import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.modules.configuration.interfaces.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.modules.economy.common.Message;
 import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 import net.milkbowl.vault.economy.Economy;
@@ -45,7 +45,7 @@ public class DepositCommand extends FeatherCommand<DepositCommand.CommandData> {
     public void onCreate(final IFeatherCoreProvider core) {
         this.plugin = core.getPlugin();
         this.economy = core.getEconomy();
-        this.economyConfig = core.getConfigurationManager().getEconomyConfigFile();
+        this.economyConfig = core.getFeatherEconomy().getConfig();
         this.lang = core.getTranslationManager();
     }
 
@@ -114,7 +114,7 @@ public class DepositCommand extends FeatherCommand<DepositCommand.CommandData> {
 
         // 4. check for max deposit value
         final var depositValue = banknoteValue * banknotesCount;
-        final var maxBalance = this.economyConfig.getDouble("money.max");
+        final var maxBalance = this.economyConfig.getDouble("balance.max");
         if (this.economy.getBalance((Player) sender) + depositValue > maxBalance) {
             this.lang.message(sender, Message.DEPOSIT_BALANCE_EXCEEDS,
                     Pair.of(Placeholder.MAX, this.economy.format(maxBalance)));

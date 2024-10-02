@@ -1,60 +1,50 @@
-configs:
-  translationsConfigFile: translations/languages.yml
-  dataConfigFile: modules/data.yml
-  economyConfigFile: modules/economy.yml
-  pvpConfigFile: modules/pvp.yml
-  lootChestsConfigFile: modules/loot-chests.yml
-
 modules:
   $LogoManager:
     class: mc.owls.valley.net.feathercore.modules.logo.components.LogoManager
     dependencies: []
     cache-field: null
     mandatory: true
+    config: null
     commands: []
     listeners: []
 
-  ConfigurationManager:
-    class: mc.owls.valley.net.feathercore.modules.configuration.components.ConfigurationManager
+  ReloadModule:
+    class: mc.owls.valley.net.feathercore.modules.reload.components.ReloadModule
     dependencies: []
-    cache-field: configurationManager
+    cache-field: null
     mandatory: true
-    commands: []
+    config: null
+    commands:
+      feather-reload: mc.owls.valley.net.feathercore.modules.reload.commands.ReloadCommand
     listeners: []
 
   MongoManager:
     class: mc.owls.valley.net.feathercore.modules.data.mongodb.components.MongoManager
-    dependencies: [ConfigurationManager]
+    dependencies: [$LogoManager]
     cache-field: mongoManager
     mandatory: true
+    config: modules/mongodb.yml
     commands: []
     listeners: []
 
   PlayersData:
     class: mc.owls.valley.net.feathercore.modules.data.players.components.PlayersData
-    dependencies: [ConfigurationManager, MongoManager]
+    dependencies: [MongoManager]
     cache-field: playersDataManager
     mandatory: true
+    config: modules/players.yml
     commands: []
     listeners:
       - mc.owls.valley.net.feathercore.modules.data.players.listeners.PlayerJoinDataListener
 
   TranslationManager:
     class: mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager
-    dependencies: [ConfigurationManager, PlayersData]
+    dependencies: [PlayersData]
     cache-field: translationManager
     mandatory: true
+    config: translations/languages.yml
     commands:
       language: mc.owls.valley.net.feathercore.modules.translation.commands.LanguageCommand
-    listeners: []
-
-  $ReloadModule:
-    class: mc.owls.valley.net.feathercore.modules.reload.components.ReloadModule
-    dependencies: [ConfigurationManager, TranslationManager]
-    cache-field: null
-    mandatory: true
-    commands:
-      feather-reload: mc.owls.valley.net.feathercore.modules.reload.commands.ReloadCommand
     listeners: []
 
   FeatherEconomyProvider:
@@ -62,6 +52,7 @@ modules:
     dependencies: [PlayersData, TranslationManager]
     cache-field: economyProvider
     mandatory: true
+    config: modules/economy.yml
     commands:
       balance: mc.owls.valley.net.feathercore.modules.economy.commands.BalanceCommand
       eco: mc.owls.valley.net.feathercore.modules.economy.commands.EcoCommand
@@ -72,12 +63,13 @@ modules:
     listeners:
       - mc.owls.valley.net.feathercore.modules.economy.listeners.BanknotePlaceListener
 
-  PvPManager:
-    class: mc.owls.valley.net.feathercore.modules.restricted.pvp.components.PvPManager
-    dependencies: [ConfigurationManager, TranslationManager]
-    cache-field: pvpManager
+  RestrictedPvP:
+    class: mc.owls.valley.net.feathercore.modules.restricted.pvp.components.RestrictedPvP
+    dependencies: [TranslationManager]
+    cache-field: restrictedPvP
     mandatory: false
     commands: []
+    config: modules/restricted-pvp.yml
     listeners:
       - mc.owls.valley.net.feathercore.modules.restricted.pvp.listeners.BlockCommandsListener
       - mc.owls.valley.net.feathercore.modules.restricted.pvp.listeners.PlayerDamageListener
@@ -87,9 +79,10 @@ modules:
 
   LootChests:
     class: mc.owls.valley.net.feathercore.modules.loot.chests.components.LootChests
-    dependencies: [ConfigurationManager, PlayersData, TranslationManager]
+    dependencies: [PlayersData, TranslationManager]
     cache-field: lootChests
     mandatory: false
+    config: modules/loot-chests.yml
     commands:
       lootchests: mc.owls.valley.net.feathercore.modules.loot.chests.commands.LootChestsCommand
     listeners:

@@ -6,7 +6,7 @@
  *
  * @file IFeatherLogger.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Plugin logger interface
  */
 
@@ -20,6 +20,4 @@ public interface IFeatherLogger {
     public void error(final String message);
 
     public void debug(final String message);
-
-    public boolean isInitialized();
 }
