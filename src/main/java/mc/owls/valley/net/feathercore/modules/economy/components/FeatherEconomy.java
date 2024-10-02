@@ -6,7 +6,7 @@
  *
  * @file FeatherEconomy.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Implementation of @see vault AbstractEconomy
  */
 
@@ -89,7 +89,7 @@ public class FeatherEconomy extends AbstractEconomy {
     @Override
     public String format(final double amount) {
         DecimalFormat decimalFormat = new DecimalFormat(this.config.getString("currency-format"));
-        return decimalFormat.format(amount);
+        return decimalFormat.format(amount) + (amount == 1 ? currencyNameSingular() : currencyNamePlural());
     }
 
     /**
