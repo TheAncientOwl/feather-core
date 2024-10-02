@@ -1,8 +1,8 @@
 combat:
-  # How long combat should last (seconds)
-  time: 15
-  # How frequently should check if a player is no longer in combat (seconds)
-  check-interval: 5
+  # How long combat should last
+  time: 15s
+  # How frequently should check if a player is no longer in combat
+  check-interval: 5s
 
 block-tp:
   # Block chorus fruit teleportation

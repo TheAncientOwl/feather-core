@@ -5,4 +5,4 @@ default-language: en
 auto-save:
   enabled: true
   logging: true
-  minutes: 1
+  time: 1m

@@ -62,7 +62,7 @@ public class LootChestOpenListener implements IFeatherListener {
         final Long openChestTime = this.lootChests.getOpenChestTime(player, chestLocation);
 
         final var now = System.currentTimeMillis();
-        final var cooldown = this.config.getLong("chests." + chestType + ".cooldown") * 1000;
+        final var cooldown = this.config.getMillis("chests." + chestType + ".cooldown");
         if (openChestTime != null
                 && openChestTime + cooldown > now
                 && !player.hasPermission("feathercore.lootchests.bypass-cooldown")) {

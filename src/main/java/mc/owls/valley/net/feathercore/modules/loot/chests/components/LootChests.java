@@ -106,7 +106,7 @@ public class LootChests extends FeatherModule implements ILootChestsModule {
             final Inventory inventory) {
         final String configPath = "chests." + type;
 
-        this.config.setLong(configPath + ".cooldown", cooldown);
+        this.config.setSeconds(configPath + ".cooldown", cooldown);
         this.config.setString(configPath + ".display-name", displayName);
         this.config.setInventory(configPath, inventory);
 

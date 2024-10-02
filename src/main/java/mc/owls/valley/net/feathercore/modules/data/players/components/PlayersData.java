@@ -182,13 +182,11 @@ public class PlayersData extends FeatherModule implements IPlayersData {
         final IConfigSection autoSaveCfg = this.config.getConfigurationSection("auto-save");
 
         if (autoSaveCfg.getBoolean("enabled")) {
-            final var minutes = autoSaveCfg.getInt("minutes");
+            final var ticks = autoSaveCfg.getTicks("time");
             final var logging = autoSaveCfg.getBoolean("logging");
 
-            final var period = minutes * 60 * 20L;
-
-            if (minutes <= 0) {
-                this.logger.error("players-daata.auto-save.minutes cannot be <= 0");
+            if (ticks <= 0) {
+                this.logger.error("players-data.auto-save.time cannot be <= 0");
             } else if (logging) {
                 Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
                     if (!this.saveMarks.isEmpty()) {
@@ -201,11 +199,11 @@ public class PlayersData extends FeatherModule implements IPlayersData {
                     if (modelsCount > 0) {
                         this.logger.info("Saved the data of " + modelsCount + " players");
                     }
-                }, 0L, period);
+                }, 0L, ticks);
             } else {
                 Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
                     savePlayersData();
-                }, 0L, period);
+                }, 0L, ticks);
             }
         }
     }

@@ -56,10 +56,10 @@ public class MongoManager extends FeatherModule implements IDAOAccessor {
                 .applyConnectionString(connectionString)
                 .serverApi(ServerApi.builder().version(ServerApiVersion.V1).build())
                 .applyToSocketSettings(builder -> {
-                    builder.connectTimeout(this.config.getInt("timeouts.connection"), TimeUnit.MILLISECONDS);
+                    builder.connectTimeout((int) this.config.getMillis("timeouts.connection"), TimeUnit.MILLISECONDS);
                 })
                 .applyToClusterSettings(builder -> {
-                    builder.serverSelectionTimeout(this.config.getInt("timeouts.selection"), TimeUnit.MILLISECONDS);
+                    builder.serverSelectionTimeout(this.config.getMillis("timeouts.selection"), TimeUnit.MILLISECONDS);
                 })
                 .build();
 

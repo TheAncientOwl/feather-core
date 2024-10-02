@@ -25,6 +25,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import mc.owls.valley.net.feathercore.api.common.InventoryConfig;
+import mc.owls.valley.net.feathercore.api.common.TimeUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigSection;
 
@@ -184,6 +185,51 @@ public class BukkitConfigFile implements IConfigFile {
     @Override
     public Set<String> getStringSet(final String path) {
         return new HashSet<String>(getStringList(path));
+    }
+
+    @Override
+    public long getMillis(final String path) {
+        return TimeUtils.parseMillis(this.fileConfiguration.getString(path));
+    }
+
+    @Override
+    public long getMillis(final String path, final String defaultValue) {
+        return TimeUtils.parseMillis(this.fileConfiguration.getString(path, defaultValue));
+    }
+
+    @Override
+    public long getSeconds(final String path) {
+        return TimeUtils.parseSeconds(this.fileConfiguration.getString(path));
+    }
+
+    @Override
+    public long getSeconds(final String path, final String defaultValue) {
+        return TimeUtils.parseSeconds(this.fileConfiguration.getString(path, defaultValue));
+    }
+
+    @Override
+    public long getTicks(final String path) {
+        return getSeconds(path) * 20;
+    }
+
+    @Override
+    public long getTicks(final String path, final String defaultValue) {
+        return getSeconds(path, defaultValue) * 20;
+    }
+
+    @Override
+    public void setSeconds(final String path, final long seconds) {
+        setString(path, String.valueOf(seconds) + "s");
+    }
+
+    @Override
+    public void setMillis(final String path, final long millis) {
+        setString(path, String.valueOf(millis) + "ms");
+    }
+
+    @Override
+    public void setTicks(final String path, final long ticks) {
+        setString(path, String.valueOf(ticks / 20) + "ms");
     }
 
 }

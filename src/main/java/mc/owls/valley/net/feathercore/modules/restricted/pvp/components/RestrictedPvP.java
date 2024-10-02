@@ -49,7 +49,7 @@ public class RestrictedPvP extends FeatherModule implements IRestrictedPvP {
         this.playersInCombat = new HashMap<>();
 
         this.combatCheckTask = Bukkit.getScheduler().runTaskTimerAsynchronously(core.getPlugin(),
-                new CombatChecker(this), 0, this.config.getInt("combat.check-interval") * 20L);
+                new CombatChecker(this), 0, this.config.getTicks("combat.check-interval"));
     }
 
     @Override
@@ -118,7 +118,7 @@ public class RestrictedPvP extends FeatherModule implements IRestrictedPvP {
     }
 
     public long getCombatTimeMillis() {
-        return this.config.getInt("combat.time") * 1000;
+        return this.config.getMillis("combat.time");
     }
 
     private static class CombatChecker implements Runnable {
