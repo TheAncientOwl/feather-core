@@ -6,7 +6,7 @@
  *
  * @file IPropertyAccessor.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Config property accessor interface
  */
 

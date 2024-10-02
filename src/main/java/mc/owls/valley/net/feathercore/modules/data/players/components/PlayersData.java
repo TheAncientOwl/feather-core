@@ -6,7 +6,7 @@
  *
  * @file PlayersData.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Module responsible for managing plugin players data
  */
 

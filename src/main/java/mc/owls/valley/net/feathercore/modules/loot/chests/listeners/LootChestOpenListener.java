@@ -6,7 +6,7 @@
  *
  * @file LootChestOpenListener.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Open config loot-chest on interact
  */
 
