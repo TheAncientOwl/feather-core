@@ -114,7 +114,7 @@ public class DepositCommand extends FeatherCommand<DepositCommand.CommandData> {
 
         // 4. check for max deposit value
         final var depositValue = banknoteValue * banknotesCount;
-        final var maxBalance = this.economyConfig.getDouble("money.max");
+        final var maxBalance = this.economyConfig.getDouble("balance.max");
         if (this.economy.getBalance((Player) sender) + depositValue > maxBalance) {
             this.lang.message(sender, Message.DEPOSIT_BALANCE_EXCEEDS,
                     Pair.of(Placeholder.MAX, this.economy.format(maxBalance)));

@@ -112,7 +112,7 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
         CommandType commandType = null;
         switch (actionStr) {
             case "give": {
-                final var max = this.economyConfig.getDouble("money.max");
+                final var max = this.economyConfig.getDouble("balance.max");
                 if (oldBalance + amount > max) {
                     this.lang.message(sender, Message.ECO_BOUNDS_MAX,
                             Pair.of(Placeholder.MAX, this.economy.format(max)));
@@ -122,7 +122,7 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
                 break;
             }
             case "take": {
-                final var min = this.economyConfig.getDouble("money.min");
+                final var min = this.economyConfig.getDouble("balance.min");
                 if (oldBalance - amount < min) {
                     this.lang.message(sender, Message.ECO_BOUNDS_MIN,
                             Pair.of(Placeholder.MIN, this.economy.format(min)));
@@ -132,14 +132,14 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
                 break;
             }
             case "set": {
-                final var max = this.economyConfig.getDouble("money.max");
+                final var max = this.economyConfig.getDouble("balance.max");
                 if (amount > max) {
                     this.lang.message(sender, Message.ECO_BOUNDS_MAX,
                             Pair.of(Placeholder.MAX, this.economy.format(max)));
                     return null;
                 }
 
-                final var min = this.economyConfig.getDouble("money.min");
+                final var min = this.economyConfig.getDouble("balance.min");
                 if (amount < min) {
                     this.lang.message(sender, Message.ECO_BOUNDS_MIN,
                             Pair.of(Placeholder.MIN, this.economy.format(min)));

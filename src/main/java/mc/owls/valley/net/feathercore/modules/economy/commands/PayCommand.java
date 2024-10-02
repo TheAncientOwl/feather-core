@@ -126,7 +126,7 @@ public class PayCommand extends FeatherCommand<PayCommand.CommandData> {
             return null;
         }
 
-        final var maxBalance = this.economyConfig.getDouble("money.max");
+        final var maxBalance = this.economyConfig.getDouble("balance.max");
         if (this.economy.getBalance(receiverPlayer) + amount > maxBalance) {
             this.lang.message(sender, Message.PAY_BALANCE_EXCEEDS, Pair.of(Placeholder.MAX, maxBalance));
             return null;
