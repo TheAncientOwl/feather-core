@@ -41,4 +41,4 @@ commands:
   feather-reload:
     description: Reload configurations
     usage: /feather-reload {MODULE}
-    aliases: [fcreload]
+    aliases: [fcreload, freload]
