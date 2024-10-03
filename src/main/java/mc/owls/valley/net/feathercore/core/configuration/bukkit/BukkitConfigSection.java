@@ -20,8 +20,8 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import mc.owls.valley.net.feathercore.api.common.InventoryConfig;
-import mc.owls.valley.net.feathercore.api.common.TimeUtils;
+import mc.owls.valley.net.feathercore.api.common.plugin.InventoryConfig;
+import mc.owls.valley.net.feathercore.api.common.util.TimeUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigSection;
 
 public class BukkitConfigSection implements IConfigSection {

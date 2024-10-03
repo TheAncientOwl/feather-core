@@ -14,7 +14,7 @@ package mc.owls.valley.net.feathercore.core;
 
 import org.bukkit.command.ConsoleCommandSender;
 
-import mc.owls.valley.net.feathercore.api.common.StringUtils;
+import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
 
