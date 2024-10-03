@@ -1,3 +1,6 @@
+v0.6.4:
+    : 'Merge pull request #33 from TheAncientOwl/workflow/update-release-test'
+
 v0.6.3:
     9d12981: 'Increase sw version v0.6.3  (HEAD -> main, tag: v0.6.3, origin/main)'
     6720397: 'Merge pull request #23 from TheAncientOwl/refactoring/general-05'
