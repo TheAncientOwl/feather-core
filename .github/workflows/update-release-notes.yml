@@ -1,0 +1,100 @@
+name: Bump Version and Update Release Notes on Merge
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  bump-version:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install xmlstarlet
+        run: sudo apt-get install -y xmlstarlet
+
+      - name: Checkout main branch
+        uses: actions/checkout@v3
+        with:
+          ref: main
+
+      - name: Set up Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Determine version bump type
+        id: determine_bump_type
+        run: |
+          branch_name="${{ github.event.pull_request.head.ref }}"
+          echo "Branch name: $branch_name"
+
+          if [[ "$branch_name" == major* ]]; then
+            echo "major" > bump_type.txt
+          elif [[ "$branch_name" == feature* ]]; then
+            echo "minor" > bump_type.txt
+          else
+            echo "patch" > bump_type.txt
+          fi
+
+      - name: Read and bump version
+        id: bump_version
+        run: |
+          version=$(grep "^version:" src/main/resources/plugin.yml | cut -d ' ' -f 2)
+          echo "Current version: $version"
+
+          # Split the current version into major, minor, and patch
+          IFS='.' read -r major minor patch <<< "$version"
+
+          bump_type=$(cat bump_type.txt)
+
+          if [ "$bump_type" = "major" ]; then
+            major=$((major + 1))
+            minor=0
+            patch=0
+          elif [ "$bump_type" = "minor" ]; then
+            minor=$((minor + 1))
+            patch=0
+          else
+            patch=$((patch + 1))
+          fi
+
+          new_version="$major.$minor.$patch"
+
+          sed -i "s/^version:.*/version: $new_version/" src/main/resources/plugin.yml
+
+          echo "New version: $new_version"
+          echo "::set-output name=new_version::$new_version"
+
+      - name: Update pom.xml version
+        run: |
+          new_version=${{ steps.bump_version.outputs.new_version }}
+          echo "Updating pom.xml version to $new_version"
+          xmlstarlet edit --inplace --update "//_:project/_:version" --value "$new_version" pom.xml
+
+      - name: Update ReleaseNotes.yml
+        run: |
+          new_version=${{ steps.bump_version.outputs.new_version }}
+          last_version=$(git tag --list | sort -V | tail -n 1)
+          temp_file=$(mktemp)
+
+          echo "v$new_version:" >>"$temp_file"
+
+          git log "$last_version"..HEAD --pretty=format:"    %h: %s" >>"$temp_file"
+
+          echo "
+          " >>"$temp_file"
+
+          cat ReleaseNotes.yml >>"$temp_file"
+
+          mv "$temp_file" ReleaseNotes.yml
+
+      - name: Commit changes and tag the new version
+        run: |
+          git add plugin.yml pom.xml ReleaseNotes.yml
+
+          new_version=${{ steps.bump_version.outputs.new_version }}
+
+          git commit -m "Release notes for version v$new_version"
+          git tag "v$new_version"
+
+          git push origin main && git push origin --tags
