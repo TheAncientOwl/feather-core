@@ -81,7 +81,7 @@ jobs:
 
           echo "v$new_version:" >>"$temp_file"
 
-          git log --abbrev-commit "$last_version"..HEAD --pretty=format:"    $h: '%s'" >>"$temp_file"
+          git log --abbrev-commit "$last_version"..HEAD --pretty=format:"    %h: '%s'" >>"$temp_file"
 
           echo "
           " >>"$temp_file"
