@@ -1,0 +1,234 @@
+v0.6.3:
+    9d12981: 'Increase sw version v0.6.3  (HEAD -> main, tag: v0.6.3, origin/main)'
+    6720397: 'Merge pull request #23 from TheAncientOwl/refactoring/general-05'
+    b45d038: 'Add currency name to FeatherEconomy.format  (origin/refactoring/general-05, refactoring/general-05)'
+
+v0.6.2:
+    f15314a: 'Merge pull request #22 from TheAncientOwl/refactoring/configuration'
+    e1807dd: 'Replace numeric time config entries with literals  (origin/refactoring/configuration, refactoring/configuration)'
+    a03a880: 'Rename some config fields'
+    8aa10c8: 'Migrate configs from ConfigurationManager to each specific module'
+    5816088: 'Fix typo'
+
+v0.6.1:
+    9202eaf: 'Add files documentation'
+    cfb9731: 'Add LICENSE'
+
+v0.6.0:
+    59c229a: 'Merge pull request #21 from TheAncientOwl/feature/reload'
+    d5fd004: 'Implement configs reload functionality  (origin/feature/reload, feature/reload)'
+
+v0.5.5:
+    f6e78e1: 'Save loot chests config on disable'
+
+v0.5.4:
+    9335a3d: 'Merge pull request #20 from TheAncientOwl/refactoring/logo-manager'
+    83fb852: 'Fetch plugin version from plugin.yml  (origin/refactoring/logo-manager, refactoring/logo-manager)'
+
+v0.5.3:
+    a9426a4: 'Move logger to core package'
+    25438f9: 'Merge pull request #19 from TheAncientOwl/refactoring/general-04'
+    ef48593: 'Make caching modules optional  (origin/refactoring/general-04, refactoring/general-04)'
+    8260f68: 'Rename package exception -> exceptions'
+    aa87646: 'Move economy interfaces to module package'
+    31fd93f: 'Move loot chests interfaces to module package'
+    f3be6c5: 'Move pvp manager interfaces to module package'
+    4431aec: 'Move players data interfaces to module package'
+    3ce76e9: 'Move configuration interfaces to module package'
+    13a17ef: 'Move mongo related api to mongo module'
+    ad0f892: 'Remove unnecessary files'
+
+v0.5.2:
+    06ab882: 'Merge pull request #18 from TheAncientOwl/refactoring/general-03'
+    888b462: 'Fix handling of not enabled modules usage  (origin/refactoring/general-03, refactoring/general-03, bugfix/usage-of-not-enabled-modules)'
+    5157282: 'Small QOL refactor of ModulesManager'
+
+v0.5.1:
+    6a40dc7: 'Merge pull request #17 from TheAncientOwl/refactoring/general-02'
+    9a15ec8: 'Move logger to separate module  (origin/refactoring/general-02, refactoring/general-02)'
+    60a52ac: 'Create separate LogoManager module'
+    938ba2f: 'Cache result of ModulesManager.getModule'
+    d2009e6: 'Add logs onDisable; Move FeatherLogger as module'
+    b235ebc: 'Move translations.yml to translations/languages.yml'
+    4c308c7: 'Remove translation files'
+    2fa13c3: 'Remove redundant messages'
+
+v0.5.0:
+    548e168: 'Merge pull request #16 from TheAncientOwl/feature/loot-chests'
+    5bca883: 'Fix LootChests invalid inventory/type  (origin/feature/loot-chests, feature/loot-chests)'
+    9b31f25: 'Fix TimeUtils usage'
+    fe85495: 'Implement LootChests::LootChestOpenListener'
+    2a7a184: 'Simplify Message/TranslationManager API'
+    d7e6e45: 'Implement LootChests::LootChestsCommand'
+    240ab94: 'Add LootChests interface and configuration'
+    aae7f05: 'Fix NPE'
+    5ca14d7: 'Fix modules not disabling at the end'
+    d25229d: 'Add LootChests module base'
+
+v0.4.0:
+    079d04b: 'Merge pull request #15 from TheAncientOwl/feature/translation'
+    3095f74: 'Add italian and german translations  (origin/feature/translation, feature/translation)'
+    011ec64: 'Remove player data argument from ITranslationAccessor.getTranslation(CommandSender, IPlayersDataManager)'
+    3dd0545: 'Add extended language form to lang info command'
+    ae39d09: 'Add command support for language change'
+    a765834: 'Migrate old translation to new translation system'
+    8714b1d: 'Implement base for TranslationManager'
+
+v0.3.4:
+    7c06923: 'Increase sw version: 0.3.4'
+    f4b4093: 'Merge pull request #14 from TheAncientOwl/refactoring/general-01'
+    3048064: 'Remove modules manager internal configuration map  (origin/refactoring/general-01, refactoring/general-01)'
+    10267b9: 'Rename placeholder PLAYER_NAME to PLAYER'
+    2d65f17: 'Remove redundant methods'
+    2fd5237: 'Remove ModuleEnableStatus usage'
+    a423516: 'PvP: Remove players in combat when disabling the module'
+    1f9f66e: 'Move modules config files into separate directory; Add translations directory'
+
+v0.3.3:
+    e27aa1c: 'Increase sw version'
+    51157d0: 'Merge pull request #13 from TheAncientOwl/setup/module-config-enabling'
+    86d9cf9: 'Setup modules enabling by config  (origin/setup/module-config-enabling, setup/module-config-enabling)'
+    6a7ee7c: 'Merge pull request #12 from TheAncientOwl/feature/restricted-pvp'
+    bfa2ab5: 'Refactor directory hierarchy  (origin/feature/restricted-pvp, feature/restricted-pvp)'
+    d1a7ba5: 'Refactor modules enabling; Move FeatherCore configuration to feathercore.yml'
+
+v0.3.2:
+    4f59a13: 'Increase sw version'
+    12b3d77: 'Implement initial version of PvP Manager'
+
+v0.3.1:
+    09bc6d8: 'Increase sw version'
+    8358ff5: 'Merge pull request #11 from TheAncientOwl/refactoring/command-api'
+    feb6fce: 'Refactor FeatherCommand API  (origin/refactoring/command-api, refactoring/command-api)'
+    22926c1: 'Fix balance command'
+    e0f56d0: 'Fix amount formatting'
+    1a577d8: 'Refactor economy commands'
+    49f7f8e: 'Refactor Economy::BalanceCommand'
+    a7a7a48: 'Merge pull request #10 from TheAncientOwl/refactoring/api'
+    20ca72f: 'Move translateColors from Message to StringUtils  (origin/refactoring/api, refactoring/api)'
+    d7ee322: 'Rename ChatUtils -> Message'
+    21ff851: 'Rename methods parameters'
+    c39d659: 'Change ChatUtils.sendMessage* names; Add single string message method; Remove Player specialization'
+    f5ac355: 'Rename interface method parameter'
+    bc2d6aa: 'Merge pull request #9 from TheAncientOwl/feature/economy'
+
+v0.3.0:
+    8553950: 'Increase sw version  (origin/feature/economy, feature/economy)'
+    89a0b90: 'Refactor directory hierarchy and interfaces'
+    68c49ce: 'Remove redundant file name constants'
+    009c819: 'Update deprecated spigot methods'
+    73511a2: 'Remove unused imports'
+
+v0.2.8:
+    9672ceb: 'Increase sw version'
+    39984a1: 'Fix typo -> rename EventsRegistrator to ListenersRegistrator.'
+    ad5eb57: 'Update player data join listener to new ListenersRegistrator approach'
+    72326a7: 'Set acceptsPayments to true by default'
+    1c13ee0: 'Implement Economy::WithdrawCommand and Economy::DepositCommand'
+    b433348: 'Update economy capabilities'
+    a6226f8: 'Implement Economy::PayToggleCommand'
+    4afc641: 'Remove unused imports'
+
+v0.2.7:
+    4084109: 'Increase sw version'
+    659476e: 'Implement Economy::PayCommand'
+    4159666: 'Replace IConfigFile with IPropertyAccessor'
+    10ad9ed: 'Add server icon'
+    113467e: 'Remove generated files'
+    6672656: 'Remove unused imports'
+
+v0.2.6:
+    4078ea8: 'Increase sw version'
+    0c13348: 'Implement tab complete for feather commands'
+    8a12fe7: 'Update messages'
+    0c5529d: 'Fix typo'
+    924c6cf: 'Fix message typo'
+    eada6f1: 'Enable LuckPerms plugin'
+    c6e2f26: 'Remove unused imports'
+
+v0.2.5:
+    dab4c06: 'Increase sw version'
+    a68a2d0: 'Reorganize economy messages'
+    186e6f9: 'Implement Economy::EcoCommand; Tweak Economy::BalanceCommand'
+    84f41df: 'Update messagess'
+    74d1246: 'Update Pair API'
+    265317a: 'Add permission check for Economy::BalanceCommand'
+    9223176: 'Implement Economy::BalanceCommand'
+    4c2fdd8: 'Update economy Capabilities.yml'
+
+v0.2.4:
+    e16b4b4: 'Increase sw version'
+    e139fc0: 'Move modules.json configuration into plugin.yml'
+    b63160c: 'Move config-manager.json configuration into plugin.yml'
+
+v0.2.3:
+    057764c: 'Increase sw version'
+    1ee177f: 'Refactory packages'
+    e949857: 'Implement CommandRegistrator'
+    c6bf969: 'Design economy.manager capabilities'
+    6ee2582: 'Fix typo'
+    1324d81: 'Implement FeatherEconomy functionalities ~ [Iteration02]'
+    73dff50: 'Implement FeatherEconomy functionalities ~ [Iteration01]'
+    0ee3c8a: 'Rename FeatherEconomyManager to FeatherEconomyProvider'
+    62a7ec5: 'Add EconomyManager module'
+    6938a65: 'Add base implementation of economy and vault modules.'
+    4ae9e61: 'Remove unused imports'
+    e728e3c: 'Configure project'
+    0ed6b0f: 'Merge pull request #8 from TheAncientOwl/architecture/capabilities'
+    a8fe005: 'Merge remote-tracking branch 'origin/main' into architecture/capabilities  (origin/architecture/capabilities, architecture/capabilities)'
+    39ff70f: 'Configure some module capabilities commands'
+    c4541fb: 'Merge pull request #7 from TheAncientOwl/feature/configuration-files'
+
+v0.2.2:
+    2195dfb: 'Increase sw version  (origin/feature/configuration-files, feature/configuration-files)'
+    756a2e9: 'Implement configuration manager and config accessor wrappers for bukkit API'
+    c73063b: 'Add command capabilities'
+    706265c: 'Configure project files'
+    83aa579: 'Merge pull request #6 from TheAncientOwl/bugfix/handle-mongo-db-connection-errors'
+
+v0.2.1:
+    c73da15: 'Increase sw version  (origin/bugfix/handle-mongo-db-connection-errors, bugfix/handle-mongo-db-connection-errors)'
+    bbd84e7: 'Fix mongodb connection errors'
+    cb05641: 'Merge pull request #5 from TheAncientOwl/refactoring/modules'
+
+v0.2.0:
+    0b646bc: 'Increase sw version  (origin/refactoring/modules, refactoring/modules)'
+    ab08746: 'Implement modules manager and update interfaces'
+
+v0.1.3:
+    166ff16: 'Increase sw version  (refactoring/interfaces)'
+    198c94f: 'Merge pull request #4 from TheAncientOwl/refactoring/general'
+    830b1fc: 'Remove DAO access from plugin class  (origin/refactoring/general, refactoring/general)'
+    f0263ba: 'Merge remote-tracking branch 'origin/refactoring/general' into refactoring/general'
+    82f5bde: 'Update messages'
+    dd42a7f: 'Add timer for onEnable method'
+    329652e: 'Add timer for onEnable method'
+    c9941ed: 'Remove success() method from feather logger'
+    3c79fe9: 'Add mongodb connection close handler'
+    dba46e9: 'Make feather logger not static'
+    dadcc30: 'Move MongoDB setup in handler class'
+    f4056f0: 'Move logo stuff outside plugin class'
+    1b91532: 'Mark player data for saving on player join; (lastLogin was updated)'
+    0622f9d: 'Merge pull request #3 from TheAncientOwl/feature/player-data-setup'
+    09b43c7: 'Configure project  (origin/feature/player-data-setup, feature/player-data-setup)'
+    01a0324: 'Add autosave functionality for player data'
+    c8f8d30: 'Setup player data and handle new players'
+    6244bfe: 'Update version and plugin logo'
+
+1.0-SNAPSHOT:
+    497a4ec: 'Merge pull request #2 from TheAncientOwl/setup/mongodb'
+    b1eef7a: 'Finalize mongodb setup  (origin/setup/mongodb, setup/mongodb)'
+    c65f42e: 'Provide working version of morphia integration'
+    6ba2960: 'Provide working version of MongoDB driver integration'
+    d851812: 'Update scripts'
+    36b76eb: 'Setup resource downloader'
+    c4b881a: 'Update feathercore script'
+    ad2f416: 'Update paths'
+    f41e279: 'Update feathercore script aliases'
+    0bbb783: 'Add aliases to feathercore.sh  (setup/dependencies)'
+    9206725: 'Merge pull request #1 from TheAncientOwl/setup/plugin-development'
+    9013e64: 'Add initial setup for plugin-development  (origin/setup/plugin-development, setup/plugin-development)'
+    2a32b9d: 'Move dev-server to dev/server'
+    1c6b515: 'Clear LuckPerms unnecessary github stuff'
+    e628349: 'Add initial version of dev server'
+    aab5448: 'Add initial capabilities version'
