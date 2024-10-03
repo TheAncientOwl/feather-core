@@ -73,6 +73,8 @@ jobs:
 
       - name: Update ReleaseNotes.yml
         run: |
+          git fetch
+          git pull
           git fetch --tags
 
           new_version=${{ steps.bump_version.outputs.new_version }}
