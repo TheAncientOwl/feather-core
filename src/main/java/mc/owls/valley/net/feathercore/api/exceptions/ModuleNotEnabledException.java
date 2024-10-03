@@ -6,7 +6,7 @@
  *
  * @file ModuleNotEnabledException.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Exception thrown if a disabled module is accessed
  */
 
@@ -19,7 +19,7 @@ public class ModuleNotEnabledException extends Exception {
     }
 
     public ModuleNotEnabledException(String moduleName) {
-        super("Module '" + moduleName + "' is not enabled in configs");
+        super("Module '" + moduleName + "' is not enabled");
     }
 
 }
