@@ -73,6 +73,8 @@ jobs:
 
       - name: Update ReleaseNotes.yml
         run: |
+          git fetch --tags
+
           new_version=${{ steps.bump_version.outputs.new_version }}
           last_version=$(git tag --list | sort -V | tail -n 1)
           temp_file=$(mktemp)
