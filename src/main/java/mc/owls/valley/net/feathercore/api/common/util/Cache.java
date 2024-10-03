@@ -10,7 +10,7 @@
  * @description Utility class for caching result of a given supplier
  */
 
-package mc.owls.valley.net.feathercore.api.common;
+package mc.owls.valley.net.feathercore.api.common.util;
 
 import java.util.function.Supplier;
 

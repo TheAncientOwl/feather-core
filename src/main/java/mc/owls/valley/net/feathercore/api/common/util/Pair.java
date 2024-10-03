@@ -10,7 +10,7 @@
  * @description Utility class
  */
 
-package mc.owls.valley.net.feathercore.api.common;
+package mc.owls.valley.net.feathercore.api.common.util;
 
 public class Pair<First, Second> {
     public First first = null;

@@ -10,10 +10,12 @@
  * @description Utility functions for broadcasting messages to players
  */
 
-package mc.owls.valley.net.feathercore.api.common;
+package mc.owls.valley.net.feathercore.api.common.plugin;
 
 import org.bukkit.Bukkit;
 
+import mc.owls.valley.net.feathercore.api.common.util.Pair;
+import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 
 public class Broadcast {

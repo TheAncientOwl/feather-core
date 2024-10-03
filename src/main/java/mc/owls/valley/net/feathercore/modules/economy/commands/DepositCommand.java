@@ -23,8 +23,8 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import mc.owls.valley.net.feathercore.api.common.Pair;
-import mc.owls.valley.net.feathercore.api.common.Placeholder;
+import mc.owls.valley.net.feathercore.api.common.util.Pair;
+import mc.owls.valley.net.feathercore.api.common.util.Placeholder;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;

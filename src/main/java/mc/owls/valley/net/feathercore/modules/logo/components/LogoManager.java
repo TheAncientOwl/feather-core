@@ -16,8 +16,8 @@ import java.util.function.Supplier;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import mc.owls.valley.net.feathercore.api.common.StringUtils;
-import mc.owls.valley.net.feathercore.api.common.YamlUtils;
+import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
+import mc.owls.valley.net.feathercore.api.common.util.YamlUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
