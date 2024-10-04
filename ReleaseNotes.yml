@@ -1,3 +1,6 @@
+v0.6.4:
+    e6e972d: 'Merge pull request #39 from TheAncientOwl/refactoring/general-08'
+
 v0.6.3:
     6ada6d8: 'Merge pull request #38 from TheAncientOwl/bugfix/auto-release-notes-missing'
     c25fac9: 'Fix auto release notes missing'
