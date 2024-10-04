@@ -54,7 +54,8 @@ prev_tag="v$current_version"
 git fetch --tags
 git log $prev_tag..HEAD --pretty=format:"    %h: '%s'" >>$temp_file
 
-echo "" >>$temp_file
+echo "
+" >>$temp_file
 cat $RELEASE_NOTES_YML >>$temp_file
 
 mv $temp_file $RELEASE_NOTES_YML

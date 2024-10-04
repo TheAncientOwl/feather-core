@@ -19,7 +19,7 @@ public class ModuleNotEnabledException extends Exception {
     }
 
     public ModuleNotEnabledException(String moduleName) {
-        super("Module '" + moduleName + "' is not enabled in configs");
+        super("Module '" + moduleName + "' is not enabled");
     }
 
 }

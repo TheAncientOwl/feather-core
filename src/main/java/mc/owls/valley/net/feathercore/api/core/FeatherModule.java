@@ -31,27 +31,15 @@ public abstract class FeatherModule {
     public void onEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
         final IFeatherLogger logger = core.getFeatherLogger();
 
-        if (!name.startsWith(HIDE_LIFECYCLE_PREFIX)) {
-            logStatus(logger, "&7setup started");
-        }
-
+        logStatus(logger, "&7setup started");
         onModuleEnable(core);
-
-        if (!name.startsWith(HIDE_LIFECYCLE_PREFIX)) {
-            logStatus(logger, "&aenabled");
-        }
+        logStatus(logger, "&aenabled");
     }
 
     public void onDisable(final IFeatherLogger logger) {
-        if (!name.startsWith(HIDE_LIFECYCLE_PREFIX)) {
-            logStatus(logger, "&7disabling started");
-        }
-
+        logStatus(logger, "&7disabling started");
         onModuleDisable();
-
-        if (!name.startsWith(HIDE_LIFECYCLE_PREFIX)) {
-            logStatus(logger, "&adisabled");
-        }
+        logStatus(logger, "&adisabled");
     }
 
     public String getModuleName() {
@@ -63,7 +51,9 @@ public abstract class FeatherModule {
     }
 
     private void logStatus(final IFeatherLogger logger, final String message) {
-        logger.info("&2" + this.name + "&8: &r" + message);
+        if (!name.startsWith(HIDE_LIFECYCLE_PREFIX)) {
+            logger.info("&2" + this.name + "&8: &r" + message);
+        }
 
     }
 

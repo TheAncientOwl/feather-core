@@ -1,9 +1,7 @@
-v0.6.5:
-    6ada6d8: 'Merge pull request #38 from TheAncientOwl/bugfix/auto-release-notes-missing'
-v0.6.4:
-    8f9a78e: 'Setup auto release'
-
 v0.6.3:
+    6ada6d8: 'Merge pull request #38 from TheAncientOwl/bugfix/auto-release-notes-missing'
+    c25fac9: 'Fix auto release notes missing'
+    8f9a78e: 'Setup auto release'
     9d12981: 'Increase sw version v0.6.3  (HEAD -> main, tag: v0.6.3, origin/main)'
     6720397: 'Merge pull request #23 from TheAncientOwl/refactoring/general-05'
     b45d038: 'Add currency name to FeatherEconomy.format  (origin/refactoring/general-05, refactoring/general-05)'
