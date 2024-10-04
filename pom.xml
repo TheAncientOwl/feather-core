@@ -1,38 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
   <groupId>mc.owls.valley.net.feathercore</groupId>
   <artifactId>FeatherCore</artifactId>
-  <version>0.6.3</version>
-
+  <version>0.6.4</version>
   <name>FeatherCore</name>
   <packaging>jar</packaging>
-
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>17</maven.compiler.source>
     <maven.compiler.target>17</maven.compiler.target>
     <maven.compiler.release>17</maven.compiler.release>
   </properties>
-
-
   <repositories>
     <!-- Paper -->
     <repository>
       <id>paper-repo</id>
       <url>https://repo.papermc.io/repository/maven-public/</url>
     </repository>
-
     <!-- Vault -->
     <repository>
       <id>Vault-repo</id>
       <url>https://jitpack.io</url>
     </repository>
   </repositories>
-
   <dependencies>
     <!-- Spigot/Paper -->
     <dependency>
@@ -41,20 +32,17 @@
       <version>1.21.1-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
-
     <!-- MongoDB -->
     <dependency>
       <groupId>dev.morphia.morphia</groupId>
       <artifactId>morphia-core</artifactId>
       <version>2.3.7</version>
     </dependency>
-
     <dependency>
       <groupId>org.mongodb</groupId>
       <artifactId>mongo-java-driver</artifactId>
       <version>3.9.1</version>
     </dependency>
-
     <!-- Vault -->
     <dependency>
       <groupId>com.github.MilkBowl</groupId>
@@ -62,21 +50,18 @@
       <version>1.7</version>
       <scope>provided</scope>
     </dependency>
-
     <!-- Testing -->
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
       <scope>test</scope>
     </dependency>
-
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-params</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
-
   <dependencyManagement>
     <dependencies>
       <dependency>
@@ -88,10 +73,8 @@
       </dependency>
     </dependencies>
   </dependencyManagement>
-
   <build>
     <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
-
     <resources>
       <resource>
         <directory>${project.basedir}/src/main/resources</directory>
@@ -104,7 +87,6 @@
         </includes>
       </resource>
     </resources>
-
     <pluginManagement>
       <plugins>
         <plugin>
