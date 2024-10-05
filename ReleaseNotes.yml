@@ -1,8 +1,24 @@
 v0.6.5:
     1869dd6: 'Merge pull request #40 from TheAncientOwl/refactoring/banknotes'
+    c1f39ff: 'Implement banknote meta change on player language change'
+    f93d005: 'Change banknote language on pickup'
+    e48a114: 'Fix typo'
+    b2ee763: 'Move banknote key to config'
+    19d2b41: 'Refactor api/common package'
 
 v0.6.4:
     e6e972d: 'Merge pull request #39 from TheAncientOwl/refactoring/general-08'
+    750677d: 'Update ModuleNotEnabled exception message'
+    1aca019: 'Cleanup FeatherModule base class logging'
+    b658fa3: 'Fix software version and release notes'
+    139d000: 'Release notes for version v0.6.5'
+    6ada6d8: 'Merge pull request #38 from TheAncientOwl/bugfix/auto-release-notes-missing'
+    c25fac9: 'Fix auto release notes missing'
+    b4c7d16: 'Release notes for version v0.6.4'
+    cc56ce1: 'Merge pull request #37 from TheAncientOwl/setup/auto-release'
+    8f9a78e: 'Setup auto release'
+    3cc03d0: 'Update ReleaseNotes format'
+    eb7109c: 'Add release notes'
 
 v0.6.3:
     6ada6d8: 'Merge pull request #38 from TheAncientOwl/bugfix/auto-release-notes-missing'
