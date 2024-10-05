@@ -6,7 +6,7 @@
  *
  * @file WithdrawCommand.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Withdraw banknotes from player's balance
  */
 
@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -26,6 +25,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import mc.owls.valley.net.feathercore.api.common.java.Pair;
+import mc.owls.valley.net.feathercore.api.common.minecraft.NamespacedKey;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
@@ -178,15 +178,14 @@ public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData>
 
         // 3. setup item meta
         final ItemMeta meta = banknote.getItemMeta();
-        // TODO: remove banknote name from translation
         meta.displayName(LegacyComponentSerializer.legacyAmpersand()
                 .deserialize(this.lang.getTranslation(sender).getString(Message.BANKNOTE_NAME)));
         meta.lore(lore.stream()
                 .map(line -> LegacyComponentSerializer.legacyAmpersand()
                         .deserialize(StringUtils.replacePlaceholders(line, Pair.of(Placeholder.AMOUNT, banknoteValue))))
                 .toList());
-        meta.getPersistentDataContainer().set(new NamespacedKey(this.plugin, Message.BANKNOTE_METADATA_KEY),
-                PersistentDataType.DOUBLE, banknoteValue);
+        new NamespacedKey(this.plugin, meta, this.economyConfig.getString("banknote.key"))
+                .set(PersistentDataType.DOUBLE, banknoteValue);
 
         // 4. finish itemstack setup
         banknote.setItemMeta(meta);
