@@ -6,7 +6,7 @@
  *
  * @file LanguageCommand.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Manage player's messages language
  */
 
@@ -17,6 +17,8 @@ import java.util.List;
 
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
 
 import mc.owls.valley.net.feathercore.api.common.java.Pair;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
@@ -27,6 +29,7 @@ import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
 import mc.owls.valley.net.feathercore.modules.translation.common.Messages;
 import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
+import mc.owls.valley.net.feathercore.modules.translation.events.LanguageChangeEvent;
 
 public class LanguageCommand extends FeatherCommand<LanguageCommand.CommandData> {
     private static enum CommandType {
@@ -39,12 +42,14 @@ public class LanguageCommand extends FeatherCommand<LanguageCommand.CommandData>
     private IPlayersData playerData = null;
     private TranslationManager lang = null;
     private IPropertyAccessor translationsConfig = null;
+    private PluginManager pluginManager = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
         this.playerData = core.getPlayersData();
         this.lang = core.getTranslationManager();
         this.translationsConfig = core.getTranslationManager().getConfig();
+        this.pluginManager = core.getPlugin().getServer().getPluginManager();
     }
 
     @Override
@@ -57,7 +62,7 @@ public class LanguageCommand extends FeatherCommand<LanguageCommand.CommandData>
                 this.lang.message(sender, Messages.INFO, Pair.of(Placeholder.LANGUAGE, langExtended));
                 break;
             }
-            case LIST:
+            case LIST: {
                 final var langConfig = this.translationsConfig.getConfigurationSection("languages");
                 final StringBuilder sb = new StringBuilder();
                 for (final var lang : langConfig.getKeys(false)) {
@@ -67,12 +72,17 @@ public class LanguageCommand extends FeatherCommand<LanguageCommand.CommandData>
 
                 this.lang.message(sender, Messages.LIST, Pair.of(Placeholder.LANGUAGE, sb.toString()));
                 break;
-            case CHANGE:
+            }
+            case CHANGE: {
                 final var playerModel = this.playerData.getPlayerModel((OfflinePlayer) sender);
                 playerModel.language = data.language;
                 this.playerData.markPlayerModelForSave(playerModel);
                 this.lang.message(sender, Messages.CHANGE_SUCCESS);
+
+                this.pluginManager.callEvent(
+                        new LanguageChangeEvent((Player) sender, data.language, this.lang.getTranslation(sender)));
                 break;
+            }
         }
     }
 
