@@ -25,7 +25,7 @@ jobs:
           echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
           echo "FEATHER_CORE_ROOT=$(pwd)" >> $GITHUB_ENV
 
-      - name: Call version_increase script
+      - name: Call increase_version script
         run: |
-          chmod +x scripts/version_increase.sh
-          ./scripts/version_increase.sh
+          chmod +x scripts/increase_version.sh
+          ./scripts/increase_version.sh
