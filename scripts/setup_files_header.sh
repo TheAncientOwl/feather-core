@@ -28,8 +28,8 @@ find . -type f -name "*.java" | while read -r file; do
  * @author Alexandru Delegeanu
  * @version 0.1
  * @description TODO: add description
- *
- */"
+ */
+ "
 
         header_print "Adding header to $file"
         (
