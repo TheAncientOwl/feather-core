@@ -17,7 +17,7 @@ jobs:
 
       - name: Set up Git
         run: |
-          git config --global user.name "ReleaseBot"
+          git config --global user.name "Version[Bot]"
           git config --global user.email "imabot.feathercore@noreply.com"
 
       - name: Set environment variables
@@ -25,7 +25,7 @@ jobs:
           echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
           echo "FEATHER_CORE_ROOT=$(pwd)" >> $GITHUB_ENV
 
-      - name: Call release script
+      - name: Call version_increase script
         run: |
-          chmod +x scripts/release.sh
-          ./scripts/release.sh
+          chmod +x scripts/version_increase.sh
+          ./scripts/version_increase.sh

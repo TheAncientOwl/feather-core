@@ -44,6 +44,6 @@ echo "Updated pom.xml version to: $new_version"
 
 # Commit, tag and push
 git add $PLUGIN_YML $POM_XML
-git commit -m "Release notes for version v$new_version"
+git commit -m "Increase sw version: v$new_version"
 git tag "v$new_version"
 git push && git push --tag
