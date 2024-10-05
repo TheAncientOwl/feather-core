@@ -19,7 +19,7 @@ import java.util.function.Supplier;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
-import mc.owls.valley.net.feathercore.api.common.StringUtils;
+import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;

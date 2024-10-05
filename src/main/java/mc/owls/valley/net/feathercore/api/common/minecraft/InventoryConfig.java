@@ -10,7 +10,7 @@
  * @description Utility class for serializing/deserializing bukking Inventory in yaml format
  */
 
-package mc.owls.valley.net.feathercore.api.common;
+package mc.owls.valley.net.feathercore.api.common.minecraft;
 
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.Inventory;

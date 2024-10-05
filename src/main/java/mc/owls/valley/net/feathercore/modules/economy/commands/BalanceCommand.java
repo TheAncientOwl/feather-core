@@ -20,9 +20,9 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import mc.owls.valley.net.feathercore.api.common.Pair;
-import mc.owls.valley.net.feathercore.api.common.Placeholder;
-import mc.owls.valley.net.feathercore.api.common.StringUtils;
+import mc.owls.valley.net.feathercore.api.common.java.Pair;
+import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
+import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.modules.economy.common.Message;

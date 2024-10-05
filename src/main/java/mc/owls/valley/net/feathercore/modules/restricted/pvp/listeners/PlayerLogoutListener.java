@@ -17,9 +17,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import mc.owls.valley.net.feathercore.api.common.Broadcast;
-import mc.owls.valley.net.feathercore.api.common.Pair;
-import mc.owls.valley.net.feathercore.api.common.Placeholder;
+import mc.owls.valley.net.feathercore.api.common.java.Pair;
+import mc.owls.valley.net.feathercore.api.common.minecraft.Broadcast;
+import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;

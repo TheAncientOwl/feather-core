@@ -24,8 +24,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import mc.owls.valley.net.feathercore.api.common.InventoryConfig;
-import mc.owls.valley.net.feathercore.api.common.TimeUtils;
+import mc.owls.valley.net.feathercore.api.common.minecraft.InventoryConfig;
+import mc.owls.valley.net.feathercore.api.common.util.TimeUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigSection;
 

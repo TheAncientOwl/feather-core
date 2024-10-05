@@ -22,10 +22,10 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.function.Supplier;
 
-import mc.owls.valley.net.feathercore.api.common.Cache;
-import mc.owls.valley.net.feathercore.api.common.Pair;
-import mc.owls.valley.net.feathercore.api.common.StringUtils;
-import mc.owls.valley.net.feathercore.api.common.YamlUtils;
+import mc.owls.valley.net.feathercore.api.common.java.Cache;
+import mc.owls.valley.net.feathercore.api.common.java.Pair;
+import mc.owls.valley.net.feathercore.api.common.minecraft.YamlUtils;
+import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
