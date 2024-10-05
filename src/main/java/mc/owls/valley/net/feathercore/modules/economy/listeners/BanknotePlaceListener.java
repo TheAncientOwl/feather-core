@@ -26,13 +26,13 @@ import mc.owls.valley.net.feathercore.modules.translation.components.Translation
 
 public class BanknotePlaceListener implements IFeatherListener {
     private JavaPlugin plugin = null;
-    private IConfigFile economConfig = null;
+    private IConfigFile economyConfig = null;
     private TranslationManager lang = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
         this.plugin = core.getPlugin();
-        this.economConfig = core.getFeatherEconomy().getConfig();
+        this.economyConfig = core.getFeatherEconomy().getConfig();
         this.lang = core.getTranslationManager();
     }
 
@@ -44,7 +44,7 @@ public class BanknotePlaceListener implements IFeatherListener {
 
         final var itemMeta = event.getItemInHand().getItemMeta();
         if (itemMeta != null
-                && new NamespacedKey(this.plugin, itemMeta, this.economConfig.getString("banknote.key")).isPresent()) {
+                && new NamespacedKey(this.plugin, itemMeta, this.economyConfig.getString("banknote.key")).isPresent()) {
             event.setCancelled(true);
             this.lang.message(event.getPlayer(), Message.BANKNOTE_PLACE);
         }
