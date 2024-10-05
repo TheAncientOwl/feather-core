@@ -6,7 +6,7 @@
  *
  * @file Message.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Module specific language messages
  */
 
@@ -57,8 +57,7 @@ public class Message {
     public static final String DEPOSIT_BALANCE_EXCEEDS = "economy.deposit.error.balance-exceeds";
     public static final String DEPOSIT_NEGATIVE_AMOUNT = "economy.deposit.error.negative-amount";
 
-    public static final String BANKNOTE_METADATA_KEY = "economy.feathercore-banknote-value";
-
+    public static final String BANKNOTE_LANG = "economy.banknote.lang";
     public static final String BANKNOTE_NAME = "economy.banknote.display-name";
     public static final String BANKNOTE_LORE = "economy.banknote.lore";
     public static final String BANKNOTE_INVALID_MATERIAL = "economy.banknote.invalid-material";

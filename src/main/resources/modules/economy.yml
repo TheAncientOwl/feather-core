@@ -14,5 +14,6 @@ fractional-digits: 2
 currency-format: '#,##0'
 
 banknote:
+  key: ced8e73a-8dc3-4df0-96ea-d819e138d9cb
   material: 'SUNFLOWER'
   minimum-value: 10.0

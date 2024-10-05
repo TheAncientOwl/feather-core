@@ -10,7 +10,7 @@
  * @description Placeholders used by plugin language messages
  */
 
-package mc.owls.valley.net.feathercore.api.common;
+package mc.owls.valley.net.feathercore.api.common.minecraft;
 
 public class Placeholder {
     public static final String PLAYER = "{player}";

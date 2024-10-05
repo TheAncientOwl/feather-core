@@ -6,7 +6,7 @@
  *
  * @file DepositCommand.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Deposit banknotes to player's balance
  */
 
@@ -15,16 +15,15 @@ package mc.owls.valley.net.feathercore.modules.economy.commands;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.bukkit.NamespacedKey;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import mc.owls.valley.net.feathercore.api.common.Pair;
-import mc.owls.valley.net.feathercore.api.common.Placeholder;
+import mc.owls.valley.net.feathercore.api.common.java.Pair;
+import mc.owls.valley.net.feathercore.api.common.minecraft.NamespacedKey;
+import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
@@ -78,19 +77,18 @@ public class DepositCommand extends FeatherCommand<DepositCommand.CommandData> {
 
         // 2. check if item in hand is valid banknote and get the banknote value
         final ItemStack itemInHand = ((Player) sender).getInventory().getItemInMainHand();
-        if (itemInHand == null || itemInHand.getItemMeta() == null
-                || itemInHand.getItemMeta().getPersistentDataContainer() == null) {
+        if (itemInHand == null || itemInHand.getItemMeta() == null) {
             this.lang.message(sender, Message.BANKNOTE_INVALID);
             return null;
         }
 
-        final NamespacedKey namespacedKey = new NamespacedKey(this.plugin, Message.BANKNOTE_METADATA_KEY);
-        final PersistentDataContainer dataContainer = itemInHand.getItemMeta().getPersistentDataContainer();
-        if (!dataContainer.has(new NamespacedKey(this.plugin, Message.BANKNOTE_METADATA_KEY))) {
+        final var namespacedKey = new NamespacedKey(this.plugin, itemInHand.getItemMeta(),
+                this.economyConfig.getString("banknote.key"));
+        if (!namespacedKey.isPresent()) {
             this.lang.message(sender, Message.BANKNOTE_INVALID);
             return null;
         }
-        final double banknoteValue = dataContainer.get(namespacedKey, PersistentDataType.DOUBLE);
+        final double banknoteValue = namespacedKey.get(PersistentDataType.DOUBLE);
 
         // 3. parse the banknotes count and validate
         int banknotesCount = 0;

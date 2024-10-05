@@ -10,7 +10,7 @@
  * @description Utility class
  */
 
-package mc.owls.valley.net.feathercore.api.common;
+package mc.owls.valley.net.feathercore.api.common.util;
 
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;

@@ -10,7 +10,7 @@
  * @description Utility class
  */
 
-package mc.owls.valley.net.feathercore.api.common;
+package mc.owls.valley.net.feathercore.api.common.util;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.bukkit.Bukkit;
 
+import mc.owls.valley.net.feathercore.api.common.java.Pair;
 import net.md_5.bungee.api.ChatColor;
 
 public class StringUtils {
