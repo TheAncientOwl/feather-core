@@ -1,4 +1,4 @@
-name: Release Workflow
+name: Increase software version Workflow
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
       - main
 
 jobs:
-  release:
+  version_increase:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
 
