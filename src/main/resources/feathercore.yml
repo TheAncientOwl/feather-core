@@ -62,6 +62,7 @@ modules:
       deposit: mc.owls.valley.net.feathercore.modules.economy.commands.DepositCommand
     listeners:
       - mc.owls.valley.net.feathercore.modules.economy.listeners.BanknotePlaceListener
+      - mc.owls.valley.net.feathercore.modules.economy.listeners.BanknotePickupListener
 
   RestrictedPvP:
     class: mc.owls.valley.net.feathercore.modules.restricted.pvp.components.RestrictedPvP
