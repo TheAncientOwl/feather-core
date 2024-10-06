@@ -6,7 +6,9 @@ general:
     players-only: '&8[&eFeather&6Core&8] &cThat command can be issued by players only&8.'
   not-player: '&8[&eFeather&6Core&8] &c{string} is not a player&8.'
   not-online-player: '&8[&eFeather&6Core&8] &c{player} is not online&8.'
+  not-valid-world: '&8[&eFeather&6Core&8] &c{string} is not a world&8.'
   not-valid-number: '&8[&eFeather&6Core&8] &c{string} is not a valid number&8!'
+  invalid-value: '&8[&eFeather&6Core&8] &7Invalid value &c"{string}"&8'
 
 language:
   usage: '&8[&6Usage&8] &e/language info/list/[language]'
@@ -97,3 +99,10 @@ configuration:
   reload:
     single: '&8[&6Feather&eCore&8] &aConfiguration reloaded&8!'
     multiple: '&8[&6Feather&eCore&8] &aConfigurations reloaded&8!'
+
+teleport:
+  usage:
+    position: '&8[&6Usage&8] &e/teleport [x] [y] [z] (world) (player)'
+  success:
+    position: '&8[&5Teleport&8] &7You have been teleported to &d{world} &7x:&d{x} &7y:&d{y} &7z:&d{z}&8.'
+    position-other: '&8[&5Teleport&8] &7You teleported &d{player} &7to &d{world} &7x:&d{x} &7y:&d{y} &7z:&d{z}&8.'

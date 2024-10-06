@@ -29,4 +29,8 @@ public class Placeholder {
     public static final String TYPE = "{type}";
     public static final String LOCATIONS = "{locations}";
     public static final String COOLDOWN = "{cooldown}";
+    public static final String X = "{x}";
+    public static final String Y = "{y}";
+    public static final String Z = "{z}";
+    public static final String WORLD = "{world}";
 }

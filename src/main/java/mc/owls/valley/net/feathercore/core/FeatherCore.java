@@ -29,6 +29,7 @@ import mc.owls.valley.net.feathercore.modules.data.players.components.PlayersDat
 import mc.owls.valley.net.feathercore.modules.economy.components.FeatherEconomyProvider;
 import mc.owls.valley.net.feathercore.modules.loot.chests.components.LootChests;
 import mc.owls.valley.net.feathercore.modules.restricted.pvp.components.RestrictedPvP;
+import mc.owls.valley.net.feathercore.modules.teleport.components.Teleport;
 import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 import net.milkbowl.vault.economy.Economy;
 
@@ -38,9 +39,10 @@ public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
     private ModulesManager modulesManager = new ModulesManager();
     private IFeatherLogger featherLogger = null;
 
-    private Cache<RestrictedPvP> restrictedPvP = null;
+    private Cache<Teleport> teleport = null;
     private Cache<LootChests> lootChests = null;
     private Cache<MongoManager> mongoManager = null;
+    private Cache<RestrictedPvP> restrictedPvP = null;
     private Cache<PlayersData> playersDataManager = null;
     private Cache<TranslationManager> translationManager = null;
     private Cache<FeatherEconomyProvider> economyProvider = null;
@@ -117,6 +119,11 @@ public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
     @Override
     public List<FeatherModule> getEnabledModules() {
         return this.modulesManager.getEnabledModules();
+    }
+
+    @Override
+    public Teleport getTeleport() {
+        return this.teleport.get();
     }
 
 }
