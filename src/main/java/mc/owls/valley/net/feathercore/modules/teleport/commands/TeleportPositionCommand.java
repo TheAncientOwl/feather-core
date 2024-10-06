@@ -6,7 +6,7 @@
  *
  * @file TeleportPositionCommand.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Teleport to specified position in the world
  */
 
@@ -21,7 +21,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import mc.owls.valley.net.feathercore.api.common.java.Pair;
-import mc.owls.valley.net.feathercore.api.common.minecraft.ArgsParser;
+import mc.owls.valley.net.feathercore.api.common.minecraft.Args;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
@@ -82,10 +82,9 @@ public class TeleportPositionCommand extends FeatherCommand<TeleportPositionComm
         switch (args.length) {
             case 3: {
                 // /tppos [x] [y] [z]
-                final var parsedArgs = ArgsParser.parse(args, ArgsParser::parseDouble,
-                        ArgsParser::parseDouble, ArgsParser::parseDouble);
+                final var parsedArgs = Args.parse(args, Args::getDouble, Args::getDouble, Args::getDouble);
 
-                if (parsedArgs.index() == ArgsParser.PARSE_SUCCESS_INDEX) {
+                if (parsedArgs.success()) {
                     x = parsedArgs.getDouble(0);
                     y = parsedArgs.getDouble(1);
                     z = parsedArgs.getDouble(2);
@@ -97,10 +96,10 @@ public class TeleportPositionCommand extends FeatherCommand<TeleportPositionComm
             }
             case 4: {
                 // /tppos [x] [y] [z] (player|world)
-                final var parsedArgs = ArgsParser.parse(args, ArgsParser::parseDouble,
-                        ArgsParser::parseDouble, ArgsParser::parseDouble, ArgsParser::parseString);
+                final var parsedArgs = Args.parse(args, Args::getDouble, Args::getDouble, Args::getDouble,
+                        Args::getString);
 
-                if (parsedArgs.index() == ArgsParser.PARSE_SUCCESS_INDEX) {
+                if (parsedArgs.success()) {
                     x = parsedArgs.getDouble(0);
                     y = parsedArgs.getDouble(1);
                     z = parsedArgs.getDouble(2);
@@ -126,10 +125,10 @@ public class TeleportPositionCommand extends FeatherCommand<TeleportPositionComm
             }
             case 5: {
                 // /tppos [x] [y] [z] (world) (player)
-                final var parsedArgs = ArgsParser.parse(args, ArgsParser::parseDouble,
-                        ArgsParser::parseDouble, ArgsParser::parseDouble, Bukkit::getWorld, Bukkit::getPlayerExact);
+                final var parsedArgs = Args.parse(args, Args::getDouble, Args::getDouble, Args::getDouble,
+                        Args::getWorld, Args::getOnlinePlayer);
 
-                if (parsedArgs.index() == ArgsParser.PARSE_SUCCESS_INDEX) {
+                if (parsedArgs.success()) {
                     x = parsedArgs.getDouble(0);
                     y = parsedArgs.getDouble(1);
                     z = parsedArgs.getDouble(2);
