@@ -6,7 +6,7 @@
  *
  * @file StringUtils.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Utility class
  */
 
@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.World;
+import org.bukkit.entity.Player;
 
 import mc.owls.valley.net.feathercore.api.common.java.Pair;
 import net.md_5.bungee.api.ChatColor;
@@ -40,7 +42,14 @@ public class StringUtils {
     }
 
     public static List<String> getOnlinePlayers() {
-        return Bukkit.getOnlinePlayers().stream().map(player -> player.getName())
+        return Bukkit.getOnlinePlayers().stream()
+                .map(Player::getName)
+                .toList();
+    }
+
+    public static List<String> getWorlds() {
+        return Bukkit.getWorlds().stream()
+                .map(World::getName)
                 .toList();
     }
 
