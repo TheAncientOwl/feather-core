@@ -71,10 +71,10 @@ commands:
     description: Request teleport the target player to command sender player
     usage: /teleport-here-request <player>
     aliases: [tprhere]
-  teleport-offline:
+  teleport-last-location:
     description: Teleport to the last known location of the player
-    usage: /teleport-offline <player>
-    aliases: [tpoffline]
+    usage: /teleport-last-location [destination-player] (who-player)
+    aliases: [tplastknown]
   teleport-position:
     description: Teleport to specified position in the world
     usage: /teleport-position [x] [y] [z] <world>

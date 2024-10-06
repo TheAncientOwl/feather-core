@@ -6,7 +6,7 @@
  *
  * @file MongoManager.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @description Module responsible for MongoDB connection
  */
 
@@ -36,6 +36,7 @@ import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.IDAOAccessor;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.accessors.LootChestsDAO;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.accessors.PlayersDAO;
+import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.LocationModel;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.LootChestsModel;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
 
@@ -79,6 +80,7 @@ public class MongoManager extends FeatherModule implements IDAOAccessor {
         final var mapper = this.datastore.getMapper();
         mapper.map(PlayerModel.class);
         mapper.map(LootChestsModel.class);
+        mapper.map(LocationModel.class);
         this.datastore.ensureIndexes();
     }
 

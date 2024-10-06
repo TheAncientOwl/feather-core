@@ -6,7 +6,7 @@
  *
  * @file PlayerJoinDataListener.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Setup new players data; Update on-login data
  */
 
@@ -23,6 +23,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
 import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
+import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.LocationModel;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
 
@@ -47,6 +48,8 @@ public class PlayerJoinDataListener implements IFeatherListener {
             this.dataManager.handleNewPlayer(player);
         } else {
             playerModel.lastLogin = new Date();
+            playerModel.lastKnownLocation = new LocationModel(player.getLocation());
+            playerModel.compatibilityUpdate(player);
         }
 
         this.dataManager.markPlayerModelForSave(playerUUID);

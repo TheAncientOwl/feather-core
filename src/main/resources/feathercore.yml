@@ -36,6 +36,7 @@ modules:
     commands: []
     listeners:
       - mc.owls.valley.net.feathercore.modules.data.players.listeners.PlayerJoinDataListener
+      - mc.owls.valley.net.feathercore.modules.data.players.listeners.PlayerQuitDataListener
 
   TranslationManager:
     class: mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager
@@ -104,7 +105,7 @@ modules:
       # teleport-deny: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportDenyCommand
       # teleport-here: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportHereCommand
       # teleport-here-request: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportHereRequestCommand
-      # teleport-offline: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportOfflineCommand
+      teleport-last-location: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportLastLocationCommand
       teleport-position: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportPositionCommand
       # teleport-request: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportRequestCommand
       # teleport-request-cancel: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportRequestCancelCommand

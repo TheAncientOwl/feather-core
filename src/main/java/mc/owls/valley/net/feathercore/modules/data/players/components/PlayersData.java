@@ -6,14 +6,13 @@
  *
  * @file PlayersData.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @description Module responsible for managing plugin players data
  */
 
 package mc.owls.valley.net.feathercore.modules.data.players.components;
 
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -81,23 +80,14 @@ public class PlayersData extends FeatherModule implements IPlayersData {
 
     @Override
     public void handleNewPlayer(final Player player) {
-        final PlayerModel playerModel = new PlayerModel();
-
-        playerModel.uuid = player.getUniqueId();
-        playerModel.name = player.getName();
-        playerModel.nickname = "";
-        playerModel.registrationDate = new Date();
-        playerModel.lastLogin = new Date();
-        playerModel.balance = this.config.getDouble("starting-balance");
-        playerModel.acceptsPayments = true;
-        playerModel.language = this.config.getString("default-language");
+        final PlayerModel playerModel = new PlayerModel(player, this.config.getDouble("starting-balance"),
+                this.config.getString("default-language"));
 
         this.playersDataCache.put(playerModel.uuid, playerModel);
         this.playersDAO.save(playerModel);
     }
 
     @Override
-    @Deprecated
     public PlayerModel getPlayerModel(final String playerName) {
         PlayerModel playerModel = null;
 
