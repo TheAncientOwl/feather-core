@@ -1,0 +1,30 @@
+/**
+ * ------------------------------------------------------------------------- *
+ *                     Copyright (c) by FeatherCore 2024                     *
+ * ------------------------------------------------------------------------- *
+ * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
+ *
+ * @file Message.java
+ * @author Alexandru Delegeanu
+ * @version 0.1
+ * @description Module specific language messages
+ *
+ */
+
+package mc.owls.valley.net.feathercore.modules.teleport.common;
+
+public class Message {
+    public static final String NO_PERMISSION = "general.no-permission";
+
+    public static final String USAGE_INVALID = "general.command.invalid";
+    public static final String USAGE_POSITION = "teleport.usage.position";
+
+    public static final String NAN = "general.not-valid-number";
+    public static final String PLAYERS_ONLY = "general.command.players-only";
+    public static final String NOT_VALID_PLAYER = "general.not-player";
+    public static final String NOT_VALID_WORLD = "general.not-valid-world";
+    public static final String NOT_VALID_VALUE = "general.invalid-value";
+
+    public static final String TELEPORT_POSITION = "teleport.success.position";
+    public static final String TELEPORT_POSITION_OTHER = "teleport.success.position-other";
+}
