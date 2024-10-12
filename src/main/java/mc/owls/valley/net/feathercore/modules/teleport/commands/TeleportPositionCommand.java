@@ -6,7 +6,7 @@
  *
  * @file TeleportPositionCommand.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Teleport to specified position in the world
  */
 
@@ -89,7 +89,7 @@ public class TeleportPositionCommand extends FeatherCommand<TeleportPositionComm
                     y = parsedArgs.getDouble(1);
                     z = parsedArgs.getDouble(2);
                 } else {
-                    this.lang.message(sender, Message.NAN, Pair.of(Placeholder.STRING, args[parsedArgs.index()]));
+                    this.lang.message(sender, Message.NAN, Pair.of(Placeholder.STRING, args[parsedArgs.failIndex()]));
                     return null;
                 }
                 break;
@@ -117,8 +117,8 @@ public class TeleportPositionCommand extends FeatherCommand<TeleportPositionComm
                             return null;
                         }
                     }
-                } else if (parsedArgs.index() >= 0 && parsedArgs.index() <= 2) {
-                    this.lang.message(sender, Message.NAN, Pair.of(Placeholder.STRING, args[parsedArgs.index()]));
+                } else if (parsedArgs.failIndex() >= 0 && parsedArgs.failIndex() <= 2) {
+                    this.lang.message(sender, Message.NAN, Pair.of(Placeholder.STRING, args[parsedArgs.failIndex()]));
                     return null;
                 }
                 break;
@@ -135,20 +135,20 @@ public class TeleportPositionCommand extends FeatherCommand<TeleportPositionComm
                     world = parsedArgs.getWorld(3);
                     player = parsedArgs.getPlayer(4);
                 } else
-                    switch (parsedArgs.index()) {
+                    switch (parsedArgs.failIndex()) {
                         case 0:
                         case 1:
                         case 2:
                             this.lang.message(sender, Message.NAN,
-                                    Pair.of(Placeholder.STRING, args[parsedArgs.index()]));
+                                    Pair.of(Placeholder.STRING, args[parsedArgs.failIndex()]));
                             return null;
                         case 3:
                             this.lang.message(sender, Message.NOT_VALID_WORLD,
-                                    Pair.of(Placeholder.STRING, args[parsedArgs.index()]));
+                                    Pair.of(Placeholder.STRING, args[parsedArgs.failIndex()]));
                             return null;
                         case 4:
                             this.lang.message(sender, Message.NOT_VALID_PLAYER,
-                                    Pair.of(Placeholder.STRING, args[parsedArgs.index()]));
+                                    Pair.of(Placeholder.STRING, args[parsedArgs.failIndex()]));
                             return null;
                     }
                 break;

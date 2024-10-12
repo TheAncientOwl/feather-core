@@ -6,7 +6,7 @@
  *
  * @file Args.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Utility for parsing objects from command string args
  */
 
@@ -19,11 +19,11 @@ import org.bukkit.World;
 import org.bukkit.entity.Player;
 
 public class Args {
-    public static final record ParseResult(Object[] args, int index) {
+    public static final record ParseResult(Object[] args, int failIndex) {
         public static final int PARSE_SUCCESS_INDEX = -1;
 
         public boolean success() {
-            return this.index == ParseResult.PARSE_SUCCESS_INDEX;
+            return this.failIndex == ParseResult.PARSE_SUCCESS_INDEX;
         }
 
         public String getString(int index) {
