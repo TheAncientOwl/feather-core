@@ -6,7 +6,7 @@
  *
  * @file Placeholder.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Placeholders used by plugin language messages
  */
 
@@ -35,4 +35,5 @@ public class Placeholder {
     public static final String Y = "{y}";
     public static final String Z = "{z}";
     public static final String WORLD = "{world}";
+    public static final String TARGET = "{target}";
 }
