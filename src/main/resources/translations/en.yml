@@ -106,8 +106,10 @@ teleport:
     position: '&8[&6Usage&8] &e/teleport [x] [y] [z] (world) (player)'
     offline: '&8[&6Usage&8] &e/teleport-offline [destination(player)] [who(player)]'
     player: '&8[&6Usage&8] &e/teleport [player1] (player2)'
+    tphere: '&8[&6Usage&8] &e/teleport-here [player]'
   success:
     position: '&8[&5Teleport&8] &7You have been teleported to &d{world} &7x:&d{x} &7y:&d{y} &7z:&d{z}&8.'
     position-other: '&8[&5Teleport&8] &7You teleported &d{player} &7to &d{world} &7x:&d{x} &7y:&d{y} &7z:&d{z}&8.'
     player: '&8[&5Teleport&8] &7You teleported &d{player1} &7to &d{player2}&8.'
     player-self: '&8[&5Teleport&8] &7You teleported to &d{player}&8.'
+    tphere: '&8[&5Teleport&8] &d{player} &7was teleported to you&8.'

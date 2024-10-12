@@ -6,7 +6,7 @@
  *
  * @file Message.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Module specific language messages
  *
  */
@@ -20,6 +20,7 @@ public class Message {
     public static final String USAGE_POSITION = "teleport.usage.position";
     public static final String USAGE_OFFLINE = "teleport.usage.offline";
     public static final String USAGE_PLAYER = "teleport.usage.player";
+    public static final String USAGE_TPHERE = "teleport.usage.tphere";
 
     public static final String NAN = "general.not-valid-number";
     public static final String PLAYERS_ONLY = "general.command.players-only";
@@ -33,4 +34,5 @@ public class Message {
     public static final String TELEPORT_POSITION_OTHER = "teleport.success.position-other";
     public static final String TELEPORT_PLAYER = "teleport.success.player";
     public static final String TELEPORT_PLAYER_SELF = "teleport.success.player-self";
+    public static final String TELEPORT_HERE = "teleport.success.tphere";
 }

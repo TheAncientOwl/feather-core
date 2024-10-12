@@ -103,7 +103,7 @@ modules:
       # teleport-all: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportAllCommand
       teleport: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportCommand
       # teleport-deny: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportDenyCommand
-      # teleport-here: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportHereCommand
+      teleport-here: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportHereCommand
       # teleport-here-request: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportHereRequestCommand
       teleport-last-location: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportLastLocationCommand
       teleport-position: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportPositionCommand
