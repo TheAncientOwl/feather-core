@@ -6,7 +6,7 @@
  *
  * @file RandomTeleportCommand.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Teleport the player at a random location in the world
  */
 
@@ -70,7 +70,7 @@ public class RandomTeleportCommand extends FeatherCommand<RandomTeleportCommand.
 
         if (sender instanceof Player && !sender.hasPermission("feathercore.teleport.random.bypass-cooldown")) {
             final var rtpTime = this.playersToRtpTime.get(((Player) sender).getUniqueId());
-            final var cooldown = this.teleport.getConfig().getMillis("cooldown");
+            final var cooldown = this.teleport.getConfig().getMillis("random.cooldown");
 
             if (rtpTime != null && rtpTime + cooldown > now) {
                 this.lang.message(sender, Message.TELEPORT_RTP_COOLDOWN,
