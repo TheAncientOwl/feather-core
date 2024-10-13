@@ -98,7 +98,7 @@ modules:
     mandatory: false
     config: modules/teleport.yml
     commands:
-      # random-teleport: mc.owls.valley.net.feathercore.modules.teleport.commands.RandomTeleportCommand
+      random-teleport: mc.owls.valley.net.feathercore.modules.teleport.commands.RandomTeleportCommand
       # teleport-accept: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportAcceptCommand
       teleport-all: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportAllCommand
       teleport: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportCommand

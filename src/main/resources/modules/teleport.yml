@@ -1,1 +1,27 @@
 cancel-on-pvp: true
+
+cooldown: 10s
+
+random:
+  world:
+    trials: 25
+    min-distance: 2500
+    max-distance: 10000
+    altitude:
+      min: -320
+      max: 320
+  world_nether:
+    trials: 25
+    min-distance: 2500
+    max-distance: 10000
+    altitude:
+      min: 0
+      max: 120
+  world_the_end:
+    trials: 25
+    min-distance: 2500
+    max-distance: 10000
+    border-radius: 10000
+    altitude:
+      min: 0
+      max: 320

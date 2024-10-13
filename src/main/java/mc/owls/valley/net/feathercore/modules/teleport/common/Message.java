@@ -6,7 +6,7 @@
  *
  * @file Message.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @description Module specific language messages
  *
  */
@@ -22,6 +22,7 @@ public class Message {
     public static final String USAGE_PLAYER = "teleport.usage.player";
     public static final String USAGE_TPHERE = "teleport.usage.tphere";
     public static final String USAGE_TPALL = "teleport.usage.tpall";
+    public static final String USAGE_RTP = "teleport.usage.rtp";
 
     public static final String NAN = "general.not-valid-number";
     public static final String PLAYERS_ONLY = "general.command.players-only";
@@ -38,4 +39,9 @@ public class Message {
     public static final String TELEPORT_HERE = "teleport.success.tphere";
     public static final String TELEPORT_ALL_SELF = "teleport.success.tpall.self";
     public static final String TELEPORT_ALL_OTHER = "teleport.success.tpall.other";
+    public static final String TELEPORT_RTP_SELF = "teleport.success.rtp.self";
+    public static final String TELEPORT_RTP_OTHER = "teleport.success.rtp.other";
+    public static final String TELEPORT_RTP_FAIL = "teleport.success.rtp.fail";
+    public static final String TELEPORT_RTP_COOLDOWN = "teleport.success.rtp.cooldown";
+    public static final String TELEPORT_RTP_TRY = "teleport.success.rtp.try";
 }

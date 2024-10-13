@@ -6,7 +6,7 @@
  *
  * @file Teleport.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Module responsible for managing teleports
  */
 
@@ -39,6 +39,10 @@ public class Teleport extends FeatherModule {
 
     public void teleport(final Player who, final Player to) {
         who.teleport(to);
+    }
+
+    public void teleport(final Player who, final Location where) {
+        who.teleport(where);
     }
 
     public void teleport(final Player who, final double x, final double y, final double z, final World world) {

@@ -108,6 +108,7 @@ teleport:
     player: '&8[&6Usage&8] &e/teleport [player1] (player2)'
     tphere: '&8[&6Usage&8] &e/teleport-here [player]'
     tpall: '&8[&6Usage&8] &e/teleport-all (player)'
+    rtp: '&8[&6Usage&8] &e/random-teleport (player) (world)'
   success:
     position: '&8[&5Teleport&8] &7You have been teleported to &d{world} &7x:&d{x} &7y:&d{y} &7z:&d{z}&8.'
     position-other: '&8[&5Teleport&8] &7You teleported &d{player} &7to &d{world} &7x:&d{x} &7y:&d{y} &7z:&d{z}&8.'
@@ -117,3 +118,9 @@ teleport:
     tpall:
       self: '&8[&5Teleport&8] &dEverybody &7was teleported to &dyou&8.'
       other: '&8[&5Teleport&8] &dEverybody &7was teleported to &d{target}&8.'
+    rtp:
+      self: '&8[&5Teleport&8] &7Random teleported to &d{world} &7x:&d{x} &7y:&d{y} &7z:&d{z}'
+      other: '&8[&5Teleport&8] &7Random teleported &d{player} to &d{world} &7x:&d{x} &7y:&d{y} &7z:&d{z}'
+      cooldown: '&8[&5Teleport&8] &7You have to wait &d{cooldown} &7before doing that again&8.'
+      try: '&8[&5Teleport&8] &7Trying to find a safe place&8...'
+      fail: '&8[&5Teleport&8] &7Could not find any safe place&8.'
