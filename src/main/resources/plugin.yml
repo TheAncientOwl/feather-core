@@ -47,10 +47,6 @@ commands:
     description: Teleport the player at a random location in the world
     usage: /random-teleport <world>
     aliases: [rtp]
-  teleport-accept:
-    description: Accept a teleport request
-    usage: /teleport-accept <player>
-    aliases: [tpaccept]
   teleport-all:
     description: Teleport all players to the command sender
     usage: /teleport-all <player>
@@ -59,31 +55,35 @@ commands:
     description: Teleport to a player, or teleport player1 to player2
     usage: /teleport <player1> <player2>
     aliases: [tp]
-  teleport-deny:
-    description: Deny a teleport request
-    usage: /teleport-deny <player>
-    aliases: [tpdeny]
   teleport-here:
     description: Teleport the target player to command sender player
     usage: /teleport-here <player>
     aliases: [tphere]
-  teleport-here-request:
-    description: Request teleport the target player to command sender player
-    usage: /teleport-here-request <player>
-    aliases: [tprhere]
-  teleport-last-location:
-    description: Teleport to the last known location of the player
-    usage: /teleport-last-location [destination-player] (who-player)
-    aliases: [tplastknown]
   teleport-position:
     description: Teleport to specified position in the world
     usage: /teleport-position [x] [y] [z] <world>
     aliases: [tppos]
+  teleport-last-location:
+    description: Teleport to the last known location of the player
+    usage: /teleport-last-location [destination-player] (who-player)
+    aliases: [tplastknown]
   teleport-request:
     description: Request teleport to a player
     usage: /teleport-request <player>
-    aliases: [tpr]
+    aliases: [tpa]
+  teleport-here-request:
+    description: Request teleport the target player to command sender player
+    usage: /teleport-here-request <player>
+    aliases: [tpahere]
   teleport-request-cancel:
     description: Cancel a sent teleport request
     usage: /teleport-request-cancel <player>
-    aliases: [tprcancel]
+    aliases: [tpacancel]
+  teleport-accept:
+    description: Accept a teleport request
+    usage: /teleport-accept <player>
+    aliases: [tpaccept]
+  teleport-deny:
+    description: Deny a teleport request
+    usage: /teleport-deny <player>
+    aliases: [tpdeny]
