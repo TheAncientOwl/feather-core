@@ -6,7 +6,7 @@
  *
  * @file TeleportAllCommand.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Teleport all players to the command sender
  */
 
@@ -33,12 +33,10 @@ public class TeleportAllCommand extends FeatherCommand<TeleportAllCommand.Comman
     public static record CommandData(Player where) {
     }
 
-    private Teleport teleport = null;
     private LanguageManager lang = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
-        this.teleport = core.getTeleport();
         this.lang = core.getLanguageManager();
     }
 
@@ -54,7 +52,7 @@ public class TeleportAllCommand extends FeatherCommand<TeleportAllCommand.Comman
     @Override
     protected void execute(final CommandSender sender, final CommandData data) {
         for (final var player : Bukkit.getOnlinePlayers()) {
-            this.teleport.teleport(player, data.where);
+            Teleport.teleport(player, data.where);
         }
 
         if (sender instanceof Player && data.where.equals((Player) sender)) {

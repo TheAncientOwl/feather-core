@@ -6,7 +6,7 @@
  *
  * @file TeleportCommand.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Teleport to a player, or teleport player1 to player2
  */
 
@@ -32,12 +32,10 @@ public class TeleportCommand extends FeatherCommand<TeleportCommand.CommandData>
     public static record CommandData(Player who, Player destination) {
     }
 
-    private Teleport teleport = null;
     private LanguageManager lang = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
-        this.teleport = core.getTeleport();
         this.lang = core.getLanguageManager();
     }
 
@@ -57,7 +55,7 @@ public class TeleportCommand extends FeatherCommand<TeleportCommand.CommandData>
     protected void execute(final CommandSender sender, final CommandData data) {
         final boolean selfTeleport = (sender instanceof Player && data.who.equals((Player) sender));
 
-        this.teleport.teleport(data.who, data.destination);
+        Teleport.teleport(data.who, data.destination);
 
         if (selfTeleport) {
             this.lang.message(sender, Message.TELEPORT_PLAYER_SELF,

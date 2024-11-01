@@ -6,7 +6,7 @@
  *
  * @file TeleportLastPositionCommand.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Teleport to the last known location of the player
  */
 
@@ -35,13 +35,11 @@ public class TeleportLastLocationCommand extends FeatherCommand<TeleportLastLoca
     public static record CommandData(Player who, LocationModel destination) {
     }
 
-    private Teleport teleport = null;
     private PlayersData playersData = null;
     private LanguageManager lang = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
-        this.teleport = core.getTeleport();
         this.playersData = core.getPlayersData();
         this.lang = core.getLanguageManager();
     }
@@ -69,7 +67,7 @@ public class TeleportLastLocationCommand extends FeatherCommand<TeleportLastLoca
             return;
         }
 
-        this.teleport.teleport(data.who, data.destination.x, data.destination.y, data.destination.z, world);
+        Teleport.teleport(data.who, data.destination.x, data.destination.y, data.destination.z, world);
 
         this.lang.message(data.who, Message.TELEPORT_POSITION,
                 Pair.of(Placeholder.X, (int) data.destination.x),
