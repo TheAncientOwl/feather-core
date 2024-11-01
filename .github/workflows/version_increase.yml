@@ -28,4 +28,4 @@ jobs:
       - name: Call increase_version script
         run: |
           chmod +x scripts/increase_version.sh
-          ./scripts/increase_version.sh "${{ github.ref_name }}"
+          ./scripts/increase_version.sh
