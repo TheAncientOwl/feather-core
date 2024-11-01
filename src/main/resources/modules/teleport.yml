@@ -1,5 +1,10 @@
 cancel-on-pvp: true
 
+request:
+  duration: 1m
+  accept-delay: 3s
+  check-interval: 5s
+
 random:
   cooldown: 10s
   world:

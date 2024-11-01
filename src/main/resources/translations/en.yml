@@ -109,18 +109,43 @@ teleport:
     tphere: '&8[&6Usage&8] &e/teleport-here [player]'
     tpall: '&8[&6Usage&8] &e/teleport-all (player)'
     rtp: '&8[&6Usage&8] &e/random-teleport (player) (world)'
-  success:
-    position: '&8[&5Teleport&8] &7You have been teleported to &d{world} &7x:&d{x} &7y:&d{y} &7z:&d{z}&8.'
-    position-other: '&8[&5Teleport&8] &7You teleported &d{player} &7to &d{world} &7x:&d{x} &7y:&d{y} &7z:&d{z}&8.'
-    player: '&8[&5Teleport&8] &7You teleported &d{player1} &7to &d{player2}&8.'
-    player-self: '&8[&5Teleport&8] &7You teleported to &d{player}&8.'
-    tphere: '&8[&5Teleport&8] &d{player} &7was teleported to you&8.'
-    tpall:
-      self: '&8[&5Teleport&8] &dEverybody &7was teleported to &dyou&8.'
-      other: '&8[&5Teleport&8] &dEverybody &7was teleported to &d{target}&8.'
-    rtp:
-      self: '&8[&5Teleport&8] &7Random teleported to &d{world} &7x:&d{x} &7y:&d{y} &7z:&d{z}'
-      other: '&8[&5Teleport&8] &7Random teleported &d{player} to &d{world} &7x:&d{x} &7y:&d{y} &7z:&d{z}'
-      cooldown: '&8[&5Teleport&8] &7You have to wait &d{cooldown} &7before doing that again&8.'
-      try: '&8[&5Teleport&8] &7Trying to find a safe place&8...'
-      fail: '&8[&5Teleport&8] &7Could not find any safe place&8.'
+    request:
+      accept: '&8[&6Usage&8] &e/tpaccept [player]'
+      deny: '&8[&6Usage&8] &e/tpadeny [player]'
+      here: '&8[&6Usage&8] &e/tpahere [player]'
+      to: '&8[&6Usage&8] &e/tpa [player]'
+      cancel: '&8[&6Usage&8] &e/tpacancel [player]'
+  position: '&8[&5Teleport&8] &7You have been teleported to &d{world} &7x:&d{x} &7y:&d{y} &7z:&d{z}&8.'
+  position-other: '&8[&5Teleport&8] &7You teleported &d{player} &7to &d{world} &7x:&d{x} &7y:&d{y} &7z:&d{z}&8.'
+  player: '&8[&5Teleport&8] &7You teleported &d{player1} &7to &d{player2}&8.'
+  player-self: '&8[&5Teleport&8] &7You teleported to &d{player}&8.'
+  tphere: '&8[&5Teleport&8] &d{player} &7was teleported to you&8.'
+  tpall:
+    self: '&8[&5Teleport&8] &dEverybody &7was teleported to &dyou&8.'
+    other: '&8[&5Teleport&8] &dEverybody &7was teleported to &d{target}&8.'
+  rtp:
+    self: '&8[&5Teleport&8] &7Random teleported to &d{world} &7x:&d{x} &7y:&d{y} &7z:&d{z}'
+    other: '&8[&5Teleport&8] &7Random teleported &d{player} to &d{world} &7x:&d{x} &7y:&d{y} &7z:&d{z}'
+    cooldown: '&8[&5Teleport&8] &7You have to wait &d{cooldown} &7before doing that again&8.'
+    try: '&8[&5Teleport&8] &7Trying to find a safe place&8...'
+    fail: '&8[&5Teleport&8] &7Could not find any safe place&8.'
+  request:
+    moved-while-waiting: '&8[&5Teleport&8] &7You moved&8... &cTeleport request was cancelled&8.'
+    no-such-request: '&8[&5Teleport&8] &cNo such teleport request&8.'
+    cancel: '&8[&5Teleport&8] &7You cancelled teleport request to &d{player}&8.'
+    execute:
+      to:
+        pending: '&8[&5Teleport&8] &7You already requested to teleport to &d{player}&8.'
+        issuer: '&8[&5Teleport&8] &7You requested to teleport to &d{player}&8.'
+        target: '&8[&5Teleport&8] &d{player} &7has requested to teleport to your location&8.'
+      here:
+        pending: '&8[&5Teleport&8] &7You have already requested to teleport &d{player} &7to your location&8.'
+        issuer: '&8[&5Teleport&8] &7You have requested to teleport &d{player} &7to your location&8.'
+        target: '&8[&5Teleport&8] &d{player} &7has requested to teleport you to their location&8.'
+    delay: '&8[&5Teleport&8] &7You will be teleported in &d{cooldown}&8. &7Do not move&8...'
+    accept:
+      issuer: '&8[&5Teleport&8] &d{player} &aaccepted &7your teleport request.'
+      target: "&8[&5Teleport&8] &7You &aaccepted &d{player}&7's teleport request"
+    decline:
+      issuer: '&8[&5Teleport&8] &d{player} &cdeclined &7your teleport request.'
+      target: "&8[&5Teleport&8] &7You &cdeclined &d{player}&7's teleport request"

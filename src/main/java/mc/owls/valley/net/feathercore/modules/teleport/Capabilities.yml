@@ -1,0 +1,12 @@
+brief: |
+	A player can issue teleport commands towards multiple player targets.
+	Teleport commands can be to either:
+	- teleport issue to target
+	- teleport target to issuer
+	A player can:
+	- /tpaccept to accept last request
+	- /tpaccept <player> to accept specific teleport request
+	- /tpdeny to deny last request
+	- /tpdeny <player> to deny specific request
+	Once a teleport is accepted, it will teleport target player to destination location at the moment of request accept time.
+	In order to solve teleports, a task running each <CONFIG_VALUE> ticks will check them

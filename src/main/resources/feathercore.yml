@@ -99,16 +99,15 @@ modules:
     config: modules/teleport.yml
     commands:
       random-teleport: mc.owls.valley.net.feathercore.modules.teleport.commands.RandomTeleportCommand
-      # teleport-accept: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportAcceptCommand
+      teleport-accept: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportAcceptCommand
       teleport-all: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportAllCommand
       teleport: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportCommand
-      # teleport-deny: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportDenyCommand
+      teleport-deny: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportDenyCommand
       teleport-here: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportHereCommand
-      # teleport-here-request: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportHereRequestCommand
+      teleport-here-request: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportHereRequestCommand
       teleport-last-location: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportLastLocationCommand
       teleport-position: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportPositionCommand
-      # teleport-request: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportRequestCommand
-      # teleport-request-cancel: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportRequestCancelCommand
+      teleport-request: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportRequestCommand
+      teleport-request-cancel: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportRequestCancelCommand
     listeners:
-      []
-      # - mc.owls.valley.net.feathercore.modules.teleport.listeners.PvPCancelTpListener
+      - mc.owls.valley.net.feathercore.modules.teleport.listeners.MoveCancelTpListener
