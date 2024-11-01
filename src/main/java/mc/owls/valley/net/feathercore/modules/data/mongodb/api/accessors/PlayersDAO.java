@@ -6,7 +6,7 @@
  *
  * @file PlayersDAO.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description MongoDB players-data accessor
  */
 
@@ -21,7 +21,6 @@ public class PlayersDAO extends AbstractDAO<PlayerModel> {
         super(datastore);
     }
 
-    @Deprecated
     public PlayerModel getModelByName(final String playerName) {
         PlayerModel playerModel = null;
         try {

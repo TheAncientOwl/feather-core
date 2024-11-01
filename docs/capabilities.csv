@@ -90,10 +90,8 @@ Index ,Module     ,Category  ,Feature           ,Permissions                    
    89 ,Warp       ,Admin     ,/setwarp          ,feathercore.warp.admin.setwarp                ,creates a new warp
    90 ,Warp       ,General   ,/warp             ,feathercore.warp.general.warp                 ,list all warps or warp to specified location
    91 ,Teleport   ,Admin     ,/tp               ,feathercore.teleport.admin.tp                 ,teleports to a player
-   92 ,Teleport   ,Admin     ,/tpo              ,feathercore.teleport.admin.tpo                ,teleport override for tptoggle
    93 ,Teleport   ,Admin     ,/tphere           ,feathercore.teleport.admin.tphere             ,teleport a player to you
    94 ,Teleport   ,Admin     ,/tppos            ,feathercore.teleport.admin.tppos              ,teleport to coordinates
-   95 ,Teleport   ,Admin     ,/tpohere          ,feathercore.teleport.admin.tpohere            ,tp here override for tptoggle
    96 ,Teleport   ,Admin     ,/tpoffline        ,feathercore.teleport.admin.tpoffline          ,teleport to a player's last known logout location
    97 ,Teleport   ,Admin     ,/tpall            ,feathercore.teleport.admin.tpall              ,teleport all online players to you or another player
    98 ,Teleport   ,General   ,/tpa              ,feathercore.teleport.general.tpa              ,requrest to teleport to a specified player

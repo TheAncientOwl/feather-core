@@ -22,6 +22,7 @@ import mc.owls.valley.net.feathercore.modules.economy.components.FeatherEconomyP
 import mc.owls.valley.net.feathercore.modules.economy.interfaces.IEconomyProvider;
 import mc.owls.valley.net.feathercore.modules.loot.chests.components.LootChests;
 import mc.owls.valley.net.feathercore.modules.restricted.pvp.components.RestrictedPvP;
+import mc.owls.valley.net.feathercore.modules.teleport.components.Teleport;
 import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 
 public interface IFeatherCoreProvider extends IEconomyProvider {
@@ -40,6 +41,8 @@ public interface IFeatherCoreProvider extends IEconomyProvider {
     public LootChests getLootChests();
 
     public FeatherEconomyProvider getFeatherEconomy();
+
+    public Teleport getTeleport();
 
     public List<FeatherModule> getEnabledModules();
 }

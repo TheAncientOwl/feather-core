@@ -6,7 +6,7 @@
  *
  * @file Placeholder.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.3
  * @description Placeholders used by plugin language messages
  */
 
@@ -14,6 +14,8 @@ package mc.owls.valley.net.feathercore.api.common.minecraft;
 
 public class Placeholder {
     public static final String PLAYER = "{player}";
+    public static final String PLAYER1 = "{player1}";
+    public static final String PLAYER2 = "{player2}";
     public static final String CURRENCY = "{currency}";
     public static final String BALANCE = "{balance}";
     public static final String STRING = "{string}";
@@ -29,4 +31,9 @@ public class Placeholder {
     public static final String TYPE = "{type}";
     public static final String LOCATIONS = "{locations}";
     public static final String COOLDOWN = "{cooldown}";
+    public static final String X = "{x}";
+    public static final String Y = "{y}";
+    public static final String Z = "{z}";
+    public static final String WORLD = "{world}";
+    public static final String TARGET = "{target}";
 }
