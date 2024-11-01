@@ -6,7 +6,7 @@
  *
  * @file LootChestOpenListener.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @description Open config loot-chest on interact
  */
 
@@ -27,11 +27,11 @@ import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
 import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
 import mc.owls.valley.net.feathercore.modules.loot.chests.common.Message;
-import mc.owls.valley.net.feathercore.modules.loot.chests.interfaces.ILootChestsModule;
+import mc.owls.valley.net.feathercore.modules.loot.chests.components.LootChests;
 
 public class LootChestOpenListener implements IFeatherListener {
     private LanguageManager lang = null;
-    private ILootChestsModule lootChests = null;
+    private LootChests lootChests = null;
     private IPropertyAccessor config = null;
 
     @Override

@@ -6,7 +6,7 @@
  *
  * @file PlayerDeathListener.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Remove player in combat on death
  */
 
@@ -18,10 +18,10 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
-import mc.owls.valley.net.feathercore.modules.pvp.manager.interfaces.IPvPManager;
+import mc.owls.valley.net.feathercore.modules.pvp.manager.components.PvPManager;
 
 public class PlayerDeathListener implements IFeatherListener {
-    private IPvPManager pvpManager = null;
+    private PvPManager pvpManager = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {

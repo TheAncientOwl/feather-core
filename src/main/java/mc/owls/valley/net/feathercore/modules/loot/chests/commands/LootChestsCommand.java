@@ -6,7 +6,7 @@
  *
  * @file LootChestsCommand.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @description Module main command
  */
 
@@ -30,7 +30,7 @@ import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
 import mc.owls.valley.net.feathercore.modules.loot.chests.common.Message;
-import mc.owls.valley.net.feathercore.modules.loot.chests.interfaces.ILootChestsModule;
+import mc.owls.valley.net.feathercore.modules.loot.chests.components.LootChests;
 
 public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandData> {
     private static enum CommandType {
@@ -41,7 +41,7 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
             Chest chest) {
     }
 
-    private ILootChestsModule lootChests = null;
+    private LootChests lootChests = null;
     private LanguageManager lang = null;
     private IPropertyAccessor config = null;
 

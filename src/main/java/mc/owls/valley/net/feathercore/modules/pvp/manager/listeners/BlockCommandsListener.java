@@ -6,7 +6,7 @@
  *
  * @file BlockCommandsListener.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Allow only whitelisted commands during combat
  */
 
@@ -21,10 +21,10 @@ import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
 import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
 import mc.owls.valley.net.feathercore.modules.pvp.manager.common.Message;
-import mc.owls.valley.net.feathercore.modules.pvp.manager.interfaces.IPvPManager;
+import mc.owls.valley.net.feathercore.modules.pvp.manager.components.PvPManager;
 
 public class BlockCommandsListener implements IFeatherListener {
-    private IPvPManager pvpManager = null;
+    private PvPManager pvpManager = null;
     private LanguageManager lang = null;
 
     @Override

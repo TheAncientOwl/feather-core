@@ -6,7 +6,7 @@
  *
  * @file PvPManager.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @description Module responsible for managing pvp restrictions
  */
 
@@ -30,9 +30,8 @@ import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
 import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
 import mc.owls.valley.net.feathercore.modules.pvp.manager.common.Message;
-import mc.owls.valley.net.feathercore.modules.pvp.manager.interfaces.IPvPManager;
 
-public class PvPManager extends FeatherModule implements IPvPManager {
+public class PvPManager extends FeatherModule {
     private Map<UUID, Long> playersInCombat = null;
     private LanguageManager lang = null;
     @SuppressWarnings("unused")
@@ -59,17 +58,32 @@ public class PvPManager extends FeatherModule implements IPvPManager {
         }
     }
 
-    @Override
+    /**
+     * Check if given player is tagged in combat.
+     * 
+     * @param player
+     * @return true if the player is tagged in combat, false otherwise
+     */
     public boolean isPlayerInCombat(final Player player) {
         return this.playersInCombat.containsKey(player.getUniqueId());
     }
 
-    @Override
+    /**
+     * Check if given player is tagged in combat.
+     * 
+     * @param uuid of the player
+     * @return true if the player is tagged in combat, false otherwise
+     */
     public boolean isPlayerInCombat(final UUID uuid) {
         return this.playersInCombat.containsKey(uuid);
     }
 
-    @Override
+    /**
+     * Tags given players in combat.
+     * 
+     * @param victim   player who was damaged
+     * @param attacker player who damaged
+     */
     public void putPlayersInCombat(final Player victim, final Player attacker) {
         if (victim.getUniqueId().equals(attacker.getUniqueId())) {
             return;
@@ -80,6 +94,15 @@ public class PvPManager extends FeatherModule implements IPvPManager {
         putPlayerInCombat(victim, attacker.getName(), currentTime, Message.TAGGED);
     }
 
+    /**
+     * Put player in combat if not already, toggle fly and send message
+     * 
+     * @see PvPManager.putPlayersInCombat(victim, attacker)
+     * @param player
+     * @param otherName
+     * @param currentTime
+     * @param messageKey
+     */
     private void putPlayerInCombat(final Player player, final String otherName,
             final long currentTime, final String messageKey) {
         if (!this.playersInCombat.containsKey(player.getUniqueId())) {
@@ -93,13 +116,21 @@ public class PvPManager extends FeatherModule implements IPvPManager {
         this.playersInCombat.put(player.getUniqueId(), currentTime);
     }
 
-    @Override
+    /**
+     * Remove combat tag of a player.
+     * 
+     * @param player
+     */
     public void removePlayerInCombat(final Player player) {
         this.playersInCombat.remove(player.getUniqueId());
         this.lang.message(player, Message.COMBAT_ENDED);
     }
 
-    @Override
+    /**
+     * Remove combat tag of a player.
+     * 
+     * @param uuid of the player
+     */
     public void removePlayerInCombat(final UUID uuid) {
         this.playersInCombat.remove(uuid);
         final Player player = Bukkit.getPlayer(uuid);
@@ -108,7 +139,9 @@ public class PvPManager extends FeatherModule implements IPvPManager {
         }
     }
 
-    @Override
+    /**
+     * @return list containing all whitelisted commands during combat
+     */
     public List<String> getWhitelistedCommands() {
         return this.config.getStringList("commands.whitelist");
     }

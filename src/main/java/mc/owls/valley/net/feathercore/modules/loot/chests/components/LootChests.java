@@ -6,7 +6,7 @@
  *
  * @file LootChests.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @description Module responsible for managing loot chests
  */
 
@@ -29,9 +29,8 @@ import mc.owls.valley.net.feathercore.modules.data.mongodb.api.accessors.LootChe
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.LootChestsModel;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
-import mc.owls.valley.net.feathercore.modules.loot.chests.interfaces.ILootChestsModule;
 
-public class LootChests extends FeatherModule implements ILootChestsModule {
+public class LootChests extends FeatherModule {
     private IFeatherLogger logger = null;
     private IPlayersData playersData = null;
     private LootChestsDAO lootChestsDAO = null;
@@ -60,30 +59,57 @@ public class LootChests extends FeatherModule implements ILootChestsModule {
         this.lootChestsDAO.save(this.lootChests);
     }
 
-    @Override
+    /**
+     * Self explanatory
+     * 
+     * @param location
+     * @param type
+     */
     public void setChest(final String location, final String type) {
         this.lootChests.locationToType.put(location, type);
         saveData();
     }
 
-    @Override
+    /**
+     * Self explanatory
+     * 
+     * @param location
+     */
     public void unsetChest(final String location) {
         this.lootChests.locationToType.remove(location);
         saveData();
     }
 
-    @Override
+    /**
+     * Self explanatory
+     * 
+     * @param location
+     * @return null if there is no registered chest at given location
+     */
     public String getChestType(final String location) {
         return this.lootChests.locationToType.get(location);
     }
 
-    @Override
+    /**
+     * Self explanatory
+     * 
+     * @param player
+     * @param location
+     * @return the time when @player opened chest at @location,
+     *         null if the chest was not opened before
+     */
     public Long getOpenChestTime(final Player player, final String location) {
         final PlayerModel playerModel = this.playersData.getPlayerModel(player);
         return playerModel.chestLocationToOpenTime.get(location);
     }
 
-    @Override
+    /**
+     * Self explanatory
+     * 
+     * @param player
+     * @param location
+     * @param now      usually System.now()
+     */
     public void openChest(final Player player, final String chestType, final String location, final Long now) {
         final Inventory chest = this.config.getInventory("chests." + chestType);
         final PlayerModel playerModel = this.playersData.getPlayerModel(player);
@@ -101,7 +127,14 @@ public class LootChests extends FeatherModule implements ILootChestsModule {
         }
     }
 
-    @Override
+    /**
+     * Saves given chest to config
+     * 
+     * @param type
+     * @param displayName
+     * @param cooldown
+     * @param inventory
+     */
     public void createChest(final String type, final String displayName, final long cooldown,
             final Inventory inventory) {
         final String configPath = "chests." + type;
@@ -118,12 +151,21 @@ public class LootChests extends FeatherModule implements ILootChestsModule {
         }
     }
 
-    @Override
+    /**
+     * Removes given chest type from config
+     * 
+     * @param type
+     */
     public void deleteChest(final String type) {
         this.config.remove("chests." + type);
     }
 
-    @Override
+    /**
+     * Self explanatory
+     * 
+     * @param type
+     * @return list of chest locations of requested type
+     */
     public List<String> getChestLocations(final String type) {
         final List<String> locations = new ArrayList<>();
 
@@ -136,7 +178,12 @@ public class LootChests extends FeatherModule implements ILootChestsModule {
         return locations;
     }
 
-    @Override
+    /**
+     * Self explanatory
+     * 
+     * @param type
+     * @return true if @type exists in config, false otherwise
+     */
     public boolean isChestType(final String type) {
         return this.config.getConfigurationSection("chests").getKeys(false).contains(type);
     }

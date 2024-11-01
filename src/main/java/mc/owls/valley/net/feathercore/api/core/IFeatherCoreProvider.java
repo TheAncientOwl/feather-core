@@ -6,7 +6,7 @@
  *
  * @file IFeatherCoreProvider.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Interface that provides access to plugin modules
  */
 
@@ -19,13 +19,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.components.MongoManager;
 import mc.owls.valley.net.feathercore.modules.data.players.components.PlayersData;
 import mc.owls.valley.net.feathercore.modules.economy.components.FeatherEconomyProvider;
-import mc.owls.valley.net.feathercore.modules.economy.interfaces.IEconomyProvider;
 import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
 import mc.owls.valley.net.feathercore.modules.loot.chests.components.LootChests;
 import mc.owls.valley.net.feathercore.modules.pvp.manager.components.PvPManager;
 import mc.owls.valley.net.feathercore.modules.teleport.components.Teleport;
+import net.milkbowl.vault.economy.Economy;
 
-public interface IFeatherCoreProvider extends IEconomyProvider {
+public interface IFeatherCoreProvider {
     public JavaPlugin getPlugin();
 
     public IFeatherLogger getFeatherLogger();
@@ -45,4 +45,6 @@ public interface IFeatherCoreProvider extends IEconomyProvider {
     public Teleport getTeleport();
 
     public List<FeatherModule> getEnabledModules();
+
+    public Economy getEconomy();
 }
