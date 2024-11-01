@@ -1,7 +1,5 @@
 #! /bin/bash
 
-BRANCH_NAME=$1
-
 # Get release versions
 PLUGIN_YML=$FEATHER_CORE_ROOT/src/main/resources/plugin.yml
 
