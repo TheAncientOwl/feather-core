@@ -6,7 +6,7 @@
  *
  * @file TeleportListener.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @description Block combat teleport
  */
 
@@ -18,11 +18,11 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
+import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
 import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
-import mc.owls.valley.net.feathercore.modules.pvp.manager.common.Message;
 import mc.owls.valley.net.feathercore.modules.pvp.manager.components.PvPManager;
 
 public class TeleportListener implements IFeatherListener {
@@ -49,7 +49,7 @@ public class TeleportListener implements IFeatherListener {
         if ((event.getCause() == TeleportCause.CHORUS_FRUIT && !this.config.getBoolean("block-tp.chorus-fruit")) ||
                 (event.getCause() == TeleportCause.ENDER_PEARL && !this.config.getBoolean("block-tp.ender-pearl"))) {
             event.setCancelled(true);
-            this.lang.message(player, Message.TELEPORT);
+            this.lang.message(player, Message.PvPManager.TELEPORT);
         }
     }
 }

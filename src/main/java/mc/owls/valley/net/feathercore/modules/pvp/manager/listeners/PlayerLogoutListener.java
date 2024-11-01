@@ -6,7 +6,7 @@
  *
  * @file PlayerLogoutListener.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @description Kill player in combat on disconnect
  */
 
@@ -19,12 +19,12 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import mc.owls.valley.net.feathercore.api.common.java.Pair;
+import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
 import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
-import mc.owls.valley.net.feathercore.modules.pvp.manager.common.Message;
 import mc.owls.valley.net.feathercore.modules.pvp.manager.components.PvPManager;
 
 public class PlayerLogoutListener implements IFeatherListener {
@@ -56,7 +56,7 @@ public class PlayerLogoutListener implements IFeatherListener {
         }
 
         for (final var onlinePlayer : Bukkit.getOnlinePlayers()) {
-            this.lang.message(onlinePlayer, Message.LOGOUT, Pair.of(Placeholder.PLAYER, player.getName()));
+            this.lang.message(onlinePlayer, Message.PvPManager.LOGOUT, Pair.of(Placeholder.PLAYER, player.getName()));
         }
     }
 }

@@ -6,7 +6,7 @@
  *
  * @file TeleportCommand.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @description Teleport to a player, or teleport player1 to player2
  */
 
@@ -19,13 +19,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import mc.owls.valley.net.feathercore.api.common.java.Pair;
+import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Args;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
-import mc.owls.valley.net.feathercore.modules.teleport.common.Message;
 import mc.owls.valley.net.feathercore.modules.teleport.components.Teleport;
 
 public class TeleportCommand extends FeatherCommand<TeleportCommand.CommandData> {
@@ -45,7 +45,7 @@ public class TeleportCommand extends FeatherCommand<TeleportCommand.CommandData>
 
         if (!sender.hasPermission("feathercore.teleport.player.self")
                 || (!selfTeleport && !sender.hasPermission("feathercore.teleport.player.other"))) {
-            this.lang.message(sender, Message.NO_PERMISSION);
+            this.lang.message(sender, Message.General.NO_PERMISSION);
             return false;
         }
         return true;
@@ -58,10 +58,10 @@ public class TeleportCommand extends FeatherCommand<TeleportCommand.CommandData>
         Teleport.teleport(data.who, data.destination);
 
         if (selfTeleport) {
-            this.lang.message(sender, Message.TELEPORT_PLAYER_SELF,
+            this.lang.message(sender, Message.Teleport.PLAYER_SELF,
                     Pair.of(Placeholder.PLAYER, data.destination.getName()));
         } else {
-            this.lang.message(sender, Message.TELEPORT_PLAYER,
+            this.lang.message(sender, Message.Teleport.PLAYER,
                     Pair.of(Placeholder.PLAYER1, data.who.getName()),
                     Pair.of(Placeholder.PLAYER2, data.destination.getName()));
         }
@@ -78,14 +78,14 @@ public class TeleportCommand extends FeatherCommand<TeleportCommand.CommandData>
 
                 if (parsedArgs.success()) {
                     if (!(sender instanceof Player)) {
-                        this.lang.message(sender, Message.PLAYERS_ONLY);
+                        this.lang.message(sender, Message.General.PLAYERS_ONLY);
                         return null;
                     }
 
                     who = (Player) sender;
                     destination = parsedArgs.getPlayer(0);
                 } else {
-                    this.lang.message(sender, Message.PLAYER_NOT_ONLINE, Pair.of(Placeholder.PLAYER, args[0]));
+                    this.lang.message(sender, Message.General.NOT_ONLINE_PLAYER, Pair.of(Placeholder.PLAYER, args[0]));
                     return null;
                 }
 
@@ -99,7 +99,7 @@ public class TeleportCommand extends FeatherCommand<TeleportCommand.CommandData>
                     who = parsedArgs.getPlayer(0);
                     destination = parsedArgs.getPlayer(1);
                 } else {
-                    this.lang.message(sender, Message.PLAYER_NOT_ONLINE,
+                    this.lang.message(sender, Message.General.NOT_ONLINE_PLAYER,
                             Pair.of(Placeholder.PLAYER, args[parsedArgs.failIndex()]));
                     return null;
                 }
@@ -107,7 +107,7 @@ public class TeleportCommand extends FeatherCommand<TeleportCommand.CommandData>
                 break;
             }
             default: {
-                this.lang.message(sender, Message.USAGE_INVALID, Message.USAGE_PLAYER);
+                this.lang.message(sender, Message.General.USAGE_INVALID, Message.Teleport.USAGE_PLAYER);
                 return null;
             }
         }

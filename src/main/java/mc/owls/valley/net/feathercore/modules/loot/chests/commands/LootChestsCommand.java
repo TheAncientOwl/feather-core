@@ -6,7 +6,7 @@
  *
  * @file LootChestsCommand.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @description Module main command
  */
 
@@ -23,13 +23,13 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import mc.owls.valley.net.feathercore.api.common.java.Pair;
+import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
-import mc.owls.valley.net.feathercore.modules.loot.chests.common.Message;
 import mc.owls.valley.net.feathercore.modules.loot.chests.components.LootChests;
 
 public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandData> {
@@ -55,7 +55,7 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
     @Override
     protected boolean hasPermission(final CommandSender sender, final CommandData data) {
         if (!sender.hasPermission("feathercore.lootchests")) {
-            this.lang.message(sender, Message.NO_PERMISSION);
+            this.lang.message(sender, Message.General.NO_PERMISSION);
             return false;
         }
         return true;
@@ -87,7 +87,7 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
 
     protected CommandData parse(final CommandSender sender, final String[] args) {
         if (args.length == 0) {
-            this.lang.message(sender, Message.INVALID_USAGE, Message.USAGE);
+            this.lang.message(sender, Message.General.USAGE_INVALID, Message.LootChests.USAGE);
             return null;
         }
 
@@ -105,7 +105,7 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
                 "locations", CommandType.LOCATIONS).get(args[0].toLowerCase());
 
         if (commandType == null) {
-            this.lang.message(sender, Message.INVALID_USAGE, Message.USAGE);
+            this.lang.message(sender, Message.General.USAGE_INVALID, Message.LootChests.USAGE);
             return null;
         }
 
@@ -113,12 +113,13 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
         if (Set.of(CommandType.SET, CommandType.DELETE, CommandType.LOCATIONS)
                 .contains(commandType)) {
             if (args.length < 2) {
-                this.lang.message(sender, Message.INVALID_USAGE, Message.USAGE);
+                this.lang.message(sender, Message.General.USAGE_INVALID, Message.LootChests.USAGE);
                 return null;
             }
 
             if (!this.lootChests.isChestType(args[1])) {
-                this.lang.message(sender, Message.NOT_A_REGISTERED_CHEST, Pair.of(Placeholder.STRING, args[1]));
+                this.lang.message(sender, Message.LootChests.NOT_A_REGISTERED_CHEST,
+                        Pair.of(Placeholder.STRING, args[1]));
                 return null;
             }
 
@@ -127,7 +128,7 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
 
         // create -> chestType, displayName, cooldown
         if (commandType == CommandType.CREATE && args.length != 4) {
-            this.lang.message(sender, Message.INVALID_USAGE, Message.USAGE);
+            this.lang.message(sender, Message.General.USAGE_INVALID, Message.LootChests.USAGE);
             return null;
         } else if (commandType == CommandType.CREATE) {
             chestType = args[1];
@@ -136,7 +137,7 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
             try {
                 cooldown = Long.parseLong(args[3]);
             } catch (final Exception e) {
-                this.lang.message(sender, Message.NAN, Pair.of(Placeholder.STRING, args[3]));
+                this.lang.message(sender, Message.General.NAN, Pair.of(Placeholder.STRING, args[3]));
                 return null;
             }
         }
@@ -144,14 +145,14 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
         // set, unset, create, info -> chest
         if (Set.of(CommandType.SET, CommandType.UNSET, CommandType.CREATE, CommandType.INFO).contains(commandType)) {
             if (!(sender instanceof Player)) {
-                this.lang.message(sender, Message.PLAYERS_ONLY);
+                this.lang.message(sender, Message.General.PLAYERS_ONLY);
                 return null;
             }
 
             final Block targetedBlock = ((Player) sender).getTargetBlock((Set<Material>) null, 5);
 
             if (targetedBlock.getType() != Material.CHEST) {
-                this.lang.message(sender, Message.NOT_A_CHEST,
+                this.lang.message(sender, Message.LootChests.NOT_A_CHEST,
                         Pair.of(Placeholder.MISC, targetedBlock.getType().toString()));
                 return null;
             }
@@ -170,7 +171,7 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
         final var chestLocation = data.chest.getLocation().toString();
         this.lootChests.setChest(chestLocation, data.chestType);
 
-        this.lang.message(sender, Message.SET_SUCCESS,
+        this.lang.message(sender, Message.LootChests.SET_SUCCESS,
                 Pair.of(Placeholder.LOCATION, chestLocation),
                 Pair.of(Placeholder.TYPE, data.chestType));
     }
@@ -179,13 +180,13 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
         final var chestLocation = data.chest.getLocation().toString();
 
         if (data.chestType == null) {
-            this.lang.message(sender, Message.NOT_A_REGISTERED_CHEST);
+            this.lang.message(sender, Message.LootChests.NOT_A_REGISTERED_CHEST);
             return;
         }
 
         this.lootChests.unsetChest(chestLocation);
 
-        this.lang.message(sender, Message.UNSET_SUCCESS,
+        this.lang.message(sender, Message.LootChests.UNSET_SUCCESS,
                 Pair.of(Placeholder.LOCATION, chestLocation),
                 Pair.of(Placeholder.TYPE, data.chestType));
     }
@@ -194,20 +195,20 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
         this.lootChests.createChest(data.chestType, data.displayName, data.cooldown,
                 data.chest.getInventory());
 
-        this.lang.message(sender, Message.CREATE_SUCCESS, Pair.of(Placeholder.TYPE, data.chestType));
+        this.lang.message(sender, Message.LootChests.CREATE_SUCCESS, Pair.of(Placeholder.TYPE, data.chestType));
     }
 
     private void executeDelete(final CommandSender sender, final CommandData data) {
         this.lootChests.deleteChest(data.chestType);
 
-        this.lang.message(sender, Message.DELETE_SUCCESS, Pair.of(Placeholder.TYPE, data.chestType));
+        this.lang.message(sender, Message.LootChests.DELETE_SUCCESS, Pair.of(Placeholder.TYPE, data.chestType));
     }
 
     private void executeInfo(final CommandSender sender, final CommandData data) {
         if (data.chestType == null) {
-            this.lang.message(sender, Message.NOT_A_REGISTERED_CHEST);
+            this.lang.message(sender, Message.LootChests.NOT_A_REGISTERED_CHEST);
         } else {
-            this.lang.message(sender, Message.INFO, Pair.of(Placeholder.TYPE, data.chestType));
+            this.lang.message(sender, Message.LootChests.INFO, Pair.of(Placeholder.TYPE, data.chestType));
         }
     }
 
@@ -215,7 +216,7 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
         final var locations = this.lootChests.getChestLocations(data.chestType);
 
         if (locations.isEmpty()) {
-            this.lang.message(sender, Message.LOCATIONS,
+            this.lang.message(sender, Message.LootChests.LOCATIONS,
                     Pair.of(Placeholder.TYPE, data.chestType),
                     Pair.of(Placeholder.LOCATIONS, "none"));
             return;
@@ -226,7 +227,7 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
             sb.append(index).append(". ").append(locations.get(index)).append("\n  ");
         }
 
-        this.lang.message(sender, Message.LOCATIONS,
+        this.lang.message(sender, Message.LootChests.LOCATIONS,
                 Pair.of(Placeholder.TYPE, data.chestType),
                 Pair.of(Placeholder.LOCATIONS, sb.toString()));
     }

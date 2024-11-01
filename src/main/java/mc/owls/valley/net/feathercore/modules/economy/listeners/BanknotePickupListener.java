@@ -6,7 +6,7 @@
  *
  * @file BanknotePickListener.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Change banknote meta when picked up based on language
  */
 
@@ -21,6 +21,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import mc.owls.valley.net.feathercore.api.common.java.Pair;
+import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.common.minecraft.NamespacedKey;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
@@ -28,7 +29,6 @@ import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
 import mc.owls.valley.net.feathercore.api.exceptions.ModuleNotEnabledException;
-import mc.owls.valley.net.feathercore.modules.economy.common.Message;
 import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
@@ -65,10 +65,10 @@ public class BanknotePickupListener implements IFeatherListener {
         final var banknoteValue = valueKey.get(PersistentDataType.DOUBLE);
 
         final var sender = (Player) event.getEntity();
-        final var lore = this.lang.getTranslation(sender).getStringList(Message.BANKNOTE_LORE);
+        final var lore = this.lang.getTranslation(sender).getStringList(Message.Economy.BANKNOTE_LORE);
 
         meta.displayName(LegacyComponentSerializer.legacyAmpersand()
-                .deserialize(this.lang.getTranslation(sender).getString(Message.BANKNOTE_NAME)));
+                .deserialize(this.lang.getTranslation(sender).getString(Message.Economy.BANKNOTE_NAME)));
         meta.lore(lore.stream()
                 .map(line -> LegacyComponentSerializer.legacyAmpersand()
                         .deserialize(StringUtils.replacePlaceholders(line, Pair.of(Placeholder.AMOUNT, banknoteValue))))

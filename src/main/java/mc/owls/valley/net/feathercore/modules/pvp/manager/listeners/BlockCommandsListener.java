@@ -6,7 +6,7 @@
  *
  * @file BlockCommandsListener.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @description Allow only whitelisted commands during combat
  */
 
@@ -17,10 +17,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
+import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
 import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
-import mc.owls.valley.net.feathercore.modules.pvp.manager.common.Message;
 import mc.owls.valley.net.feathercore.modules.pvp.manager.components.PvPManager;
 
 public class BlockCommandsListener implements IFeatherListener {
@@ -50,7 +50,7 @@ public class BlockCommandsListener implements IFeatherListener {
         }
 
         event.setCancelled(true);
-        this.lang.message(player, Message.BLOCK_COMMAND);
+        this.lang.message(player, Message.PvPManager.BLOCK_COMMAND);
     }
 
 }

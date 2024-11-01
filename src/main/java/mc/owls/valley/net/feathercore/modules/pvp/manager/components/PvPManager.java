@@ -6,7 +6,7 @@
  *
  * @file PvPManager.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @description Module responsible for managing pvp restrictions
  */
 
@@ -23,13 +23,13 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
 import mc.owls.valley.net.feathercore.api.common.java.Pair;
+import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
 import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
-import mc.owls.valley.net.feathercore.modules.pvp.manager.common.Message;
 
 public class PvPManager extends FeatherModule {
     private Map<UUID, Long> playersInCombat = null;
@@ -90,8 +90,8 @@ public class PvPManager extends FeatherModule {
         }
 
         final var currentTime = System.currentTimeMillis();
-        putPlayerInCombat(attacker, victim.getName(), currentTime, Message.TAG);
-        putPlayerInCombat(victim, attacker.getName(), currentTime, Message.TAGGED);
+        putPlayerInCombat(attacker, victim.getName(), currentTime, Message.PvPManager.TAG);
+        putPlayerInCombat(victim, attacker.getName(), currentTime, Message.PvPManager.TAGGED);
     }
 
     /**
@@ -123,7 +123,7 @@ public class PvPManager extends FeatherModule {
      */
     public void removePlayerInCombat(final Player player) {
         this.playersInCombat.remove(player.getUniqueId());
-        this.lang.message(player, Message.COMBAT_ENDED);
+        this.lang.message(player, Message.PvPManager.COMBAT_ENDED);
     }
 
     /**
@@ -135,7 +135,7 @@ public class PvPManager extends FeatherModule {
         this.playersInCombat.remove(uuid);
         final Player player = Bukkit.getPlayer(uuid);
         if (player != null && player.isOnline()) {
-            this.lang.message(player, Message.COMBAT_ENDED);
+            this.lang.message(player, Message.PvPManager.COMBAT_ENDED);
         }
     }
 

@@ -6,7 +6,7 @@
  *
  * @file BanknotePickListener.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Update banknote meta when player's language changes
  */
 
@@ -17,6 +17,7 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import mc.owls.valley.net.feathercore.api.common.java.Pair;
+import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.common.minecraft.NamespacedKey;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
@@ -24,7 +25,6 @@ import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
 import mc.owls.valley.net.feathercore.api.exceptions.ModuleNotEnabledException;
-import mc.owls.valley.net.feathercore.modules.economy.common.Message;
 import mc.owls.valley.net.feathercore.modules.language.events.LanguageChangeEvent;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
@@ -46,9 +46,9 @@ public class LanguageChangeListener implements IFeatherListener {
 
         final var translation = event.getTranslation();
 
-        final var banknoteLore = translation.getStringList(Message.BANKNOTE_LORE);
+        final var banknoteLore = translation.getStringList(Message.Economy.BANKNOTE_LORE);
         final var banknoteName = LegacyComponentSerializer.legacyAmpersand()
-                .deserialize(translation.getString(Message.BANKNOTE_NAME));
+                .deserialize(translation.getString(Message.Economy.BANKNOTE_NAME));
 
         for (final var itemStack : event.getPlayer().getInventory()) {
             if (itemStack == null) {
