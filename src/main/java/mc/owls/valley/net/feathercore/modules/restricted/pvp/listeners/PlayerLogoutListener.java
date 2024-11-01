@@ -23,20 +23,20 @@ import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
+import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
 import mc.owls.valley.net.feathercore.modules.restricted.pvp.common.Message;
 import mc.owls.valley.net.feathercore.modules.restricted.pvp.interfaces.IRestrictedPvP;
-import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 
 public class PlayerLogoutListener implements IFeatherListener {
     private IRestrictedPvP pvpManager = null;
-    private TranslationManager lang = null;
+    private LanguageManager lang = null;
     private IPropertyAccessor config = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
         this.pvpManager = core.getRestrictedPvP();
         this.config = core.getRestrictedPvP().getConfig();
-        this.lang = core.getTranslationManager();
+        this.lang = core.getLanguageManager();
     }
 
     @EventHandler(priority = EventPriority.LOWEST)

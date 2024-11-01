@@ -28,13 +28,13 @@ import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
+import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
 import mc.owls.valley.net.feathercore.modules.restricted.pvp.common.Message;
 import mc.owls.valley.net.feathercore.modules.restricted.pvp.interfaces.IRestrictedPvP;
-import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 
 public class RestrictedPvP extends FeatherModule implements IRestrictedPvP {
     private Map<UUID, Long> playersInCombat = null;
-    private TranslationManager lang = null;
+    private LanguageManager lang = null;
     @SuppressWarnings("unused")
     private BukkitTask combatCheckTask = null;
 
@@ -44,7 +44,7 @@ public class RestrictedPvP extends FeatherModule implements IRestrictedPvP {
 
     @Override
     protected void onModuleEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
-        this.lang = core.getTranslationManager();
+        this.lang = core.getLanguageManager();
 
         this.playersInCombat = new HashMap<>();
 

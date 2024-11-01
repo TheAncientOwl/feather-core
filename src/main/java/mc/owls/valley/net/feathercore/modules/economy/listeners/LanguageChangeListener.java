@@ -25,7 +25,7 @@ import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
 import mc.owls.valley.net.feathercore.api.exceptions.ModuleNotEnabledException;
 import mc.owls.valley.net.feathercore.modules.economy.common.Message;
-import mc.owls.valley.net.feathercore.modules.translation.events.LanguageChangeEvent;
+import mc.owls.valley.net.feathercore.modules.language.events.LanguageChangeEvent;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 public class LanguageChangeListener implements IFeatherListener {

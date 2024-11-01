@@ -10,7 +10,7 @@
  * @description Language change event data
  */
 
-package mc.owls.valley.net.feathercore.modules.translation.events;
+package mc.owls.valley.net.feathercore.modules.language.events;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;

@@ -10,7 +10,7 @@
  * @description Manage player's messages language
  */
 
-package mc.owls.valley.net.feathercore.modules.translation.commands;
+package mc.owls.valley.net.feathercore.modules.language.commands;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +27,9 @@ import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
-import mc.owls.valley.net.feathercore.modules.translation.common.Messages;
-import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
-import mc.owls.valley.net.feathercore.modules.translation.events.LanguageChangeEvent;
+import mc.owls.valley.net.feathercore.modules.language.common.Messages;
+import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
+import mc.owls.valley.net.feathercore.modules.language.events.LanguageChangeEvent;
 
 public class LanguageCommand extends FeatherCommand<LanguageCommand.CommandData> {
     private static enum CommandType {
@@ -40,15 +40,15 @@ public class LanguageCommand extends FeatherCommand<LanguageCommand.CommandData>
     }
 
     private IPlayersData playerData = null;
-    private TranslationManager lang = null;
+    private LanguageManager lang = null;
     private IPropertyAccessor translationsConfig = null;
     private PluginManager pluginManager = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
         this.playerData = core.getPlayersData();
-        this.lang = core.getTranslationManager();
-        this.translationsConfig = core.getTranslationManager().getConfig();
+        this.lang = core.getLanguageManager();
+        this.translationsConfig = core.getLanguageManager().getConfig();
         this.pluginManager = core.getPlugin().getServer().getPluginManager();
     }
 

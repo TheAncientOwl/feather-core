@@ -26,7 +26,7 @@ import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.modules.economy.common.Message;
-import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
+import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
 import net.milkbowl.vault.economy.Economy;
 
 public class BalanceCommand extends FeatherCommand<BalanceCommand.CommandData> {
@@ -38,12 +38,12 @@ public class BalanceCommand extends FeatherCommand<BalanceCommand.CommandData> {
     }
 
     private Economy economy = null;
-    private TranslationManager lang = null;
+    private LanguageManager lang = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
         this.economy = core.getEconomy();
-        this.lang = core.getTranslationManager();
+        this.lang = core.getLanguageManager();
     }
 
     @Override

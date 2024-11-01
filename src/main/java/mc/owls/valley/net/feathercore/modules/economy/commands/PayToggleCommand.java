@@ -23,19 +23,19 @@ import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
 import mc.owls.valley.net.feathercore.modules.economy.common.Message;
-import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
+import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
 
 public class PayToggleCommand extends FeatherCommand<PayToggleCommand.CommandData> {
     public static record CommandData(PlayerModel playerModel) {
     }
 
     private IPlayersData playersData = null;
-    private TranslationManager lang = null;
+    private LanguageManager lang = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
         this.playersData = core.getPlayersData();
-        this.lang = core.getTranslationManager();
+        this.lang = core.getLanguageManager();
         this.playersData = core.getPlayersData();
     }
 

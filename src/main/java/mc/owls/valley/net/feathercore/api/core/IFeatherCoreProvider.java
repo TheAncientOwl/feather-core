@@ -20,10 +20,10 @@ import mc.owls.valley.net.feathercore.modules.data.mongodb.components.MongoManag
 import mc.owls.valley.net.feathercore.modules.data.players.components.PlayersData;
 import mc.owls.valley.net.feathercore.modules.economy.components.FeatherEconomyProvider;
 import mc.owls.valley.net.feathercore.modules.economy.interfaces.IEconomyProvider;
+import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
 import mc.owls.valley.net.feathercore.modules.loot.chests.components.LootChests;
 import mc.owls.valley.net.feathercore.modules.restricted.pvp.components.RestrictedPvP;
 import mc.owls.valley.net.feathercore.modules.teleport.components.Teleport;
-import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 
 public interface IFeatherCoreProvider extends IEconomyProvider {
     public JavaPlugin getPlugin();
@@ -36,7 +36,7 @@ public interface IFeatherCoreProvider extends IEconomyProvider {
 
     public RestrictedPvP getRestrictedPvP();
 
-    public TranslationManager getTranslationManager();
+    public LanguageManager getLanguageManager();
 
     public LootChests getLootChests();
 

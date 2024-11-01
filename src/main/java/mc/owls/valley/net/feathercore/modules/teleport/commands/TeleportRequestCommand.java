@@ -24,22 +24,22 @@ import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
+import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
 import mc.owls.valley.net.feathercore.modules.teleport.common.Message;
 import mc.owls.valley.net.feathercore.modules.teleport.components.Teleport;
 import mc.owls.valley.net.feathercore.modules.teleport.components.Teleport.RequestType;
-import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 
 public class TeleportRequestCommand extends FeatherCommand<TeleportRequestCommand.CommandData> {
     public static record CommandData(Player issuer, Player target) {
     }
 
     private Teleport teleport = null;
-    private TranslationManager lang = null;
+    private LanguageManager lang = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
         this.teleport = core.getTeleport();
-        this.lang = core.getTranslationManager();
+        this.lang = core.getLanguageManager();
     }
 
     @Override

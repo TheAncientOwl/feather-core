@@ -18,18 +18,18 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
 import mc.owls.valley.net.feathercore.api.exceptions.ModuleNotEnabledException;
+import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
 import mc.owls.valley.net.feathercore.modules.teleport.common.Message;
 import mc.owls.valley.net.feathercore.modules.teleport.components.Teleport;
-import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 
 public class MoveCancelTpListener implements IFeatherListener {
     private Teleport teleport = null;
-    private TranslationManager lang = null;
+    private LanguageManager lang = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) throws ModuleNotEnabledException {
         this.teleport = core.getTeleport();
-        this.lang = core.getTranslationManager();
+        this.lang = core.getLanguageManager();
     }
 
     @EventHandler

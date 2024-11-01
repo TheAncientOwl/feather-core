@@ -28,7 +28,7 @@ import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.modules.economy.common.Message;
-import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
+import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
 import net.milkbowl.vault.economy.Economy;
 
 public class DepositCommand extends FeatherCommand<DepositCommand.CommandData> {
@@ -37,7 +37,7 @@ public class DepositCommand extends FeatherCommand<DepositCommand.CommandData> {
 
     private Economy economy = null;
     private JavaPlugin plugin = null;
-    private TranslationManager lang = null;
+    private LanguageManager lang = null;
     private IPropertyAccessor economyConfig = null;
 
     @Override
@@ -45,7 +45,7 @@ public class DepositCommand extends FeatherCommand<DepositCommand.CommandData> {
         this.plugin = core.getPlugin();
         this.economy = core.getEconomy();
         this.economyConfig = core.getFeatherEconomy().getConfig();
-        this.lang = core.getTranslationManager();
+        this.lang = core.getLanguageManager();
     }
 
     @Override

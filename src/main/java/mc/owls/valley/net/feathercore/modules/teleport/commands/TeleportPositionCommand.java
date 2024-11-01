@@ -26,20 +26,20 @@ import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
+import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
 import mc.owls.valley.net.feathercore.modules.teleport.common.Message;
 import mc.owls.valley.net.feathercore.modules.teleport.components.Teleport;
-import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 
 public class TeleportPositionCommand extends FeatherCommand<TeleportPositionCommand.CommandData> {
     public static record CommandData(Player player, double x, double y, double z, World world) {
     }
 
     private Teleport teleport = null;
-    private TranslationManager lang = null;
+    private LanguageManager lang = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
-        this.lang = core.getTranslationManager();
+        this.lang = core.getLanguageManager();
         this.teleport = core.getTeleport();
     }
 

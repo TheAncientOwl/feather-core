@@ -29,7 +29,7 @@ import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
 import mc.owls.valley.net.feathercore.modules.economy.common.Message;
-import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
+import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
 import net.milkbowl.vault.economy.Economy;
 
 public class PayCommand extends FeatherCommand<PayCommand.CommandData> {
@@ -39,14 +39,14 @@ public class PayCommand extends FeatherCommand<PayCommand.CommandData> {
     private Economy economy = null;
     private IPlayersData playersData = null;
     private IPropertyAccessor economyConfig = null;
-    private TranslationManager lang = null;
+    private LanguageManager lang = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
         this.economy = core.getEconomy();
         this.playersData = core.getPlayersData();
         this.economyConfig = core.getFeatherEconomy().getConfig();
-        this.lang = core.getTranslationManager();
+        this.lang = core.getLanguageManager();
     }
 
     @Override

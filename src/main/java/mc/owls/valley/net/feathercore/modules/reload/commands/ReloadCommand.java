@@ -23,8 +23,8 @@ import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
+import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
 import mc.owls.valley.net.feathercore.modules.reload.common.Message;
-import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 
 public class ReloadCommand extends FeatherCommand<ReloadCommand.CommandData> {
     public static record CommandData(List<FeatherModule> modules) {
@@ -40,7 +40,7 @@ public class ReloadCommand extends FeatherCommand<ReloadCommand.CommandData> {
     @Override
     protected boolean hasPermission(final CommandSender sender, final CommandData data) {
         if (!sender.hasPermission("feathercore.reload")) {
-            this.core.getTranslationManager().message(sender, Message.PERMISSION_DENIED);
+            this.core.getLanguageManager().message(sender, Message.PERMISSION_DENIED);
             return false;
         }
         return true;
@@ -54,18 +54,18 @@ public class ReloadCommand extends FeatherCommand<ReloadCommand.CommandData> {
                 config.reloadConfig();
             }
 
-            if (module instanceof TranslationManager) {
-                ((TranslationManager) module).reloadTranslations();
+            if (module instanceof LanguageManager) {
+                ((LanguageManager) module).reloadTranslations();
             }
         }
 
-        this.core.getTranslationManager().message(sender,
+        this.core.getLanguageManager().message(sender,
                 data.modules.size() == 1 ? Message.CONFIG_RELOADED : Message.CONFIGS_RELOADED);
     }
 
     protected CommandData parse(final CommandSender sender, final String[] args) {
         if (args.length != 1) {
-            this.core.getTranslationManager().message(sender, Message.USAGE,
+            this.core.getLanguageManager().message(sender, Message.USAGE,
                     Pair.of(Placeholder.STRING, getEnabledModulesNames()));
             return null;
         }
@@ -85,7 +85,7 @@ public class ReloadCommand extends FeatherCommand<ReloadCommand.CommandData> {
         }
 
         if (modules.isEmpty()) {
-            this.core.getTranslationManager().message(sender, Message.USAGE,
+            this.core.getLanguageManager().message(sender, Message.USAGE,
                     Pair.of(Placeholder.STRING, getEnabledModulesNames()));
             return null;
         }

@@ -38,19 +38,19 @@ modules:
       - mc.owls.valley.net.feathercore.modules.data.players.listeners.PlayerJoinDataListener
       - mc.owls.valley.net.feathercore.modules.data.players.listeners.PlayerQuitDataListener
 
-  TranslationManager:
-    class: mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager
+  LanguageManager:
+    class: mc.owls.valley.net.feathercore.modules.language.components.LanguageManager
     dependencies: [PlayersData]
-    cache-field: translationManager
+    cache-field: languageManager
     mandatory: true
-    config: translations/languages.yml
+    config: language/config.yml
     commands:
-      language: mc.owls.valley.net.feathercore.modules.translation.commands.LanguageCommand
+      language: mc.owls.valley.net.feathercore.modules.language.commands.LanguageCommand
     listeners: []
 
   FeatherEconomyProvider:
     class: mc.owls.valley.net.feathercore.modules.economy.components.FeatherEconomyProvider
-    dependencies: [PlayersData, TranslationManager]
+    dependencies: [PlayersData, LanguageManager]
     cache-field: economyProvider
     mandatory: true
     config: modules/economy.yml
@@ -68,7 +68,7 @@ modules:
 
   RestrictedPvP:
     class: mc.owls.valley.net.feathercore.modules.restricted.pvp.components.RestrictedPvP
-    dependencies: [TranslationManager]
+    dependencies: [LanguageManager]
     cache-field: restrictedPvP
     mandatory: false
     commands: []
@@ -82,7 +82,7 @@ modules:
 
   LootChests:
     class: mc.owls.valley.net.feathercore.modules.loot.chests.components.LootChests
-    dependencies: [PlayersData, TranslationManager]
+    dependencies: [PlayersData, LanguageManager]
     cache-field: lootChests
     mandatory: false
     config: modules/loot-chests.yml
@@ -93,7 +93,7 @@ modules:
 
   Teleport:
     class: mc.owls.valley.net.feathercore.modules.teleport.components.Teleport
-    dependencies: [PlayersData, TranslationManager, FeatherEconomyProvider]
+    dependencies: [PlayersData, LanguageManager, FeatherEconomyProvider]
     cache-field: teleport
     mandatory: false
     config: modules/teleport.yml

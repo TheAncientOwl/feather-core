@@ -10,7 +10,7 @@
  * @description Module specific language messages
  */
 
-package mc.owls.valley.net.feathercore.modules.translation.common;
+package mc.owls.valley.net.feathercore.modules.language.common;
 
 public class Messages {
     public static String USAGE = "language.usage";

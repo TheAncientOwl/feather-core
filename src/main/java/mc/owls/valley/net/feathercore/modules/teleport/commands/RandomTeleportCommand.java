@@ -33,23 +33,23 @@ import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.common.util.TimeUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
+import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
 import mc.owls.valley.net.feathercore.modules.teleport.common.Message;
 import mc.owls.valley.net.feathercore.modules.teleport.components.Teleport;
-import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 
 public class RandomTeleportCommand extends FeatherCommand<RandomTeleportCommand.CommandData> {
     public static record CommandData(Player who) {
     }
 
     private Teleport teleport = null;
-    private TranslationManager lang = null;
+    private LanguageManager lang = null;
 
     private Map<UUID, Long> playersToRtpTime = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
         this.teleport = core.getTeleport();
-        this.lang = core.getTranslationManager();
+        this.lang = core.getLanguageManager();
 
         this.playersToRtpTime = new HashMap<>();
     }

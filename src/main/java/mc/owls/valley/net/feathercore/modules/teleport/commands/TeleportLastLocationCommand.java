@@ -27,9 +27,9 @@ import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.LocationModel;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import mc.owls.valley.net.feathercore.modules.data.players.components.PlayersData;
+import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
 import mc.owls.valley.net.feathercore.modules.teleport.common.Message;
 import mc.owls.valley.net.feathercore.modules.teleport.components.Teleport;
-import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 
 public class TeleportLastLocationCommand extends FeatherCommand<TeleportLastLocationCommand.CommandData> {
     public static record CommandData(Player who, LocationModel destination) {
@@ -37,13 +37,13 @@ public class TeleportLastLocationCommand extends FeatherCommand<TeleportLastLoca
 
     private Teleport teleport = null;
     private PlayersData playersData = null;
-    private TranslationManager lang = null;
+    private LanguageManager lang = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
         this.teleport = core.getTeleport();
         this.playersData = core.getPlayersData();
-        this.lang = core.getTranslationManager();
+        this.lang = core.getLanguageManager();
     }
 
     @Override

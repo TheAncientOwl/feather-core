@@ -28,9 +28,9 @@ import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
+import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
 import mc.owls.valley.net.feathercore.modules.loot.chests.common.Message;
 import mc.owls.valley.net.feathercore.modules.loot.chests.interfaces.ILootChestsModule;
-import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 
 public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandData> {
     private static enum CommandType {
@@ -42,13 +42,13 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
     }
 
     private ILootChestsModule lootChests = null;
-    private TranslationManager lang = null;
+    private LanguageManager lang = null;
     private IPropertyAccessor config = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
         this.lootChests = core.getLootChests();
-        this.lang = core.getTranslationManager();
+        this.lang = core.getLanguageManager();
         this.config = core.getLootChests().getConfig();
     }
 

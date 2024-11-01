@@ -21,20 +21,20 @@ import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
+import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
 import mc.owls.valley.net.feathercore.modules.restricted.pvp.common.Message;
 import mc.owls.valley.net.feathercore.modules.restricted.pvp.interfaces.IRestrictedPvP;
-import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 
 public class TeleportListener implements IFeatherListener {
     private IRestrictedPvP pvpManager = null;
     private IConfigFile config = null;
-    private TranslationManager lang = null;
+    private LanguageManager lang = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
         this.pvpManager = core.getRestrictedPvP();
         this.config = core.getRestrictedPvP().getConfig();
-        this.lang = core.getTranslationManager();
+        this.lang = core.getLanguageManager();
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
