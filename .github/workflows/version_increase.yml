@@ -22,7 +22,7 @@ jobs:
 
       - name: Set environment variables
         run: |
-          echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/})" >> $GITHUB_ENV
+          echo "BRANCH_NAME=${{ github.event.pull_request.head.ref }}" >> $GITHUB_ENV
           echo "FEATHER_CORE_ROOT=$(pwd)" >> $GITHUB_ENV
 
       - name: Call increase_version script
