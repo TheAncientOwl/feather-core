@@ -7,6 +7,8 @@ current_version=$(grep -oP '^version: \d+\.\d+\.\d+' $PLUGIN_YML | grep -oP '\d+
 
 IFS='.' read -r major minor patch <<<"$current_version"
 
+echo $BRANCH_NAME
+
 if [[ "$BRANCH_NAME" == "major"* ]]; then
     major=$((major + 1))
     minor=0
