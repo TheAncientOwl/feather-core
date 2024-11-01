@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>mc.owls.valley.net.feathercore</groupId>
   <artifactId>FeatherCore</artifactId>
-  <version>0.6.11</version>
+  <version>0.7.0</version>
   <name>FeatherCore</name>
   <packaging>jar</packaging>
   <properties>
