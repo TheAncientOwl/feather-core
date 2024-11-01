@@ -6,7 +6,7 @@
  *
  * @file TeleportHereRequestCommand.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Request teleport the target player to command sender player
  */
 
@@ -43,12 +43,16 @@ public class TeleportHereRequestCommand extends FeatherCommand<TeleportHereReque
     }
 
     @Override
-    protected void execute(final CommandSender sender, final CommandData data) {
+    protected boolean hasPermission(final CommandSender sender, final CommandData data) {
         if (!sender.hasPermission("feathercore.teleport.request.here")) {
             this.lang.message(sender, Message.NO_PERMISSION);
-            return;
+            return false;
         }
+        return true;
+    }
 
+    @Override
+    protected void execute(final CommandSender sender, final CommandData data) {
         switch (this.teleport.request(data.issuer, data.target, RequestType.HERE)) {
             case ALREADY_REQUESTED: {
                 this.lang.message(data.issuer, Message.TELEPORT_REQUEST_HERE_EXECUTE_PENDING,

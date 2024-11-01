@@ -6,7 +6,7 @@
  *
  * @file ReloadCommand.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Reload configurations command
  */
 
@@ -38,6 +38,15 @@ public class ReloadCommand extends FeatherCommand<ReloadCommand.CommandData> {
     }
 
     @Override
+    protected boolean hasPermission(final CommandSender sender, final CommandData data) {
+        if (!sender.hasPermission("feathercore.reload")) {
+            this.core.getTranslationManager().message(sender, Message.PERMISSION_DENIED);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     protected void execute(final CommandSender sender, final CommandData data) {
         for (final var module : data.modules) {
             final var config = module.getConfig();
@@ -55,11 +64,6 @@ public class ReloadCommand extends FeatherCommand<ReloadCommand.CommandData> {
     }
 
     protected CommandData parse(final CommandSender sender, final String[] args) {
-        if (!sender.hasPermission("feathercore.reload")) {
-            this.core.getTranslationManager().message(sender, Message.PERMISSION_DENIED);
-            return null;
-        }
-
         if (args.length != 1) {
             this.core.getTranslationManager().message(sender, Message.USAGE,
                     Pair.of(Placeholder.STRING, getEnabledModulesNames()));

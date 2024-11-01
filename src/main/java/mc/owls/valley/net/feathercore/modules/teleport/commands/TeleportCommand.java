@@ -6,7 +6,7 @@
  *
  * @file TeleportCommand.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Teleport to a player, or teleport player1 to player2
  */
 
@@ -42,14 +42,20 @@ public class TeleportCommand extends FeatherCommand<TeleportCommand.CommandData>
     }
 
     @Override
-    protected void execute(final CommandSender sender, final CommandData data) {
+    protected boolean hasPermission(final CommandSender sender, final CommandData data) {
         final boolean selfTeleport = (sender instanceof Player && data.who.equals((Player) sender));
 
         if (!sender.hasPermission("feathercore.teleport.player.self")
                 || (!selfTeleport && !sender.hasPermission("feathercore.teleport.player.other"))) {
             this.lang.message(sender, Message.NO_PERMISSION);
-            return;
+            return false;
         }
+        return true;
+    }
+
+    @Override
+    protected void execute(final CommandSender sender, final CommandData data) {
+        final boolean selfTeleport = (sender instanceof Player && data.who.equals((Player) sender));
 
         this.teleport.teleport(data.who, data.destination);
 

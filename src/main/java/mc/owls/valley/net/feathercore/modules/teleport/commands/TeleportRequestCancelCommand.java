@@ -6,7 +6,7 @@
  *
  * @file TeleportRequestCancelCommand.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Cancel a sent teleport request
  */
 
@@ -42,12 +42,16 @@ public class TeleportRequestCancelCommand extends FeatherCommand<TeleportRequest
     }
 
     @Override
-    protected void execute(final CommandSender sender, final CommandData data) {
+    protected boolean hasPermission(final CommandSender sender, final CommandData data) {
         if (!sender.hasPermission("feathercore.teleport.request.cancel")) {
             this.lang.message(sender, Message.NO_PERMISSION);
-            return;
+            return false;
         }
+        return true;
+    }
 
+    @Override
+    protected void execute(final CommandSender sender, final CommandData data) {
         switch (this.teleport.cancelRequest(data.issuer, data.target)) {
             case NO_SUCH_REQUEST: {
                 this.lang.message(sender, Message.TELEPORT_NO_SUCH_REQUEST);

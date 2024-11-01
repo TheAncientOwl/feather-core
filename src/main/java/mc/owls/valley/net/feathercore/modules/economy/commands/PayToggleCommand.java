@@ -6,7 +6,7 @@
  *
  * @file PayToggleCommand.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Toggle on/off receiving in-game payments
  */
 
@@ -40,6 +40,15 @@ public class PayToggleCommand extends FeatherCommand<PayToggleCommand.CommandDat
     }
 
     @Override
+    protected boolean hasPermission(final CommandSender sender, final CommandData data) {
+        if (!sender.hasPermission("feathercore.economy.general.paytoggle")) {
+            this.lang.message(sender, Message.PERMISSION_DENIED);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     protected void execute(final CommandSender sender, final CommandData data) {
         data.playerModel.acceptsPayments = !data.playerModel.acceptsPayments;
         this.playersData.markPlayerModelForSave(data.playerModel);
@@ -50,11 +59,6 @@ public class PayToggleCommand extends FeatherCommand<PayToggleCommand.CommandDat
 
     protected CommandData parse(final CommandSender sender, final String args[]) {
         // 3. check the basics
-        if (!sender.hasPermission("feathercore.economy.general.paytoggle")) {
-            this.lang.message(sender, Message.PERMISSION_DENIED);
-            return null;
-        }
-
         if (!(sender instanceof Player)) {
             this.lang.message(sender, Message.COMMAND_SENDER_NOT_PLAYER);
             return null;

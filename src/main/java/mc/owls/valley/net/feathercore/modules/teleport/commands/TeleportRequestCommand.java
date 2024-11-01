@@ -6,7 +6,7 @@
  *
  * @file TeleportRequestCommand.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Request teleport to a player
  */
 
@@ -43,12 +43,16 @@ public class TeleportRequestCommand extends FeatherCommand<TeleportRequestComman
     }
 
     @Override
-    protected void execute(final CommandSender sender, final CommandData data) {
+    protected boolean hasPermission(final CommandSender sender, final CommandData data) {
         if (!sender.hasPermission("feathercore.teleport.request.to")) {
             this.lang.message(sender, Message.NO_PERMISSION);
-            return;
+            return false;
         }
+        return true;
+    }
 
+    @Override
+    protected void execute(final CommandSender sender, final CommandData data) {
         switch (this.teleport.request(data.issuer, data.target, RequestType.TO)) {
             case ALREADY_REQUESTED: {
                 this.lang.message(data.issuer, Message.TELEPORT_REQUEST_TO_EXECUTE_PENDING,

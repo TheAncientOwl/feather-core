@@ -6,7 +6,7 @@
  *
  * @file RandomTeleportCommand.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Teleport the player at a random location in the world
  */
 
@@ -55,18 +55,23 @@ public class RandomTeleportCommand extends FeatherCommand<RandomTeleportCommand.
     }
 
     @Override
-    protected void execute(final CommandSender sender, final CommandData data) {
-        final var now = System.currentTimeMillis();
-
+    protected boolean hasPermission(final CommandSender sender, final CommandData data) {
         final boolean selfTeleport = (sender instanceof Player && data.who.equals((Player) sender));
-
         final var world = data.who.getWorld();
 
         if (!sender.hasPermission("feathercore.teleport.random.self." + world.getName()) ||
                 (!selfTeleport && !sender.hasPermission("feathercore.teleport.random.other." + world.getName()))) {
             this.lang.message(sender, Message.NO_PERMISSION);
-            return;
+            return false;
         }
+        return true;
+    }
+
+    @Override
+    protected void execute(final CommandSender sender, final CommandData data) {
+        final var now = System.currentTimeMillis();
+
+        final boolean selfTeleport = (sender instanceof Player && data.who.equals((Player) sender));
 
         if (sender instanceof Player && !sender.hasPermission("feathercore.teleport.random.bypass-cooldown")) {
             final var rtpTime = this.playersToRtpTime.get(((Player) sender).getUniqueId());

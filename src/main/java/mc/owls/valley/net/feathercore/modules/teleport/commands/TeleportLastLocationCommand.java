@@ -6,7 +6,7 @@
  *
  * @file TeleportLastPositionCommand.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Teleport to the last known location of the player
  */
 
@@ -47,14 +47,20 @@ public class TeleportLastLocationCommand extends FeatherCommand<TeleportLastLoca
     }
 
     @Override
-    protected void execute(final CommandSender sender, final CommandData data) {
+    protected boolean hasPermission(final CommandSender sender, final CommandData data) {
         final boolean selfTeleport = (sender instanceof Player && data.who.equals((Player) sender));
 
         if (!sender.hasPermission("feathercore.teleport.lastknown") ||
                 (!selfTeleport && !sender.hasPermission("feathercore.teleport.lastknown.other"))) {
             this.lang.message(sender, Message.NO_PERMISSION);
-            return;
+            return false;
         }
+        return true;
+    }
+
+    @Override
+    protected void execute(final CommandSender sender, final CommandData data) {
+        final boolean selfTeleport = (sender instanceof Player && data.who.equals((Player) sender));
 
         final var world = Bukkit.getWorld(data.destination.world);
         if (world == null) {

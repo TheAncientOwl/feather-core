@@ -6,7 +6,7 @@
  *
  * @file EcoCommand.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Manage server economy
  */
 
@@ -49,6 +49,15 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
     }
 
     @Override
+    protected boolean hasPermission(final CommandSender sender, final CommandData data) {
+        if (!sender.hasPermission("feathercore.economy.setup.eco")) {
+            this.lang.message(sender, Message.PERMISSION_DENIED);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     protected void execute(final CommandSender sender, final CommandData data) {
         switch (data.commandType) {
             case GIVE:
@@ -71,11 +80,6 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
 
     protected CommandData parse(final CommandSender sender, final String[] args) {
         // 1. check the basics
-        if (!sender.hasPermission("feathercore.economy.setup.eco")) {
-            this.lang.message(sender, Message.PERMISSION_DENIED);
-            return null;
-        }
-
         if (args.length != 3) {
             this.lang.message(sender, Message.USAGE_INVALID, Message.USAGE_ECO);
             return null;

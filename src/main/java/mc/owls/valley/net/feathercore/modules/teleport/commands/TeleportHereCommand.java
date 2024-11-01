@@ -6,7 +6,7 @@
  *
  * @file TeleportHereCommand.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Teleport the target player to command sender player
  */
 
@@ -42,14 +42,18 @@ public class TeleportHereCommand extends FeatherCommand<TeleportHereCommand.Comm
     }
 
     @Override
+    protected boolean hasPermission(final CommandSender sender, final CommandData data) {
+        if (!sender.hasPermission("feathercore.teleport.here")) {
+            this.lang.message(sender, Message.NO_PERMISSION);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     protected void execute(final CommandSender sender, final CommandData data) {
         if (!(sender instanceof Player)) {
             this.lang.message(sender, Message.PLAYERS_ONLY);
-            return;
-        }
-
-        if (!sender.hasPermission("feathercore.teleport.here")) {
-            this.lang.message(sender, Message.NO_PERMISSION);
             return;
         }
 

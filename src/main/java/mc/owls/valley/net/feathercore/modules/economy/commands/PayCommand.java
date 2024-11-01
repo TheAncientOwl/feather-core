@@ -6,7 +6,7 @@
  *
  * @file PayCommand.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Pay player with in-game currency
  */
 
@@ -50,6 +50,15 @@ public class PayCommand extends FeatherCommand<PayCommand.CommandData> {
     }
 
     @Override
+    protected boolean hasPermission(final CommandSender sender, final CommandData data) {
+        if (!sender.hasPermission("feathercore.economy.general.pay")) {
+            this.lang.message(sender, Message.PERMISSION_DENIED);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     protected void execute(final CommandSender sender, final CommandData data) {
         this.economy.withdrawPlayer((Player) sender, data.amount);
         this.economy.depositPlayer(data.receiver, data.amount);
@@ -66,11 +75,6 @@ public class PayCommand extends FeatherCommand<PayCommand.CommandData> {
 
     protected CommandData parse(final CommandSender sender, final String[] args) {
         // 1. check the basics
-        if (!sender.hasPermission("feathercore.economy.general.pay")) {
-            this.lang.message(sender, Message.PERMISSION_DENIED);
-            return null;
-        }
-
         if (!(sender instanceof Player)) {
             this.lang.message(sender, Message.COMMAND_SENDER_NOT_PLAYER);
             return null;

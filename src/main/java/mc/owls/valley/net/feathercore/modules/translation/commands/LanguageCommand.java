@@ -6,7 +6,7 @@
  *
  * @file LanguageCommand.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @description Manage player's messages language
  */
 
@@ -50,6 +50,11 @@ public class LanguageCommand extends FeatherCommand<LanguageCommand.CommandData>
         this.lang = core.getTranslationManager();
         this.translationsConfig = core.getTranslationManager().getConfig();
         this.pluginManager = core.getPlugin().getServer().getPluginManager();
+    }
+
+    @Override
+    protected boolean hasPermission(final CommandSender sender, final CommandData data) {
+        return true;
     }
 
     @Override

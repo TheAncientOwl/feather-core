@@ -6,7 +6,7 @@
  *
  * @file TeleportDenyCommand.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Deny a teleport request
  */
 
@@ -42,12 +42,16 @@ public class TeleportDenyCommand extends FeatherCommand<TeleportDenyCommand.Comm
     }
 
     @Override
-    protected void execute(final CommandSender sender, final CommandData data) {
+    protected boolean hasPermission(final CommandSender sender, final CommandData data) {
         if (!sender.hasPermission("feathercore.teleport.request.deny")) {
             this.lang.message(sender, Message.NO_PERMISSION);
-            return;
+            return false;
         }
+        return true;
+    }
 
+    @Override
+    protected void execute(final CommandSender sender, final CommandData data) {
         switch (this.teleport.cancelRequest(data.issuer, data.target)) {
             case NO_SUCH_REQUEST: {
                 this.lang.message(sender, Message.TELEPORT_NO_SUCH_REQUEST);

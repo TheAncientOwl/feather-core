@@ -6,7 +6,7 @@
  *
  * @file DepositCommand.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @description Deposit banknotes to player's balance
  */
 
@@ -49,6 +49,15 @@ public class DepositCommand extends FeatherCommand<DepositCommand.CommandData> {
     }
 
     @Override
+    protected boolean hasPermission(final CommandSender sender, final CommandData data) {
+        if (!sender.hasPermission("feathercore.economy.general.deposit")) {
+            this.lang.message(sender, Message.PERMISSION_DENIED);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     protected void execute(final CommandSender sender, final CommandData data) {
         this.economy.depositPlayer((Player) sender, data.depositValue);
         data.itemInHand.setAmount(data.itemInHand.getAmount() - data.banknotesCount);
@@ -60,11 +69,6 @@ public class DepositCommand extends FeatherCommand<DepositCommand.CommandData> {
 
     public CommandData parse(final CommandSender sender, final String[] args) {
         // 1. check for basics
-        if (!sender.hasPermission("feathercore.economy.general.deposit")) {
-            this.lang.message(sender, Message.PERMISSION_DENIED);
-            return null;
-        }
-
         if (!(sender instanceof Player)) {
             this.lang.message(sender, Message.COMMAND_SENDER_NOT_PLAYER);
             return null;

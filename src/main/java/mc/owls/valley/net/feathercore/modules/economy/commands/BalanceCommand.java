@@ -6,7 +6,7 @@
  *
  * @file BalanceCommand.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Check player's balance
  */
 
@@ -47,6 +47,15 @@ public class BalanceCommand extends FeatherCommand<BalanceCommand.CommandData> {
     }
 
     @Override
+    protected boolean hasPermission(final CommandSender sender, final CommandData data) {
+        if (!sender.hasPermission("feathercore.economy.general.balance")) {
+            this.lang.message(sender, Message.PERMISSION_DENIED);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     protected void execute(final CommandSender sender, final CommandData data) {
         switch (data.commandType) {
             case SELF:
@@ -65,11 +74,6 @@ public class BalanceCommand extends FeatherCommand<BalanceCommand.CommandData> {
     protected CommandData parse(final CommandSender sender, final String[] args) {
         CommandType commandType = null;
         OfflinePlayer targetPlayer = null;
-
-        if (!sender.hasPermission("feathercore.economy.general.balance")) {
-            this.lang.message(sender, Message.PERMISSION_DENIED);
-            return null;
-        }
 
         if (args.length != 0) {
             if (args.length != 1) {

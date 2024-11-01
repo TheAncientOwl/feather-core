@@ -6,7 +6,7 @@
  *
  * @file FeatherCommand.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Base class for plugin command
  */
 
@@ -25,7 +25,7 @@ public abstract class FeatherCommand<CommandData> implements CommandExecutor, Ta
             final String[] args) {
         final CommandData data = parse(sender, args);
 
-        if (data != null) {
+        if (data != null && hasPermission(sender, data)) {
             execute(sender, data);
         }
 
@@ -39,6 +39,8 @@ public abstract class FeatherCommand<CommandData> implements CommandExecutor, Ta
     }
 
     protected abstract CommandData parse(final CommandSender sender, final String[] args);
+
+    protected abstract boolean hasPermission(final CommandSender sender, final CommandData data);
 
     protected abstract void execute(final CommandSender sender, final CommandData data);
 

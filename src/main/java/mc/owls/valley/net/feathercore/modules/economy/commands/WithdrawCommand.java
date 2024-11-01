@@ -6,7 +6,7 @@
  *
  * @file WithdrawCommand.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @description Withdraw banknotes from player's balance
  */
 
@@ -54,6 +54,15 @@ public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData>
     }
 
     @Override
+    protected boolean hasPermission(final CommandSender sender, final CommandData data) {
+        if (!sender.hasPermission("feathercore.economy.general.withdraw")) {
+            this.lang.message(sender, Message.PERMISSION_DENIED);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     protected void execute(final CommandSender sender, final CommandData data) {
         this.economy.withdrawPlayer((Player) sender, data.withdrawValue);
         ((Player) sender).getInventory().addItem(data.banknote);
@@ -65,11 +74,6 @@ public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData>
 
     protected CommandData parse(final CommandSender sender, final String[] args) {
         // 1. basic checks
-        if (!sender.hasPermission("feathercore.economy.general.withdraw")) {
-            this.lang.message(sender, Message.PERMISSION_DENIED);
-            return null;
-        }
-
         if (!(sender instanceof Player)) {
             this.lang.message(sender, Message.COMMAND_SENDER_NOT_PLAYER);
             return null;

@@ -6,7 +6,7 @@
  *
  * @file TeleportPositionCommand.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @description Teleport to specified position in the world
  */
 
@@ -44,15 +44,21 @@ public class TeleportPositionCommand extends FeatherCommand<TeleportPositionComm
     }
 
     @Override
-    protected void execute(final CommandSender sender, final CommandData data) {
+    protected boolean hasPermission(final CommandSender sender, final CommandData data) {
         final boolean selfTeleport = (sender instanceof Player && data.player.equals((Player) sender));
 
         if (!sender.hasPermission("feathercore.teleport." + data.world.getName() + ".position") ||
                 (!selfTeleport
                         && !sender.hasPermission("feathercore.teleport." + data.world.getName() + ".position.other"))) {
             this.lang.message(sender, Message.NO_PERMISSION);
-            return;
+            return false;
         }
+        return true;
+    }
+
+    @Override
+    protected void execute(final CommandSender sender, final CommandData data) {
+        final boolean selfTeleport = (sender instanceof Player && data.player.equals((Player) sender));
 
         this.teleport.teleport(data.player, data.x, data.y, data.z, data.world);
 

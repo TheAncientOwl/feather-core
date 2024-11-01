@@ -6,7 +6,7 @@
  *
  * @file LootChestsCommand.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Module main command
  */
 
@@ -53,6 +53,15 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
     }
 
     @Override
+    protected boolean hasPermission(final CommandSender sender, final CommandData data) {
+        if (!sender.hasPermission("feathercore.lootchests")) {
+            this.lang.message(sender, Message.NO_PERMISSION);
+            return false;
+        }
+        return true;
+    }
+
+    @Override
     protected void execute(final CommandSender sender, final CommandData data) {
         switch (data.commandType) {
             case SET:
@@ -77,11 +86,6 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
     }
 
     protected CommandData parse(final CommandSender sender, final String[] args) {
-        if (!sender.hasPermission("feathercore.lootchests")) {
-            this.lang.message(sender, Message.NO_PERMISSION);
-            return null;
-        }
-
         if (args.length == 0) {
             this.lang.message(sender, Message.INVALID_USAGE, Message.USAGE);
             return null;
