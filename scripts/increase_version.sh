@@ -14,7 +14,7 @@ if [[ "$BRANCH_NAME" == "major"* ]]; then
     major=$((major + 1))
     minor=0
     patch=0
-elif [[ "$BRANCH_NAME" == "feature"* ]]; then
+elif [[ "$BRANCH_NAME" == "minor"* ]]; then
     echo ">> Detected 'feature' branch, incrementing minor version"
     minor=$((minor + 1))
     patch=0
