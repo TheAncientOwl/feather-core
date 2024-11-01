@@ -6,7 +6,7 @@
  *
  * @file PayToggleCommand.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.4
  * @description Toggle on/off receiving in-game payments
  */
 
@@ -18,25 +18,34 @@ import java.util.List;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
-import mc.owls.valley.net.feathercore.modules.economy.common.Message;
-import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
+import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
 
 public class PayToggleCommand extends FeatherCommand<PayToggleCommand.CommandData> {
     public static record CommandData(PlayerModel playerModel) {
     }
 
     private IPlayersData playersData = null;
-    private TranslationManager lang = null;
+    private LanguageManager lang = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
         this.playersData = core.getPlayersData();
-        this.lang = core.getTranslationManager();
+        this.lang = core.getLanguageManager();
         this.playersData = core.getPlayersData();
+    }
+
+    @Override
+    protected boolean hasPermission(final CommandSender sender, final CommandData data) {
+        if (!sender.hasPermission("feathercore.economy.general.paytoggle")) {
+            this.lang.message(sender, Message.General.PERMISSION_DENIED);
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -45,23 +54,18 @@ public class PayToggleCommand extends FeatherCommand<PayToggleCommand.CommandDat
         this.playersData.markPlayerModelForSave(data.playerModel);
 
         this.lang.message(sender,
-                data.playerModel.acceptsPayments ? Message.PAY_TOGGLE_TRUE : Message.PAY_TOGGLE_FALSE);
+                data.playerModel.acceptsPayments ? Message.Economy.PAY_TOGGLE_TRUE : Message.Economy.PAY_TOGGLE_FALSE);
     }
 
     protected CommandData parse(final CommandSender sender, final String args[]) {
         // 3. check the basics
-        if (!sender.hasPermission("feathercore.economy.general.paytoggle")) {
-            this.lang.message(sender, Message.PERMISSION_DENIED);
-            return null;
-        }
-
         if (!(sender instanceof Player)) {
-            this.lang.message(sender, Message.COMMAND_SENDER_NOT_PLAYER);
+            this.lang.message(sender, Message.General.PLAYERS_ONLY);
             return null;
         }
 
         if (args.length != 0) {
-            this.lang.message(sender, Message.USAGE_INVALID, Message.USAGE_PAY);
+            this.lang.message(sender, Message.General.USAGE_INVALID, Message.Economy.USAGE_PAY);
             return null;
         }
 

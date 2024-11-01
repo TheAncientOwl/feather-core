@@ -6,31 +6,31 @@
  *
  * @file BlockCommandsListener.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.4
  * @description Allow only whitelisted commands during combat
  */
 
-package mc.owls.valley.net.feathercore.modules.restricted.pvp.listeners;
+package mc.owls.valley.net.feathercore.modules.pvp.manager.listeners;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
+import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
-import mc.owls.valley.net.feathercore.modules.restricted.pvp.common.Message;
-import mc.owls.valley.net.feathercore.modules.restricted.pvp.interfaces.IRestrictedPvP;
-import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
+import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
+import mc.owls.valley.net.feathercore.modules.pvp.manager.components.PvPManager;
 
 public class BlockCommandsListener implements IFeatherListener {
-    private IRestrictedPvP pvpManager = null;
-    private TranslationManager lang = null;
+    private PvPManager pvpManager = null;
+    private LanguageManager lang = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
-        this.pvpManager = core.getRestrictedPvP();
-        this.lang = core.getTranslationManager();
+        this.pvpManager = core.getPvPManager();
+        this.lang = core.getLanguageManager();
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -50,7 +50,7 @@ public class BlockCommandsListener implements IFeatherListener {
         }
 
         event.setCancelled(true);
-        this.lang.message(player, Message.BLOCK_COMMAND);
+        this.lang.message(player, Message.PvPManager.BLOCK_COMMAND);
     }
 
 }

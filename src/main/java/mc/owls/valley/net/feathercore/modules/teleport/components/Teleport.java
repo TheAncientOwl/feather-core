@@ -6,7 +6,7 @@
  *
  * @file Teleport.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Module responsible for managing teleports
  */
 
@@ -99,21 +99,20 @@ public class Teleport extends FeatherModule {
     protected void onModuleDisable() {
     }
 
-    // TODO: Make all teleport(...) functions static
-    public void teleport(final Player who, final Player to) {
+    public static void teleport(final Player who, final Player to) {
         who.teleport(to);
     }
 
-    public void teleport(final Player who, final Location where) {
+    public static void teleport(final Player who, final Location where) {
         who.teleport(where);
     }
 
-    public void teleport(final Player who, final double x, final double y, final double z, final World world) {
+    public static void teleport(final Player who, final double x, final double y, final double z, final World world) {
         final var whoLocation = who.getLocation();
         who.teleport(new Location(world, x, y, z, whoLocation.getYaw(), whoLocation.getPitch()));
     }
 
-    public void teleport(final Player who, final double x, final double y, final double z) {
+    public static void teleport(final Player who, final double x, final double y, final double z) {
         final var whoLocation = who.getLocation();
         who.teleport(new Location(whoLocation.getWorld(), x, y, z, whoLocation.getYaw(), whoLocation.getPitch()));
     }
@@ -306,11 +305,11 @@ public class Teleport extends FeatherModule {
                 teleportsToExecute.forEach((entry) -> {
                     switch (entry.type) {
                         case TO: {
-                            this.teleport.teleport(entry.issuer, entry.target);
+                            Teleport.teleport(entry.issuer, entry.target);
                             break;
                         }
                         case HERE: {
-                            this.teleport.teleport(entry.target, entry.issuer);
+                            Teleport.teleport(entry.target, entry.issuer);
                             break;
                         }
                     }

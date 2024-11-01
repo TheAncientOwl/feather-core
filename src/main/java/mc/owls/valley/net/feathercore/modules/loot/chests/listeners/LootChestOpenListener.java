@@ -6,7 +6,7 @@
  *
  * @file LootChestOpenListener.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.5
  * @description Open config loot-chest on interact
  */
 
@@ -20,23 +20,23 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 import mc.owls.valley.net.feathercore.api.common.java.Pair;
+import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.TimeUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
-import mc.owls.valley.net.feathercore.modules.loot.chests.common.Message;
-import mc.owls.valley.net.feathercore.modules.loot.chests.interfaces.ILootChestsModule;
-import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
+import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
+import mc.owls.valley.net.feathercore.modules.loot.chests.components.LootChests;
 
 public class LootChestOpenListener implements IFeatherListener {
-    private TranslationManager lang = null;
-    private ILootChestsModule lootChests = null;
+    private LanguageManager lang = null;
+    private LootChests lootChests = null;
     private IPropertyAccessor config = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
-        this.lang = core.getTranslationManager();
+        this.lang = core.getLanguageManager();
         this.lootChests = core.getLootChests();
         this.config = core.getLootChests().getConfig();
     }
@@ -66,7 +66,7 @@ public class LootChestOpenListener implements IFeatherListener {
         if (openChestTime != null
                 && openChestTime + cooldown > now
                 && !player.hasPermission("feathercore.lootchests.bypass-cooldown")) {
-            this.lang.message(player, Message.COOLDOWN,
+            this.lang.message(player, Message.LootChests.COOLDOWN,
                     Pair.of(Placeholder.COOLDOWN, TimeUtils.formatRemaining(openChestTime, cooldown)));
             return;
         }

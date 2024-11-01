@@ -6,7 +6,7 @@
  *
  * @file TeleportPositionCommand.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.6
  * @description Teleport to specified position in the world
  */
 
@@ -21,49 +21,53 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import mc.owls.valley.net.feathercore.api.common.java.Pair;
+import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Args;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.modules.teleport.common.Message;
+import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
 import mc.owls.valley.net.feathercore.modules.teleport.components.Teleport;
-import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 
 public class TeleportPositionCommand extends FeatherCommand<TeleportPositionCommand.CommandData> {
     public static record CommandData(Player player, double x, double y, double z, World world) {
     }
 
-    private Teleport teleport = null;
-    private TranslationManager lang = null;
+    private LanguageManager lang = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
-        this.lang = core.getTranslationManager();
-        this.teleport = core.getTeleport();
+        this.lang = core.getLanguageManager();
+    }
+
+    @Override
+    protected boolean hasPermission(final CommandSender sender, final CommandData data) {
+        final boolean selfTeleport = (sender instanceof Player && data.player.equals((Player) sender));
+
+        if (!sender.hasPermission("feathercore.teleport." + data.world.getName() + ".position") ||
+                (!selfTeleport
+                        && !sender.hasPermission("feathercore.teleport." + data.world.getName() + ".position.other"))) {
+            this.lang.message(sender, Message.General.NO_PERMISSION);
+            return false;
+        }
+        return true;
     }
 
     @Override
     protected void execute(final CommandSender sender, final CommandData data) {
         final boolean selfTeleport = (sender instanceof Player && data.player.equals((Player) sender));
 
-        if (!sender.hasPermission("feathercore.teleport." + data.world.getName() + ".position") ||
-                (!selfTeleport
-                        && !sender.hasPermission("feathercore.teleport." + data.world.getName() + ".position.other"))) {
-            this.lang.message(sender, Message.NO_PERMISSION);
-            return;
-        }
+        Teleport.teleport(data.player, data.x, data.y, data.z, data.world);
 
-        this.teleport.teleport(data.player, data.x, data.y, data.z, data.world);
-
-        this.lang.message(data.player, Message.TELEPORT_POSITION,
+        this.lang.message(data.player, Message.Teleport.POSITION,
                 Pair.of(Placeholder.X, (int) data.x),
                 Pair.of(Placeholder.Y, (int) data.y),
                 Pair.of(Placeholder.Z, (int) data.z),
                 Pair.of(Placeholder.WORLD, data.world.getName()));
 
         if (!selfTeleport) {
-            this.lang.message(sender, Message.TELEPORT_POSITION_OTHER,
+            this.lang.message(sender, Message.Teleport.POSITION_OTHER,
                     Pair.of(Placeholder.PLAYER, data.player.getName()),
                     Pair.of(Placeholder.X, (int) data.x),
                     Pair.of(Placeholder.Y, (int) data.y),
@@ -89,7 +93,8 @@ public class TeleportPositionCommand extends FeatherCommand<TeleportPositionComm
                     y = parsedArgs.getDouble(1);
                     z = parsedArgs.getDouble(2);
                 } else {
-                    this.lang.message(sender, Message.NAN, Pair.of(Placeholder.STRING, args[parsedArgs.failIndex()]));
+                    this.lang.message(sender, Message.General.NAN,
+                            Pair.of(Placeholder.STRING, args[parsedArgs.failIndex()]));
                     return null;
                 }
                 break;
@@ -113,12 +118,14 @@ public class TeleportPositionCommand extends FeatherCommand<TeleportPositionComm
                         if (argWorld != null) {
                             world = argWorld;
                         } else {
-                            this.lang.message(sender, Message.NOT_VALID_VALUE, Pair.of(Placeholder.STRING, args[3]));
+                            this.lang.message(sender, Message.General.NOT_VALID_VALUE,
+                                    Pair.of(Placeholder.STRING, args[3]));
                             return null;
                         }
                     }
                 } else if (parsedArgs.failIndex() >= 0 && parsedArgs.failIndex() <= 2) {
-                    this.lang.message(sender, Message.NAN, Pair.of(Placeholder.STRING, args[parsedArgs.failIndex()]));
+                    this.lang.message(sender, Message.General.NAN,
+                            Pair.of(Placeholder.STRING, args[parsedArgs.failIndex()]));
                     return null;
                 }
                 break;
@@ -139,29 +146,29 @@ public class TeleportPositionCommand extends FeatherCommand<TeleportPositionComm
                         case 0:
                         case 1:
                         case 2:
-                            this.lang.message(sender, Message.NAN,
+                            this.lang.message(sender, Message.General.NAN,
                                     Pair.of(Placeholder.STRING, args[parsedArgs.failIndex()]));
                             return null;
                         case 3:
-                            this.lang.message(sender, Message.NOT_VALID_WORLD,
+                            this.lang.message(sender, Message.General.NOT_VALID_WORLD,
                                     Pair.of(Placeholder.STRING, args[parsedArgs.failIndex()]));
                             return null;
                         case 4:
-                            this.lang.message(sender, Message.NOT_VALID_PLAYER,
+                            this.lang.message(sender, Message.General.NOT_VALID_PLAYER,
                                     Pair.of(Placeholder.STRING, args[parsedArgs.failIndex()]));
                             return null;
                     }
                 break;
             }
             default: {
-                this.lang.message(sender, Message.USAGE_INVALID, Message.USAGE_POSITION);
+                this.lang.message(sender, Message.General.USAGE_INVALID, Message.Teleport.USAGE_POSITION);
                 return null;
             }
         }
 
         if (player == null) {
             if (!(sender instanceof Player)) {
-                this.lang.message(sender, Message.PLAYERS_ONLY);
+                this.lang.message(sender, Message.General.PLAYERS_ONLY);
                 return null;
             }
             player = (Player) sender;

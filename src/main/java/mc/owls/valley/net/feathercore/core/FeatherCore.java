@@ -27,10 +27,10 @@ import mc.owls.valley.net.feathercore.api.exceptions.ModuleNotEnabledException;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.components.MongoManager;
 import mc.owls.valley.net.feathercore.modules.data.players.components.PlayersData;
 import mc.owls.valley.net.feathercore.modules.economy.components.FeatherEconomyProvider;
+import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
 import mc.owls.valley.net.feathercore.modules.loot.chests.components.LootChests;
-import mc.owls.valley.net.feathercore.modules.restricted.pvp.components.RestrictedPvP;
+import mc.owls.valley.net.feathercore.modules.pvp.manager.components.PvPManager;
 import mc.owls.valley.net.feathercore.modules.teleport.components.Teleport;
-import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 import net.milkbowl.vault.economy.Economy;
 
 public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
@@ -42,9 +42,9 @@ public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
     private Cache<Teleport> teleport = null;
     private Cache<LootChests> lootChests = null;
     private Cache<MongoManager> mongoManager = null;
-    private Cache<RestrictedPvP> restrictedPvP = null;
+    private Cache<PvPManager> pvpManager = null;
     private Cache<PlayersData> playersDataManager = null;
-    private Cache<TranslationManager> translationManager = null;
+    private Cache<LanguageManager> languageManager = null;
     private Cache<FeatherEconomyProvider> economyProvider = null;
 
     @Override
@@ -92,13 +92,13 @@ public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
     }
 
     @Override
-    public RestrictedPvP getRestrictedPvP() {
-        return this.restrictedPvP.get();
+    public PvPManager getPvPManager() {
+        return this.pvpManager.get();
     }
 
     @Override
-    public TranslationManager getTranslationManager() {
-        return this.translationManager.get();
+    public LanguageManager getLanguageManager() {
+        return this.languageManager.get();
     }
 
     @Override

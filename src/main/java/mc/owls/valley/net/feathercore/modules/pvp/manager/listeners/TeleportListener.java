@@ -6,11 +6,11 @@
  *
  * @file TeleportListener.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.4
  * @description Block combat teleport
  */
 
-package mc.owls.valley.net.feathercore.modules.restricted.pvp.listeners;
+package mc.owls.valley.net.feathercore.modules.pvp.manager.listeners;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,23 +18,23 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
+import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
-import mc.owls.valley.net.feathercore.modules.restricted.pvp.common.Message;
-import mc.owls.valley.net.feathercore.modules.restricted.pvp.interfaces.IRestrictedPvP;
-import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
+import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
+import mc.owls.valley.net.feathercore.modules.pvp.manager.components.PvPManager;
 
 public class TeleportListener implements IFeatherListener {
-    private IRestrictedPvP pvpManager = null;
+    private PvPManager pvpManager = null;
     private IConfigFile config = null;
-    private TranslationManager lang = null;
+    private LanguageManager lang = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
-        this.pvpManager = core.getRestrictedPvP();
-        this.config = core.getRestrictedPvP().getConfig();
-        this.lang = core.getTranslationManager();
+        this.pvpManager = core.getPvPManager();
+        this.config = core.getPvPManager().getConfig();
+        this.lang = core.getLanguageManager();
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -49,7 +49,7 @@ public class TeleportListener implements IFeatherListener {
         if ((event.getCause() == TeleportCause.CHORUS_FRUIT && !this.config.getBoolean("block-tp.chorus-fruit")) ||
                 (event.getCause() == TeleportCause.ENDER_PEARL && !this.config.getBoolean("block-tp.ender-pearl"))) {
             event.setCancelled(true);
-            this.lang.message(player, Message.TELEPORT);
+            this.lang.message(player, Message.PvPManager.TELEPORT);
         }
     }
 }

@@ -6,11 +6,11 @@
  *
  * @file PlayerLogoutListener.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @description Kill player in combat on disconnect
  */
 
-package mc.owls.valley.net.feathercore.modules.restricted.pvp.listeners;
+package mc.owls.valley.net.feathercore.modules.pvp.manager.listeners;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -19,24 +19,24 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import mc.owls.valley.net.feathercore.api.common.java.Pair;
+import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
-import mc.owls.valley.net.feathercore.modules.restricted.pvp.common.Message;
-import mc.owls.valley.net.feathercore.modules.restricted.pvp.interfaces.IRestrictedPvP;
-import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
+import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
+import mc.owls.valley.net.feathercore.modules.pvp.manager.components.PvPManager;
 
 public class PlayerLogoutListener implements IFeatherListener {
-    private IRestrictedPvP pvpManager = null;
-    private TranslationManager lang = null;
+    private PvPManager pvpManager = null;
+    private LanguageManager lang = null;
     private IPropertyAccessor config = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
-        this.pvpManager = core.getRestrictedPvP();
-        this.config = core.getRestrictedPvP().getConfig();
-        this.lang = core.getTranslationManager();
+        this.pvpManager = core.getPvPManager();
+        this.config = core.getPvPManager().getConfig();
+        this.lang = core.getLanguageManager();
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -56,7 +56,7 @@ public class PlayerLogoutListener implements IFeatherListener {
         }
 
         for (final var onlinePlayer : Bukkit.getOnlinePlayers()) {
-            this.lang.message(onlinePlayer, Message.LOGOUT, Pair.of(Placeholder.PLAYER, player.getName()));
+            this.lang.message(onlinePlayer, Message.PvPManager.LOGOUT, Pair.of(Placeholder.PLAYER, player.getName()));
         }
     }
 }

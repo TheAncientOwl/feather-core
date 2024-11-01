@@ -4,13 +4,13 @@
  * ------------------------------------------------------------------------- *
  * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
  *
- * @file TranslationManager.java
+ * @file LanguageManager.java
  * @author Alexandru Delegeanu
  * @version 0.2
  * @description Module responsible for managing plugin messages translations
  */
 
-package mc.owls.valley.net.feathercore.modules.translation.components;
+package mc.owls.valley.net.feathercore.modules.language.components;
 
 import java.nio.file.Path;
 import java.util.HashMap;
@@ -31,13 +31,13 @@ import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
 import mc.owls.valley.net.feathercore.core.configuration.bukkit.BukkitConfigFile;
 import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
 
-public class TranslationManager extends FeatherModule {
+public class LanguageManager extends FeatherModule {
     private Map<String, IConfigFile> translations = null;
     private JavaPlugin plugin = null;
     private IFeatherLogger logger = null;
     private IPlayersData playersData = null;
 
-    public TranslationManager(final String name, final Supplier<IConfigFile> configSupplier) {
+    public LanguageManager(final String name, final Supplier<IConfigFile> configSupplier) {
         super(name, configSupplier);
     }
 
@@ -78,7 +78,7 @@ public class TranslationManager extends FeatherModule {
     private IConfigFile loadTranslation(final String language) {
         IConfigFile translation = null;
         try {
-            translation = new BukkitConfigFile(this.plugin, Path.of("translations", language + ".yml").toString());
+            translation = new BukkitConfigFile(this.plugin, Path.of("language", language + ".yml").toString());
         } catch (final Exception e) {
             this.logger
                     .error("Could not load translation '" + language + "'\nReason: " + StringUtils.exceptionToStr(e));

@@ -4,13 +4,13 @@
  * ------------------------------------------------------------------------- *
  * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
  *
- * @file RestrictedPvP.java
+ * @file PvPManager.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.5
  * @description Module responsible for managing pvp restrictions
  */
 
-package mc.owls.valley.net.feathercore.modules.restricted.pvp.components;
+package mc.owls.valley.net.feathercore.modules.pvp.manager.components;
 
 import java.util.HashMap;
 import java.util.List;
@@ -23,28 +23,27 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
 import mc.owls.valley.net.feathercore.api.common.java.Pair;
+import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
-import mc.owls.valley.net.feathercore.modules.restricted.pvp.common.Message;
-import mc.owls.valley.net.feathercore.modules.restricted.pvp.interfaces.IRestrictedPvP;
-import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
+import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
 
-public class RestrictedPvP extends FeatherModule implements IRestrictedPvP {
+public class PvPManager extends FeatherModule {
     private Map<UUID, Long> playersInCombat = null;
-    private TranslationManager lang = null;
+    private LanguageManager lang = null;
     @SuppressWarnings("unused")
     private BukkitTask combatCheckTask = null;
 
-    public RestrictedPvP(final String name, final Supplier<IConfigFile> configSupplier) {
+    public PvPManager(final String name, final Supplier<IConfigFile> configSupplier) {
         super(name, configSupplier);
     }
 
     @Override
     protected void onModuleEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
-        this.lang = core.getTranslationManager();
+        this.lang = core.getLanguageManager();
 
         this.playersInCombat = new HashMap<>();
 
@@ -59,27 +58,51 @@ public class RestrictedPvP extends FeatherModule implements IRestrictedPvP {
         }
     }
 
-    @Override
+    /**
+     * Check if given player is tagged in combat.
+     * 
+     * @param player
+     * @return true if the player is tagged in combat, false otherwise
+     */
     public boolean isPlayerInCombat(final Player player) {
         return this.playersInCombat.containsKey(player.getUniqueId());
     }
 
-    @Override
+    /**
+     * Check if given player is tagged in combat.
+     * 
+     * @param uuid of the player
+     * @return true if the player is tagged in combat, false otherwise
+     */
     public boolean isPlayerInCombat(final UUID uuid) {
         return this.playersInCombat.containsKey(uuid);
     }
 
-    @Override
+    /**
+     * Tags given players in combat.
+     * 
+     * @param victim   player who was damaged
+     * @param attacker player who damaged
+     */
     public void putPlayersInCombat(final Player victim, final Player attacker) {
         if (victim.getUniqueId().equals(attacker.getUniqueId())) {
             return;
         }
 
         final var currentTime = System.currentTimeMillis();
-        putPlayerInCombat(attacker, victim.getName(), currentTime, Message.TAG);
-        putPlayerInCombat(victim, attacker.getName(), currentTime, Message.TAGGED);
+        putPlayerInCombat(attacker, victim.getName(), currentTime, Message.PvPManager.TAG);
+        putPlayerInCombat(victim, attacker.getName(), currentTime, Message.PvPManager.TAGGED);
     }
 
+    /**
+     * Put player in combat if not already, toggle fly and send message
+     * 
+     * @see PvPManager.putPlayersInCombat(victim, attacker)
+     * @param player
+     * @param otherName
+     * @param currentTime
+     * @param messageKey
+     */
     private void putPlayerInCombat(final Player player, final String otherName,
             final long currentTime, final String messageKey) {
         if (!this.playersInCombat.containsKey(player.getUniqueId())) {
@@ -93,22 +116,32 @@ public class RestrictedPvP extends FeatherModule implements IRestrictedPvP {
         this.playersInCombat.put(player.getUniqueId(), currentTime);
     }
 
-    @Override
+    /**
+     * Remove combat tag of a player.
+     * 
+     * @param player
+     */
     public void removePlayerInCombat(final Player player) {
         this.playersInCombat.remove(player.getUniqueId());
-        this.lang.message(player, Message.COMBAT_ENDED);
+        this.lang.message(player, Message.PvPManager.COMBAT_ENDED);
     }
 
-    @Override
+    /**
+     * Remove combat tag of a player.
+     * 
+     * @param uuid of the player
+     */
     public void removePlayerInCombat(final UUID uuid) {
         this.playersInCombat.remove(uuid);
         final Player player = Bukkit.getPlayer(uuid);
         if (player != null && player.isOnline()) {
-            this.lang.message(player, Message.COMBAT_ENDED);
+            this.lang.message(player, Message.PvPManager.COMBAT_ENDED);
         }
     }
 
-    @Override
+    /**
+     * @return list containing all whitelisted commands during combat
+     */
     public List<String> getWhitelistedCommands() {
         return this.config.getStringList("commands.whitelist");
     }
@@ -122,9 +155,9 @@ public class RestrictedPvP extends FeatherModule implements IRestrictedPvP {
     }
 
     private static class CombatChecker implements Runnable {
-        final RestrictedPvP pvpManager;
+        final PvPManager pvpManager;
 
-        public CombatChecker(final RestrictedPvP pvpManager) {
+        public CombatChecker(final PvPManager pvpManager) {
             super();
             this.pvpManager = pvpManager;
         }

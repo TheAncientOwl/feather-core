@@ -6,7 +6,7 @@
  *
  * @file TeleportAllCommand.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.4
  * @description Teleport all players to the command sender
  */
 
@@ -20,43 +20,46 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import mc.owls.valley.net.feathercore.api.common.java.Pair;
+import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Args;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.modules.teleport.common.Message;
+import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
 import mc.owls.valley.net.feathercore.modules.teleport.components.Teleport;
-import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
 
 public class TeleportAllCommand extends FeatherCommand<TeleportAllCommand.CommandData> {
     public static record CommandData(Player where) {
     }
 
-    private Teleport teleport = null;
-    private TranslationManager lang = null;
+    private LanguageManager lang = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
-        this.teleport = core.getTeleport();
-        this.lang = core.getTranslationManager();
+        this.lang = core.getLanguageManager();
+    }
+
+    @Override
+    protected boolean hasPermission(final CommandSender sender, final CommandData data) {
+        if (!sender.hasPermission("feathercore.teleport.all")) {
+            this.lang.message(sender, Message.General.NO_PERMISSION);
+            return false;
+        }
+        return true;
     }
 
     @Override
     protected void execute(final CommandSender sender, final CommandData data) {
-        if (!sender.hasPermission("feathercore.teleport.all")) {
-            this.lang.message(sender, Message.NO_PERMISSION);
-            return;
-        }
-
         for (final var player : Bukkit.getOnlinePlayers()) {
-            this.teleport.teleport(player, data.where);
+            Teleport.teleport(player, data.where);
         }
 
         if (sender instanceof Player && data.where.equals((Player) sender)) {
-            this.lang.message(sender, Message.TELEPORT_ALL_SELF);
+            this.lang.message(sender, Message.Teleport.ALL_SELF);
         } else {
-            this.lang.message(sender, Message.TELEPORT_ALL_OTHER, Pair.of(Placeholder.TARGET, data.where.getName()));
+            this.lang.message(sender, Message.Teleport.ALL_OTHER,
+                    Pair.of(Placeholder.TARGET, data.where.getName()));
         }
     }
 
@@ -67,7 +70,7 @@ public class TeleportAllCommand extends FeatherCommand<TeleportAllCommand.Comman
             case 0: {
                 // /tpall
                 if (!(sender instanceof Player)) {
-                    this.lang.message(sender, Message.PLAYERS_ONLY);
+                    this.lang.message(sender, Message.General.PLAYERS_ONLY);
                     return null;
                 }
                 where = (Player) sender;
@@ -79,14 +82,14 @@ public class TeleportAllCommand extends FeatherCommand<TeleportAllCommand.Comman
                 if (parsedArgs.success()) {
                     where = parsedArgs.getPlayer(0);
                 } else {
-                    this.lang.message(sender, Message.PLAYER_NOT_ONLINE, Pair.of(Placeholder.PLAYER, args[0]));
+                    this.lang.message(sender, Message.General.NOT_ONLINE_PLAYER, Pair.of(Placeholder.PLAYER, args[0]));
                     return null;
                 }
 
                 break;
             }
             default: {
-                this.lang.message(sender, Message.USAGE_INVALID, Message.USAGE_TPALL);
+                this.lang.message(sender, Message.General.USAGE_INVALID, Message.Teleport.USAGE_TPALL);
                 return null;
             }
         }

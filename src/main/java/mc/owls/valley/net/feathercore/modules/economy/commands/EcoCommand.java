@@ -6,7 +6,7 @@
  *
  * @file EcoCommand.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.4
  * @description Manage server economy
  */
 
@@ -20,13 +20,13 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 
 import mc.owls.valley.net.feathercore.api.common.java.Pair;
+import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.modules.economy.common.Message;
-import mc.owls.valley.net.feathercore.modules.translation.components.TranslationManager;
+import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
 import net.milkbowl.vault.economy.Economy;
 
 public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
@@ -38,14 +38,23 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
     }
 
     private Economy economy = null;
-    private TranslationManager lang = null;
+    private LanguageManager lang = null;
     private IPropertyAccessor economyConfig = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
         this.economy = core.getEconomy();
         this.economyConfig = core.getFeatherEconomy().getConfig();
-        this.lang = core.getTranslationManager();
+        this.lang = core.getLanguageManager();
+    }
+
+    @Override
+    protected boolean hasPermission(final CommandSender sender, final CommandData data) {
+        if (!sender.hasPermission("feathercore.economy.setup.eco")) {
+            this.lang.message(sender, Message.General.PERMISSION_DENIED);
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -63,7 +72,7 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
                 break;
         }
 
-        this.lang.message(sender, Message.ECO_SUCCESS,
+        this.lang.message(sender, Message.Economy.ECO_SUCCESS,
                 Pair.of(Placeholder.PLAYER, data.player.getName()),
                 Pair.of(Placeholder.OLD, this.economy.format(data.oldBalance)),
                 Pair.of(Placeholder.NEW, this.economy.format(this.economy.getBalance(data.player))));
@@ -71,13 +80,8 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
 
     protected CommandData parse(final CommandSender sender, final String[] args) {
         // 1. check the basics
-        if (!sender.hasPermission("feathercore.economy.setup.eco")) {
-            this.lang.message(sender, Message.PERMISSION_DENIED);
-            return null;
-        }
-
         if (args.length != 3) {
-            this.lang.message(sender, Message.USAGE_INVALID, Message.USAGE_ECO);
+            this.lang.message(sender, Message.General.USAGE_INVALID, Message.Economy.USAGE_ECO);
             return null;
         }
 
@@ -88,7 +92,7 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
         // 2. get the player
         final OfflinePlayer player = Bukkit.getOfflinePlayer(playerName);
         if (!player.hasPlayedBefore()) {
-            this.lang.message(sender, Message.NOT_PLAYER, Pair.of(Placeholder.STRING, playerName));
+            this.lang.message(sender, Message.General.NOT_VALID_PLAYER, Pair.of(Placeholder.STRING, playerName));
             return null;
         }
 
@@ -97,13 +101,13 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
         try {
             amount = Double.parseDouble(amountStr);
         } catch (final Exception e) {
-            this.lang.message(sender, Message.NOT_VALID_NUMBER,
+            this.lang.message(sender, Message.General.NOT_VALID_NUMBER,
                     Pair.of(Placeholder.STRING, amountStr));
             return null;
         }
 
         if (amount < 0 && (actionStr.equals("give") || actionStr.equals("take"))) {
-            this.lang.message(sender, Message.ECO_NO_NEGATIVE_AMOUNT, Pair.of(Placeholder.STRING, actionStr));
+            this.lang.message(sender, Message.Economy.ECO_NO_NEGATIVE_AMOUNT, Pair.of(Placeholder.STRING, actionStr));
             return null;
         }
 
@@ -114,7 +118,7 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
             case "give": {
                 final var max = this.economyConfig.getDouble("balance.max");
                 if (oldBalance + amount > max) {
-                    this.lang.message(sender, Message.ECO_BOUNDS_MAX,
+                    this.lang.message(sender, Message.Economy.ECO_BOUNDS_MAX,
                             Pair.of(Placeholder.MAX, this.economy.format(max)));
                     return null;
                 }
@@ -124,7 +128,7 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
             case "take": {
                 final var min = this.economyConfig.getDouble("balance.min");
                 if (oldBalance - amount < min) {
-                    this.lang.message(sender, Message.ECO_BOUNDS_MIN,
+                    this.lang.message(sender, Message.Economy.ECO_BOUNDS_MIN,
                             Pair.of(Placeholder.MIN, this.economy.format(min)));
                     return null;
                 }
@@ -134,14 +138,14 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
             case "set": {
                 final var max = this.economyConfig.getDouble("balance.max");
                 if (amount > max) {
-                    this.lang.message(sender, Message.ECO_BOUNDS_MAX,
+                    this.lang.message(sender, Message.Economy.ECO_BOUNDS_MAX,
                             Pair.of(Placeholder.MAX, this.economy.format(max)));
                     return null;
                 }
 
                 final var min = this.economyConfig.getDouble("balance.min");
                 if (amount < min) {
-                    this.lang.message(sender, Message.ECO_BOUNDS_MIN,
+                    this.lang.message(sender, Message.Economy.ECO_BOUNDS_MIN,
                             Pair.of(Placeholder.MIN, this.economy.format(min)));
                     return null;
                 }
@@ -150,7 +154,7 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
                 break;
             }
             default: {
-                this.lang.message(sender, Message.USAGE_INVALID, Message.USAGE_ECO);
+                this.lang.message(sender, Message.General.USAGE_INVALID, Message.Economy.USAGE_ECO);
                 return null;
             }
         }
