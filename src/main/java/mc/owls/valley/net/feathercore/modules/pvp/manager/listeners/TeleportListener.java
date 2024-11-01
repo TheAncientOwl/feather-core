@@ -10,7 +10,7 @@
  * @description Block combat teleport
  */
 
-package mc.owls.valley.net.feathercore.modules.restricted.pvp.listeners;
+package mc.owls.valley.net.feathercore.modules.pvp.manager.listeners;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,18 +22,18 @@ import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
 import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
-import mc.owls.valley.net.feathercore.modules.restricted.pvp.common.Message;
-import mc.owls.valley.net.feathercore.modules.restricted.pvp.interfaces.IRestrictedPvP;
+import mc.owls.valley.net.feathercore.modules.pvp.manager.common.Message;
+import mc.owls.valley.net.feathercore.modules.pvp.manager.interfaces.IPvPManager;
 
 public class TeleportListener implements IFeatherListener {
-    private IRestrictedPvP pvpManager = null;
+    private IPvPManager pvpManager = null;
     private IConfigFile config = null;
     private LanguageManager lang = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
-        this.pvpManager = core.getRestrictedPvP();
-        this.config = core.getRestrictedPvP().getConfig();
+        this.pvpManager = core.getPvPManager();
+        this.config = core.getPvPManager().getConfig();
         this.lang = core.getLanguageManager();
     }
 

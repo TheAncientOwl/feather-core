@@ -10,7 +10,7 @@
  * @description Remove player in combat on death
  */
 
-package mc.owls.valley.net.feathercore.modules.restricted.pvp.listeners;
+package mc.owls.valley.net.feathercore.modules.pvp.manager.listeners;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -18,14 +18,14 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
-import mc.owls.valley.net.feathercore.modules.restricted.pvp.interfaces.IRestrictedPvP;
+import mc.owls.valley.net.feathercore.modules.pvp.manager.interfaces.IPvPManager;
 
 public class PlayerDeathListener implements IFeatherListener {
-    private IRestrictedPvP pvpManager = null;
+    private IPvPManager pvpManager = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
-        this.pvpManager = core.getRestrictedPvP();
+        this.pvpManager = core.getPvPManager();
     }
 
     @EventHandler(priority = EventPriority.LOWEST)

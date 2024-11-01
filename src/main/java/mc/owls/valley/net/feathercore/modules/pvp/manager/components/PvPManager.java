@@ -4,13 +4,13 @@
  * ------------------------------------------------------------------------- *
  * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
  *
- * @file RestrictedPvP.java
+ * @file PvPManager.java
  * @author Alexandru Delegeanu
  * @version 0.3
  * @description Module responsible for managing pvp restrictions
  */
 
-package mc.owls.valley.net.feathercore.modules.restricted.pvp.components;
+package mc.owls.valley.net.feathercore.modules.pvp.manager.components;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,16 +29,16 @@ import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
 import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
-import mc.owls.valley.net.feathercore.modules.restricted.pvp.common.Message;
-import mc.owls.valley.net.feathercore.modules.restricted.pvp.interfaces.IRestrictedPvP;
+import mc.owls.valley.net.feathercore.modules.pvp.manager.common.Message;
+import mc.owls.valley.net.feathercore.modules.pvp.manager.interfaces.IPvPManager;
 
-public class RestrictedPvP extends FeatherModule implements IRestrictedPvP {
+public class PvPManager extends FeatherModule implements IPvPManager {
     private Map<UUID, Long> playersInCombat = null;
     private LanguageManager lang = null;
     @SuppressWarnings("unused")
     private BukkitTask combatCheckTask = null;
 
-    public RestrictedPvP(final String name, final Supplier<IConfigFile> configSupplier) {
+    public PvPManager(final String name, final Supplier<IConfigFile> configSupplier) {
         super(name, configSupplier);
     }
 
@@ -122,9 +122,9 @@ public class RestrictedPvP extends FeatherModule implements IRestrictedPvP {
     }
 
     private static class CombatChecker implements Runnable {
-        final RestrictedPvP pvpManager;
+        final PvPManager pvpManager;
 
-        public CombatChecker(final RestrictedPvP pvpManager) {
+        public CombatChecker(final PvPManager pvpManager) {
             super();
             this.pvpManager = pvpManager;
         }

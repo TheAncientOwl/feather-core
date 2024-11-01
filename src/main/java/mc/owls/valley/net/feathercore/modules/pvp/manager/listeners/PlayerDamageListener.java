@@ -10,7 +10,7 @@
  * @description Put players in combat on damage event
  */
 
-package mc.owls.valley.net.feathercore.modules.restricted.pvp.listeners;
+package mc.owls.valley.net.feathercore.modules.pvp.manager.listeners;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -21,14 +21,14 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
-import mc.owls.valley.net.feathercore.modules.restricted.pvp.interfaces.IRestrictedPvP;
+import mc.owls.valley.net.feathercore.modules.pvp.manager.interfaces.IPvPManager;
 
 public class PlayerDamageListener implements IFeatherListener {
-    private IRestrictedPvP pvpManager = null;
+    private IPvPManager pvpManager = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
-        this.pvpManager = core.getRestrictedPvP();
+        this.pvpManager = core.getPvPManager();
     }
 
     @EventHandler(priority = EventPriority.LOWEST)

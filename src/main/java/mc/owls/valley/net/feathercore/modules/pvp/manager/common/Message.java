@@ -10,7 +10,7 @@
  * @description Module specific language messages
  */
 
-package mc.owls.valley.net.feathercore.modules.restricted.pvp.common;
+package mc.owls.valley.net.feathercore.modules.pvp.manager.common;
 
 public class Message {
     public static String TAG = "pvp.combat.tag";
