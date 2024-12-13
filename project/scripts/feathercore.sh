@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # » env variables
-source $FEATHER_CORE_ROOT/scripts/env.sh
+source $FEATHER_CORE_ROOT/project/scripts/env.sh
 
 # » variables
 PLUGINS_PATH="${FEATHER_CORE_ROOT}/dev/server/plugins"
@@ -139,10 +139,10 @@ fi
 
 if [ "$run" = true ]; then
     feather_print "${DARK_AQUA}Starting development server"
-    $FEATHER_CORE_ROOT/scripts/mongodb.sh -xs
+    $FEATHER_CORE_ROOT/project/scripts/mongodb.sh -xs
     cd $FEATHER_CORE_ROOT/dev/server
     ./start.sh
     cd $FEATHER_CORE_ROOT
     feather_print "${DARK_AQUA}Development server stopped"
-    $FEATHER_CORE_ROOT/scripts/mongodb.sh -x
+    $FEATHER_CORE_ROOT/project/scripts/mongodb.sh -x
 fi

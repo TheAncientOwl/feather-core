@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # » env variables
-source $FEATHER_CORE_ROOT/scripts/env.sh
+source $FEATHER_CORE_ROOT/project/scripts/env.sh
 
 # » helpers
 function header_print() {
