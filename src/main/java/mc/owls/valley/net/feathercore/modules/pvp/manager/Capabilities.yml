@@ -1,0 +1,25 @@
+module:
+  general:
+    name: PvPManager
+    description: Module responsible for managing pvp restrictions
+    capabilities: |
+      * block commands while in combat
+      * handle pvp tag for players in combat
+      * kill players in combat on logout
+      * block teleport of players in combat
+
+  components:
+    - name: PvPManager
+      description: Main component; Handle all PvP restrictions
+
+  listeners:
+    - name: BlockCommandsListener
+      description: Block commands of players while in combat
+    - name: PlayerDamageListener
+      description: Put players in combat
+    - name: PlayerDeathListener
+      description: andle restrictions on player death
+    - name: PlayerLogoutListener
+      description: Handle restrictions on player logout
+    - name: TeleportListener
+      description: andle restrictions on player teleport

@@ -1,128 +1,140 @@
-general:
-  description: Module responsible for handling economy on the server
-  capabilities:
-    economy: Implements Economy interface of Vault API
-    provider: Provides Economy interface implementation for Vault API
-    vault: Provides access to Vault's Economy API
-  notes:
-    command-arguments: |
-      - "[argument]" means the argument is mandatory
-      - "<argument>" means the argument is optional
+module:
+  general:
+    name: Economy
+    description: Module responsible for handling economy on the server
+    capabilities: |
+      - implements Economy interface of Vault API
+      - provides Economy interface implementation for Vault API
+      - provides access to Vault's Economy API
+    notes:
+      command-arguments: |
+        - "[argument]" means the argument is mandatory
+        - "{argument}" means the argument is optional
 
-components:
-  - name: FeatherEconomyProvider
-    description: Main component
-
-listeners:
-  - name: BanknotePlaceListener
-    description: Prevent placing blocks that represent FeatherEconomy banknotes
-
-commands:
-  eco:
-    description: Manage server economy
-    command:
-      usage: /eco give/take/set [player] [amount]
-      arguments:
-        give/take/set: Self explanatory
-        player: player's name
-        amount: amount
-      permission: feathercore.economy.setup.eco
-  setworth:
-    description: Set an item's sell/buy value
-    command:
-      usage: /setworth <item> [value]
-      arguments:
-        item: |
-          if present
-          then item's name
-          else item in hand
-        value: value
-      permission: feathercore.economy.setup.setworth
-  worth:
-    description: Get and item's sell/buy value
-    command:
-      usage: /worth <item> [value]
-      arguments:
-        item: |
-          if present
-          then item's name
-          else item in hand
-        value: value
-      permission: feathercore.economy.general.worth
-  sell:
-    description: Sell items
-    command:
-      usage: /sell <hand>
-      arguments:
-        hand: |
-          if present
-          then it sells all the items similar to the one in player's hand, 
-          else opens a chest for the player to add all the items that can be sold
-      permission: feathercore.economy.general.sell
-  buy:
-    description: Buy items
-    command:
-      usage: /buy
-      arguments:
-        hand: |
-          if present
-          then it sells all the items similar to the one in player's hand, 
-          else opens a chest for the player to add all the items that can be sold
-      permission: feathercore.economy.general.buy
-  shop:
-    description: Opens shop menu
-    command:
-      usage: /shop
-      arguments: null
-      permission: feathercore.economy.general.shop
-  balance:
-    description: State the current balance of a given player
-    command:
-      usage: /balance <player>
+  commands:
+    - name: eco
+      implemented: true
+      description: Manage server economy
+      usage:
+        command: /eco [give|take|set] [player] [amount]
+        arguments:
+          give: self explanatory
+          take: self explanatory
+          set: self explanatory
+          player: player's name
+          amount: amount
+        permissions:
+          - name: feathercore.economy.setup.eco
+    - name: setworth
+      implemented: false
+      description: Set an item's sell/buy value
+      usage:
+        command: /setworth {item} [value]
+        arguments:
+          item: if present then item's name else item in hand
+          value: value
+        permissions:
+          - name: feathercore.economy.setup.setworth
+    - name: worth
+      implemented: false
+      description: Get and item's sell/buy value
+      usage:
+        command: /worth {item} [value]
+        arguments:
+          item: if present then item's name else item in hand
+          value: value
+        permissions:
+          - name: feathercore.economy.general.worth
+    - name: sell
+      implemented: false
+      description: Sell items
+        usage:
+          command: /sell {hand}
+          arguments:
+            hand: |
+              if present
+              then it sells all the items similar to the one in player's hand, 
+              else opens a chest for the player to add all the items that can be sold
+          permissions:
+            - name: feathercore.economy.general.sell
+    - name: shop
+      implemented: false
+      description: Opens shop menu
+      usage:
+        command: /shop
+        permissions:
+          - name: feathercore.economy.general.shop
+    - name: balance
       aliases: [bal]
-      arguments:
-        player: |
-          if present
-          then player's nme
-          else issuer's player name
-      permission: feathercore.economy.general.balance
-  balancetop:
-    description: State the top X(configured in economy.yml:top-list) player balances on the server
-    command:
-      usage: /balancetop
+      implemented: true
+      description: State the current balance of a given player
+      usage:
+        command: /balance {player}
+        arguments:
+          player: |
+            if present
+            then player's nme
+            else issuer's player name
+        permissions:
+          - name: feathercore.economy.general.balance
+    - name: balancetop
       aliases: [baltop]
-      arguments: null
-      permission: feathercore.economy.general.balancetop
-  pay:
-    description: Pay an amout to a player
-    command:
-      usage: /pay [player] [amount]
-      arguments:
-        player: player's name
-        amount: amount
-      permission: feathercore.economy.general.pay
-      other:
-        override:
-          description: Allows bypass of paytoggle
-          permission: feathercore.economy.general.pay.override
-  paytoggle:
-    description: Toggle if you accept or not payments
-    command:
-      usage: /paytoggle
-      arguments: null
-      permission: feathercore.economy.general.paytoggle
-  withdraw:
-    description: Withdraw money from player's balance in physical form (configured in economyl.yml:banknotes)
-    command:
-      usage: /withdraw [banknote-value] [amount]
-      arguments:
-        banknote-value: symbolic value of the banknote
-        amount: amount
-      permission: feathercore.economy.general.withdraw
-  deposit:
-    description: Deposit physical form (configured in economyl.yml:banknotes) of money to player's balance
-    command:
-      usage: /deposit [amount]
-      arguments:
-        amount: amount
-      permission: feathercore.economy.general.deposit
+      implemented: false
+      description: State the top X(configured in economy.yml:top-list) player balances on the server
+      usage:
+        command: /balancetop
+        permissions:
+          - name: feathercore.economy.general.balancetop
+    - name: pay
+      implemented: true
+      description: Pay an amout to a player
+      usage:
+        command: /pay [player] [amount]
+        arguments:
+          player: player's name
+          amount: amount
+        permissions:
+          - name: feathercore.economy.general.pay
+          - name: feathercore.economy.general.pay.override
+            description: Allows bypass of paytoggle
+    - name: paytoggle
+      implemented: true
+      description: Toggle if you accept or not payments
+      usage:
+        command: /paytoggle
+        arguments: null
+        permissions:
+          - name: feathercore.economy.general.paytoggle
+    - name: withdraw
+      implemented: true
+      description: Withdraw money from player's balance in physical form (configured in economyl.yml:banknotes)
+      usage:
+        command: /withdraw [banknote-value] [amount]
+        arguments:
+          banknote-value: symbolic value of the banknote
+          amount: amount
+        permissions:
+          - name: feathercore.economy.general.withdraw
+    - name: deposit
+      implemented: true
+      description: Deposit physical form (configured in economyl.yml:banknotes) of money to player's balance
+      usage:
+        command: /deposit [amount]
+        arguments:
+          amount: amount
+        permissions:
+          - name: feathercore.economy.general.deposit
+
+  components:
+    - name: FeatherEconomy
+      description: Implementation of economy interface
+    - name: FeatherEconomyProvider
+      description: Main component that provides FeatherEconomy
+
+  listeners:
+    - name: BanknotePlaceListener
+      description: Prevent placing blocks that represent FeatherEconomy banknotes
+    - name: BanknotePickupListener
+      description: Change picked up banknotes meta based on player's language
+    - name: LanguageChangeListener
+      description: Change banknotes meta in player's inventory based on player's language

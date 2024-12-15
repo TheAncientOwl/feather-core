@@ -11,7 +11,7 @@ api-version: 1.21.1
 commands:
   balance:
     description: State the current balance of a given player
-    usage: /balance <player>
+    usage: /balance {player}
     aliases: [bal]
   eco:
     description: Manage server economy
@@ -36,7 +36,7 @@ commands:
 
   lootchests:
     description: Manage loot chests
-    usage: /lootchests [set/unset/create/delete/info/locations] <type> <display-name> <cooldown (seconds)>
+    usage: /lootchests [set/unset/create/delete/info/locations] {type} {display-name} {cooldown (seconds)}
 
   feather-reload:
     description: Reload configurations
@@ -45,23 +45,23 @@ commands:
 
   random-teleport:
     description: Teleport the player at a random location in the world
-    usage: /random-teleport <world>
+    usage: /random-teleport {world}
     aliases: [rtp]
   teleport-all:
     description: Teleport all players to the command sender
-    usage: /teleport-all <player>
+    usage: /teleport-all {player}
     aliases: [tpall]
   teleport:
     description: Teleport to a player, or teleport player1 to player2
-    usage: /teleport <player1> <player2>
+    usage: /teleport {player1} {player2}
     aliases: [tp]
   teleport-here:
     description: Teleport the target player to command sender player
-    usage: /teleport-here <player>
+    usage: /teleport-here {player}
     aliases: [tphere]
   teleport-position:
     description: Teleport to specified position in the world
-    usage: /teleport-position [x] [y] [z] <world>
+    usage: /teleport-position [x] [y] [z] {world}
     aliases: [tppos]
   teleport-last-location:
     description: Teleport to the last known location of the player
@@ -69,21 +69,21 @@ commands:
     aliases: [tplastknown]
   teleport-request:
     description: Request teleport to a player
-    usage: /teleport-request <player>
+    usage: /teleport-request {player}
     aliases: [tpa]
   teleport-here-request:
     description: Request teleport the target player to command sender player
-    usage: /teleport-here-request <player>
+    usage: /teleport-here-request {player}
     aliases: [tpahere]
   teleport-request-cancel:
     description: Cancel a sent teleport request
-    usage: /teleport-request-cancel <player>
+    usage: /teleport-request-cancel {player}
     aliases: [tpacancel]
   teleport-accept:
     description: Accept a teleport request
-    usage: /teleport-accept <player>
+    usage: /teleport-accept {player}
     aliases: [tpaccept]
   teleport-deny:
     description: Deny a teleport request
-    usage: /teleport-deny <player>
+    usage: /teleport-deny {player}
     aliases: [tpadeny]

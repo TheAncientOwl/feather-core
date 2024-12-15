@@ -1,0 +1,42 @@
+module:
+  general:
+    name: LootChests
+    description: Provide some loot with cooldowns
+    capabilities:
+      - set/unset/create/delete loot chest
+      - check info about a placed loot chest
+      - check loot chests locations
+    notes:
+      command-arguments: |
+        - "[argument]" means the argument is mandatory
+        - "{argument}" means the argument is optional
+      misc: |
+        Loot chests cannot be broken by hand for now. 
+        Removing them with world edit will not delete the chest location from database.
+
+  commands:
+    - name: lootchests:
+      implemented: true
+      description: Loot chests main command
+      usage:
+        command: /lootchests [set|unset|create|delete|info|locations] {type} {display-name} {cooldown}
+        arguments:
+          set: set targeted chest to <type>
+          unset: unset targeted
+          create: create a chest with targeted chest content, @see <type, display-name, cooldown>
+          delete: delete chest by @see <type>
+          info: of targeted chest
+          locations: of given @see <type>
+          type: of the chest <in case of set|create>
+          display-name: of the chest <in case of create>
+          cooldown: in seconds <in case of create>
+        permissions:
+          - name: feathercore.lootchests
+
+  components:
+    - name: LootChests
+      description: Main component
+
+  listeners:
+    - name: LootChestOpenListener
+      description: Open config loot-chest on interact
