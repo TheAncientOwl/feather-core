@@ -27,5 +27,5 @@ jobs:
 
       - name: Call increase_version script
         run: |
-          chmod +x scripts/increase_version.sh
-          ./scripts/increase_version.sh
+          chmod +x project/scripts/increase_version.sh
+          ./project/scripts/increase_version.sh
