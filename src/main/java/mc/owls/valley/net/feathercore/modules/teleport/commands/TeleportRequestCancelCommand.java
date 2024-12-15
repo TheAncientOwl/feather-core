@@ -75,7 +75,7 @@ public class TeleportRequestCancelCommand extends FeatherCommand<TeleportRequest
 
         switch (args.length) {
             case 1: {
-                // /tpdeny issuer-player
+                // /tpacancel issuer-player
                 final var parsedArgs = Args.parse(args, Args::getOnlinePlayer);
 
                 if (parsedArgs.success()) {

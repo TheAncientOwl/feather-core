@@ -1,0 +1,10 @@
+module:
+  general:
+    name: Logo
+    description: Display plugin logo on enable/disable
+    capabilities: |
+      Display feathercore logo
+
+  components:
+    - name: LogoManager
+      description: Main component

@@ -1,0 +1,16 @@
+module:
+  general:
+    name: Players
+    description: Module responsible with plugin related data of players
+    capabilities: |
+      IO with player's data
+
+  components:
+    - name: PlayersData
+      description: Handle CRUD with players data
+
+  listeners:
+    - name: PlayerJoinDataListener
+      description: Update player's data on join
+    - name: PlayerQuitDataListener
+      description: Update player's data on quit

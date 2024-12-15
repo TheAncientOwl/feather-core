@@ -1,0 +1,11 @@
+module:
+  general:
+    name: MongoDB
+    description: Module responsible for MongoDB connection
+    capabilities: connection to dbms for plugin's data
+
+  components:
+    - name: MongoManager
+      description: |
+        Main component.
+        Handle connection, register models and handle IO
