@@ -6,7 +6,7 @@
  *
  * @file LootChests.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @description Module responsible for managing loot chests
  */
 
@@ -14,50 +14,41 @@ package mc.owls.valley.net.feathercore.modules.loot.chests.components;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
-import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
-import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
-import mc.owls.valley.net.feathercore.modules.data.mongodb.api.accessors.LootChestsDAO;
+import mc.owls.valley.net.feathercore.core.interfaces.IFeatherLoggerProvider;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.LootChestsModel;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
+import mc.owls.valley.net.feathercore.modules.data.mongodb.interfaces.IMongoDB;
 import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
 import mc.owls.valley.net.feathercore.modules.loot.chests.interfaces.ILootChests;
 
 public class LootChests extends FeatherModule implements ILootChests {
-    private IFeatherLogger logger = null;
-    private IPlayersData playersData = null;
-    private LootChestsDAO lootChestsDAO = null;
     private LootChestsModel lootChests = null;
 
-    public LootChests(final String name, final Supplier<IConfigFile> configSupplier) {
-        super(name, configSupplier);
+    public LootChests(final InitData data) {
+        super(data);
     }
 
     @Override
-    protected void onModuleEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
-        this.logger = core.getFeatherLogger();
-        this.playersData = core.getPlayersData();
-        this.lootChestsDAO = core.getMongoDB().getLootChestsDAO();
-        this.lootChests = this.lootChestsDAO.getChests();
+    protected void onModuleEnable() throws FeatherSetupException {
+        this.lootChests = getInterface(IMongoDB.class).getLootChestsDAO().getChests();
     }
 
     @Override
     protected void onModuleDisable() {
-        this.logger.info("Saving chests data&7...");
+        getInterface(IFeatherLoggerProvider.class).getFeatherLogger().info("Saving chests data&7...");
         saveData();
-        this.logger.info("Chests data saved&7.");
+        getInterface(IFeatherLoggerProvider.class).getFeatherLogger().info("Chests data saved&7.");
     }
 
     private void saveData() {
-        this.lootChestsDAO.save(this.lootChests);
+        getInterface(IMongoDB.class).getLootChestsDAO().save(this.lootChests);
     }
 
     /**
@@ -100,7 +91,7 @@ public class LootChests extends FeatherModule implements ILootChests {
      *         null if the chest was not opened before
      */
     public Long getOpenChestTime(final Player player, final String location) {
-        final PlayerModel playerModel = this.playersData.getPlayerModel(player);
+        final PlayerModel playerModel = getInterface(IPlayersData.class).getPlayerModel(player);
         return playerModel.chestLocationToOpenTime.get(location);
     }
 
@@ -113,16 +104,17 @@ public class LootChests extends FeatherModule implements ILootChests {
      */
     public void openChest(final Player player, final String chestType, final String location, final Long now) {
         final Inventory chest = this.config.getInventory("chests." + chestType);
-        final PlayerModel playerModel = this.playersData.getPlayerModel(player);
+        final PlayerModel playerModel = getInterface(IPlayersData.class).getPlayerModel(player);
 
         if (chest != null) {
             player.openInventory(chest);
 
             playerModel.chestLocationToOpenTime.put(location, now);
-            this.playersData.markPlayerModelForSave(playerModel);
+            getInterface(IPlayersData.class).markPlayerModelForSave(playerModel);
         } else {
-            this.logger.warn("&8[&2Loot&aChests&8] &eUnknown chest type &6'" + chestType + "' &efound at location &6"
-                    + location + "&e. Removing chest location from internal database.");
+            getInterface(IFeatherLoggerProvider.class).getFeatherLogger()
+                    .warn("&8[&2Loot&aChests&8] &eUnknown chest type &6'" + chestType + "' &efound at location &6"
+                            + location + "&e. Removing chest location from internal database.");
             unsetChest(location);
             playerModel.chestLocationToOpenTime.remove(location);
         }
@@ -147,7 +139,7 @@ public class LootChests extends FeatherModule implements ILootChests {
         try {
             this.config.saveConfig();
         } catch (final Exception e) {
-            this.logger.error(
+            getInterface(IFeatherLoggerProvider.class).getFeatherLogger().error(
                     "Could not save chest config to file loot-chests.yml. \nReason: " + StringUtils.exceptionToStr(e));
         }
     }

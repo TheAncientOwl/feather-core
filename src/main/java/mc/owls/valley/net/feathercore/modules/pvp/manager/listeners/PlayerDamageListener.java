@@ -6,7 +6,7 @@
  *
  * @file PlayerDamageListener.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @description Put players in combat on damage event
  */
 
@@ -19,16 +19,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
-import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
-import mc.owls.valley.net.feathercore.modules.pvp.manager.components.PvPManager;
+import mc.owls.valley.net.feathercore.api.core.FeatherListener;
+import mc.owls.valley.net.feathercore.modules.pvp.manager.interfaces.IPvPManager;
 
-public class PlayerDamageListener implements IFeatherListener {
-    private PvPManager pvpManager = null;
-
-    @Override
-    public void onCreate(final IFeatherCoreProvider core) {
-        this.pvpManager = core.getPvPManager();
+public class PlayerDamageListener extends FeatherListener {
+    public PlayerDamageListener(final InitData data) {
+        super(data);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
@@ -54,6 +50,6 @@ public class PlayerDamageListener implements IFeatherListener {
             return;
         }
 
-        this.pvpManager.putPlayersInCombat((Player) victimEntity, damager);
+        getInterface(IPvPManager.class).putPlayersInCombat((Player) victimEntity, damager);
     }
 }

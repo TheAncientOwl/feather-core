@@ -6,7 +6,7 @@
  *
  * @file BalanceCommand.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @description Check player's balance
  */
 
@@ -25,11 +25,15 @@ import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
-import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
-import net.milkbowl.vault.economy.Economy;
+import mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomyProvider;
+import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 
+@SuppressWarnings("unchecked")
 public class BalanceCommand extends FeatherCommand<BalanceCommand.CommandData> {
+    public BalanceCommand(final InitData data) {
+        super(data);
+    }
+
     private static enum CommandType {
         SELF, OTHER
     }
@@ -37,19 +41,10 @@ public class BalanceCommand extends FeatherCommand<BalanceCommand.CommandData> {
     public static record CommandData(CommandType commandType, OfflinePlayer other) {
     }
 
-    private Economy economy = null;
-    private LanguageManager lang = null;
-
-    @Override
-    public void onCreate(final IFeatherCoreProvider core) {
-        this.economy = core.getEconomy();
-        this.lang = core.getLanguageManager();
-    }
-
     @Override
     protected boolean hasPermission(final CommandSender sender, final CommandData data) {
         if (!sender.hasPermission("feathercore.economy.general.balance")) {
-            this.lang.message(sender, Message.General.PERMISSION_DENIED);
+            getInterface(ILanguage.class).message(sender, Message.General.PERMISSION_DENIED);
             return false;
         }
         return true;
@@ -57,16 +52,16 @@ public class BalanceCommand extends FeatherCommand<BalanceCommand.CommandData> {
 
     @Override
     protected void execute(final CommandSender sender, final CommandData data) {
+        final var economy = getInterface(IFeatherEconomyProvider.class).getEconomy();
         switch (data.commandType) {
             case SELF:
-                this.lang.message(sender, Message.Economy.BALANCE_SELF,
-                        Pair.of(Placeholder.BALANCE, this.economy.format(this.economy.getBalance((Player) sender))));
+                getInterface(ILanguage.class).message(sender, Message.Economy.BALANCE_SELF,
+                        Pair.of(Placeholder.BALANCE, economy.format(economy.getBalance((Player) sender))));
                 break;
             case OTHER:
-                this.lang.message(sender, Message.Economy.BALANCE_OTHER,
+                getInterface(ILanguage.class).message(sender, Message.Economy.BALANCE_OTHER,
                         Pair.of(Placeholder.PLAYER, data.other.getName()),
-                        Pair.of(Placeholder.BALANCE, this.economy.format(this.economy.getBalance(data.other))));
-
+                        Pair.of(Placeholder.BALANCE, economy.format(economy.getBalance(data.other))));
                 break;
         }
     }
@@ -77,7 +72,8 @@ public class BalanceCommand extends FeatherCommand<BalanceCommand.CommandData> {
 
         if (args.length != 0) {
             if (args.length != 1) {
-                this.lang.message(sender, Message.General.USAGE_INVALID, Message.Economy.USAGE_BALANCE);
+                getInterface(ILanguage.class).message(sender, Message.General.USAGE_INVALID,
+                        Message.Economy.USAGE_BALANCE);
                 return null;
             }
 
@@ -85,13 +81,14 @@ public class BalanceCommand extends FeatherCommand<BalanceCommand.CommandData> {
             targetPlayer = Bukkit.getOfflinePlayer(args[0]);
 
             if (!targetPlayer.hasPlayedBefore()) {
-                this.lang.message(sender, Message.General.NOT_VALID_PLAYER, Pair.of(Placeholder.STRING, args[0]));
+                getInterface(ILanguage.class).message(sender, Message.General.NOT_VALID_PLAYER,
+                        Pair.of(Placeholder.STRING, args[0]));
                 return null;
             }
         } else if (sender instanceof Player) {
             commandType = CommandType.SELF;
         } else {
-            this.lang.message(sender, Message.General.PLAYERS_ONLY);
+            getInterface(ILanguage.class).message(sender, Message.General.PLAYERS_ONLY);
             return null;
         }
 

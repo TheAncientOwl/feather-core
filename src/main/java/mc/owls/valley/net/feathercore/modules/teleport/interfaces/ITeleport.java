@@ -6,7 +6,7 @@
  *
  * @file ITeleport.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Teleport module interface
  */
 
@@ -16,11 +16,12 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+import mc.owls.valley.net.feathercore.api.core.IConfigAccessor;
 import mc.owls.valley.net.feathercore.modules.teleport.components.Teleport;
 import mc.owls.valley.net.feathercore.modules.teleport.components.Teleport.RequestStatus;
 import mc.owls.valley.net.feathercore.modules.teleport.components.Teleport.RequestType;
 
-public interface ITeleport {
+public interface ITeleport extends IConfigAccessor {
     public void teleport(final Player who, final Player to);
 
     public void teleport(final Player who, final Location where);

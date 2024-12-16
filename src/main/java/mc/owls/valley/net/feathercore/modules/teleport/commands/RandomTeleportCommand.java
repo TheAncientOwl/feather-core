@@ -6,7 +6,7 @@
  *
  * @file RandomTeleportCommand.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @description Teleport the player at a random location in the world
  */
 
@@ -33,26 +33,19 @@ import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.common.util.TimeUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
-import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
-import mc.owls.valley.net.feathercore.modules.teleport.components.Teleport;
+import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
+import mc.owls.valley.net.feathercore.modules.teleport.interfaces.ITeleport;
 
+@SuppressWarnings("unchecked")
 public class RandomTeleportCommand extends FeatherCommand<RandomTeleportCommand.CommandData> {
+    public RandomTeleportCommand(final InitData data) {
+        super(data);
+    }
+
     public static record CommandData(Player who) {
     }
 
-    private Teleport teleport = null;
-    private LanguageManager lang = null;
-
-    private Map<UUID, Long> playersToRtpTime = null;
-
-    @Override
-    public void onCreate(final IFeatherCoreProvider core) {
-        this.teleport = core.getTeleport();
-        this.lang = core.getLanguageManager();
-
-        this.playersToRtpTime = new HashMap<>();
-    }
+    private Map<UUID, Long> playersToRtpTime = new HashMap<>();
 
     @Override
     protected boolean hasPermission(final CommandSender sender, final CommandData data) {
@@ -61,7 +54,7 @@ public class RandomTeleportCommand extends FeatherCommand<RandomTeleportCommand.
 
         if (!sender.hasPermission("feathercore.teleport.random.self." + world.getName()) ||
                 (!selfTeleport && !sender.hasPermission("feathercore.teleport.random.other." + world.getName()))) {
-            this.lang.message(sender, Message.General.NO_PERMISSION);
+            getInterface(ILanguage.class).message(sender, Message.General.NO_PERMISSION);
             return false;
         }
         return true;
@@ -75,34 +68,34 @@ public class RandomTeleportCommand extends FeatherCommand<RandomTeleportCommand.
 
         if (sender instanceof Player && !sender.hasPermission("feathercore.teleport.random.bypass-cooldown")) {
             final var rtpTime = this.playersToRtpTime.get(((Player) sender).getUniqueId());
-            final var cooldown = this.teleport.getConfig().getMillis("random.cooldown");
+            final var cooldown = getInterface(ITeleport.class).getConfig().getMillis("random.cooldown");
 
             if (rtpTime != null && rtpTime + cooldown > now) {
-                this.lang.message(sender, Message.Teleport.RTP_COOLDOWN,
+                getInterface(ILanguage.class).message(sender, Message.Teleport.RTP_COOLDOWN,
                         Pair.of(Placeholder.COOLDOWN, TimeUtils.formatRemaining(rtpTime, cooldown)));
                 return;
             }
         }
 
-        this.lang.message(sender, Message.Teleport.RTP_TRY);
+        getInterface(ILanguage.class).message(sender, Message.Teleport.RTP_TRY);
 
         final Location location = randomize(data.who.getLocation());
 
         if (location != null) {
-            this.teleport.teleport(data.who, location);
+            getInterface(ITeleport.class).teleport(data.who, location);
 
             if (sender instanceof Player) {
                 this.playersToRtpTime.put(((Player) sender).getUniqueId(), now);
             }
 
             if (selfTeleport) {
-                this.lang.message(sender, Message.Teleport.RTP_SELF,
+                getInterface(ILanguage.class).message(sender, Message.Teleport.RTP_SELF,
                         Pair.of(Placeholder.WORLD, location.getWorld().getName()),
                         Pair.of(Placeholder.X, location.getX()),
                         Pair.of(Placeholder.Y, location.getY()),
                         Pair.of(Placeholder.Z, location.getZ()));
             } else {
-                this.lang.message(sender, Message.Teleport.RTP_OTHER,
+                getInterface(ILanguage.class).message(sender, Message.Teleport.RTP_OTHER,
                         Pair.of(Placeholder.PLAYER, data.who.getName()),
                         Pair.of(Placeholder.WORLD, location.getWorld().getName()),
                         Pair.of(Placeholder.X, location.getX()),
@@ -110,7 +103,7 @@ public class RandomTeleportCommand extends FeatherCommand<RandomTeleportCommand.
                         Pair.of(Placeholder.Z, location.getZ()));
             }
         } else {
-            this.lang.message(sender, Message.Teleport.RTP_FAIL);
+            getInterface(ILanguage.class).message(sender, Message.Teleport.RTP_FAIL);
         }
     }
 
@@ -119,7 +112,8 @@ public class RandomTeleportCommand extends FeatherCommand<RandomTeleportCommand.
         WorldBorder worldBorder = world.getWorldBorder();
         Random random = new Random();
 
-        final var worldConfig = this.teleport.getConfig().getConfigurationSection("random." + world.getName());
+        final var worldConfig = getInterface(ITeleport.class).getConfig()
+                .getConfigurationSection("random." + world.getName());
 
         final var trials = worldConfig.getInt("trials");
         final var minDistance = worldConfig.getInt("min-distance");
@@ -174,7 +168,7 @@ public class RandomTeleportCommand extends FeatherCommand<RandomTeleportCommand.
             case 0: {
                 // /rtp
                 if (!(sender instanceof Player)) {
-                    this.lang.message(sender, Message.General.PLAYERS_ONLY);
+                    getInterface(ILanguage.class).message(sender, Message.General.PLAYERS_ONLY);
                     return null;
                 }
                 who = (Player) sender;
@@ -187,14 +181,16 @@ public class RandomTeleportCommand extends FeatherCommand<RandomTeleportCommand.
                 if (parsedArgs.success()) {
                     who = parsedArgs.getPlayer(0);
                 } else {
-                    this.lang.message(sender, Message.General.NOT_ONLINE_PLAYER, Pair.of(Placeholder.PLAYER, args[0]));
+                    getInterface(ILanguage.class).message(sender, Message.General.NOT_ONLINE_PLAYER,
+                            Pair.of(Placeholder.PLAYER, args[0]));
                     return null;
                 }
 
                 break;
             }
             default: {
-                this.lang.message(sender, Message.General.USAGE_INVALID, Message.Teleport.USAGE_RTP);
+                getInterface(ILanguage.class).message(sender, Message.General.USAGE_INVALID,
+                        Message.Teleport.USAGE_RTP);
                 return null;
             }
         }

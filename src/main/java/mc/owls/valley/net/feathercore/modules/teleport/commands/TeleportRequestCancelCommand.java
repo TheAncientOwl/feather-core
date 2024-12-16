@@ -6,7 +6,7 @@
  *
  * @file TeleportRequestCancelCommand.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @description Cancel a sent teleport request
  */
 
@@ -24,27 +24,22 @@ import mc.owls.valley.net.feathercore.api.common.minecraft.Args;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
-import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
-import mc.owls.valley.net.feathercore.modules.teleport.components.Teleport;
+import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
+import mc.owls.valley.net.feathercore.modules.teleport.interfaces.ITeleport;
 
+@SuppressWarnings("unchecked")
 public class TeleportRequestCancelCommand extends FeatherCommand<TeleportRequestCancelCommand.CommandData> {
-    public static record CommandData(Player issuer, Player target) {
+    public TeleportRequestCancelCommand(final InitData data) {
+        super(data);
     }
 
-    private Teleport teleport = null;
-    private LanguageManager lang = null;
-
-    @Override
-    public void onCreate(final IFeatherCoreProvider core) {
-        this.teleport = core.getTeleport();
-        this.lang = core.getLanguageManager();
+    public static record CommandData(Player issuer, Player target) {
     }
 
     @Override
     protected boolean hasPermission(final CommandSender sender, final CommandData data) {
         if (!sender.hasPermission("feathercore.teleport.request.cancel")) {
-            this.lang.message(sender, Message.General.NO_PERMISSION);
+            getInterface(ILanguage.class).message(sender, Message.General.NO_PERMISSION);
             return false;
         }
         return true;
@@ -52,13 +47,13 @@ public class TeleportRequestCancelCommand extends FeatherCommand<TeleportRequest
 
     @Override
     protected void execute(final CommandSender sender, final CommandData data) {
-        switch (this.teleport.cancelRequest(data.issuer, data.target)) {
+        switch (getInterface(ITeleport.class).cancelRequest(data.issuer, data.target)) {
             case NO_SUCH_REQUEST: {
-                this.lang.message(sender, Message.Teleport.NO_SUCH_REQUEST);
+                getInterface(ILanguage.class).message(sender, Message.Teleport.NO_SUCH_REQUEST);
                 break;
             }
             case CANCELLED: {
-                this.lang.message(data.issuer, Message.Teleport.REQUEST_CANCEL,
+                getInterface(ILanguage.class).message(data.issuer, Message.Teleport.REQUEST_CANCEL,
                         Pair.of(Placeholder.PLAYER, data.target.getName()));
                 break;
             }
@@ -80,21 +75,22 @@ public class TeleportRequestCancelCommand extends FeatherCommand<TeleportRequest
 
                 if (parsedArgs.success()) {
                     if (!(sender instanceof Player)) {
-                        this.lang.message(sender, Message.General.PLAYERS_ONLY);
+                        getInterface(ILanguage.class).message(sender, Message.General.PLAYERS_ONLY);
                         return null;
                     }
 
                     issuer = (Player) sender;
                     target = parsedArgs.getPlayer(0);
                 } else {
-                    this.lang.message(sender, Message.General.NOT_ONLINE_PLAYER, Pair.of(Placeholder.PLAYER, args[0]));
+                    getInterface(ILanguage.class).message(sender, Message.General.NOT_ONLINE_PLAYER,
+                            Pair.of(Placeholder.PLAYER, args[0]));
                     return null;
                 }
 
                 break;
             }
             default: {
-                this.lang.message(sender, Message.General.USAGE_INVALID,
+                getInterface(ILanguage.class).message(sender, Message.General.USAGE_INVALID,
                         Message.Teleport.USAGE_REQUEST_CANCEL);
                 return null;
             }

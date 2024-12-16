@@ -6,7 +6,7 @@
  *
  * @file TeleportHereCommand.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @description Teleport the target player to command sender player
  */
 
@@ -24,27 +24,22 @@ import mc.owls.valley.net.feathercore.api.common.minecraft.Args;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
-import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
-import mc.owls.valley.net.feathercore.modules.teleport.components.Teleport;
+import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
+import mc.owls.valley.net.feathercore.modules.teleport.interfaces.ITeleport;
 
+@SuppressWarnings("unchecked")
 public class TeleportHereCommand extends FeatherCommand<TeleportHereCommand.CommandData> {
-    public static record CommandData(Player who) {
+    public TeleportHereCommand(final InitData data) {
+        super(data);
     }
 
-    private Teleport teleport = null;
-    private LanguageManager lang = null;
-
-    @Override
-    public void onCreate(final IFeatherCoreProvider core) {
-        this.teleport = core.getTeleport();
-        this.lang = core.getLanguageManager();
+    public static record CommandData(Player who) {
     }
 
     @Override
     protected boolean hasPermission(final CommandSender sender, final CommandData data) {
         if (!sender.hasPermission("feathercore.teleport.here")) {
-            this.lang.message(sender, Message.General.NO_PERMISSION);
+            getInterface(ILanguage.class).message(sender, Message.General.NO_PERMISSION);
             return false;
         }
         return true;
@@ -53,13 +48,14 @@ public class TeleportHereCommand extends FeatherCommand<TeleportHereCommand.Comm
     @Override
     protected void execute(final CommandSender sender, final CommandData data) {
         if (!(sender instanceof Player)) {
-            this.lang.message(sender, Message.General.PLAYERS_ONLY);
+            getInterface(ILanguage.class).message(sender, Message.General.PLAYERS_ONLY);
             return;
         }
 
-        this.teleport.teleport(data.who, (Player) sender);
+        getInterface(ITeleport.class).teleport(data.who, (Player) sender);
 
-        this.lang.message(sender, Message.Teleport.HERE, Pair.of(Placeholder.PLAYER, data.who.getName()));
+        getInterface(ILanguage.class).message(sender, Message.Teleport.HERE,
+                Pair.of(Placeholder.PLAYER, data.who.getName()));
     }
 
     protected CommandData parse(final CommandSender sender, final String[] args) {
@@ -73,14 +69,16 @@ public class TeleportHereCommand extends FeatherCommand<TeleportHereCommand.Comm
                 if (parsedArgs.success()) {
                     who = parsedArgs.getPlayer(0);
                 } else {
-                    this.lang.message(sender, Message.General.NOT_ONLINE_PLAYER, Pair.of(Placeholder.PLAYER, args[0]));
+                    getInterface(ILanguage.class).message(sender, Message.General.NOT_ONLINE_PLAYER,
+                            Pair.of(Placeholder.PLAYER, args[0]));
                     return null;
                 }
 
                 break;
             }
             default: {
-                this.lang.message(sender, Message.General.USAGE_INVALID, Message.Teleport.USAGE_TPHERE);
+                getInterface(ILanguage.class).message(sender, Message.General.USAGE_INVALID,
+                        Message.Teleport.USAGE_TPHERE);
                 return null;
             }
         }

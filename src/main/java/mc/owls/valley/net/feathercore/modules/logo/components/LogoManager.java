@@ -6,34 +6,26 @@
  *
  * @file LogoManager.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @description Module responsible for sending plugin logo to console
  */
 
 package mc.owls.valley.net.feathercore.modules.logo.components;
 
-import java.util.function.Supplier;
-
-import org.bukkit.plugin.java.JavaPlugin;
-
 import mc.owls.valley.net.feathercore.api.common.minecraft.YamlUtils;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
-import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
-import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
+import mc.owls.valley.net.feathercore.core.interfaces.IPluginProvider;
 import mc.owls.valley.net.feathercore.modules.logo.interfaces.ILogoManager;
 
 public class LogoManager extends FeatherModule implements ILogoManager {
-    private JavaPlugin plugin = null;
-
-    public LogoManager(final String name, final Supplier<IConfigFile> configSupplier) {
-        super(name, configSupplier);
+    public LogoManager(final InitData data) {
+        super(data);
     }
 
     @Override
-    protected void onModuleEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
-        this.plugin = core.getPlugin();
+    protected void onModuleEnable() throws FeatherSetupException {
         this.sendLogoMessage();
     }
 
@@ -46,13 +38,14 @@ public class LogoManager extends FeatherModule implements ILogoManager {
     }
 
     private void sendLogoMessage() throws FeatherSetupException {
-        final var server = this.plugin.getServer();
+        final var plugin = getInterface(IPluginProvider.class).getPlugin();
+        final var server = plugin.getServer();
 
         final String[] logo = new String[] {
                 "",
                 " &e&l░░░░░ &6&l  ░░░░",
                 " &e&l░░    &6&l░░    ░░  &eFeather&6Core &bv"
-                        + YamlUtils.loadYaml(this.plugin, "plugin.yml").getString(
+                        + YamlUtils.loadYaml(plugin, "plugin.yml").getString(
                                 "version"),
                 " &e&l░░░░  &6&l░░        &7&oRunning on " + getServerType() + " " + server.getVersion(),
                 " &e&l░░    &6&l░░    ░░  &7&oAuthor: DefaultyBuf",

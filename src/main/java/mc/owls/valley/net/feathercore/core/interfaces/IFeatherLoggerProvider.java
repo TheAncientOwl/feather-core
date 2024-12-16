@@ -4,16 +4,16 @@
  * ------------------------------------------------------------------------- *
  * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
  *
- * @file IEconomyProvider.java
+ * @file IFeatherLoggerProvider.java
  * @author Alexandru Delegeanu
  * @version 0.1
- * @description Economy module interface
+ * @description Helper interface
  */
 
-package mc.owls.valley.net.feathercore.modules.economy.interfaces;
+package mc.owls.valley.net.feathercore.core.interfaces;
 
-import net.milkbowl.vault.economy.Economy;
+import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
 
-public interface IEconomyProvider {
-    public Economy getEconomy();
+public interface IFeatherLoggerProvider {
+    public IFeatherLogger getFeatherLogger();
 }

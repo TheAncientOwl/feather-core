@@ -6,7 +6,7 @@
  *
  * @file Teleport.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @description Module responsible for managing teleports
  */
 
@@ -17,20 +17,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.function.Supplier;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
 import mc.owls.valley.net.feathercore.api.common.java.JavaExt;
-import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
-import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
+import mc.owls.valley.net.feathercore.core.interfaces.IPluginProvider;
 import mc.owls.valley.net.feathercore.modules.teleport.interfaces.ITeleport;
 
 public class Teleport extends FeatherModule implements ITeleport {
@@ -78,21 +75,17 @@ public class Teleport extends FeatherModule implements ITeleport {
 
     @SuppressWarnings("unused")
     private BukkitTask teleportCheckTask = null;
-    private JavaPlugin plugin = null;
-    private List<TeleportRequest> requests = null;
-    private Map<UUID, TeleportRequest> teleports = null;
+    private List<TeleportRequest> requests = new ArrayList<>();
+    private Map<UUID, TeleportRequest> teleports = new HashMap<>();
 
-    public Teleport(final String name, final Supplier<IConfigFile> configSupplier) {
-        super(name, configSupplier);
+    public Teleport(final InitData data) {
+        super(data);
     }
 
     @Override
-    protected void onModuleEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
-        this.requests = new ArrayList<>();
-        this.teleports = new HashMap<>();
-        this.plugin = core.getPlugin();
-
-        this.teleportCheckTask = Bukkit.getScheduler().runTaskTimerAsynchronously(core.getPlugin(),
+    protected void onModuleEnable() throws FeatherSetupException {
+        this.teleportCheckTask = Bukkit.getScheduler().runTaskTimerAsynchronously(
+                getInterface(IPluginProvider.class).getPlugin(),
                 new TeleportChecker(this), 0, this.config.getTicks("request.check-interval"));
     }
 
@@ -313,7 +306,7 @@ public class Teleport extends FeatherModule implements ITeleport {
                 }
             }
 
-            Bukkit.getScheduler().runTask(this.teleport.plugin, () -> {
+            Bukkit.getScheduler().runTask(this.teleport.getInterface(IPluginProvider.class).getPlugin(), () -> {
                 teleportsToExecute.forEach((entry) -> {
                     switch (entry.type) {
                         case TO: {

@@ -6,7 +6,7 @@
  *
  * @file PvPManager.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @description Module responsible for managing pvp restrictions
  */
 
@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.function.Supplier;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -25,30 +24,26 @@ import org.bukkit.scheduler.BukkitTask;
 import mc.owls.valley.net.feathercore.api.common.java.Pair;
 import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
-import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
-import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
-import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
+import mc.owls.valley.net.feathercore.core.interfaces.IPluginProvider;
+import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 import mc.owls.valley.net.feathercore.modules.pvp.manager.interfaces.IPvPManager;
 
+@SuppressWarnings("unchecked")
 public class PvPManager extends FeatherModule implements IPvPManager {
-    private Map<UUID, Long> playersInCombat = null;
-    private LanguageManager lang = null;
+    private final Map<UUID, Long> playersInCombat = new HashMap<>();
     @SuppressWarnings("unused")
     private BukkitTask combatCheckTask = null;
 
-    public PvPManager(final String name, final Supplier<IConfigFile> configSupplier) {
-        super(name, configSupplier);
+    public PvPManager(final InitData data) {
+        super(data);
     }
 
     @Override
-    protected void onModuleEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
-        this.lang = core.getLanguageManager();
-
-        this.playersInCombat = new HashMap<>();
-
-        this.combatCheckTask = Bukkit.getScheduler().runTaskTimerAsynchronously(core.getPlugin(),
+    protected void onModuleEnable() throws FeatherSetupException {
+        this.combatCheckTask = Bukkit.getScheduler().runTaskTimerAsynchronously(
+                getInterface(IPluginProvider.class).getPlugin(),
                 new CombatChecker(this), 0, this.config.getTicks("combat.check-interval"));
     }
 
@@ -110,7 +105,7 @@ public class PvPManager extends FeatherModule implements IPvPManager {
     private void putPlayerInCombat(final Player player, final String otherName,
             final long currentTime, final String messageKey) {
         if (!this.playersInCombat.containsKey(player.getUniqueId())) {
-            this.lang.message(player, messageKey,
+            getInterface(ILanguage.class).message(player, messageKey,
                     Pair.of(Placeholder.PLAYER, otherName));
             if (!player.hasPermission("pvp.bypass.fly")) {
                 player.setFlying(false);
@@ -128,7 +123,7 @@ public class PvPManager extends FeatherModule implements IPvPManager {
     @Override
     public void removePlayerInCombat(final Player player) {
         this.playersInCombat.remove(player.getUniqueId());
-        this.lang.message(player, Message.PvPManager.COMBAT_ENDED);
+        getInterface(ILanguage.class).message(player, Message.PvPManager.COMBAT_ENDED);
     }
 
     /**
@@ -141,7 +136,7 @@ public class PvPManager extends FeatherModule implements IPvPManager {
         this.playersInCombat.remove(uuid);
         final Player player = Bukkit.getPlayer(uuid);
         if (player != null && player.isOnline()) {
-            this.lang.message(player, Message.PvPManager.COMBAT_ENDED);
+            getInterface(ILanguage.class).message(player, Message.PvPManager.COMBAT_ENDED);
         }
     }
 

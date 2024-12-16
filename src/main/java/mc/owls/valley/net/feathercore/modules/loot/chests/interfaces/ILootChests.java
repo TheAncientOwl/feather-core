@@ -17,7 +17,9 @@ import java.util.List;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
-public interface ILootChests {
+import mc.owls.valley.net.feathercore.api.core.IConfigAccessor;
+
+public interface ILootChests extends IConfigAccessor {
     /**
      * Self explanatory
      * 

@@ -6,7 +6,7 @@
  *
  * @file PayToggleCommand.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @description Toggle on/off receiving in-game payments
  */
 
@@ -20,29 +20,22 @@ import org.bukkit.entity.Player;
 
 import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
-import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
-import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
+import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 
 public class PayToggleCommand extends FeatherCommand<PayToggleCommand.CommandData> {
-    public static record CommandData(PlayerModel playerModel) {
+    public PayToggleCommand(final InitData data) {
+        super(data);
     }
 
-    private IPlayersData playersData = null;
-    private LanguageManager lang = null;
-
-    @Override
-    public void onCreate(final IFeatherCoreProvider core) {
-        this.playersData = core.getPlayersData();
-        this.lang = core.getLanguageManager();
-        this.playersData = core.getPlayersData();
+    public static record CommandData(PlayerModel playerModel) {
     }
 
     @Override
     protected boolean hasPermission(final CommandSender sender, final CommandData data) {
         if (!sender.hasPermission("feathercore.economy.general.paytoggle")) {
-            this.lang.message(sender, Message.General.PERMISSION_DENIED);
+            getInterface(ILanguage.class).message(sender, Message.General.PERMISSION_DENIED);
             return false;
         }
         return true;
@@ -51,26 +44,26 @@ public class PayToggleCommand extends FeatherCommand<PayToggleCommand.CommandDat
     @Override
     protected void execute(final CommandSender sender, final CommandData data) {
         data.playerModel.acceptsPayments = !data.playerModel.acceptsPayments;
-        this.playersData.markPlayerModelForSave(data.playerModel);
+        getInterface(IPlayersData.class).markPlayerModelForSave(data.playerModel);
 
-        this.lang.message(sender,
+        getInterface(ILanguage.class).message(sender,
                 data.playerModel.acceptsPayments ? Message.Economy.PAY_TOGGLE_TRUE : Message.Economy.PAY_TOGGLE_FALSE);
     }
 
     protected CommandData parse(final CommandSender sender, final String args[]) {
         // 3. check the basics
         if (!(sender instanceof Player)) {
-            this.lang.message(sender, Message.General.PLAYERS_ONLY);
+            getInterface(ILanguage.class).message(sender, Message.General.PLAYERS_ONLY);
             return null;
         }
 
         if (args.length != 0) {
-            this.lang.message(sender, Message.General.USAGE_INVALID, Message.Economy.USAGE_PAY);
+            getInterface(ILanguage.class).message(sender, Message.General.USAGE_INVALID, Message.Economy.USAGE_PAY);
             return null;
         }
 
         // 2. check if player data is stored
-        final PlayerModel playerModel = this.playersData.getPlayerModel((Player) sender);
+        final PlayerModel playerModel = getInterface(IPlayersData.class).getPlayerModel((Player) sender);
         if (playerModel == null) {
             return null;
         }

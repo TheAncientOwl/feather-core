@@ -6,7 +6,7 @@
  *
  * @file IPvPManager.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description PvPManager module interface
  */
 
@@ -17,7 +17,9 @@ import java.util.UUID;
 
 import org.bukkit.entity.Player;
 
-public interface IPvPManager {
+import mc.owls.valley.net.feathercore.api.core.IConfigAccessor;
+
+public interface IPvPManager extends IConfigAccessor {
     /**
      * Check if given player is tagged in combat.
      * 
