@@ -6,11 +6,13 @@
  *
  * @file ILanguage.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Language module interface
  */
 
 package mc.owls.valley.net.feathercore.modules.language.interfaces;
+
+import java.util.List;
 
 import org.bukkit.command.CommandSender;
 
@@ -22,8 +24,10 @@ public interface ILanguage {
 
     public void message(final CommandSender receiver, String... keys);
 
+    public void message(final CommandSender receiver, final String key, Pair<String, Object> placeholder);
+
     public void message(final CommandSender receiver, final String key,
-            @SuppressWarnings("unchecked") Pair<String, Object>... placeholders);
+            final List<Pair<String, Object>> placeholders);
 
     public IConfigFile getTranslation(final CommandSender sender);
 

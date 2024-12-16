@@ -6,7 +6,7 @@
  *
  * @file PayCommand.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @description Pay player with in-game currency
  */
 
@@ -30,7 +30,6 @@ import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersDa
 import mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomyProvider;
 import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 
-@SuppressWarnings("unchecked")
 public class PayCommand extends FeatherCommand<PayCommand.CommandData> {
     public PayCommand(final InitData data) {
         super(data);
@@ -55,12 +54,12 @@ public class PayCommand extends FeatherCommand<PayCommand.CommandData> {
 
         final var amount = getInterface(IFeatherEconomyProvider.class).getEconomy().format(data.amount);
 
-        getInterface(ILanguage.class).message(sender, Message.Economy.PAY_SEND,
+        getInterface(ILanguage.class).message(sender, Message.Economy.PAY_SEND, List.of(
                 Pair.of(Placeholder.PLAYER, data.receiver.getName()),
-                Pair.of(Placeholder.AMOUNT, amount));
-        getInterface(ILanguage.class).message((Player) data.receiver, Message.Economy.PAY_RECEIVE,
+                Pair.of(Placeholder.AMOUNT, amount)));
+        getInterface(ILanguage.class).message((Player) data.receiver, Message.Economy.PAY_RECEIVE, List.of(
                 Pair.of(Placeholder.PLAYER, ((Player) sender).getName()),
-                Pair.of(Placeholder.AMOUNT, amount));
+                Pair.of(Placeholder.AMOUNT, amount)));
     }
 
     protected CommandData parse(final CommandSender sender, final String[] args) {

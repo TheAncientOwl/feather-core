@@ -6,7 +6,7 @@
  *
  * @file TeleportRequestCancelCommand.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @description Cancel a sent teleport request
  */
 
@@ -27,7 +27,6 @@ import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 import mc.owls.valley.net.feathercore.modules.teleport.interfaces.ITeleport;
 
-@SuppressWarnings("unchecked")
 public class TeleportRequestCancelCommand extends FeatherCommand<TeleportRequestCancelCommand.CommandData> {
     public TeleportRequestCancelCommand(final InitData data) {
         super(data);

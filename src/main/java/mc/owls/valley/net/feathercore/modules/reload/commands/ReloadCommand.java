@@ -6,7 +6,7 @@
  *
  * @file ReloadCommand.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @description Reload configurations command
  */
 
@@ -27,7 +27,6 @@ import mc.owls.valley.net.feathercore.core.interfaces.IEnabledModulesProvider;
 import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
 import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 
-@SuppressWarnings("unchecked")
 public class ReloadCommand extends FeatherCommand<ReloadCommand.CommandData> {
     public ReloadCommand(final InitData data) {
         super(data);

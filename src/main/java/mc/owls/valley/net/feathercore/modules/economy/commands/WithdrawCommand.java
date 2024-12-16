@@ -6,7 +6,7 @@
  *
  * @file WithdrawCommand.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @description Withdraw banknotes from player's balance
  */
 
@@ -34,7 +34,6 @@ import mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomy
 import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
-@SuppressWarnings("unchecked")
 public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData> {
     public WithdrawCommand(final InitData data) {
         super(data);
@@ -57,11 +56,12 @@ public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData>
         getInterface(IFeatherEconomyProvider.class).getEconomy().withdrawPlayer((Player) sender, data.withdrawValue);
         ((Player) sender).getInventory().addItem(data.banknote);
 
-        getInterface(ILanguage.class).message(sender, Message.Economy.WITHDRAW_SUCCESS,
+        getInterface(ILanguage.class).message(sender, Message.Economy.WITHDRAW_SUCCESS, List.of(
                 Pair.of(Placeholder.AMOUNT,
                         getInterface(IFeatherEconomyProvider.class).getEconomy().format(data.withdrawValue)),
                 Pair.of(Placeholder.BALANCE, getInterface(IFeatherEconomyProvider.class).getEconomy()
-                        .format(getInterface(IFeatherEconomyProvider.class).getEconomy().getBalance((Player) sender))));
+                        .format(getInterface(IFeatherEconomyProvider.class).getEconomy()
+                                .getBalance((Player) sender)))));
     }
 
     protected CommandData parse(final CommandSender sender, final String[] args) {
@@ -185,7 +185,8 @@ public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData>
                         getInterface(ILanguage.class).getTranslation(sender).getString(Message.Economy.BANKNOTE_NAME)));
         meta.lore(lore.stream()
                 .map(line -> LegacyComponentSerializer.legacyAmpersand()
-                        .deserialize(StringUtils.replacePlaceholders(line, Pair.of(Placeholder.AMOUNT, banknoteValue))))
+                        .deserialize(StringUtils.replacePlaceholders(line,
+                                List.of(Pair.of(Placeholder.AMOUNT, banknoteValue)))))
                 .toList());
         new NamespacedKey(getInterface(IPluginProvider.class).getPlugin(), meta,
                 getInterface(IFeatherEconomyProvider.class).getConfig().getString("banknote.key"))

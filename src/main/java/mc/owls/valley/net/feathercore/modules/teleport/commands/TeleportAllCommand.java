@@ -6,7 +6,7 @@
  *
  * @file TeleportAllCommand.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @description Teleport all players to the command sender
  */
 
@@ -28,7 +28,6 @@ import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 import mc.owls.valley.net.feathercore.modules.teleport.interfaces.ITeleport;
 
-@SuppressWarnings("unchecked")
 public class TeleportAllCommand extends FeatherCommand<TeleportAllCommand.CommandData> {
     public TeleportAllCommand(final InitData data) {
         super(data);

@@ -6,7 +6,7 @@
  *
  * @file TeleportAcceptCommand.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @description Accept a teleport request
  */
 
@@ -28,7 +28,6 @@ import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 import mc.owls.valley.net.feathercore.modules.teleport.interfaces.ITeleport;
 
-@SuppressWarnings("unchecked")
 public class TeleportAcceptCommand extends FeatherCommand<TeleportAcceptCommand.CommandData> {
     public TeleportAcceptCommand(final InitData data) {
         super(data);

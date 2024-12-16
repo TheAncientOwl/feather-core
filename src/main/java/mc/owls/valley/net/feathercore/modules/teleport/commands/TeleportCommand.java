@@ -6,7 +6,7 @@
  *
  * @file TeleportCommand.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @description Teleport to a player, or teleport player1 to player2
  */
 
@@ -27,7 +27,6 @@ import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 import mc.owls.valley.net.feathercore.modules.teleport.interfaces.ITeleport;
 
-@SuppressWarnings("unchecked")
 public class TeleportCommand extends FeatherCommand<TeleportCommand.CommandData> {
     public TeleportCommand(final InitData data) {
         super(data);
@@ -55,12 +54,12 @@ public class TeleportCommand extends FeatherCommand<TeleportCommand.CommandData>
         getInterface(ITeleport.class).teleport(data.who, data.destination);
 
         if (selfTeleport) {
-            getInterface(ILanguage.class).message(sender, Message.Teleport.PLAYER_SELF,
-                    Pair.of(Placeholder.PLAYER, data.destination.getName()));
+            getInterface(ILanguage.class).message(sender, Message.Teleport.PLAYER_SELF, List.of(
+                    Pair.of(Placeholder.PLAYER, data.destination.getName())));
         } else {
-            getInterface(ILanguage.class).message(sender, Message.Teleport.PLAYER,
+            getInterface(ILanguage.class).message(sender, Message.Teleport.PLAYER, List.of(
                     Pair.of(Placeholder.PLAYER1, data.who.getName()),
-                    Pair.of(Placeholder.PLAYER2, data.destination.getName()));
+                    Pair.of(Placeholder.PLAYER2, data.destination.getName())));
         }
     }
 

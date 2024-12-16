@@ -6,7 +6,7 @@
  *
  * @file LanguageManager.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @description Module responsible for managing plugin messages translations
  */
 
@@ -14,6 +14,7 @@ package mc.owls.valley.net.feathercore.modules.language.components;
 
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.bukkit.command.CommandSender;
@@ -110,8 +111,17 @@ public class LanguageManager extends FeatherModule implements ILanguage {
     }
 
     @Override
-    @SafeVarargs
-    public final void message(final CommandSender receiver, final String key, Pair<String, Object>... placeholders) {
+    public void message(final CommandSender receiver, final String key, Pair<String, Object> placeholder) {
+        receiver
+                .sendMessage(StringUtils
+                        .translateColors(
+                                getTranslation(receiver).getString(key).replace(placeholder.first,
+                                        placeholder.second.toString())));
+    }
+
+    @Override
+    public final void message(final CommandSender receiver, final String key,
+            final List<Pair<String, Object>> placeholders) {
         receiver
                 .sendMessage(StringUtils
                         .translateColors(StringUtils.replacePlaceholders(

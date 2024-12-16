@@ -6,7 +6,7 @@
  *
  * @file TeleportPositionCommand.java
  * @author Alexandru Delegeanu
- * @version 0.8
+ * @version 0.9
  * @description Teleport to specified position in the world
  */
 
@@ -29,7 +29,6 @@ import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 import mc.owls.valley.net.feathercore.modules.teleport.interfaces.ITeleport;
 
-@SuppressWarnings("unchecked")
 public class TeleportPositionCommand extends FeatherCommand<TeleportPositionCommand.CommandData> {
     public TeleportPositionCommand(final InitData data) {
         super(data);
@@ -57,19 +56,19 @@ public class TeleportPositionCommand extends FeatherCommand<TeleportPositionComm
 
         getInterface(ITeleport.class).teleport(data.player, data.x, data.y, data.z, data.world);
 
-        getInterface(ILanguage.class).message(data.player, Message.Teleport.POSITION,
+        getInterface(ILanguage.class).message(data.player, Message.Teleport.POSITION, List.of(
                 Pair.of(Placeholder.X, (int) data.x),
                 Pair.of(Placeholder.Y, (int) data.y),
                 Pair.of(Placeholder.Z, (int) data.z),
-                Pair.of(Placeholder.WORLD, data.world.getName()));
+                Pair.of(Placeholder.WORLD, data.world.getName())));
 
         if (!selfTeleport) {
-            getInterface(ILanguage.class).message(sender, Message.Teleport.POSITION_OTHER,
+            getInterface(ILanguage.class).message(sender, Message.Teleport.POSITION_OTHER, List.of(
                     Pair.of(Placeholder.PLAYER, data.player.getName()),
                     Pair.of(Placeholder.X, (int) data.x),
                     Pair.of(Placeholder.Y, (int) data.y),
                     Pair.of(Placeholder.Z, (int) data.z),
-                    Pair.of(Placeholder.WORLD, data.world.getName()));
+                    Pair.of(Placeholder.WORLD, data.world.getName())));
         }
     }
 

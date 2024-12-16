@@ -6,7 +6,7 @@
  *
  * @file LootChestsCommand.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @description Module main command
  */
 
@@ -30,7 +30,6 @@ import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 import mc.owls.valley.net.feathercore.modules.loot.chests.interfaces.ILootChests;
 
-@SuppressWarnings("unchecked")
 public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandData> {
     public LootChestsCommand(final InitData data) {
         super(data);
@@ -164,9 +163,9 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
         final var chestLocation = data.chest.getLocation().toString();
         getInterface(ILootChests.class).setChest(chestLocation, data.chestType);
 
-        getInterface(ILanguage.class).message(sender, Message.LootChests.SET_SUCCESS,
+        getInterface(ILanguage.class).message(sender, Message.LootChests.SET_SUCCESS, List.of(
                 Pair.of(Placeholder.LOCATION, chestLocation),
-                Pair.of(Placeholder.TYPE, data.chestType));
+                Pair.of(Placeholder.TYPE, data.chestType)));
     }
 
     private void executeUnset(final CommandSender sender, final CommandData data) {
@@ -179,9 +178,9 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
 
         getInterface(ILootChests.class).unsetChest(chestLocation);
 
-        getInterface(ILanguage.class).message(sender, Message.LootChests.UNSET_SUCCESS,
+        getInterface(ILanguage.class).message(sender, Message.LootChests.UNSET_SUCCESS, List.of(
                 Pair.of(Placeholder.LOCATION, chestLocation),
-                Pair.of(Placeholder.TYPE, data.chestType));
+                Pair.of(Placeholder.TYPE, data.chestType)));
     }
 
     private void executeCreate(final CommandSender sender, final CommandData data) {
@@ -212,9 +211,9 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
         final var locations = getInterface(ILootChests.class).getChestLocations(data.chestType);
 
         if (locations.isEmpty()) {
-            getInterface(ILanguage.class).message(sender, Message.LootChests.LOCATIONS,
+            getInterface(ILanguage.class).message(sender, Message.LootChests.LOCATIONS, List.of(
                     Pair.of(Placeholder.TYPE, data.chestType),
-                    Pair.of(Placeholder.LOCATIONS, "none"));
+                    Pair.of(Placeholder.LOCATIONS, "none")));
             return;
         }
 
@@ -223,9 +222,9 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
             sb.append(index).append(". ").append(locations.get(index)).append("\n  ");
         }
 
-        getInterface(ILanguage.class).message(sender, Message.LootChests.LOCATIONS,
+        getInterface(ILanguage.class).message(sender, Message.LootChests.LOCATIONS, List.of(
                 Pair.of(Placeholder.TYPE, data.chestType),
-                Pair.of(Placeholder.LOCATIONS, sb.toString()));
+                Pair.of(Placeholder.LOCATIONS, sb.toString())));
     }
 
     @Override

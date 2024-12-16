@@ -6,7 +6,7 @@
  *
  * @file LanguageCommand.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @description Manage player's messages language
  */
 
@@ -29,7 +29,6 @@ import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersDa
 import mc.owls.valley.net.feathercore.modules.language.events.LanguageChangeEvent;
 import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 
-@SuppressWarnings("unchecked")
 public class LanguageCommand extends FeatherCommand<LanguageCommand.CommandData> {
     public LanguageCommand(final InitData data) {
         super(data);

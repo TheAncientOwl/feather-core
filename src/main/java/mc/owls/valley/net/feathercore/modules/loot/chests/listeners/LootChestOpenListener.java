@@ -6,7 +6,7 @@
  *
  * @file LootChestOpenListener.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @description Open config loot-chest on interact
  */
 
@@ -26,8 +26,6 @@ import mc.owls.valley.net.feathercore.api.common.util.TimeUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherListener;
 import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 import mc.owls.valley.net.feathercore.modules.loot.chests.interfaces.ILootChests;
-
-@SuppressWarnings("unchecked")
 
 public class LootChestOpenListener extends FeatherListener {
     public LootChestOpenListener(final InitData data) {

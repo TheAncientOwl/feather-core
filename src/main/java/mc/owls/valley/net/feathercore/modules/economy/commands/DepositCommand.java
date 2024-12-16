@@ -6,7 +6,7 @@
  *
  * @file DepositCommand.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @description Deposit banknotes to player's balance
  */
 
@@ -29,7 +29,6 @@ import mc.owls.valley.net.feathercore.core.interfaces.IPluginProvider;
 import mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomyProvider;
 import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 
-@SuppressWarnings("unchecked")
 public class DepositCommand extends FeatherCommand<DepositCommand.CommandData> {
     public DepositCommand(final InitData data) {
         super(data);
@@ -52,11 +51,12 @@ public class DepositCommand extends FeatherCommand<DepositCommand.CommandData> {
         getInterface(IFeatherEconomyProvider.class).getEconomy().depositPlayer((Player) sender, data.depositValue);
         data.itemInHand.setAmount(data.itemInHand.getAmount() - data.banknotesCount);
 
-        getInterface(ILanguage.class).message(sender, Message.Economy.DEPOSIT_SUCCESS,
+        getInterface(ILanguage.class).message(sender, Message.Economy.DEPOSIT_SUCCESS, List.of(
                 Pair.of(Placeholder.AMOUNT,
                         getInterface(IFeatherEconomyProvider.class).getEconomy().format(data.depositValue)),
                 Pair.of(Placeholder.BALANCE, getInterface(IFeatherEconomyProvider.class).getEconomy()
-                        .format(getInterface(IFeatherEconomyProvider.class).getEconomy().getBalance((Player) sender))));
+                        .format(getInterface(IFeatherEconomyProvider.class).getEconomy()
+                                .getBalance((Player) sender)))));
     }
 
     public CommandData parse(final CommandSender sender, final String[] args) {

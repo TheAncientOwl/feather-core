@@ -6,7 +6,7 @@
  *
  * @file PvPManager.java
  * @author Alexandru Delegeanu
- * @version 0.7
+ * @version 0.8
  * @description Module responsible for managing pvp restrictions
  */
 
@@ -30,7 +30,6 @@ import mc.owls.valley.net.feathercore.core.interfaces.IPluginProvider;
 import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 import mc.owls.valley.net.feathercore.modules.pvp.manager.interfaces.IPvPManager;
 
-@SuppressWarnings("unchecked")
 public class PvPManager extends FeatherModule implements IPvPManager {
     private final Map<UUID, Long> playersInCombat = new HashMap<>();
     @SuppressWarnings("unused")

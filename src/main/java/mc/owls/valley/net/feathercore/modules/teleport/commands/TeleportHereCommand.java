@@ -6,7 +6,7 @@
  *
  * @file TeleportHereCommand.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @description Teleport the target player to command sender player
  */
 
@@ -27,7 +27,6 @@ import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 import mc.owls.valley.net.feathercore.modules.teleport.interfaces.ITeleport;
 
-@SuppressWarnings("unchecked")
 public class TeleportHereCommand extends FeatherCommand<TeleportHereCommand.CommandData> {
     public TeleportHereCommand(final InitData data) {
         super(data);

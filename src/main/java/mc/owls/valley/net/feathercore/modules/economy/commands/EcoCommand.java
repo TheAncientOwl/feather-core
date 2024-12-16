@@ -6,7 +6,7 @@
  *
  * @file EcoCommand.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @description Manage server economy
  */
 
@@ -27,7 +27,6 @@ import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomyProvider;
 import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 
-@SuppressWarnings("unchecked")
 public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
     public EcoCommand(final InitData data) {
         super(data);
@@ -64,12 +63,12 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
                 break;
         }
 
-        getInterface(ILanguage.class).message(sender, Message.Economy.ECO_SUCCESS,
+        getInterface(ILanguage.class).message(sender, Message.Economy.ECO_SUCCESS, List.of(
                 Pair.of(Placeholder.PLAYER, data.player.getName()),
                 Pair.of(Placeholder.OLD,
                         getInterface(IFeatherEconomyProvider.class).getEconomy().format(data.oldBalance)),
                 Pair.of(Placeholder.NEW, getInterface(IFeatherEconomyProvider.class).getEconomy()
-                        .format(getInterface(IFeatherEconomyProvider.class).getEconomy().getBalance(data.player))));
+                        .format(getInterface(IFeatherEconomyProvider.class).getEconomy().getBalance(data.player)))));
     }
 
     protected CommandData parse(final CommandSender sender, final String[] args) {

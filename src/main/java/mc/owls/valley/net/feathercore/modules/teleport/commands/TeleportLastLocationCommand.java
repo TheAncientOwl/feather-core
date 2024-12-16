@@ -6,7 +6,7 @@
  *
  * @file TeleportLastPositionCommand.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @description Teleport to the last known location of the player
  */
 
@@ -30,7 +30,6 @@ import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersDa
 import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 import mc.owls.valley.net.feathercore.modules.teleport.interfaces.ITeleport;
 
-@SuppressWarnings("unchecked")
 public class TeleportLastLocationCommand extends FeatherCommand<TeleportLastLocationCommand.CommandData> {
     public TeleportLastLocationCommand(final InitData data) {
         super(data);
@@ -65,19 +64,19 @@ public class TeleportLastLocationCommand extends FeatherCommand<TeleportLastLoca
         getInterface(ITeleport.class).teleport(data.who, data.destination.x, data.destination.y, data.destination.z,
                 world);
 
-        getInterface(ILanguage.class).message(data.who, Message.Teleport.POSITION,
+        getInterface(ILanguage.class).message(data.who, Message.Teleport.POSITION, List.of(
                 Pair.of(Placeholder.X, (int) data.destination.x),
                 Pair.of(Placeholder.Y, (int) data.destination.y),
                 Pair.of(Placeholder.Z, (int) data.destination.z),
-                Pair.of(Placeholder.WORLD, data.destination.world));
+                Pair.of(Placeholder.WORLD, data.destination.world)));
 
         if (!selfTeleport) {
-            getInterface(ILanguage.class).message(sender, Message.Teleport.POSITION_OTHER,
+            getInterface(ILanguage.class).message(sender, Message.Teleport.POSITION_OTHER, List.of(
                     Pair.of(Placeholder.PLAYER, data.who.getName()),
                     Pair.of(Placeholder.X, (int) data.destination.x),
                     Pair.of(Placeholder.Y, (int) data.destination.y),
                     Pair.of(Placeholder.Z, (int) data.destination.z),
-                    Pair.of(Placeholder.WORLD, data.destination.world));
+                    Pair.of(Placeholder.WORLD, data.destination.world)));
         }
     }
 

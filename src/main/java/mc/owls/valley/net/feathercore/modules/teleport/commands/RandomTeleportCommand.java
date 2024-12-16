@@ -6,7 +6,7 @@
  *
  * @file RandomTeleportCommand.java
  * @author Alexandru Delegeanu
- * @version 0.7
+ * @version 0.8
  * @description Teleport the player at a random location in the world
  */
 
@@ -36,7 +36,6 @@ import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 import mc.owls.valley.net.feathercore.modules.teleport.interfaces.ITeleport;
 
-@SuppressWarnings("unchecked")
 public class RandomTeleportCommand extends FeatherCommand<RandomTeleportCommand.CommandData> {
     public RandomTeleportCommand(final InitData data) {
         super(data);
@@ -89,18 +88,18 @@ public class RandomTeleportCommand extends FeatherCommand<RandomTeleportCommand.
             }
 
             if (selfTeleport) {
-                getInterface(ILanguage.class).message(sender, Message.Teleport.RTP_SELF,
+                getInterface(ILanguage.class).message(sender, Message.Teleport.RTP_SELF, List.of(
                         Pair.of(Placeholder.WORLD, location.getWorld().getName()),
                         Pair.of(Placeholder.X, location.getX()),
                         Pair.of(Placeholder.Y, location.getY()),
-                        Pair.of(Placeholder.Z, location.getZ()));
+                        Pair.of(Placeholder.Z, location.getZ())));
             } else {
-                getInterface(ILanguage.class).message(sender, Message.Teleport.RTP_OTHER,
+                getInterface(ILanguage.class).message(sender, Message.Teleport.RTP_OTHER, List.of(
                         Pair.of(Placeholder.PLAYER, data.who.getName()),
                         Pair.of(Placeholder.WORLD, location.getWorld().getName()),
                         Pair.of(Placeholder.X, location.getX()),
                         Pair.of(Placeholder.Y, location.getY()),
-                        Pair.of(Placeholder.Z, location.getZ()));
+                        Pair.of(Placeholder.Z, location.getZ())));
             }
         } else {
             getInterface(ILanguage.class).message(sender, Message.Teleport.RTP_FAIL);

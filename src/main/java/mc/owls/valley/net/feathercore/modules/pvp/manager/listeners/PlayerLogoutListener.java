@@ -6,7 +6,7 @@
  *
  * @file PlayerLogoutListener.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @description Kill player in combat on disconnect
  */
 
@@ -25,7 +25,6 @@ import mc.owls.valley.net.feathercore.api.core.FeatherListener;
 import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 import mc.owls.valley.net.feathercore.modules.pvp.manager.interfaces.IPvPManager;
 
-@SuppressWarnings("unchecked")
 public class PlayerLogoutListener extends FeatherListener {
     public PlayerLogoutListener(final InitData data) {
         super(data);

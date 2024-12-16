@@ -6,7 +6,7 @@
  *
  * @file TeleportDenyCommand.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @description Deny a teleport request
  */
 
@@ -27,7 +27,6 @@ import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 import mc.owls.valley.net.feathercore.modules.teleport.interfaces.ITeleport;
 
-@SuppressWarnings("unchecked")
 public class TeleportDenyCommand extends FeatherCommand<TeleportDenyCommand.CommandData> {
     public TeleportDenyCommand(final InitData data) {
         super(data);

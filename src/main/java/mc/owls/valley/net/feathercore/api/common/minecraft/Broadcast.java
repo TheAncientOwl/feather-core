@@ -6,11 +6,13 @@
  *
  * @file Broadcast.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Utility functions for broadcasting messages to players
  */
 
 package mc.owls.valley.net.feathercore.api.common.minecraft;
+
+import java.util.List;
 
 import org.bukkit.Bukkit;
 
@@ -51,9 +53,8 @@ public class Broadcast {
         broadcast(StringUtils.translateColors(sb.toString()));
     }
 
-    @SafeVarargs
     public static void broadcast(final IPropertyAccessor properties,
-            final String key, Pair<String, Object>... placeholders) {
+            final String key, List<Pair<String, Object>> placeholders) {
         broadcast(StringUtils.translateColors(
                 StringUtils.replacePlaceholders(properties.getString(key), placeholders)));
     }
