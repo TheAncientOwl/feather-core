@@ -6,7 +6,7 @@
  *
  * @file LogoManager.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Module responsible for sending plugin logo to console
  */
 
@@ -22,8 +22,9 @@ import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
+import mc.owls.valley.net.feathercore.modules.logo.interfaces.ILogoManager;
 
-public class LogoManager extends FeatherModule {
+public class LogoManager extends FeatherModule implements ILogoManager {
     private JavaPlugin plugin = null;
 
     public LogoManager(final String name, final Supplier<IConfigFile> configSupplier) {

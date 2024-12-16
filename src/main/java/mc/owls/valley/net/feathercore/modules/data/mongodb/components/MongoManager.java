@@ -6,7 +6,7 @@
  *
  * @file MongoManager.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @description Module responsible for MongoDB connection
  */
 
@@ -33,14 +33,14 @@ import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
-import mc.owls.valley.net.feathercore.modules.data.mongodb.api.IDAOAccessor;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.accessors.LootChestsDAO;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.accessors.PlayersDAO;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.LocationModel;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.LootChestsModel;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
+import mc.owls.valley.net.feathercore.modules.data.mongodb.interfaces.IMongoDB;
 
-public class MongoManager extends FeatherModule implements IDAOAccessor {
+public class MongoManager extends FeatherModule implements IMongoDB {
     private MongoClient mongoClient = null;
     private Datastore datastore = null;
 

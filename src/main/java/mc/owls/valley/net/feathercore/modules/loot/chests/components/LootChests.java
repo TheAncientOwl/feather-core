@@ -6,7 +6,7 @@
  *
  * @file LootChests.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @description Module responsible for managing loot chests
  */
 
@@ -29,8 +29,9 @@ import mc.owls.valley.net.feathercore.modules.data.mongodb.api.accessors.LootChe
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.LootChestsModel;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
+import mc.owls.valley.net.feathercore.modules.loot.chests.interfaces.ILootChests;
 
-public class LootChests extends FeatherModule {
+public class LootChests extends FeatherModule implements ILootChests {
     private IFeatherLogger logger = null;
     private IPlayersData playersData = null;
     private LootChestsDAO lootChestsDAO = null;
@@ -187,5 +188,4 @@ public class LootChests extends FeatherModule {
     public boolean isChestType(final String type) {
         return this.config.getConfigurationSection("chests").getKeys(false).contains(type);
     }
-
 }

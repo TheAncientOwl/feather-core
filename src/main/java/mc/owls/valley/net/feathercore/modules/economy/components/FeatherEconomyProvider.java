@@ -6,7 +6,7 @@
  *
  * @file FeatherEconomyProvider.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @description Module responsible for managing vault/server Economy
  */
 
@@ -23,9 +23,10 @@ import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
+import mc.owls.valley.net.feathercore.modules.economy.interfaces.IEconomyProvider;
 import net.milkbowl.vault.economy.Economy;
 
-public class FeatherEconomyProvider extends FeatherModule {
+public class FeatherEconomyProvider extends FeatherModule implements IEconomyProvider {
     private Economy economy = null;
 
     public FeatherEconomyProvider(final String name, final Supplier<IConfigFile> configSupplier) {
@@ -70,8 +71,8 @@ public class FeatherEconomyProvider extends FeatherModule {
     protected void onModuleDisable() {
     }
 
+    @Override
     public Economy getEconomy() {
         return this.economy;
     }
-
 }

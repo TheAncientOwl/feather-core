@@ -6,7 +6,7 @@
  *
  * @file PvPManager.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @description Module responsible for managing pvp restrictions
  */
 
@@ -30,8 +30,9 @@ import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
 import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
+import mc.owls.valley.net.feathercore.modules.pvp.manager.interfaces.IPvPManager;
 
-public class PvPManager extends FeatherModule {
+public class PvPManager extends FeatherModule implements IPvPManager {
     private Map<UUID, Long> playersInCombat = null;
     private LanguageManager lang = null;
     @SuppressWarnings("unused")
@@ -64,6 +65,7 @@ public class PvPManager extends FeatherModule {
      * @param player
      * @return true if the player is tagged in combat, false otherwise
      */
+    @Override
     public boolean isPlayerInCombat(final Player player) {
         return this.playersInCombat.containsKey(player.getUniqueId());
     }
@@ -74,6 +76,7 @@ public class PvPManager extends FeatherModule {
      * @param uuid of the player
      * @return true if the player is tagged in combat, false otherwise
      */
+    @Override
     public boolean isPlayerInCombat(final UUID uuid) {
         return this.playersInCombat.containsKey(uuid);
     }
@@ -84,6 +87,7 @@ public class PvPManager extends FeatherModule {
      * @param victim   player who was damaged
      * @param attacker player who damaged
      */
+    @Override
     public void putPlayersInCombat(final Player victim, final Player attacker) {
         if (victim.getUniqueId().equals(attacker.getUniqueId())) {
             return;
@@ -121,6 +125,7 @@ public class PvPManager extends FeatherModule {
      * 
      * @param player
      */
+    @Override
     public void removePlayerInCombat(final Player player) {
         this.playersInCombat.remove(player.getUniqueId());
         this.lang.message(player, Message.PvPManager.COMBAT_ENDED);
@@ -131,6 +136,7 @@ public class PvPManager extends FeatherModule {
      * 
      * @param uuid of the player
      */
+    @Override
     public void removePlayerInCombat(final UUID uuid) {
         this.playersInCombat.remove(uuid);
         final Player player = Bukkit.getPlayer(uuid);
@@ -142,16 +148,9 @@ public class PvPManager extends FeatherModule {
     /**
      * @return list containing all whitelisted commands during combat
      */
+    @Override
     public List<String> getWhitelistedCommands() {
         return this.config.getStringList("commands.whitelist");
-    }
-
-    private Map<UUID, Long> getPlayersInCombat() {
-        return this.playersInCombat;
-    }
-
-    public long getCombatTimeMillis() {
-        return this.config.getMillis("combat.time");
     }
 
     private static class CombatChecker implements Runnable {
@@ -169,8 +168,8 @@ public class PvPManager extends FeatherModule {
         public void run() {
             final var currentTime = System.currentTimeMillis();
 
-            final var combatTime = this.pvpManager.getCombatTimeMillis();
-            final var iterator = this.pvpManager.getPlayersInCombat().entrySet().iterator();
+            final var combatTime = this.pvpManager.config.getMillis("combat.time");
+            final var iterator = this.pvpManager.playersInCombat.entrySet().iterator();
             while (iterator.hasNext()) {
                 final var entry = iterator.next();
                 if (entry.getValue() + combatTime < currentTime) {
@@ -179,7 +178,5 @@ public class PvPManager extends FeatherModule {
                 }
             }
         }
-
     }
-
 }

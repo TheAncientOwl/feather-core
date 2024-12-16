@@ -7,7 +7,7 @@
  * @file IPlayersData.java
  * @author Alexandru Delegeanu
  * @version 0.1
- * @description Interface for managing plugin players data
+ * @description PlayersData module interface
  */
 
 package mc.owls.valley.net.feathercore.modules.data.players.interfaces;
@@ -53,5 +53,4 @@ public interface IPlayersData {
     public boolean markPlayerModelForSave(final OfflinePlayer player);
 
     public boolean markPlayerModelForSave(final PlayerModel playerModel);
-
 }

@@ -6,7 +6,7 @@
  *
  * @file TeleportPositionCommand.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @description Teleport to specified position in the world
  */
 
@@ -34,10 +34,12 @@ public class TeleportPositionCommand extends FeatherCommand<TeleportPositionComm
     public static record CommandData(Player player, double x, double y, double z, World world) {
     }
 
+    private Teleport teleport = null;
     private LanguageManager lang = null;
 
     @Override
     public void onCreate(final IFeatherCoreProvider core) {
+        this.teleport = core.getTeleport();
         this.lang = core.getLanguageManager();
     }
 
@@ -58,7 +60,7 @@ public class TeleportPositionCommand extends FeatherCommand<TeleportPositionComm
     protected void execute(final CommandSender sender, final CommandData data) {
         final boolean selfTeleport = (sender instanceof Player && data.player.equals((Player) sender));
 
-        Teleport.teleport(data.player, data.x, data.y, data.z, data.world);
+        this.teleport.teleport(data.player, data.x, data.y, data.z, data.world);
 
         this.lang.message(data.player, Message.Teleport.POSITION,
                 Pair.of(Placeholder.X, (int) data.x),

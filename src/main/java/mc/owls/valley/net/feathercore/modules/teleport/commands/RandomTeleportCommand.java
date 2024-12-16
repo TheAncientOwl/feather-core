@@ -6,7 +6,7 @@
  *
  * @file RandomTeleportCommand.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @description Teleport the player at a random location in the world
  */
 
@@ -89,7 +89,7 @@ public class RandomTeleportCommand extends FeatherCommand<RandomTeleportCommand.
         final Location location = randomize(data.who.getLocation());
 
         if (location != null) {
-            Teleport.teleport(data.who, location);
+            this.teleport.teleport(data.who, location);
 
             if (sender instanceof Player) {
                 this.playersToRtpTime.put(((Player) sender).getUniqueId(), now);

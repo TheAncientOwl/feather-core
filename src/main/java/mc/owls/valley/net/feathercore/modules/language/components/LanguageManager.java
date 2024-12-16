@@ -6,7 +6,7 @@
  *
  * @file LanguageManager.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Module responsible for managing plugin messages translations
  */
 
@@ -30,8 +30,9 @@ import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
 import mc.owls.valley.net.feathercore.core.configuration.bukkit.BukkitConfigFile;
 import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
+import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 
-public class LanguageManager extends FeatherModule {
+public class LanguageManager extends FeatherModule implements ILanguage {
     private Map<String, IConfigFile> translations = null;
     private JavaPlugin plugin = null;
     private IFeatherLogger logger = null;
@@ -120,5 +121,4 @@ public class LanguageManager extends FeatherModule {
                         .translateColors(StringUtils.replacePlaceholders(
                                 getTranslation(receiver).getString(key), placeholders)));
     }
-
 }
