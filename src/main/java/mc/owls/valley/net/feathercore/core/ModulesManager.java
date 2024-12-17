@@ -6,7 +6,7 @@
  *
  * @file ModulesManager.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @description Class responsible for modules lifecycle
  */
 
@@ -35,7 +35,6 @@ import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
 import mc.owls.valley.net.feathercore.api.exceptions.ModuleNotEnabledException;
 import mc.owls.valley.net.feathercore.core.configuration.bukkit.BukkitConfigFile;
 import mc.owls.valley.net.feathercore.core.interfaces.IEnabledModulesProvider;
-import mc.owls.valley.net.feathercore.core.interfaces.IFeatherLoggerProvider;
 import mc.owls.valley.net.feathercore.core.interfaces.IPluginProvider;
 
 public class ModulesManager {
@@ -108,7 +107,7 @@ public class ModulesManager {
      */
     void loadModules(final FeatherCore core) throws FeatherSetupException {
         this.modulesMapBuilder.addModule(IPluginProvider.class, core);
-        this.modulesMapBuilder.addModule(IFeatherLoggerProvider.class, core);
+        this.modulesMapBuilder.addModule(IFeatherLogger.class, core.getFeatherLogger());
         this.modulesMapBuilder.addModule(IEnabledModulesProvider.class, core);
 
         final var config = YamlUtils.loadYaml(core.getPlugin(), FeatherCore.FEATHER_CORE_YML)

@@ -6,7 +6,7 @@
  *
  * @file FeatherModule.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @description Base class for plugin module
  */
 
@@ -17,7 +17,6 @@ import java.util.function.Supplier;
 
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
-import mc.owls.valley.net.feathercore.core.interfaces.IFeatherLoggerProvider;
 
 public abstract class FeatherModule extends ModulesAccessor {
     public final static String HIDE_LIFECYCLE_PREFIX = "$";
@@ -36,7 +35,7 @@ public abstract class FeatherModule extends ModulesAccessor {
     }
 
     public void onEnable() throws FeatherSetupException {
-        final var logger = getInterface(IFeatherLoggerProvider.class).getFeatherLogger();
+        final var logger = getInterface(IFeatherLogger.class);
 
         logStatus(logger, "&7setup started");
         onModuleEnable();

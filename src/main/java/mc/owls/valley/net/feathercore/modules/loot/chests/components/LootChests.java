@@ -6,7 +6,7 @@
  *
  * @file LootChests.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @description Module responsible for managing loot chests
  */
 
@@ -20,8 +20,8 @@ import org.bukkit.inventory.Inventory;
 
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
+import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
-import mc.owls.valley.net.feathercore.core.interfaces.IFeatherLoggerProvider;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.LootChestsModel;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.interfaces.IMongoDB;
@@ -42,9 +42,9 @@ public class LootChests extends FeatherModule implements ILootChests {
 
     @Override
     protected void onModuleDisable() {
-        getInterface(IFeatherLoggerProvider.class).getFeatherLogger().info("Saving chests data&7...");
+        getInterface(IFeatherLogger.class).info("Saving chests data&7...");
         saveData();
-        getInterface(IFeatherLoggerProvider.class).getFeatherLogger().info("Chests data saved&7.");
+        getInterface(IFeatherLogger.class).info("Chests data saved&7.");
     }
 
     private void saveData() {
@@ -112,7 +112,7 @@ public class LootChests extends FeatherModule implements ILootChests {
             playerModel.chestLocationToOpenTime.put(location, now);
             getInterface(IPlayersData.class).markPlayerModelForSave(playerModel);
         } else {
-            getInterface(IFeatherLoggerProvider.class).getFeatherLogger()
+            getInterface(IFeatherLogger.class)
                     .warn("&8[&2Loot&aChests&8] &eUnknown chest type &6'" + chestType + "' &efound at location &6"
                             + location + "&e. Removing chest location from internal database.");
             unsetChest(location);
@@ -139,7 +139,7 @@ public class LootChests extends FeatherModule implements ILootChests {
         try {
             this.config.saveConfig();
         } catch (final Exception e) {
-            getInterface(IFeatherLoggerProvider.class).getFeatherLogger().error(
+            getInterface(IFeatherLogger.class).error(
                     "Could not save chest config to file loot-chests.yml. \nReason: " + StringUtils.exceptionToStr(e));
         }
     }
