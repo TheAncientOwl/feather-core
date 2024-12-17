@@ -6,7 +6,7 @@
  *
  * @file PvPCancelTpListener.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.4
  * @description Cancel teleport on player move
  */
 
@@ -16,20 +16,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 import mc.owls.valley.net.feathercore.api.common.language.Message;
-import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
-import mc.owls.valley.net.feathercore.api.exceptions.ModuleNotEnabledException;
-import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
-import mc.owls.valley.net.feathercore.modules.teleport.components.Teleport;
+import mc.owls.valley.net.feathercore.api.core.FeatherListener;
+import mc.owls.valley.net.feathercore.modules.teleport.interfaces.ITeleport;
 
-public class MoveCancelTpListener implements IFeatherListener {
-    private Teleport teleport = null;
-    private LanguageManager lang = null;
-
-    @Override
-    public void onCreate(final IFeatherCoreProvider core) throws ModuleNotEnabledException {
-        this.teleport = core.getTeleport();
-        this.lang = core.getLanguageManager();
+public class MoveCancelTpListener extends FeatherListener {
+    public MoveCancelTpListener(final InitData data) {
+        super(data);
     }
 
     @EventHandler
@@ -43,10 +35,9 @@ public class MoveCancelTpListener implements IFeatherListener {
 
         if (from.getX() != to.getX() || from.getY() != to.getY() || from.getZ() != from.getZ()) {
             final var player = event.getPlayer();
-            if (this.teleport.cancelTeleport(player)) {
-                this.lang.message(player, Message.Teleport.MOVED_WHILE_WAITING);
+            if (getInterface(ITeleport.class).cancelTeleport(player)) {
+                getLanguage().message(player, Message.Teleport.MOVED_WHILE_WAITING);
             }
         }
     }
-
 }

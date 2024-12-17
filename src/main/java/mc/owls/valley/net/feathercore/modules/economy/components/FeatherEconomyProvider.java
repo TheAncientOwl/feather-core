@@ -6,13 +6,11 @@
  *
  * @file FeatherEconomyProvider.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.7
  * @description Module responsible for managing vault/server Economy
  */
 
 package mc.owls.valley.net.feathercore.modules.economy.components;
-
-import java.util.function.Supplier;
 
 import org.bukkit.Server;
 import org.bukkit.plugin.RegisteredServiceProvider;
@@ -21,37 +19,38 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
-import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
+import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
+import mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomy;
 import net.milkbowl.vault.economy.Economy;
 
-public class FeatherEconomyProvider extends FeatherModule {
+public class FeatherEconomyProvider extends FeatherModule implements IFeatherEconomy {
+    public FeatherEconomyProvider(final InitData data) {
+        super(data);
+    }
+
     private Economy economy = null;
 
-    public FeatherEconomyProvider(final String name, final Supplier<IConfigFile> configSupplier) {
-        super(name, configSupplier);
-    }
-
     @Override
-    protected void onModuleEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
-        provideEconomy(core);
-        setupVault(core);
+    protected void onModuleEnable() throws FeatherSetupException {
+        provideEconomy();
+        setupVault();
     }
 
-    private void provideEconomy(final IFeatherCoreProvider core) throws FeatherSetupException {
-        final JavaPlugin plugin = core.getPlugin();
+    private void provideEconomy() throws FeatherSetupException {
+        final JavaPlugin plugin = getPlugin();
         final Server server = plugin.getServer();
 
         if (server.getPluginManager().getPlugin("Vault") == null) {
             throw new FeatherSetupException("Vault dependency is not installed");
         }
 
-        final FeatherEconomy featherEconomy = new FeatherEconomy(core.getPlayersData(), getConfig());
+        final FeatherEconomy featherEconomy = new FeatherEconomy(getInterface(IPlayersData.class), getConfig());
         server.getServicesManager().register(Economy.class, featherEconomy, plugin, ServicePriority.High);
     }
 
-    private void setupVault(final IFeatherCoreProvider core) throws FeatherSetupException {
-        final JavaPlugin plugin = core.getPlugin();
+    private void setupVault() throws FeatherSetupException {
+        final JavaPlugin plugin = getPlugin();
         final Server server = plugin.getServer();
 
         if (server.getPluginManager().getPlugin("Vault") == null) {
@@ -70,8 +69,13 @@ public class FeatherEconomyProvider extends FeatherModule {
     protected void onModuleDisable() {
     }
 
+    @Override
     public Economy getEconomy() {
         return this.economy;
     }
 
+    @Override
+    public IConfigFile getConfig() {
+        return this.config;
+    }
 }

@@ -6,7 +6,7 @@
  *
  * @file StringUtils.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Utility class
  */
 
@@ -33,12 +33,15 @@ public class StringUtils {
         return sw.toString();
     }
 
-    @SafeVarargs
-    public static String replacePlaceholders(String message, Pair<String, Object>... replacements) {
+    public static String replacePlaceholders(String message, final List<Pair<String, Object>> replacements) {
         for (final var replacement : replacements) {
             message = message.replace(replacement.first, replacement.second.toString());
         }
         return message;
+    }
+
+    public static String replacePlaceholders(String message, final Pair<String, Object> replacement) {
+        return message.replace(replacement.first, replacement.second.toString());
     }
 
     public static List<String> getOnlinePlayers() {

@@ -6,7 +6,7 @@
  *
  * @file LootChestOpenListener.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.8
  * @description Open config loot-chest on interact
  */
 
@@ -23,22 +23,12 @@ import mc.owls.valley.net.feathercore.api.common.java.Pair;
 import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.TimeUtils;
-import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
-import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
-import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
-import mc.owls.valley.net.feathercore.modules.loot.chests.components.LootChests;
+import mc.owls.valley.net.feathercore.api.core.FeatherListener;
+import mc.owls.valley.net.feathercore.modules.loot.chests.interfaces.ILootChests;
 
-public class LootChestOpenListener implements IFeatherListener {
-    private LanguageManager lang = null;
-    private LootChests lootChests = null;
-    private IPropertyAccessor config = null;
-
-    @Override
-    public void onCreate(final IFeatherCoreProvider core) {
-        this.lang = core.getLanguageManager();
-        this.lootChests = core.getLootChests();
-        this.config = core.getLootChests().getConfig();
+public class LootChestOpenListener extends FeatherListener {
+    public LootChestOpenListener(final InitData data) {
+        super(data);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -51,7 +41,7 @@ public class LootChestOpenListener implements IFeatherListener {
 
         final String chestLocation = block.getLocation().toString();
 
-        final String chestType = this.lootChests.getChestType(chestLocation);
+        final String chestType = getInterface(ILootChests.class).getChestType(chestLocation);
         if (chestType == null) {
             return;
         }
@@ -59,19 +49,19 @@ public class LootChestOpenListener implements IFeatherListener {
         event.setCancelled(true);
 
         final Player player = event.getPlayer();
-        final Long openChestTime = this.lootChests.getOpenChestTime(player, chestLocation);
+        final Long openChestTime = getInterface(ILootChests.class).getOpenChestTime(player, chestLocation);
 
         final var now = System.currentTimeMillis();
-        final var cooldown = this.config.getMillis("chests." + chestType + ".cooldown");
+        final var cooldown = getInterface(ILootChests.class).getConfig().getMillis("chests." + chestType + ".cooldown");
         if (openChestTime != null
                 && openChestTime + cooldown > now
                 && !player.hasPermission("feathercore.lootchests.bypass-cooldown")) {
-            this.lang.message(player, Message.LootChests.COOLDOWN,
+            getLanguage().message(player, Message.LootChests.COOLDOWN,
                     Pair.of(Placeholder.COOLDOWN, TimeUtils.formatRemaining(openChestTime, cooldown)));
             return;
         }
 
-        this.lootChests.openChest(player, chestType, chestLocation, now);
+        getInterface(ILootChests.class).openChest(player, chestType, chestLocation, now);
     }
 
 }

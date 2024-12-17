@@ -6,7 +6,7 @@
  *
  * @file Teleport.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.6
  * @description Module responsible for managing teleports
  */
 
@@ -17,22 +17,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.function.Supplier;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitTask;
 
 import mc.owls.valley.net.feathercore.api.common.java.JavaExt;
-import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
-import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
+import mc.owls.valley.net.feathercore.modules.teleport.interfaces.ITeleport;
 
-public class Teleport extends FeatherModule {
+public class Teleport extends FeatherModule implements ITeleport {
     public static enum RequestType {
         TO,
         HERE
@@ -77,42 +74,41 @@ public class Teleport extends FeatherModule {
 
     @SuppressWarnings("unused")
     private BukkitTask teleportCheckTask = null;
-    private JavaPlugin plugin = null;
-    private List<TeleportRequest> requests = null;
-    private Map<UUID, TeleportRequest> teleports = null;
+    private List<TeleportRequest> requests = new ArrayList<>();
+    private Map<UUID, TeleportRequest> teleports = new HashMap<>();
 
-    public Teleport(final String name, final Supplier<IConfigFile> configSupplier) {
-        super(name, configSupplier);
+    public Teleport(final InitData data) {
+        super(data);
     }
 
     @Override
-    protected void onModuleEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
-        this.requests = new ArrayList<>();
-        this.teleports = new HashMap<>();
-        this.plugin = core.getPlugin();
-
-        this.teleportCheckTask = Bukkit.getScheduler().runTaskTimerAsynchronously(core.getPlugin(),
-                new TeleportChecker(this), 0, this.config.getTicks("request.check-interval"));
+    protected void onModuleEnable() throws FeatherSetupException {
+        this.teleportCheckTask = Bukkit.getScheduler().runTaskTimerAsynchronously(
+                getPlugin(), new TeleportChecker(this), 0, this.config.getTicks("request.check-interval"));
     }
 
     @Override
     protected void onModuleDisable() {
     }
 
-    public static void teleport(final Player who, final Player to) {
+    @Override
+    public void teleport(final Player who, final Player to) {
         who.teleport(to);
     }
 
-    public static void teleport(final Player who, final Location where) {
+    @Override
+    public void teleport(final Player who, final Location where) {
         who.teleport(where);
     }
 
-    public static void teleport(final Player who, final double x, final double y, final double z, final World world) {
+    @Override
+    public void teleport(final Player who, final double x, final double y, final double z, final World world) {
         final var whoLocation = who.getLocation();
         who.teleport(new Location(world, x, y, z, whoLocation.getYaw(), whoLocation.getPitch()));
     }
 
-    public static void teleport(final Player who, final double x, final double y, final double z) {
+    @Override
+    public void teleport(final Player who, final double x, final double y, final double z) {
         final var whoLocation = who.getLocation();
         who.teleport(new Location(whoLocation.getWorld(), x, y, z, whoLocation.getYaw(), whoLocation.getPitch()));
     }
@@ -134,6 +130,7 @@ public class Teleport extends FeatherModule {
      * @see Teleport.RequestStatus
      * @return ALREADY_REQUESTED | REQUESTED
      */
+    @Override
     public RequestStatus request(final Player issuer, final Player target, final RequestType type) {
         if (JavaExt.contains(this.requests, (req) -> {
             return req.equals(issuer, target, type);
@@ -155,6 +152,7 @@ public class Teleport extends FeatherModule {
      * @see Teleport.RequestStatus
      * @return NO_SUCH_REQUEST | CANCELLED
      */
+    @Override
     public RequestStatus cancelRequest(final Player issuer, final Player target, final RequestType type) {
         final var index = JavaExt.findIndex(this.requests, (req) -> {
             return req.equals(issuer, target, type);
@@ -177,6 +175,7 @@ public class Teleport extends FeatherModule {
      * @see Teleport.RequestStatus
      * @return NO_SUCH_REQUEST | CANCELLED
      */
+    @Override
     public RequestStatus cancelRequest(final Player issuer, final Player target) {
         final var index = JavaExt.findIndex(this.requests, (req) -> {
             return req.equals(issuer, target);
@@ -200,6 +199,7 @@ public class Teleport extends FeatherModule {
      * @see Teleport.RequestStatus
      * @return NO_SUCH_REQUEST | ACCEPTED
      */
+    @Override
     public RequestStatus acceptRequest(final Player issuer, final Player target, final RequestType type) {
         final var index = JavaExt.findIndex(this.requests, (req) -> {
             return req.equals(issuer, target, type);
@@ -229,6 +229,7 @@ public class Teleport extends FeatherModule {
      * @see Teleport.RequestStatus
      * @return NO_SUCH_REQUEST | ACCEPTED
      */
+    @Override
     public RequestStatus acceptRequest(final Player issuer, final Player target) {
         final var index = JavaExt.findLastIndex(this.requests, (req) -> {
             return req.equals(issuer, target);
@@ -255,6 +256,7 @@ public class Teleport extends FeatherModule {
      * @param player
      * @return true if player is waiting for teleport, false otherwise
      */
+    @Override
     public boolean isWaitingForTeleport(final Player player) {
         return this.teleports.containsKey(player.getUniqueId());
     }
@@ -265,6 +267,7 @@ public class Teleport extends FeatherModule {
      * @return true if player was waiting for teleport and it was cancelled, false
      *         otherwise
      */
+    @Override
     public boolean cancelTeleport(final Player player) {
         return this.teleports.remove(player.getUniqueId()) != null;
     }
@@ -301,22 +304,20 @@ public class Teleport extends FeatherModule {
                 }
             }
 
-            Bukkit.getScheduler().runTask(this.teleport.plugin, () -> {
+            Bukkit.getScheduler().runTask(this.teleport.getPlugin(), () -> {
                 teleportsToExecute.forEach((entry) -> {
                     switch (entry.type) {
                         case TO: {
-                            Teleport.teleport(entry.issuer, entry.target);
+                            this.teleport.teleport(entry.issuer, entry.target);
                             break;
                         }
                         case HERE: {
-                            Teleport.teleport(entry.target, entry.issuer);
+                            this.teleport.teleport(entry.target, entry.issuer);
                             break;
                         }
                     }
                 });
             });
         }
-
     }
-
 }

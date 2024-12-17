@@ -6,7 +6,7 @@
  *
  * @file ModulesManager.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.6
  * @description Class responsible for modules lifecycle
  */
 
@@ -22,23 +22,25 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.function.Supplier;
 
-import mc.owls.valley.net.feathercore.api.common.java.Cache;
+import org.bukkit.plugin.java.JavaPlugin;
+
 import mc.owls.valley.net.feathercore.api.common.java.Pair;
 import mc.owls.valley.net.feathercore.api.common.minecraft.YamlUtils;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
+import mc.owls.valley.net.feathercore.api.core.DependencyAccessor;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
+import mc.owls.valley.net.feathercore.api.core.FeatherListener;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
-import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
 import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
 import mc.owls.valley.net.feathercore.api.exceptions.ModuleNotEnabledException;
 import mc.owls.valley.net.feathercore.core.configuration.bukkit.BukkitConfigFile;
+import mc.owls.valley.net.feathercore.core.interfaces.IEnabledModulesProvider;
 
 public class ModulesManager {
 
-    private static class ModuleConfig {
+    private static final class ModuleConfig {
         public Set<String> dependencies = null;
         public FeatherModule instance = null;
         public boolean mandatory = false;
@@ -54,13 +56,8 @@ public class ModulesManager {
     private InitializationData init = new InitializationData();
 
     private Map<String, FeatherModule> modules = new HashMap<>();
+    private DependencyAccessor.DependencyMapBuilder dependenciesMapBuilder = new DependencyAccessor.DependencyMapBuilder();
     private List<String> enableOrder = new ArrayList<>();
-    private IFeatherCoreProvider core = null;
-
-    @SuppressWarnings("unchecked")
-    public <T extends FeatherModule> T getModule(final String name) {
-        return (T) this.modules.get(name);
-    }
 
     /**
      * @param name of the module
@@ -82,12 +79,11 @@ public class ModulesManager {
         return modules;
     }
 
-    public void onEnable(final IFeatherCoreProvider core) throws FeatherSetupException, ModuleNotEnabledException {
+    public void onEnable(final FeatherCore core) throws FeatherSetupException, ModuleNotEnabledException {
         this.init.moduleConfigs.clear();
         this.init.enabledModules.clear();
         this.modules.clear();
         this.enableOrder.clear();
-        this.core = core;
 
         loadModules(core);
         computeEnableOrder();
@@ -104,25 +100,19 @@ public class ModulesManager {
         disableModules(logger);
     }
 
-    private void disablePlugin(final String reason) {
-        core.getFeatherLogger().error(reason);
-
-        final var plugin = this.core.getPlugin();
-        plugin.getServer().getPluginManager().disablePlugin(plugin);
-    }
-
     /**
      * Load modules configs from file
      * 
-     * @param core
+     * @param plugin
      * @throws FeatherSetupException
      */
-    void loadModules(final IFeatherCoreProvider core) throws FeatherSetupException {
-        final var config = YamlUtils.loadYaml(core.getPlugin(), FeatherCore.FEATHER_CORE_YML)
-                .getConfigurationSection("modules");
+    void loadModules(final FeatherCore plugin) throws FeatherSetupException {
+        this.dependenciesMapBuilder.addDependency(JavaPlugin.class, plugin);
+        this.dependenciesMapBuilder.addDependency(IFeatherLogger.class, plugin.getFeatherLogger());
+        this.dependenciesMapBuilder.addDependency(IEnabledModulesProvider.class, plugin);
 
-        final var plugin = core.getPlugin();
-        final var pluginClass = plugin.getClass();
+        final var config = YamlUtils.loadYaml(plugin, FeatherCore.FEATHER_CORE_YML)
+                .getConfigurationSection("modules");
 
         for (final var moduleName : config.getKeys(false)) {
             final var moduleConfig = config.getConfigurationSection(moduleName);
@@ -136,10 +126,14 @@ public class ModulesManager {
             final var configFilePath = moduleConfig.getString("config");
             try {
                 module.instance = (FeatherModule) Class.forName(moduleClass)
-                        .getConstructor(String.class, Supplier.class)
-                        .newInstance(moduleName, (Supplier<IConfigFile>) () -> {
+                        .getConstructor(FeatherModule.InitData.class)
+                        .newInstance(new FeatherModule.InitData(moduleName, (Supplier<IConfigFile>) () -> {
                             return configFilePath == null ? null : new BukkitConfigFile(plugin, configFilePath);
-                        });
+                        }, dependenciesMapBuilder.getMap()));
+
+                for (final var interfaceName : moduleConfig.getStringList("interfaces")) {
+                    dependenciesMapBuilder.addDependency(Class.forName(interfaceName), module.instance);
+                }
             } catch (final Exception e) {
                 throw new FeatherSetupException("Could not generate instance of class " + moduleClass + "\nReason: "
                         + StringUtils.exceptionToStr(e));
@@ -161,26 +155,6 @@ public class ModulesManager {
 
             // 6. set dependencies
             module.dependencies = new HashSet<>(moduleConfig.getStringList("dependencies"));
-
-            // 7. set core module cache
-            final var cacheFieldName = moduleConfig.getString("cache-field");
-            if (cacheFieldName != null) {
-                try {
-                    final var field = pluginClass.getDeclaredField(cacheFieldName);
-                    field.setAccessible(true);
-                    field.set(plugin, Cache.of(() -> {
-                        if (!this.init.enabledModules.contains(moduleName)) {
-                            disablePlugin("Dependency module " + moduleName + " is not enabled yet.");
-                        }
-
-                        return this.getModule(moduleName);
-                    }));
-                } catch (final Exception e) {
-                    throw new FeatherSetupException(
-                            "Could not setup config connection {" + cacheFieldName + " -> " + moduleName
-                                    + "}\nReason: " + StringUtils.exceptionToStr(e));
-                }
-            }
         }
 
         // check if dependencies are actual modules
@@ -253,11 +227,11 @@ public class ModulesManager {
      * @param core
      * @throws FeatherSetupException
      */
-    private void enableModules(final IFeatherCoreProvider core)
+    private void enableModules(final JavaPlugin core)
             throws FeatherSetupException, ModuleNotEnabledException {
-        final IConfigFile modulesEnabledConfig = new BukkitConfigFile(core.getPlugin(), "modules.yml");
+        final IConfigFile modulesEnabledConfig = new BukkitConfigFile(core, "modules.yml");
 
-        final var plugin = core.getPlugin();
+        final var plugin = core;
         final var pluginManager = plugin.getServer().getPluginManager();
 
         for (final var moduleName : enableOrder) {
@@ -277,7 +251,7 @@ public class ModulesManager {
                 }
             }
 
-            module.instance.onEnable(core);
+            module.instance.onEnable();
 
             this.init.enabledModules.add(moduleName);
 
@@ -287,13 +261,10 @@ public class ModulesManager {
                 final var commandClass = command.second;
 
                 try {
-                    final var clazz = Class.forName(commandClass);
-                    final var method = clazz.getMethod("onCreate", IFeatherCoreProvider.class);
-                    final var cmdInstance = (FeatherCommand<?>) clazz.getConstructor().newInstance();
+                    final var cmdInstance = (FeatherCommand<?>) Class.forName(commandClass)
+                            .getConstructor(FeatherCommand.InitData.class)
+                            .newInstance(new FeatherCommand.InitData(this.dependenciesMapBuilder.getMap()));
                     final var cmd = plugin.getCommand(commandName);
-
-                    method.setAccessible(true);
-                    method.invoke(cmdInstance, core);
 
                     cmd.setExecutor(cmdInstance);
                     cmd.setTabCompleter(cmdInstance);
@@ -306,12 +277,9 @@ public class ModulesManager {
             // register listeners
             for (final var listenerClass : module.listeners) {
                 try {
-                    final var clazz = Class.forName(listenerClass);
-                    final var method = clazz.getMethod("onCreate", IFeatherCoreProvider.class);
-                    final var listenerInstance = (IFeatherListener) clazz.getConstructor().newInstance();
-
-                    method.setAccessible(true);
-                    method.invoke(listenerInstance, core);
+                    final var listenerInstance = (FeatherListener) Class.forName(listenerClass)
+                            .getConstructor(FeatherListener.InitData.class)
+                            .newInstance(new FeatherListener.InitData(this.dependenciesMapBuilder.getMap()));
 
                     pluginManager.registerEvents(listenerInstance, plugin);
                 } catch (final Exception e) {
@@ -330,6 +298,8 @@ public class ModulesManager {
             final var moduleName = entry.getKey();
 
             if (!this.init.enabledModules.contains(moduleName)) {
+                this.dependenciesMapBuilder
+                        .removeDependency(this.init.moduleConfigs.get(moduleName).instance.getClass());
                 iterator.remove();
                 this.enableOrder.remove(moduleName);
             }
@@ -345,5 +315,4 @@ public class ModulesManager {
             }
         }
     }
-
 }

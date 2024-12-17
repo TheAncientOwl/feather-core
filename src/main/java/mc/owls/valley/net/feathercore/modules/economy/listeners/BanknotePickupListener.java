@@ -6,7 +6,7 @@
  *
  * @file BanknotePickListener.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.5
  * @description Change banknote meta when picked up based on language
  */
 
@@ -18,30 +18,19 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import mc.owls.valley.net.feathercore.api.common.java.Pair;
 import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.common.minecraft.NamespacedKey;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
-import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
-import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
-import mc.owls.valley.net.feathercore.api.exceptions.ModuleNotEnabledException;
-import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
+import mc.owls.valley.net.feathercore.api.core.FeatherListener;
+import mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomy;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
-public class BanknotePickupListener implements IFeatherListener {
-    private JavaPlugin plugin = null;
-    private IConfigFile economyConfig = null;
-    private LanguageManager lang = null;
-
-    @Override
-    public void onCreate(final IFeatherCoreProvider core) throws ModuleNotEnabledException {
-        this.plugin = core.getPlugin();
-        this.economyConfig = core.getFeatherEconomy().getConfig();
-        this.lang = core.getLanguageManager();
+public class BanknotePickupListener extends FeatherListener {
+    public BanknotePickupListener(final InitData data) {
+        super(data);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -57,18 +46,20 @@ public class BanknotePickupListener implements IFeatherListener {
             return;
         }
 
-        final var valueKey = new NamespacedKey(this.plugin, meta,
-                this.economyConfig.getString("banknote.key"));
+        final var valueKey = new NamespacedKey(getPlugin(), meta,
+                getInterface(IFeatherEconomy.class).getConfig().getString("banknote.key"));
         if (!valueKey.isPresent()) {
             return;
         }
         final var banknoteValue = valueKey.get(PersistentDataType.DOUBLE);
 
         final var sender = (Player) event.getEntity();
-        final var lore = this.lang.getTranslation(sender).getStringList(Message.Economy.BANKNOTE_LORE);
+        final var lore = getLanguage().getTranslation(sender)
+                .getStringList(Message.Economy.BANKNOTE_LORE);
 
         meta.displayName(LegacyComponentSerializer.legacyAmpersand()
-                .deserialize(this.lang.getTranslation(sender).getString(Message.Economy.BANKNOTE_NAME)));
+                .deserialize(
+                        getLanguage().getTranslation(sender).getString(Message.Economy.BANKNOTE_NAME)));
         meta.lore(lore.stream()
                 .map(line -> LegacyComponentSerializer.legacyAmpersand()
                         .deserialize(StringUtils.replacePlaceholders(line, Pair.of(Placeholder.AMOUNT, banknoteValue))))
@@ -76,5 +67,4 @@ public class BanknotePickupListener implements IFeatherListener {
 
         itemStack.setItemMeta(meta);
     }
-
 }

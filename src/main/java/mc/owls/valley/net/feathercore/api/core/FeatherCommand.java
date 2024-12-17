@@ -6,20 +6,28 @@
  *
  * @file FeatherCommand.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.4
  * @description Base class for plugin command
  */
 
 package mc.owls.valley.net.feathercore.api.core;
 
 import java.util.List;
+import java.util.Map;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
-public abstract class FeatherCommand<CommandData> implements CommandExecutor, TabCompleter {
+public abstract class FeatherCommand<CommandData> extends DependencyAccessor implements CommandExecutor, TabCompleter {
+    public static final record InitData(Map<Class<?>, Object> modules) {
+    }
+
+    public FeatherCommand(final InitData data) {
+        super(data.modules);
+    }
+
     @Override
     public final boolean onCommand(final CommandSender sender, final Command cmd, final String label,
             final String[] args) {
@@ -45,6 +53,4 @@ public abstract class FeatherCommand<CommandData> implements CommandExecutor, Ta
     protected abstract void execute(final CommandSender sender, final CommandData data);
 
     protected abstract List<String> onTabComplete(final String[] args);
-
-    public abstract void onCreate(final IFeatherCoreProvider core);
 }

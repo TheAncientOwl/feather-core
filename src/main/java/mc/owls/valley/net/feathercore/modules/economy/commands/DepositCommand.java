@@ -6,7 +6,7 @@
  *
  * @file DepositCommand.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.10
  * @description Deposit banknotes to player's balance
  */
 
@@ -19,39 +19,26 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import mc.owls.valley.net.feathercore.api.common.java.Pair;
 import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.common.minecraft.NamespacedKey;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
-import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
-import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
-import net.milkbowl.vault.economy.Economy;
+import mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomy;
 
 public class DepositCommand extends FeatherCommand<DepositCommand.CommandData> {
-    public static record CommandData(ItemStack itemInHand, int banknotesCount, double depositValue) {
+    public DepositCommand(final InitData data) {
+        super(data);
     }
 
-    private Economy economy = null;
-    private JavaPlugin plugin = null;
-    private LanguageManager lang = null;
-    private IPropertyAccessor economyConfig = null;
-
-    @Override
-    public void onCreate(final IFeatherCoreProvider core) {
-        this.plugin = core.getPlugin();
-        this.economy = core.getEconomy();
-        this.economyConfig = core.getFeatherEconomy().getConfig();
-        this.lang = core.getLanguageManager();
+    public static record CommandData(ItemStack itemInHand, int banknotesCount, double depositValue) {
     }
 
     @Override
     protected boolean hasPermission(final CommandSender sender, final CommandData data) {
         if (!sender.hasPermission("feathercore.economy.general.deposit")) {
-            this.lang.message(sender, Message.General.PERMISSION_DENIED);
+            getLanguage().message(sender, Message.General.PERMISSION_DENIED);
             return false;
         }
         return true;
@@ -59,37 +46,40 @@ public class DepositCommand extends FeatherCommand<DepositCommand.CommandData> {
 
     @Override
     protected void execute(final CommandSender sender, final CommandData data) {
-        this.economy.depositPlayer((Player) sender, data.depositValue);
+        final var economy = getInterface(IFeatherEconomy.class).getEconomy();
+        economy.depositPlayer((Player) sender, data.depositValue);
         data.itemInHand.setAmount(data.itemInHand.getAmount() - data.banknotesCount);
 
-        this.lang.message(sender, Message.Economy.DEPOSIT_SUCCESS,
-                Pair.of(Placeholder.AMOUNT, this.economy.format(data.depositValue)),
-                Pair.of(Placeholder.BALANCE, this.economy.format(this.economy.getBalance((Player) sender))));
+        getLanguage().message(sender, Message.Economy.DEPOSIT_SUCCESS, List.of(
+                Pair.of(Placeholder.AMOUNT, economy.format(data.depositValue)),
+                Pair.of(Placeholder.BALANCE, economy.format(economy.getBalance((Player) sender)))));
     }
 
     public CommandData parse(final CommandSender sender, final String[] args) {
         // 1. check for basics
         if (!(sender instanceof Player)) {
-            this.lang.message(sender, Message.General.PLAYERS_ONLY);
+            getLanguage().message(sender, Message.General.PLAYERS_ONLY);
             return null;
         }
 
         if (args.length != 1) {
-            this.lang.message(sender, Message.General.USAGE_INVALID, Message.Economy.USAGE_DEPOSIT);
+            getLanguage().message(sender, Message.General.USAGE_INVALID, Message.Economy.USAGE_DEPOSIT);
             return null;
         }
 
         // 2. check if item in hand is valid banknote and get the banknote value
         final ItemStack itemInHand = ((Player) sender).getInventory().getItemInMainHand();
         if (itemInHand == null || itemInHand.getItemMeta() == null) {
-            this.lang.message(sender, Message.Economy.BANKNOTE_INVALID);
+            getLanguage().message(sender, Message.Economy.BANKNOTE_INVALID);
             return null;
         }
 
-        final var namespacedKey = new NamespacedKey(this.plugin, itemInHand.getItemMeta(),
-                this.economyConfig.getString("banknote.key"));
+        final var economyConfig = getInterface(IFeatherEconomy.class).getConfig();
+
+        final var namespacedKey = new NamespacedKey(getPlugin(), itemInHand.getItemMeta(),
+                economyConfig.getString("banknote.key"));
         if (!namespacedKey.isPresent()) {
-            this.lang.message(sender, Message.Economy.BANKNOTE_INVALID);
+            getLanguage().message(sender, Message.Economy.BANKNOTE_INVALID);
             return null;
         }
         final double banknoteValue = namespacedKey.get(PersistentDataType.DOUBLE);
@@ -99,27 +89,29 @@ public class DepositCommand extends FeatherCommand<DepositCommand.CommandData> {
         try {
             banknotesCount = Integer.parseInt(args[0]);
         } catch (final Exception e) {
-            this.lang.message(sender, Message.General.NOT_VALID_NUMBER, Pair.of(Placeholder.STRING, args[0]));
+            getLanguage().message(sender, Message.General.NOT_VALID_NUMBER,
+                    Pair.of(Placeholder.STRING, args[0]));
             return null;
         }
 
         if (banknotesCount < 0) {
-            this.lang.message(sender, Message.Economy.DEPOSIT_NEGATIVE_AMOUNT);
+            getLanguage().message(sender, Message.Economy.DEPOSIT_NEGATIVE_AMOUNT);
             return null;
         }
 
         if (banknotesCount > itemInHand.getAmount()) {
-            this.lang.message(sender, Message.Economy.DEPOSIT_INVALID_AMOUNT,
+            getLanguage().message(sender, Message.Economy.DEPOSIT_INVALID_AMOUNT,
                     Pair.of(Placeholder.AMOUNT, banknotesCount));
             return null;
         }
 
         // 4. check for max deposit value
+        final var economy = getInterface(IFeatherEconomy.class).getEconomy();
         final var depositValue = banknoteValue * banknotesCount;
-        final var maxBalance = this.economyConfig.getDouble("balance.max");
-        if (this.economy.getBalance((Player) sender) + depositValue > maxBalance) {
-            this.lang.message(sender, Message.Economy.DEPOSIT_BALANCE_EXCEEDS,
-                    Pair.of(Placeholder.MAX, this.economy.format(maxBalance)));
+        final var maxBalance = economyConfig.getDouble("balance.max");
+        if (economy.getBalance((Player) sender) + depositValue > maxBalance) {
+            getLanguage().message(sender, Message.Economy.DEPOSIT_BALANCE_EXCEEDS,
+                    Pair.of(Placeholder.MAX, economy.format(maxBalance)));
             return null;
         }
 

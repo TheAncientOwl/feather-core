@@ -6,7 +6,7 @@
  *
  * @file TeleportListener.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.6
  * @description Block combat teleport
  */
 
@@ -19,37 +19,29 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 import mc.owls.valley.net.feathercore.api.common.language.Message;
-import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
-import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
-import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
-import mc.owls.valley.net.feathercore.modules.pvp.manager.components.PvPManager;
+import mc.owls.valley.net.feathercore.api.core.FeatherListener;
+import mc.owls.valley.net.feathercore.modules.pvp.manager.interfaces.IPvPManager;
 
-public class TeleportListener implements IFeatherListener {
-    private PvPManager pvpManager = null;
-    private IConfigFile config = null;
-    private LanguageManager lang = null;
-
-    @Override
-    public void onCreate(final IFeatherCoreProvider core) {
-        this.pvpManager = core.getPvPManager();
-        this.config = core.getPvPManager().getConfig();
-        this.lang = core.getLanguageManager();
+public class TeleportListener extends FeatherListener {
+    public TeleportListener(final InitData data) {
+        super(data);
     }
 
     @EventHandler(priority = EventPriority.LOWEST)
     public void onPlayerTeleport(final PlayerTeleportEvent event) {
         final Player player = event.getPlayer();
 
-        if (event.isCancelled() || !this.pvpManager.isPlayerInCombat(player)
+        if (event.isCancelled() || !getInterface(IPvPManager.class).isPlayerInCombat(player)
                 || player.hasPermission("pvp.bypass.teleport")) {
             return;
         }
 
-        if ((event.getCause() == TeleportCause.CHORUS_FRUIT && !this.config.getBoolean("block-tp.chorus-fruit")) ||
-                (event.getCause() == TeleportCause.ENDER_PEARL && !this.config.getBoolean("block-tp.ender-pearl"))) {
+        if ((event.getCause() == TeleportCause.CHORUS_FRUIT
+                && !getInterface(IPvPManager.class).getConfig().getBoolean("block-tp.chorus-fruit")) ||
+                (event.getCause() == TeleportCause.ENDER_PEARL
+                        && !getInterface(IPvPManager.class).getConfig().getBoolean("block-tp.ender-pearl"))) {
             event.setCancelled(true);
-            this.lang.message(player, Message.PvPManager.TELEPORT);
+            getLanguage().message(player, Message.PvPManager.TELEPORT);
         }
     }
 }

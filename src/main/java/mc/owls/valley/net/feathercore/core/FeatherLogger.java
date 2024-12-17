@@ -6,7 +6,7 @@
  *
  * @file FeatherLogger.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Plugin logger
  */
 
@@ -15,7 +15,6 @@ package mc.owls.valley.net.feathercore.core;
 import org.bukkit.command.ConsoleCommandSender;
 
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
-import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
 
 public class FeatherLogger implements IFeatherLogger {
@@ -23,8 +22,8 @@ public class FeatherLogger implements IFeatherLogger {
 
     private ConsoleCommandSender console = null;
 
-    public FeatherLogger(final IFeatherCoreProvider core) {
-        this.console = core.getPlugin().getServer().getConsoleSender();
+    public FeatherLogger(final ConsoleCommandSender console) {
+        this.console = console;
     }
 
     public void info(final String message) {
@@ -46,5 +45,4 @@ public class FeatherLogger implements IFeatherLogger {
     private void sendMessage(final String message) {
         this.console.sendMessage(StringUtils.translateColors(PLUGIN_TAG + message));
     }
-
 }

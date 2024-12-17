@@ -1,8 +1,9 @@
 modules:
   $LogoManager:
     class: mc.owls.valley.net.feathercore.modules.logo.components.LogoManager
+    interfaces:
+      - mc.owls.valley.net.feathercore.modules.logo.interfaces.ILogoManager
     dependencies: []
-    cache-field: null
     mandatory: true
     config: null
     commands: []
@@ -10,8 +11,9 @@ modules:
 
   ReloadModule:
     class: mc.owls.valley.net.feathercore.modules.reload.components.ReloadModule
+    interfaces:
+      - mc.owls.valley.net.feathercore.modules.reload.interfaces.IReloadModule
     dependencies: []
-    cache-field: null
     mandatory: true
     config: null
     commands:
@@ -20,8 +22,9 @@ modules:
 
   MongoManager:
     class: mc.owls.valley.net.feathercore.modules.data.mongodb.components.MongoManager
+    interfaces:
+      - mc.owls.valley.net.feathercore.modules.data.mongodb.interfaces.IMongoDB
     dependencies: [$LogoManager]
-    cache-field: mongoManager
     mandatory: true
     config: modules/mongodb.yml
     commands: []
@@ -29,8 +32,9 @@ modules:
 
   PlayersData:
     class: mc.owls.valley.net.feathercore.modules.data.players.components.PlayersData
+    interfaces:
+      - mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData
     dependencies: [MongoManager]
-    cache-field: playersDataManager
     mandatory: true
     config: modules/players.yml
     commands: []
@@ -40,8 +44,9 @@ modules:
 
   LanguageManager:
     class: mc.owls.valley.net.feathercore.modules.language.components.LanguageManager
+    interfaces:
+      - mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage
     dependencies: [PlayersData]
-    cache-field: languageManager
     mandatory: true
     config: language/config.yml
     commands:
@@ -50,8 +55,9 @@ modules:
 
   FeatherEconomyProvider:
     class: mc.owls.valley.net.feathercore.modules.economy.components.FeatherEconomyProvider
+    interfaces:
+      - mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomy
     dependencies: [PlayersData, LanguageManager]
-    cache-field: economyProvider
     mandatory: true
     config: modules/economy.yml
     commands:
@@ -68,8 +74,9 @@ modules:
 
   PvPManager:
     class: mc.owls.valley.net.feathercore.modules.pvp.manager.components.PvPManager
+    interfaces:
+      - mc.owls.valley.net.feathercore.modules.pvp.manager.interfaces.IPvPManager
     dependencies: [LanguageManager]
-    cache-field: pvpManager
     mandatory: false
     commands: []
     config: modules/restricted-pvp.yml
@@ -82,8 +89,9 @@ modules:
 
   LootChests:
     class: mc.owls.valley.net.feathercore.modules.loot.chests.components.LootChests
+    interfaces:
+      - mc.owls.valley.net.feathercore.modules.loot.chests.interfaces.ILootChests
     dependencies: [PlayersData, LanguageManager]
-    cache-field: lootChests
     mandatory: false
     config: modules/loot-chests.yml
     commands:
@@ -93,8 +101,9 @@ modules:
 
   Teleport:
     class: mc.owls.valley.net.feathercore.modules.teleport.components.Teleport
+    interfaces:
+      - mc.owls.valley.net.feathercore.modules.teleport.interfaces.ITeleport
     dependencies: [PlayersData, LanguageManager, FeatherEconomyProvider]
-    cache-field: teleport
     mandatory: false
     config: modules/teleport.yml
     commands:

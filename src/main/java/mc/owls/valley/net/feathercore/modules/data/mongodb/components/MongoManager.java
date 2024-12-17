@@ -6,14 +6,13 @@
  *
  * @file MongoManager.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.6
  * @description Module responsible for MongoDB connection
  */
 
 package mc.owls.valley.net.feathercore.modules.data.mongodb.components;
 
 import java.util.concurrent.TimeUnit;
-import java.util.function.Supplier;
 
 import org.bson.UuidRepresentation;
 
@@ -29,27 +28,25 @@ import dev.morphia.Datastore;
 import dev.morphia.Morphia;
 import dev.morphia.mapping.DateStorage;
 import dev.morphia.mapping.MapperOptions;
-import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
-import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
-import mc.owls.valley.net.feathercore.modules.data.mongodb.api.IDAOAccessor;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.accessors.LootChestsDAO;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.accessors.PlayersDAO;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.LocationModel;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.LootChestsModel;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
+import mc.owls.valley.net.feathercore.modules.data.mongodb.interfaces.IMongoDB;
 
-public class MongoManager extends FeatherModule implements IDAOAccessor {
+public class MongoManager extends FeatherModule implements IMongoDB {
     private MongoClient mongoClient = null;
     private Datastore datastore = null;
 
-    public MongoManager(final String name, final Supplier<IConfigFile> configSupplier) {
-        super(name, configSupplier);
+    public MongoManager(final InitData data) {
+        super(data);
     }
 
     @Override
-    protected void onModuleEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
+    protected void onModuleEnable() throws FeatherSetupException {
         final ConnectionString connectionString = new ConnectionString(this.config.getString("uri"));
 
         final MongoClientSettings settings = MongoClientSettings.builder()

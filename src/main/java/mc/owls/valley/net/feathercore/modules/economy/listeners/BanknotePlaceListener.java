@@ -6,7 +6,7 @@
  *
  * @file BanknotePlaceListener.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.6
  * @description Prevent player from placing blocks representing banknotes
  */
 
@@ -15,25 +15,15 @@ package mc.owls.valley.net.feathercore.modules.economy.listeners;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.common.minecraft.NamespacedKey;
-import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
-import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
-import mc.owls.valley.net.feathercore.api.core.IFeatherListener;
-import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
+import mc.owls.valley.net.feathercore.api.core.FeatherListener;
+import mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomy;
 
-public class BanknotePlaceListener implements IFeatherListener {
-    private JavaPlugin plugin = null;
-    private IConfigFile economyConfig = null;
-    private LanguageManager lang = null;
-
-    @Override
-    public void onCreate(final IFeatherCoreProvider core) {
-        this.plugin = core.getPlugin();
-        this.economyConfig = core.getFeatherEconomy().getConfig();
-        this.lang = core.getLanguageManager();
+public class BanknotePlaceListener extends FeatherListener {
+    public BanknotePlaceListener(final InitData data) {
+        super(data);
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -44,11 +34,12 @@ public class BanknotePlaceListener implements IFeatherListener {
 
         final var itemMeta = event.getItemInHand().getItemMeta();
         if (itemMeta != null
-                && new NamespacedKey(this.plugin, itemMeta, this.economyConfig.getString("banknote.key")).isPresent()) {
+                && new NamespacedKey(getPlugin(), itemMeta,
+                        getInterface(IFeatherEconomy.class).getConfig().getString("banknote.key"))
+                        .isPresent()) {
             event.setCancelled(true);
-            this.lang.message(event.getPlayer(), Message.Economy.BANKNOTE_PLACE);
+            getLanguage().message(event.getPlayer(), Message.Economy.BANKNOTE_PLACE);
         }
 
     }
-
 }

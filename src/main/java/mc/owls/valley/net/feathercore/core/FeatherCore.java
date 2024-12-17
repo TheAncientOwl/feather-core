@@ -6,7 +6,7 @@
  *
  * @file FeatherCore.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.5
  * @description Plugin entry point
  */
 
@@ -16,43 +16,26 @@ import java.util.List;
 
 import org.bukkit.plugin.java.JavaPlugin;
 
-import mc.owls.valley.net.feathercore.api.common.java.Cache;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.common.util.TimeUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
-import mc.owls.valley.net.feathercore.api.core.IFeatherCoreProvider;
 import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
 import mc.owls.valley.net.feathercore.api.exceptions.ModuleNotEnabledException;
-import mc.owls.valley.net.feathercore.modules.data.mongodb.components.MongoManager;
-import mc.owls.valley.net.feathercore.modules.data.players.components.PlayersData;
-import mc.owls.valley.net.feathercore.modules.economy.components.FeatherEconomyProvider;
-import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
-import mc.owls.valley.net.feathercore.modules.loot.chests.components.LootChests;
-import mc.owls.valley.net.feathercore.modules.pvp.manager.components.PvPManager;
-import mc.owls.valley.net.feathercore.modules.teleport.components.Teleport;
-import net.milkbowl.vault.economy.Economy;
+import mc.owls.valley.net.feathercore.core.interfaces.IEnabledModulesProvider;
 
-public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
+public class FeatherCore extends JavaPlugin implements IEnabledModulesProvider {
     public static final String FEATHER_CORE_YML = "feathercore.yml";
 
     private ModulesManager modulesManager = new ModulesManager();
     private IFeatherLogger featherLogger = null;
-
-    private Cache<Teleport> teleport = null;
-    private Cache<LootChests> lootChests = null;
-    private Cache<MongoManager> mongoManager = null;
-    private Cache<PvPManager> pvpManager = null;
-    private Cache<PlayersData> playersDataManager = null;
-    private Cache<LanguageManager> languageManager = null;
-    private Cache<FeatherEconomyProvider> economyProvider = null;
 
     @Override
     public void onEnable() {
         final var enableStartTime = System.currentTimeMillis();
 
         try {
-            this.featherLogger = new FeatherLogger(this);
+            this.featherLogger = new FeatherLogger(this.getServer().getConsoleSender());
             this.modulesManager.onEnable(this);
 
             final var enableFinishTime = System.currentTimeMillis();
@@ -71,59 +54,12 @@ public class FeatherCore extends JavaPlugin implements IFeatherCoreProvider {
         getFeatherLogger().info("Goodbye&8!");
     }
 
-    @Override
-    public JavaPlugin getPlugin() {
-        return this;
-    }
-
-    @Override
     public IFeatherLogger getFeatherLogger() {
         return this.featherLogger;
-    }
-
-    @Override
-    public MongoManager getMongoDB() {
-        return this.mongoManager.get();
-    }
-
-    @Override
-    public PlayersData getPlayersData() {
-        return this.playersDataManager.get();
-    }
-
-    @Override
-    public PvPManager getPvPManager() {
-        return this.pvpManager.get();
-    }
-
-    @Override
-    public LanguageManager getLanguageManager() {
-        return this.languageManager.get();
-    }
-
-    @Override
-    public LootChests getLootChests() {
-        return this.lootChests.get();
-    }
-
-    @Override
-    public Economy getEconomy() {
-        return this.economyProvider.get().getEconomy();
-    }
-
-    @Override
-    public FeatherEconomyProvider getFeatherEconomy() {
-        return this.economyProvider.get();
     }
 
     @Override
     public List<FeatherModule> getEnabledModules() {
         return this.modulesManager.getEnabledModules();
     }
-
-    @Override
-    public Teleport getTeleport() {
-        return this.teleport.get();
-    }
-
 }

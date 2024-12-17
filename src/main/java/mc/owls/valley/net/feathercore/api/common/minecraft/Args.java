@@ -6,7 +6,7 @@
  *
  * @file Args.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @description Utility for parsing objects from command string args
  */
 
@@ -15,6 +15,7 @@ package mc.owls.valley.net.feathercore.api.common.minecraft;
 import java.util.function.Function;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
@@ -40,6 +41,10 @@ public class Args {
 
         public Player getPlayer(int index) {
             return (Player) args[index];
+        }
+
+        public OfflinePlayer getOfflinePlayer(int index) {
+            return (OfflinePlayer) args[index];
         }
 
         public World getWorld(int index) {
@@ -87,6 +92,10 @@ public class Args {
 
     public static Player getOnlinePlayer(final String name) {
         return Bukkit.getPlayerExact(name);
+    }
+
+    public static OfflinePlayer getOfflinePlayer(final String name) {
+        return Bukkit.getOfflinePlayer(name);
     }
 
     public static World getWorld(final String name) {

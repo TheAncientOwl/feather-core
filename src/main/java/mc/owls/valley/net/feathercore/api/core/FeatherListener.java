@@ -4,18 +4,23 @@
  * ------------------------------------------------------------------------- *
  * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
  *
- * @file IFeatherListener.java
+ * @file FeatherListener.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.3
  * @description Listener interface for paper events
  */
 
 package mc.owls.valley.net.feathercore.api.core;
 
+import java.util.Map;
+
 import org.bukkit.event.Listener;
 
-import mc.owls.valley.net.feathercore.api.exceptions.ModuleNotEnabledException;
+public abstract class FeatherListener extends DependencyAccessor implements Listener {
+    public static final record InitData(Map<Class<?>, Object> modules) {
+    }
 
-public interface IFeatherListener extends Listener {
-    public void onCreate(final IFeatherCoreProvider core) throws ModuleNotEnabledException;
+    public FeatherListener(final InitData data) {
+        super(data.modules);
+    }
 }

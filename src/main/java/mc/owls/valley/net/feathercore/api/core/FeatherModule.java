@@ -6,34 +6,38 @@
  *
  * @file FeatherModule.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.6
  * @description Base class for plugin module
  */
 
 package mc.owls.valley.net.feathercore.api.core;
 
+import java.util.Map;
 import java.util.function.Supplier;
 
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
 
-public abstract class FeatherModule {
+public abstract class FeatherModule extends DependencyAccessor {
     public final static String HIDE_LIFECYCLE_PREFIX = "$";
 
     private final String name;
     protected final IConfigFile config;
 
-    public FeatherModule(final String name, final Supplier<IConfigFile> configSupplier) {
-        this.name = name;
-        this.config = configSupplier.get();
+    public static final record InitData(String name, Supplier<IConfigFile> configSupplier,
+            Map<Class<?>, Object> modules) {
     }
 
-    public void onEnable(final IFeatherCoreProvider core) throws FeatherSetupException {
-        final IFeatherLogger logger = core.getFeatherLogger();
+    public FeatherModule(final InitData data) {
+        super(data.modules);
+        this.name = data.name;
+        this.config = data.configSupplier.get();
+    }
 
-        logStatus(logger, "&7setup started");
-        onModuleEnable(core);
-        logStatus(logger, "&aenabled");
+    public void onEnable() throws FeatherSetupException {
+        logStatus(getLogger(), "&7setup started");
+        onModuleEnable();
+        logStatus(getLogger(), "&aenabled");
     }
 
     public void onDisable(final IFeatherLogger logger) {
@@ -57,8 +61,8 @@ public abstract class FeatherModule {
 
     }
 
-    protected abstract void onModuleEnable(final IFeatherCoreProvider core) throws FeatherSetupException;
+    protected void onModuleEnable() throws FeatherSetupException {
+    };
 
     protected abstract void onModuleDisable();
-
 }
