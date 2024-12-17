@@ -6,7 +6,7 @@
  *
  * @file LootChestOpenListener.java
  * @author Alexandru Delegeanu
- * @version 0.7
+ * @version 0.8
  * @description Open config loot-chest on interact
  */
 
@@ -24,7 +24,6 @@ import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.TimeUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherListener;
-import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 import mc.owls.valley.net.feathercore.modules.loot.chests.interfaces.ILootChests;
 
 public class LootChestOpenListener extends FeatherListener {
@@ -57,7 +56,7 @@ public class LootChestOpenListener extends FeatherListener {
         if (openChestTime != null
                 && openChestTime + cooldown > now
                 && !player.hasPermission("feathercore.lootchests.bypass-cooldown")) {
-            getInterface(ILanguage.class).message(player, Message.LootChests.COOLDOWN,
+            getLanguage().message(player, Message.LootChests.COOLDOWN,
                     Pair.of(Placeholder.COOLDOWN, TimeUtils.formatRemaining(openChestTime, cooldown)));
             return;
         }

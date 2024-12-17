@@ -6,7 +6,7 @@
  *
  * @file ReloadCommand.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @description Reload configurations command
  */
 
@@ -23,9 +23,7 @@ import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
-import mc.owls.valley.net.feathercore.core.interfaces.IEnabledModulesProvider;
 import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
-import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 
 public class ReloadCommand extends FeatherCommand<ReloadCommand.CommandData> {
     public ReloadCommand(final InitData data) {
@@ -38,7 +36,7 @@ public class ReloadCommand extends FeatherCommand<ReloadCommand.CommandData> {
     @Override
     protected boolean hasPermission(final CommandSender sender, final CommandData data) {
         if (!sender.hasPermission("feathercore.reload")) {
-            getInterface(ILanguage.class).message(sender, Message.General.PERMISSION_DENIED);
+            getLanguage().message(sender, Message.General.PERMISSION_DENIED);
             return false;
         }
         return true;
@@ -57,13 +55,13 @@ public class ReloadCommand extends FeatherCommand<ReloadCommand.CommandData> {
             }
         }
 
-        getInterface(ILanguage.class).message(sender,
+        getLanguage().message(sender,
                 data.modules.size() == 1 ? Message.Reload.CONFIG_RELOADED : Message.Reload.CONFIGS_RELOADED);
     }
 
     protected CommandData parse(final CommandSender sender, final String[] args) {
         if (args.length != 1) {
-            getInterface(ILanguage.class).message(sender, Message.Reload.USAGE,
+            getLanguage().message(sender, Message.Reload.USAGE,
                     Pair.of(Placeholder.STRING, getEnabledModulesNames()));
             return null;
         }
@@ -83,7 +81,7 @@ public class ReloadCommand extends FeatherCommand<ReloadCommand.CommandData> {
         }
 
         if (modules.isEmpty()) {
-            getInterface(ILanguage.class).message(sender, Message.Reload.USAGE,
+            getLanguage().message(sender, Message.Reload.USAGE,
                     Pair.of(Placeholder.STRING, getEnabledModulesNames()));
             return null;
         }
@@ -100,10 +98,6 @@ public class ReloadCommand extends FeatherCommand<ReloadCommand.CommandData> {
         }
 
         return completions;
-    }
-
-    private List<FeatherModule> getEnabledModules() {
-        return getInterface(IEnabledModulesProvider.class).getEnabledModules();
     }
 
     private List<String> getEnabledModulesNames() {

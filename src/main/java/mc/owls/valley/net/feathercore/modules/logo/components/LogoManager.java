@@ -6,7 +6,7 @@
  *
  * @file LogoManager.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @description Module responsible for sending plugin logo to console
  */
 
@@ -16,7 +16,6 @@ import mc.owls.valley.net.feathercore.api.common.minecraft.YamlUtils;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
-import mc.owls.valley.net.feathercore.core.interfaces.IPluginProvider;
 import mc.owls.valley.net.feathercore.modules.logo.interfaces.ILogoManager;
 
 public class LogoManager extends FeatherModule implements ILogoManager {
@@ -38,7 +37,7 @@ public class LogoManager extends FeatherModule implements ILogoManager {
     }
 
     private void sendLogoMessage() throws FeatherSetupException {
-        final var plugin = getInterface(IPluginProvider.class).getPlugin();
+        final var plugin = getPlugin();
         final var server = plugin.getServer();
 
         final String[] logo = new String[] {

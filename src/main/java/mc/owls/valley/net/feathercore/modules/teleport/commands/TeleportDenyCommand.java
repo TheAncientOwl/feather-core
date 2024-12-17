@@ -6,7 +6,7 @@
  *
  * @file TeleportDenyCommand.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @description Deny a teleport request
  */
 
@@ -24,7 +24,6 @@ import mc.owls.valley.net.feathercore.api.common.minecraft.Args;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
-import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 import mc.owls.valley.net.feathercore.modules.teleport.interfaces.ITeleport;
 
 public class TeleportDenyCommand extends FeatherCommand<TeleportDenyCommand.CommandData> {
@@ -38,7 +37,7 @@ public class TeleportDenyCommand extends FeatherCommand<TeleportDenyCommand.Comm
     @Override
     protected boolean hasPermission(final CommandSender sender, final CommandData data) {
         if (!sender.hasPermission("feathercore.teleport.request.deny")) {
-            getInterface(ILanguage.class).message(sender, Message.General.NO_PERMISSION);
+            getLanguage().message(sender, Message.General.NO_PERMISSION);
             return false;
         }
         return true;
@@ -48,13 +47,13 @@ public class TeleportDenyCommand extends FeatherCommand<TeleportDenyCommand.Comm
     protected void execute(final CommandSender sender, final CommandData data) {
         switch (getInterface(ITeleport.class).cancelRequest(data.issuer, data.target)) {
             case NO_SUCH_REQUEST: {
-                getInterface(ILanguage.class).message(sender, Message.Teleport.NO_SUCH_REQUEST);
+                getLanguage().message(sender, Message.Teleport.NO_SUCH_REQUEST);
                 break;
             }
             case CANCELLED: {
-                getInterface(ILanguage.class).message(data.issuer, Message.Teleport.REQUEST_DECLINE_ISSUER,
+                getLanguage().message(data.issuer, Message.Teleport.REQUEST_DECLINE_ISSUER,
                         Pair.of(Placeholder.PLAYER, data.target.getName()));
-                getInterface(ILanguage.class).message(data.target, Message.Teleport.REQUEST_DECLINE_TARGET,
+                getLanguage().message(data.target, Message.Teleport.REQUEST_DECLINE_TARGET,
                         Pair.of(Placeholder.PLAYER, data.issuer.getName()));
                 break;
             }
@@ -76,14 +75,14 @@ public class TeleportDenyCommand extends FeatherCommand<TeleportDenyCommand.Comm
 
                 if (parsedArgs.success()) {
                     if (!(sender instanceof Player)) {
-                        getInterface(ILanguage.class).message(sender, Message.General.PLAYERS_ONLY);
+                        getLanguage().message(sender, Message.General.PLAYERS_ONLY);
                         return null;
                     }
 
                     issuer = parsedArgs.getPlayer(0);
                     target = (Player) sender;
                 } else {
-                    getInterface(ILanguage.class).message(sender, Message.General.NOT_ONLINE_PLAYER,
+                    getLanguage().message(sender, Message.General.NOT_ONLINE_PLAYER,
                             Pair.of(Placeholder.PLAYER, args[0]));
                     return null;
                 }
@@ -91,7 +90,7 @@ public class TeleportDenyCommand extends FeatherCommand<TeleportDenyCommand.Comm
                 break;
             }
             default: {
-                getInterface(ILanguage.class).message(sender, Message.General.USAGE_INVALID,
+                getLanguage().message(sender, Message.General.USAGE_INVALID,
                         Message.Teleport.USAGE_REQUEST_DENY);
                 return null;
             }

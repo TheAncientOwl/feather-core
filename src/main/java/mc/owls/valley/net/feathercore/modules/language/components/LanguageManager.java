@@ -6,7 +6,7 @@
  *
  * @file LanguageManager.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @description Module responsible for managing plugin messages translations
  */
 
@@ -24,10 +24,8 @@ import mc.owls.valley.net.feathercore.api.common.java.Pair;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
-import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
 import mc.owls.valley.net.feathercore.core.configuration.bukkit.BukkitConfigFile;
-import mc.owls.valley.net.feathercore.core.interfaces.IPluginProvider;
 import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
 import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 
@@ -72,10 +70,9 @@ public class LanguageManager extends FeatherModule implements ILanguage {
     private IConfigFile loadTranslation(final String language) {
         IConfigFile translation = null;
         try {
-            translation = new BukkitConfigFile(getInterface(IPluginProvider.class).getPlugin(),
-                    Path.of("language", language + ".yml").toString());
+            translation = new BukkitConfigFile(getPlugin(), Path.of("language", language + ".yml").toString());
         } catch (final Exception e) {
-            getInterface(IFeatherLogger.class)
+            getLogger()
                     .error("Could not load translation '" + language + "'\nReason: " + StringUtils.exceptionToStr(e));
         }
 

@@ -6,7 +6,7 @@
  *
  * @file RandomTeleportCommand.java
  * @author Alexandru Delegeanu
- * @version 0.8
+ * @version 0.9
  * @description Teleport the player at a random location in the world
  */
 
@@ -33,7 +33,6 @@ import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.common.util.TimeUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
-import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 import mc.owls.valley.net.feathercore.modules.teleport.interfaces.ITeleport;
 
 public class RandomTeleportCommand extends FeatherCommand<RandomTeleportCommand.CommandData> {
@@ -53,7 +52,7 @@ public class RandomTeleportCommand extends FeatherCommand<RandomTeleportCommand.
 
         if (!sender.hasPermission("feathercore.teleport.random.self." + world.getName()) ||
                 (!selfTeleport && !sender.hasPermission("feathercore.teleport.random.other." + world.getName()))) {
-            getInterface(ILanguage.class).message(sender, Message.General.NO_PERMISSION);
+            getLanguage().message(sender, Message.General.NO_PERMISSION);
             return false;
         }
         return true;
@@ -70,13 +69,13 @@ public class RandomTeleportCommand extends FeatherCommand<RandomTeleportCommand.
             final var cooldown = getInterface(ITeleport.class).getConfig().getMillis("random.cooldown");
 
             if (rtpTime != null && rtpTime + cooldown > now) {
-                getInterface(ILanguage.class).message(sender, Message.Teleport.RTP_COOLDOWN,
+                getLanguage().message(sender, Message.Teleport.RTP_COOLDOWN,
                         Pair.of(Placeholder.COOLDOWN, TimeUtils.formatRemaining(rtpTime, cooldown)));
                 return;
             }
         }
 
-        getInterface(ILanguage.class).message(sender, Message.Teleport.RTP_TRY);
+        getLanguage().message(sender, Message.Teleport.RTP_TRY);
 
         final Location location = randomize(data.who.getLocation());
 
@@ -88,13 +87,13 @@ public class RandomTeleportCommand extends FeatherCommand<RandomTeleportCommand.
             }
 
             if (selfTeleport) {
-                getInterface(ILanguage.class).message(sender, Message.Teleport.RTP_SELF, List.of(
+                getLanguage().message(sender, Message.Teleport.RTP_SELF, List.of(
                         Pair.of(Placeholder.WORLD, location.getWorld().getName()),
                         Pair.of(Placeholder.X, location.getX()),
                         Pair.of(Placeholder.Y, location.getY()),
                         Pair.of(Placeholder.Z, location.getZ())));
             } else {
-                getInterface(ILanguage.class).message(sender, Message.Teleport.RTP_OTHER, List.of(
+                getLanguage().message(sender, Message.Teleport.RTP_OTHER, List.of(
                         Pair.of(Placeholder.PLAYER, data.who.getName()),
                         Pair.of(Placeholder.WORLD, location.getWorld().getName()),
                         Pair.of(Placeholder.X, location.getX()),
@@ -102,7 +101,7 @@ public class RandomTeleportCommand extends FeatherCommand<RandomTeleportCommand.
                         Pair.of(Placeholder.Z, location.getZ())));
             }
         } else {
-            getInterface(ILanguage.class).message(sender, Message.Teleport.RTP_FAIL);
+            getLanguage().message(sender, Message.Teleport.RTP_FAIL);
         }
     }
 
@@ -167,7 +166,7 @@ public class RandomTeleportCommand extends FeatherCommand<RandomTeleportCommand.
             case 0: {
                 // /rtp
                 if (!(sender instanceof Player)) {
-                    getInterface(ILanguage.class).message(sender, Message.General.PLAYERS_ONLY);
+                    getLanguage().message(sender, Message.General.PLAYERS_ONLY);
                     return null;
                 }
                 who = (Player) sender;
@@ -180,7 +179,7 @@ public class RandomTeleportCommand extends FeatherCommand<RandomTeleportCommand.
                 if (parsedArgs.success()) {
                     who = parsedArgs.getPlayer(0);
                 } else {
-                    getInterface(ILanguage.class).message(sender, Message.General.NOT_ONLINE_PLAYER,
+                    getLanguage().message(sender, Message.General.NOT_ONLINE_PLAYER,
                             Pair.of(Placeholder.PLAYER, args[0]));
                     return null;
                 }
@@ -188,7 +187,7 @@ public class RandomTeleportCommand extends FeatherCommand<RandomTeleportCommand.
                 break;
             }
             default: {
-                getInterface(ILanguage.class).message(sender, Message.General.USAGE_INVALID,
+                getLanguage().message(sender, Message.General.USAGE_INVALID,
                         Message.Teleport.USAGE_RTP);
                 return null;
             }

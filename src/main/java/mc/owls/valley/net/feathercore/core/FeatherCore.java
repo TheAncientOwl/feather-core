@@ -6,7 +6,7 @@
  *
  * @file FeatherCore.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @description Plugin entry point
  */
 
@@ -23,9 +23,8 @@ import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
 import mc.owls.valley.net.feathercore.api.exceptions.ModuleNotEnabledException;
 import mc.owls.valley.net.feathercore.core.interfaces.IEnabledModulesProvider;
-import mc.owls.valley.net.feathercore.core.interfaces.IPluginProvider;
 
-public class FeatherCore extends JavaPlugin implements IPluginProvider, IEnabledModulesProvider {
+public class FeatherCore extends JavaPlugin implements IEnabledModulesProvider {
     public static final String FEATHER_CORE_YML = "feathercore.yml";
 
     private ModulesManager modulesManager = new ModulesManager();
@@ -53,11 +52,6 @@ public class FeatherCore extends JavaPlugin implements IPluginProvider, IEnabled
     public void onDisable() {
         this.modulesManager.onDisable(getFeatherLogger());
         getFeatherLogger().info("Goodbye&8!");
-    }
-
-    @Override
-    public JavaPlugin getPlugin() {
-        return this;
     }
 
     public IFeatherLogger getFeatherLogger() {

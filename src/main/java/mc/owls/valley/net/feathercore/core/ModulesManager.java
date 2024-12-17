@@ -6,7 +6,7 @@
  *
  * @file ModulesManager.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @description Class responsible for modules lifecycle
  */
 
@@ -22,20 +22,21 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.function.Supplier;
 
+import org.bukkit.plugin.java.JavaPlugin;
+
 import mc.owls.valley.net.feathercore.api.common.java.Pair;
 import mc.owls.valley.net.feathercore.api.common.minecraft.YamlUtils;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
+import mc.owls.valley.net.feathercore.api.core.DependencyAccessor;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.FeatherListener;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
-import mc.owls.valley.net.feathercore.api.core.DependencyAccessor;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
 import mc.owls.valley.net.feathercore.api.exceptions.ModuleNotEnabledException;
 import mc.owls.valley.net.feathercore.core.configuration.bukkit.BukkitConfigFile;
 import mc.owls.valley.net.feathercore.core.interfaces.IEnabledModulesProvider;
-import mc.owls.valley.net.feathercore.core.interfaces.IPluginProvider;
 
 public class ModulesManager {
 
@@ -102,18 +103,16 @@ public class ModulesManager {
     /**
      * Load modules configs from file
      * 
-     * @param core
+     * @param plugin
      * @throws FeatherSetupException
      */
-    void loadModules(final FeatherCore core) throws FeatherSetupException {
-        this.dependenciesMapBuilder.addDependency(IPluginProvider.class, core);
-        this.dependenciesMapBuilder.addDependency(IFeatherLogger.class, core.getFeatherLogger());
-        this.dependenciesMapBuilder.addDependency(IEnabledModulesProvider.class, core);
+    void loadModules(final FeatherCore plugin) throws FeatherSetupException {
+        this.dependenciesMapBuilder.addDependency(JavaPlugin.class, plugin);
+        this.dependenciesMapBuilder.addDependency(IFeatherLogger.class, plugin.getFeatherLogger());
+        this.dependenciesMapBuilder.addDependency(IEnabledModulesProvider.class, plugin);
 
-        final var config = YamlUtils.loadYaml(core.getPlugin(), FeatherCore.FEATHER_CORE_YML)
+        final var config = YamlUtils.loadYaml(plugin, FeatherCore.FEATHER_CORE_YML)
                 .getConfigurationSection("modules");
-
-        final var plugin = core.getPlugin();
 
         for (final var moduleName : config.getKeys(false)) {
             final var moduleConfig = config.getConfigurationSection(moduleName);
@@ -228,11 +227,11 @@ public class ModulesManager {
      * @param core
      * @throws FeatherSetupException
      */
-    private void enableModules(final IPluginProvider core)
+    private void enableModules(final JavaPlugin core)
             throws FeatherSetupException, ModuleNotEnabledException {
-        final IConfigFile modulesEnabledConfig = new BukkitConfigFile(core.getPlugin(), "modules.yml");
+        final IConfigFile modulesEnabledConfig = new BukkitConfigFile(core, "modules.yml");
 
-        final var plugin = core.getPlugin();
+        final var plugin = core;
         final var pluginManager = plugin.getServer().getPluginManager();
 
         for (final var moduleName : enableOrder) {

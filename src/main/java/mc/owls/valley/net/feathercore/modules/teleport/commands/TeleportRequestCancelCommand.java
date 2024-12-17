@@ -6,7 +6,7 @@
  *
  * @file TeleportRequestCancelCommand.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @description Cancel a sent teleport request
  */
 
@@ -24,7 +24,6 @@ import mc.owls.valley.net.feathercore.api.common.minecraft.Args;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
-import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 import mc.owls.valley.net.feathercore.modules.teleport.interfaces.ITeleport;
 
 public class TeleportRequestCancelCommand extends FeatherCommand<TeleportRequestCancelCommand.CommandData> {
@@ -38,7 +37,7 @@ public class TeleportRequestCancelCommand extends FeatherCommand<TeleportRequest
     @Override
     protected boolean hasPermission(final CommandSender sender, final CommandData data) {
         if (!sender.hasPermission("feathercore.teleport.request.cancel")) {
-            getInterface(ILanguage.class).message(sender, Message.General.NO_PERMISSION);
+            getLanguage().message(sender, Message.General.NO_PERMISSION);
             return false;
         }
         return true;
@@ -48,11 +47,11 @@ public class TeleportRequestCancelCommand extends FeatherCommand<TeleportRequest
     protected void execute(final CommandSender sender, final CommandData data) {
         switch (getInterface(ITeleport.class).cancelRequest(data.issuer, data.target)) {
             case NO_SUCH_REQUEST: {
-                getInterface(ILanguage.class).message(sender, Message.Teleport.NO_SUCH_REQUEST);
+                getLanguage().message(sender, Message.Teleport.NO_SUCH_REQUEST);
                 break;
             }
             case CANCELLED: {
-                getInterface(ILanguage.class).message(data.issuer, Message.Teleport.REQUEST_CANCEL,
+                getLanguage().message(data.issuer, Message.Teleport.REQUEST_CANCEL,
                         Pair.of(Placeholder.PLAYER, data.target.getName()));
                 break;
             }
@@ -74,14 +73,14 @@ public class TeleportRequestCancelCommand extends FeatherCommand<TeleportRequest
 
                 if (parsedArgs.success()) {
                     if (!(sender instanceof Player)) {
-                        getInterface(ILanguage.class).message(sender, Message.General.PLAYERS_ONLY);
+                        getLanguage().message(sender, Message.General.PLAYERS_ONLY);
                         return null;
                     }
 
                     issuer = (Player) sender;
                     target = parsedArgs.getPlayer(0);
                 } else {
-                    getInterface(ILanguage.class).message(sender, Message.General.NOT_ONLINE_PLAYER,
+                    getLanguage().message(sender, Message.General.NOT_ONLINE_PLAYER,
                             Pair.of(Placeholder.PLAYER, args[0]));
                     return null;
                 }
@@ -89,7 +88,7 @@ public class TeleportRequestCancelCommand extends FeatherCommand<TeleportRequest
                 break;
             }
             default: {
-                getInterface(ILanguage.class).message(sender, Message.General.USAGE_INVALID,
+                getLanguage().message(sender, Message.General.USAGE_INVALID,
                         Message.Teleport.USAGE_REQUEST_CANCEL);
                 return null;
             }

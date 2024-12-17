@@ -6,7 +6,7 @@
  *
  * @file LootChestsCommand.java
  * @author Alexandru Delegeanu
- * @version 0.7
+ * @version 0.8
  * @description Module main command
  */
 
@@ -27,7 +27,6 @@ import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
-import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 import mc.owls.valley.net.feathercore.modules.loot.chests.interfaces.ILootChests;
 
 public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandData> {
@@ -46,7 +45,7 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
     @Override
     protected boolean hasPermission(final CommandSender sender, final CommandData data) {
         if (!sender.hasPermission("feathercore.lootchests")) {
-            getInterface(ILanguage.class).message(sender, Message.General.NO_PERMISSION);
+            getLanguage().message(sender, Message.General.NO_PERMISSION);
             return false;
         }
         return true;
@@ -78,7 +77,7 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
 
     protected CommandData parse(final CommandSender sender, final String[] args) {
         if (args.length == 0) {
-            getInterface(ILanguage.class).message(sender, Message.General.USAGE_INVALID, Message.LootChests.USAGE);
+            getLanguage().message(sender, Message.General.USAGE_INVALID, Message.LootChests.USAGE);
             return null;
         }
 
@@ -96,7 +95,7 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
                 "locations", CommandType.LOCATIONS).get(args[0].toLowerCase());
 
         if (commandType == null) {
-            getInterface(ILanguage.class).message(sender, Message.General.USAGE_INVALID, Message.LootChests.USAGE);
+            getLanguage().message(sender, Message.General.USAGE_INVALID, Message.LootChests.USAGE);
             return null;
         }
 
@@ -104,12 +103,12 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
         if (Set.of(CommandType.SET, CommandType.DELETE, CommandType.LOCATIONS)
                 .contains(commandType)) {
             if (args.length < 2) {
-                getInterface(ILanguage.class).message(sender, Message.General.USAGE_INVALID, Message.LootChests.USAGE);
+                getLanguage().message(sender, Message.General.USAGE_INVALID, Message.LootChests.USAGE);
                 return null;
             }
 
             if (!getInterface(ILootChests.class).isChestType(args[1])) {
-                getInterface(ILanguage.class).message(sender, Message.LootChests.NOT_A_REGISTERED_CHEST,
+                getLanguage().message(sender, Message.LootChests.NOT_A_REGISTERED_CHEST,
                         Pair.of(Placeholder.STRING, args[1]));
                 return null;
             }
@@ -119,7 +118,7 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
 
         // create -> chestType, displayName, cooldown
         if (commandType == CommandType.CREATE && args.length != 4) {
-            getInterface(ILanguage.class).message(sender, Message.General.USAGE_INVALID, Message.LootChests.USAGE);
+            getLanguage().message(sender, Message.General.USAGE_INVALID, Message.LootChests.USAGE);
             return null;
         } else if (commandType == CommandType.CREATE) {
             chestType = args[1];
@@ -128,7 +127,7 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
             try {
                 cooldown = Long.parseLong(args[3]);
             } catch (final Exception e) {
-                getInterface(ILanguage.class).message(sender, Message.General.NAN,
+                getLanguage().message(sender, Message.General.NAN,
                         Pair.of(Placeholder.STRING, args[3]));
                 return null;
             }
@@ -137,14 +136,14 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
         // set, unset, create, info -> chest
         if (Set.of(CommandType.SET, CommandType.UNSET, CommandType.CREATE, CommandType.INFO).contains(commandType)) {
             if (!(sender instanceof Player)) {
-                getInterface(ILanguage.class).message(sender, Message.General.PLAYERS_ONLY);
+                getLanguage().message(sender, Message.General.PLAYERS_ONLY);
                 return null;
             }
 
             final Block targetedBlock = ((Player) sender).getTargetBlock((Set<Material>) null, 5);
 
             if (targetedBlock.getType() != Material.CHEST) {
-                getInterface(ILanguage.class).message(sender, Message.LootChests.NOT_A_CHEST,
+                getLanguage().message(sender, Message.LootChests.NOT_A_CHEST,
                         Pair.of(Placeholder.MISC, targetedBlock.getType().toString()));
                 return null;
             }
@@ -163,7 +162,7 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
         final var chestLocation = data.chest.getLocation().toString();
         getInterface(ILootChests.class).setChest(chestLocation, data.chestType);
 
-        getInterface(ILanguage.class).message(sender, Message.LootChests.SET_SUCCESS, List.of(
+        getLanguage().message(sender, Message.LootChests.SET_SUCCESS, List.of(
                 Pair.of(Placeholder.LOCATION, chestLocation),
                 Pair.of(Placeholder.TYPE, data.chestType)));
     }
@@ -172,13 +171,13 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
         final var chestLocation = data.chest.getLocation().toString();
 
         if (data.chestType == null) {
-            getInterface(ILanguage.class).message(sender, Message.LootChests.NOT_A_REGISTERED_CHEST);
+            getLanguage().message(sender, Message.LootChests.NOT_A_REGISTERED_CHEST);
             return;
         }
 
         getInterface(ILootChests.class).unsetChest(chestLocation);
 
-        getInterface(ILanguage.class).message(sender, Message.LootChests.UNSET_SUCCESS, List.of(
+        getLanguage().message(sender, Message.LootChests.UNSET_SUCCESS, List.of(
                 Pair.of(Placeholder.LOCATION, chestLocation),
                 Pair.of(Placeholder.TYPE, data.chestType)));
     }
@@ -187,22 +186,22 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
         getInterface(ILootChests.class).createChest(data.chestType, data.displayName, data.cooldown,
                 data.chest.getInventory());
 
-        getInterface(ILanguage.class).message(sender, Message.LootChests.CREATE_SUCCESS,
+        getLanguage().message(sender, Message.LootChests.CREATE_SUCCESS,
                 Pair.of(Placeholder.TYPE, data.chestType));
     }
 
     private void executeDelete(final CommandSender sender, final CommandData data) {
         getInterface(ILootChests.class).deleteChest(data.chestType);
 
-        getInterface(ILanguage.class).message(sender, Message.LootChests.DELETE_SUCCESS,
+        getLanguage().message(sender, Message.LootChests.DELETE_SUCCESS,
                 Pair.of(Placeholder.TYPE, data.chestType));
     }
 
     private void executeInfo(final CommandSender sender, final CommandData data) {
         if (data.chestType == null) {
-            getInterface(ILanguage.class).message(sender, Message.LootChests.NOT_A_REGISTERED_CHEST);
+            getLanguage().message(sender, Message.LootChests.NOT_A_REGISTERED_CHEST);
         } else {
-            getInterface(ILanguage.class).message(sender, Message.LootChests.INFO,
+            getLanguage().message(sender, Message.LootChests.INFO,
                     Pair.of(Placeholder.TYPE, data.chestType));
         }
     }
@@ -211,7 +210,7 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
         final var locations = getInterface(ILootChests.class).getChestLocations(data.chestType);
 
         if (locations.isEmpty()) {
-            getInterface(ILanguage.class).message(sender, Message.LootChests.LOCATIONS, List.of(
+            getLanguage().message(sender, Message.LootChests.LOCATIONS, List.of(
                     Pair.of(Placeholder.TYPE, data.chestType),
                     Pair.of(Placeholder.LOCATIONS, "none")));
             return;
@@ -222,7 +221,7 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
             sb.append(index).append(". ").append(locations.get(index)).append("\n  ");
         }
 
-        getInterface(ILanguage.class).message(sender, Message.LootChests.LOCATIONS, List.of(
+        getLanguage().message(sender, Message.LootChests.LOCATIONS, List.of(
                 Pair.of(Placeholder.TYPE, data.chestType),
                 Pair.of(Placeholder.LOCATIONS, sb.toString())));
     }

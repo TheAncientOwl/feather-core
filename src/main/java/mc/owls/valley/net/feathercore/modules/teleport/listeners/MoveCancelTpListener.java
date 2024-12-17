@@ -6,7 +6,7 @@
  *
  * @file PvPCancelTpListener.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @description Cancel teleport on player move
  */
 
@@ -17,7 +17,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 
 import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.core.FeatherListener;
-import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 import mc.owls.valley.net.feathercore.modules.teleport.interfaces.ITeleport;
 
 public class MoveCancelTpListener extends FeatherListener {
@@ -37,7 +36,7 @@ public class MoveCancelTpListener extends FeatherListener {
         if (from.getX() != to.getX() || from.getY() != to.getY() || from.getZ() != from.getZ()) {
             final var player = event.getPlayer();
             if (getInterface(ITeleport.class).cancelTeleport(player)) {
-                getInterface(ILanguage.class).message(player, Message.Teleport.MOVED_WHILE_WAITING);
+                getLanguage().message(player, Message.Teleport.MOVED_WHILE_WAITING);
             }
         }
     }

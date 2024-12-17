@@ -6,7 +6,7 @@
  *
  * @file TeleportHereRequestCommand.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @description Request teleport the target player to command sender player
  */
 
@@ -24,7 +24,6 @@ import mc.owls.valley.net.feathercore.api.common.minecraft.Args;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
-import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 import mc.owls.valley.net.feathercore.modules.teleport.components.Teleport.RequestType;
 import mc.owls.valley.net.feathercore.modules.teleport.interfaces.ITeleport;
 
@@ -39,7 +38,7 @@ public class TeleportHereRequestCommand extends FeatherCommand<TeleportHereReque
     @Override
     protected boolean hasPermission(final CommandSender sender, final CommandData data) {
         if (!sender.hasPermission("feathercore.teleport.request.here")) {
-            getInterface(ILanguage.class).message(sender, Message.General.NO_PERMISSION);
+            getLanguage().message(sender, Message.General.NO_PERMISSION);
             return false;
         }
         return true;
@@ -49,14 +48,14 @@ public class TeleportHereRequestCommand extends FeatherCommand<TeleportHereReque
     protected void execute(final CommandSender sender, final CommandData data) {
         switch (getInterface(ITeleport.class).request(data.issuer, data.target, RequestType.HERE)) {
             case ALREADY_REQUESTED: {
-                getInterface(ILanguage.class).message(data.issuer, Message.Teleport.REQUEST_HERE_EXECUTE_PENDING,
+                getLanguage().message(data.issuer, Message.Teleport.REQUEST_HERE_EXECUTE_PENDING,
                         Pair.of(Placeholder.PLAYER, data.target.getName()));
                 break;
             }
             case REQUESTED: {
-                getInterface(ILanguage.class).message(data.issuer, Message.Teleport.REQUEST_HERE_EXECUTE_ISSUER,
+                getLanguage().message(data.issuer, Message.Teleport.REQUEST_HERE_EXECUTE_ISSUER,
                         Pair.of(Placeholder.PLAYER, data.target.getName()));
-                getInterface(ILanguage.class).message(data.target, Message.Teleport.REQUEST_HERE_EXECUTE_TARGET,
+                getLanguage().message(data.target, Message.Teleport.REQUEST_HERE_EXECUTE_TARGET,
                         Pair.of(Placeholder.PLAYER, data.issuer.getName()));
                 break;
             }
@@ -78,14 +77,14 @@ public class TeleportHereRequestCommand extends FeatherCommand<TeleportHereReque
 
                 if (parsedArgs.success()) {
                     if (!(sender instanceof Player)) {
-                        getInterface(ILanguage.class).message(sender, Message.General.PLAYERS_ONLY);
+                        getLanguage().message(sender, Message.General.PLAYERS_ONLY);
                         return null;
                     }
 
                     issuer = (Player) sender;
                     target = parsedArgs.getPlayer(0);
                 } else {
-                    getInterface(ILanguage.class).message(sender, Message.General.NOT_ONLINE_PLAYER,
+                    getLanguage().message(sender, Message.General.NOT_ONLINE_PLAYER,
                             Pair.of(Placeholder.PLAYER, args[0]));
                     return null;
                 }
@@ -93,7 +92,7 @@ public class TeleportHereRequestCommand extends FeatherCommand<TeleportHereReque
                 break;
             }
             default: {
-                getInterface(ILanguage.class).message(sender, Message.General.USAGE_INVALID,
+                getLanguage().message(sender, Message.General.USAGE_INVALID,
                         Message.Teleport.USAGE_REQUEST_HERE);
                 return null;
             }

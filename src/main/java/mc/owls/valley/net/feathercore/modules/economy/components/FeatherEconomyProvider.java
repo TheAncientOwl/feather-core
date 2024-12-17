@@ -6,7 +6,7 @@
  *
  * @file FeatherEconomyProvider.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @description Module responsible for managing vault/server Economy
  */
 
@@ -20,7 +20,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
-import mc.owls.valley.net.feathercore.core.interfaces.IPluginProvider;
 import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
 import mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomyProvider;
 import net.milkbowl.vault.economy.Economy;
@@ -39,7 +38,7 @@ public class FeatherEconomyProvider extends FeatherModule implements IFeatherEco
     }
 
     private void provideEconomy() throws FeatherSetupException {
-        final JavaPlugin plugin = getInterface(IPluginProvider.class).getPlugin();
+        final JavaPlugin plugin = getPlugin();
         final Server server = plugin.getServer();
 
         if (server.getPluginManager().getPlugin("Vault") == null) {
@@ -51,7 +50,7 @@ public class FeatherEconomyProvider extends FeatherModule implements IFeatherEco
     }
 
     private void setupVault() throws FeatherSetupException {
-        final JavaPlugin plugin = getInterface(IPluginProvider.class).getPlugin();
+        final JavaPlugin plugin = getPlugin();
         final Server server = plugin.getServer();
 
         if (server.getPluginManager().getPlugin("Vault") == null) {

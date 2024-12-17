@@ -6,7 +6,7 @@
  *
  * @file LootChests.java
  * @author Alexandru Delegeanu
- * @version 0.7
+ * @version 0.8
  * @description Module responsible for managing loot chests
  */
 
@@ -20,7 +20,6 @@ import org.bukkit.inventory.Inventory;
 
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
-import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.LootChestsModel;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
@@ -42,9 +41,9 @@ public class LootChests extends FeatherModule implements ILootChests {
 
     @Override
     protected void onModuleDisable() {
-        getInterface(IFeatherLogger.class).info("Saving chests data&7...");
+        getLogger().info("Saving chests data&7...");
         saveData();
-        getInterface(IFeatherLogger.class).info("Chests data saved&7.");
+        getLogger().info("Chests data saved&7.");
     }
 
     private void saveData() {
@@ -112,7 +111,7 @@ public class LootChests extends FeatherModule implements ILootChests {
             playerModel.chestLocationToOpenTime.put(location, now);
             getInterface(IPlayersData.class).markPlayerModelForSave(playerModel);
         } else {
-            getInterface(IFeatherLogger.class)
+            getLogger()
                     .warn("&8[&2Loot&aChests&8] &eUnknown chest type &6'" + chestType + "' &efound at location &6"
                             + location + "&e. Removing chest location from internal database.");
             unsetChest(location);
@@ -139,7 +138,7 @@ public class LootChests extends FeatherModule implements ILootChests {
         try {
             this.config.saveConfig();
         } catch (final Exception e) {
-            getInterface(IFeatherLogger.class).error(
+            getLogger().error(
                     "Could not save chest config to file loot-chests.yml. \nReason: " + StringUtils.exceptionToStr(e));
         }
     }

@@ -6,7 +6,7 @@
  *
  * @file PlayersData.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @description Module responsible for managing plugin players data
  */
 
@@ -22,12 +22,9 @@ import java.util.UUID;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import mc.owls.valley.net.feathercore.api.configuration.IConfigSection;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
-import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
-import mc.owls.valley.net.feathercore.core.interfaces.IPluginProvider;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.interfaces.IMongoDB;
 import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
@@ -47,10 +44,10 @@ public class PlayersData extends FeatherModule implements IPlayersData {
 
     @Override
     protected void onModuleDisable() {
-        getInterface(IFeatherLogger.class).info("Saving players data&7...");
+        getLogger().info("Saving players data&7...");
         final var playersCount = this.saveMarks.size();
         savePlayersData();
-        getInterface(IFeatherLogger.class).info("Saved the data of " + playersCount + " players&7.");
+        getLogger().info("Saved the data of " + playersCount + " players&7.");
     }
 
     @Override
@@ -161,7 +158,7 @@ public class PlayersData extends FeatherModule implements IPlayersData {
     }
 
     private void setupAutoSave() {
-        final JavaPlugin plugin = getInterface(IPluginProvider.class).getPlugin();
+        final var plugin = getPlugin();
         final IConfigSection autoSaveCfg = this.config.getConfigurationSection("auto-save");
 
         if (autoSaveCfg.getBoolean("enabled")) {
@@ -169,18 +166,18 @@ public class PlayersData extends FeatherModule implements IPlayersData {
             final var logging = autoSaveCfg.getBoolean("logging");
 
             if (ticks <= 0) {
-                getInterface(IFeatherLogger.class).error("players-data.auto-save.time cannot be <= 0");
+                getLogger().error("players-data.auto-save.time cannot be <= 0");
             } else if (logging) {
                 Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
                     if (!this.saveMarks.isEmpty()) {
-                        getInterface(IFeatherLogger.class).info("Saving players data");
+                        getLogger().info("Saving players data");
                     }
                     final int modelsCount = this.saveMarks.size();
 
                     savePlayersData();
 
                     if (modelsCount > 0) {
-                        getInterface(IFeatherLogger.class).info("Saved the data of " + modelsCount + " players");
+                        getLogger().info("Saved the data of " + modelsCount + " players");
                     }
                 }, 0L, ticks);
             } else {

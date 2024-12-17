@@ -6,7 +6,7 @@
  *
  * @file EcoCommand.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @description Manage server economy
  */
 
@@ -25,7 +25,6 @@ import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomyProvider;
-import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 
 public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
     public EcoCommand(final InitData data) {
@@ -42,7 +41,7 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
     @Override
     protected boolean hasPermission(final CommandSender sender, final CommandData data) {
         if (!sender.hasPermission("feathercore.economy.setup.eco")) {
-            getInterface(ILanguage.class).message(sender, Message.General.PERMISSION_DENIED);
+            getLanguage().message(sender, Message.General.PERMISSION_DENIED);
             return false;
         }
         return true;
@@ -63,7 +62,7 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
                 break;
         }
 
-        getInterface(ILanguage.class).message(sender, Message.Economy.ECO_SUCCESS, List.of(
+        getLanguage().message(sender, Message.Economy.ECO_SUCCESS, List.of(
                 Pair.of(Placeholder.PLAYER, data.player.getName()),
                 Pair.of(Placeholder.OLD,
                         getInterface(IFeatherEconomyProvider.class).getEconomy().format(data.oldBalance)),
@@ -74,7 +73,7 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
     protected CommandData parse(final CommandSender sender, final String[] args) {
         // 1. check the basics
         if (args.length != 3) {
-            getInterface(ILanguage.class).message(sender, Message.General.USAGE_INVALID, Message.Economy.USAGE_ECO);
+            getLanguage().message(sender, Message.General.USAGE_INVALID, Message.Economy.USAGE_ECO);
             return null;
         }
 
@@ -85,7 +84,7 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
         // 2. get the player
         final OfflinePlayer player = Bukkit.getOfflinePlayer(playerName);
         if (!player.hasPlayedBefore()) {
-            getInterface(ILanguage.class).message(sender, Message.General.NOT_VALID_PLAYER,
+            getLanguage().message(sender, Message.General.NOT_VALID_PLAYER,
                     Pair.of(Placeholder.STRING, playerName));
             return null;
         }
@@ -95,13 +94,13 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
         try {
             amount = Double.parseDouble(amountStr);
         } catch (final Exception e) {
-            getInterface(ILanguage.class).message(sender, Message.General.NOT_VALID_NUMBER,
+            getLanguage().message(sender, Message.General.NOT_VALID_NUMBER,
                     Pair.of(Placeholder.STRING, amountStr));
             return null;
         }
 
         if (amount < 0 && (actionStr.equals("give") || actionStr.equals("take"))) {
-            getInterface(ILanguage.class).message(sender, Message.Economy.ECO_NO_NEGATIVE_AMOUNT,
+            getLanguage().message(sender, Message.Economy.ECO_NO_NEGATIVE_AMOUNT,
                     Pair.of(Placeholder.STRING, actionStr));
             return null;
         }
@@ -113,7 +112,7 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
             case "give": {
                 final var max = getInterface(IFeatherEconomyProvider.class).getConfig().getDouble("balance.max");
                 if (oldBalance + amount > max) {
-                    getInterface(ILanguage.class).message(sender, Message.Economy.ECO_BOUNDS_MAX,
+                    getLanguage().message(sender, Message.Economy.ECO_BOUNDS_MAX,
                             Pair.of(Placeholder.MAX,
                                     getInterface(IFeatherEconomyProvider.class).getEconomy().format(max)));
                     return null;
@@ -124,7 +123,7 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
             case "take": {
                 final var min = getInterface(IFeatherEconomyProvider.class).getConfig().getDouble("balance.min");
                 if (oldBalance - amount < min) {
-                    getInterface(ILanguage.class).message(sender, Message.Economy.ECO_BOUNDS_MIN,
+                    getLanguage().message(sender, Message.Economy.ECO_BOUNDS_MIN,
                             Pair.of(Placeholder.MIN,
                                     getInterface(IFeatherEconomyProvider.class).getEconomy().format(min)));
                     return null;
@@ -135,7 +134,7 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
             case "set": {
                 final var max = getInterface(IFeatherEconomyProvider.class).getConfig().getDouble("balance.max");
                 if (amount > max) {
-                    getInterface(ILanguage.class).message(sender, Message.Economy.ECO_BOUNDS_MAX,
+                    getLanguage().message(sender, Message.Economy.ECO_BOUNDS_MAX,
                             Pair.of(Placeholder.MAX,
                                     getInterface(IFeatherEconomyProvider.class).getEconomy().format(max)));
                     return null;
@@ -143,7 +142,7 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
 
                 final var min = getInterface(IFeatherEconomyProvider.class).getConfig().getDouble("balance.min");
                 if (amount < min) {
-                    getInterface(ILanguage.class).message(sender, Message.Economy.ECO_BOUNDS_MIN,
+                    getLanguage().message(sender, Message.Economy.ECO_BOUNDS_MIN,
                             Pair.of(Placeholder.MIN,
                                     getInterface(IFeatherEconomyProvider.class).getEconomy().format(min)));
                     return null;
@@ -153,7 +152,7 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
                 break;
             }
             default: {
-                getInterface(ILanguage.class).message(sender, Message.General.USAGE_INVALID, Message.Economy.USAGE_ECO);
+                getLanguage().message(sender, Message.General.USAGE_INVALID, Message.Economy.USAGE_ECO);
                 return null;
             }
         }

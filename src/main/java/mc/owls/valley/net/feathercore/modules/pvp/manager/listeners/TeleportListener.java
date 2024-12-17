@@ -6,7 +6,7 @@
  *
  * @file TeleportListener.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @description Block combat teleport
  */
 
@@ -20,7 +20,6 @@ import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.core.FeatherListener;
-import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 import mc.owls.valley.net.feathercore.modules.pvp.manager.interfaces.IPvPManager;
 
 public class TeleportListener extends FeatherListener {
@@ -42,7 +41,7 @@ public class TeleportListener extends FeatherListener {
                 (event.getCause() == TeleportCause.ENDER_PEARL
                         && !getInterface(IPvPManager.class).getConfig().getBoolean("block-tp.ender-pearl"))) {
             event.setCancelled(true);
-            getInterface(ILanguage.class).message(player, Message.PvPManager.TELEPORT);
+            getLanguage().message(player, Message.PvPManager.TELEPORT);
         }
     }
 }

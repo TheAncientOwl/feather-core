@@ -6,7 +6,7 @@
  *
  * @file PayToggleCommand.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @description Toggle on/off receiving in-game payments
  */
 
@@ -22,7 +22,6 @@ import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
-import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 
 public class PayToggleCommand extends FeatherCommand<PayToggleCommand.CommandData> {
     public PayToggleCommand(final InitData data) {
@@ -35,7 +34,7 @@ public class PayToggleCommand extends FeatherCommand<PayToggleCommand.CommandDat
     @Override
     protected boolean hasPermission(final CommandSender sender, final CommandData data) {
         if (!sender.hasPermission("feathercore.economy.general.paytoggle")) {
-            getInterface(ILanguage.class).message(sender, Message.General.PERMISSION_DENIED);
+            getLanguage().message(sender, Message.General.PERMISSION_DENIED);
             return false;
         }
         return true;
@@ -46,19 +45,19 @@ public class PayToggleCommand extends FeatherCommand<PayToggleCommand.CommandDat
         data.playerModel.acceptsPayments = !data.playerModel.acceptsPayments;
         getInterface(IPlayersData.class).markPlayerModelForSave(data.playerModel);
 
-        getInterface(ILanguage.class).message(sender,
+        getLanguage().message(sender,
                 data.playerModel.acceptsPayments ? Message.Economy.PAY_TOGGLE_TRUE : Message.Economy.PAY_TOGGLE_FALSE);
     }
 
     protected CommandData parse(final CommandSender sender, final String args[]) {
         // 3. check the basics
         if (!(sender instanceof Player)) {
-            getInterface(ILanguage.class).message(sender, Message.General.PLAYERS_ONLY);
+            getLanguage().message(sender, Message.General.PLAYERS_ONLY);
             return null;
         }
 
         if (args.length != 0) {
-            getInterface(ILanguage.class).message(sender, Message.General.USAGE_INVALID, Message.Economy.USAGE_PAY);
+            getLanguage().message(sender, Message.General.USAGE_INVALID, Message.Economy.USAGE_PAY);
             return null;
         }
 

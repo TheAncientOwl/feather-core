@@ -6,7 +6,7 @@
  *
  * @file FeatherModule.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @description Base class for plugin module
  */
 
@@ -35,11 +35,9 @@ public abstract class FeatherModule extends DependencyAccessor {
     }
 
     public void onEnable() throws FeatherSetupException {
-        final var logger = getInterface(IFeatherLogger.class);
-
-        logStatus(logger, "&7setup started");
+        logStatus(getLogger(), "&7setup started");
         onModuleEnable();
-        logStatus(logger, "&aenabled");
+        logStatus(getLogger(), "&aenabled");
     }
 
     public void onDisable(final IFeatherLogger logger) {

@@ -6,7 +6,7 @@
  *
  * @file TeleportPositionCommand.java
  * @author Alexandru Delegeanu
- * @version 0.9
+ * @version 0.10
  * @description Teleport to specified position in the world
  */
 
@@ -26,7 +26,6 @@ import mc.owls.valley.net.feathercore.api.common.minecraft.Args;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
-import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 import mc.owls.valley.net.feathercore.modules.teleport.interfaces.ITeleport;
 
 public class TeleportPositionCommand extends FeatherCommand<TeleportPositionCommand.CommandData> {
@@ -44,7 +43,7 @@ public class TeleportPositionCommand extends FeatherCommand<TeleportPositionComm
         if (!sender.hasPermission("feathercore.teleport." + data.world.getName() + ".position") ||
                 (!selfTeleport
                         && !sender.hasPermission("feathercore.teleport." + data.world.getName() + ".position.other"))) {
-            getInterface(ILanguage.class).message(sender, Message.General.NO_PERMISSION);
+            getLanguage().message(sender, Message.General.NO_PERMISSION);
             return false;
         }
         return true;
@@ -56,14 +55,14 @@ public class TeleportPositionCommand extends FeatherCommand<TeleportPositionComm
 
         getInterface(ITeleport.class).teleport(data.player, data.x, data.y, data.z, data.world);
 
-        getInterface(ILanguage.class).message(data.player, Message.Teleport.POSITION, List.of(
+        getLanguage().message(data.player, Message.Teleport.POSITION, List.of(
                 Pair.of(Placeholder.X, (int) data.x),
                 Pair.of(Placeholder.Y, (int) data.y),
                 Pair.of(Placeholder.Z, (int) data.z),
                 Pair.of(Placeholder.WORLD, data.world.getName())));
 
         if (!selfTeleport) {
-            getInterface(ILanguage.class).message(sender, Message.Teleport.POSITION_OTHER, List.of(
+            getLanguage().message(sender, Message.Teleport.POSITION_OTHER, List.of(
                     Pair.of(Placeholder.PLAYER, data.player.getName()),
                     Pair.of(Placeholder.X, (int) data.x),
                     Pair.of(Placeholder.Y, (int) data.y),
@@ -89,7 +88,7 @@ public class TeleportPositionCommand extends FeatherCommand<TeleportPositionComm
                     y = parsedArgs.getDouble(1);
                     z = parsedArgs.getDouble(2);
                 } else {
-                    getInterface(ILanguage.class).message(sender, Message.General.NAN,
+                    getLanguage().message(sender, Message.General.NAN,
                             Pair.of(Placeholder.STRING, args[parsedArgs.failIndex()]));
                     return null;
                 }
@@ -114,13 +113,13 @@ public class TeleportPositionCommand extends FeatherCommand<TeleportPositionComm
                         if (argWorld != null) {
                             world = argWorld;
                         } else {
-                            getInterface(ILanguage.class).message(sender, Message.General.NOT_VALID_VALUE,
+                            getLanguage().message(sender, Message.General.NOT_VALID_VALUE,
                                     Pair.of(Placeholder.STRING, args[3]));
                             return null;
                         }
                     }
                 } else if (parsedArgs.failIndex() >= 0 && parsedArgs.failIndex() <= 2) {
-                    getInterface(ILanguage.class).message(sender, Message.General.NAN,
+                    getLanguage().message(sender, Message.General.NAN,
                             Pair.of(Placeholder.STRING, args[parsedArgs.failIndex()]));
                     return null;
                 }
@@ -142,22 +141,22 @@ public class TeleportPositionCommand extends FeatherCommand<TeleportPositionComm
                         case 0:
                         case 1:
                         case 2:
-                            getInterface(ILanguage.class).message(sender, Message.General.NAN,
+                            getLanguage().message(sender, Message.General.NAN,
                                     Pair.of(Placeholder.STRING, args[parsedArgs.failIndex()]));
                             return null;
                         case 3:
-                            getInterface(ILanguage.class).message(sender, Message.General.NOT_VALID_WORLD,
+                            getLanguage().message(sender, Message.General.NOT_VALID_WORLD,
                                     Pair.of(Placeholder.STRING, args[parsedArgs.failIndex()]));
                             return null;
                         case 4:
-                            getInterface(ILanguage.class).message(sender, Message.General.NOT_VALID_PLAYER,
+                            getLanguage().message(sender, Message.General.NOT_VALID_PLAYER,
                                     Pair.of(Placeholder.STRING, args[parsedArgs.failIndex()]));
                             return null;
                     }
                 break;
             }
             default: {
-                getInterface(ILanguage.class).message(sender, Message.General.USAGE_INVALID,
+                getLanguage().message(sender, Message.General.USAGE_INVALID,
                         Message.Teleport.USAGE_POSITION);
                 return null;
             }
@@ -165,7 +164,7 @@ public class TeleportPositionCommand extends FeatherCommand<TeleportPositionComm
 
         if (player == null) {
             if (!(sender instanceof Player)) {
-                getInterface(ILanguage.class).message(sender, Message.General.PLAYERS_ONLY);
+                getLanguage().message(sender, Message.General.PLAYERS_ONLY);
                 return null;
             }
             player = (Player) sender;

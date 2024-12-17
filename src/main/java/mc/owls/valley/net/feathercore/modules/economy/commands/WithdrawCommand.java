@@ -6,7 +6,7 @@
  *
  * @file WithdrawCommand.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @description Withdraw banknotes from player's balance
  */
 
@@ -29,9 +29,7 @@ import mc.owls.valley.net.feathercore.api.common.minecraft.NamespacedKey;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
-import mc.owls.valley.net.feathercore.core.interfaces.IPluginProvider;
 import mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomyProvider;
-import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData> {
@@ -45,7 +43,7 @@ public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData>
     @Override
     protected boolean hasPermission(final CommandSender sender, final CommandData data) {
         if (!sender.hasPermission("feathercore.economy.general.withdraw")) {
-            getInterface(ILanguage.class).message(sender, Message.General.PERMISSION_DENIED);
+            getLanguage().message(sender, Message.General.PERMISSION_DENIED);
             return false;
         }
         return true;
@@ -56,7 +54,7 @@ public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData>
         getInterface(IFeatherEconomyProvider.class).getEconomy().withdrawPlayer((Player) sender, data.withdrawValue);
         ((Player) sender).getInventory().addItem(data.banknote);
 
-        getInterface(ILanguage.class).message(sender, Message.Economy.WITHDRAW_SUCCESS, List.of(
+        getLanguage().message(sender, Message.Economy.WITHDRAW_SUCCESS, List.of(
                 Pair.of(Placeholder.AMOUNT,
                         getInterface(IFeatherEconomyProvider.class).getEconomy().format(data.withdrawValue)),
                 Pair.of(Placeholder.BALANCE, getInterface(IFeatherEconomyProvider.class).getEconomy()
@@ -67,12 +65,12 @@ public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData>
     protected CommandData parse(final CommandSender sender, final String[] args) {
         // 1. basic checks
         if (!(sender instanceof Player)) {
-            getInterface(ILanguage.class).message(sender, Message.General.PLAYERS_ONLY);
+            getLanguage().message(sender, Message.General.PLAYERS_ONLY);
             return null;
         }
 
         if (args.length != 2) {
-            getInterface(ILanguage.class).message(sender, Message.General.USAGE_INVALID,
+            getLanguage().message(sender, Message.General.USAGE_INVALID,
                     Message.Economy.USAGE_WITHDRAW);
             return null;
         }
@@ -82,7 +80,7 @@ public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData>
         try {
             banknoteValue = Double.parseDouble(args[0]);
         } catch (final Exception e) {
-            getInterface(ILanguage.class).message(sender, Message.General.NOT_VALID_NUMBER,
+            getLanguage().message(sender, Message.General.NOT_VALID_NUMBER,
                     Pair.of(Placeholder.STRING, args[0]));
             return null;
         }
@@ -92,7 +90,7 @@ public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData>
         try {
             banknotesCount = Integer.parseInt(args[1]);
         } catch (final Exception e) {
-            getInterface(ILanguage.class).message(sender, Message.General.NOT_VALID_NUMBER,
+            getLanguage().message(sender, Message.General.NOT_VALID_NUMBER,
                     Pair.of(Placeholder.STRING, args[1]));
             return null;
         }
@@ -101,7 +99,7 @@ public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData>
         final var minWithdraw = Math.max(0,
                 getInterface(IFeatherEconomyProvider.class).getConfig().getDouble("banknote.minimum-value"));
         if (banknoteValue < minWithdraw) {
-            getInterface(ILanguage.class).message(sender, Message.Economy.WITHDRAW_MIN_AMOUNT,
+            getLanguage().message(sender, Message.Economy.WITHDRAW_MIN_AMOUNT,
                     Pair.of(Placeholder.MIN,
                             getInterface(IFeatherEconomyProvider.class).getEconomy().format(minWithdraw)));
             return null;
@@ -110,16 +108,16 @@ public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData>
         final var withdrawValue = banknoteValue * banknotesCount;
 
         if (!getInterface(IFeatherEconomyProvider.class).getEconomy().has((Player) sender, withdrawValue)) {
-            getInterface(ILanguage.class).message(sender, Message.Economy.WITHDRAW_NO_FUNDS);
+            getLanguage().message(sender, Message.Economy.WITHDRAW_NO_FUNDS);
             return null;
         }
 
         // 5. create banknote and check if it can be added to player's inventory
         final ItemStack banknote = makeBanknotes(sender, banknoteValue, banknotesCount,
-                getInterface(ILanguage.class).getTranslation(sender).getStringList(Message.Economy.BANKNOTE_LORE));
+                getLanguage().getTranslation(sender).getStringList(Message.Economy.BANKNOTE_LORE));
 
         if (!canAddBanknote((Player) sender, banknote)) {
-            getInterface(ILanguage.class).message(sender, Message.Economy.WITHDRAW_NO_SPACE);
+            getLanguage().message(sender, Message.Economy.WITHDRAW_NO_SPACE);
             return null;
         }
 
@@ -170,7 +168,7 @@ public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData>
             banknote = new ItemStack(material);
         } catch (final IllegalArgumentException e) {
             banknote = new ItemStack(Material.PAPER);
-            getInterface(ILanguage.class).message(sender, Message.Economy.BANKNOTE_INVALID_MATERIAL);
+            getLanguage().message(sender, Message.Economy.BANKNOTE_INVALID_MATERIAL);
         }
 
         // 2. check lore for {amount} placeholder
@@ -182,13 +180,13 @@ public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData>
         final ItemMeta meta = banknote.getItemMeta();
         meta.displayName(LegacyComponentSerializer.legacyAmpersand()
                 .deserialize(
-                        getInterface(ILanguage.class).getTranslation(sender).getString(Message.Economy.BANKNOTE_NAME)));
+                        getLanguage().getTranslation(sender).getString(Message.Economy.BANKNOTE_NAME)));
         meta.lore(lore.stream()
                 .map(line -> LegacyComponentSerializer.legacyAmpersand()
                         .deserialize(StringUtils.replacePlaceholders(line,
                                 List.of(Pair.of(Placeholder.AMOUNT, banknoteValue)))))
                 .toList());
-        new NamespacedKey(getInterface(IPluginProvider.class).getPlugin(), meta,
+        new NamespacedKey(getPlugin(), meta,
                 getInterface(IFeatherEconomyProvider.class).getConfig().getString("banknote.key"))
                 .set(PersistentDataType.DOUBLE, banknoteValue);
 

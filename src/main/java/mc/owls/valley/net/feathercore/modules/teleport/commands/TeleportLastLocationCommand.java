@@ -6,7 +6,7 @@
  *
  * @file TeleportLastPositionCommand.java
  * @author Alexandru Delegeanu
- * @version 0.7
+ * @version 0.8
  * @description Teleport to the last known location of the player
  */
 
@@ -27,7 +27,6 @@ import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.LocationModel;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
-import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 import mc.owls.valley.net.feathercore.modules.teleport.interfaces.ITeleport;
 
 public class TeleportLastLocationCommand extends FeatherCommand<TeleportLastLocationCommand.CommandData> {
@@ -44,7 +43,7 @@ public class TeleportLastLocationCommand extends FeatherCommand<TeleportLastLoca
 
         if (!sender.hasPermission("feathercore.teleport.lastknown") ||
                 (!selfTeleport && !sender.hasPermission("feathercore.teleport.lastknown.other"))) {
-            getInterface(ILanguage.class).message(sender, Message.General.NO_PERMISSION);
+            getLanguage().message(sender, Message.General.NO_PERMISSION);
             return false;
         }
         return true;
@@ -56,7 +55,7 @@ public class TeleportLastLocationCommand extends FeatherCommand<TeleportLastLoca
 
         final var world = Bukkit.getWorld(data.destination.world);
         if (world == null) {
-            getInterface(ILanguage.class).message(sender, Message.General.WORLD_NO_LONGER_AVAILABLE,
+            getLanguage().message(sender, Message.General.WORLD_NO_LONGER_AVAILABLE,
                     Pair.of(Placeholder.WORLD, data.destination.world));
             return;
         }
@@ -64,14 +63,14 @@ public class TeleportLastLocationCommand extends FeatherCommand<TeleportLastLoca
         getInterface(ITeleport.class).teleport(data.who, data.destination.x, data.destination.y, data.destination.z,
                 world);
 
-        getInterface(ILanguage.class).message(data.who, Message.Teleport.POSITION, List.of(
+        getLanguage().message(data.who, Message.Teleport.POSITION, List.of(
                 Pair.of(Placeholder.X, (int) data.destination.x),
                 Pair.of(Placeholder.Y, (int) data.destination.y),
                 Pair.of(Placeholder.Z, (int) data.destination.z),
                 Pair.of(Placeholder.WORLD, data.destination.world)));
 
         if (!selfTeleport) {
-            getInterface(ILanguage.class).message(sender, Message.Teleport.POSITION_OTHER, List.of(
+            getLanguage().message(sender, Message.Teleport.POSITION_OTHER, List.of(
                     Pair.of(Placeholder.PLAYER, data.who.getName()),
                     Pair.of(Placeholder.X, (int) data.destination.x),
                     Pair.of(Placeholder.Y, (int) data.destination.y),
@@ -91,7 +90,7 @@ public class TeleportLastLocationCommand extends FeatherCommand<TeleportLastLoca
                 destination = getInterface(IPlayersData.class).getPlayerModel(args[0]);
 
                 if (!(sender instanceof Player)) {
-                    getInterface(ILanguage.class).message(sender, Message.General.PLAYERS_ONLY);
+                    getLanguage().message(sender, Message.General.PLAYERS_ONLY);
                     return null;
                 } else {
                     who = (Player) sender;
@@ -105,7 +104,7 @@ public class TeleportLastLocationCommand extends FeatherCommand<TeleportLastLoca
 
                 who = Bukkit.getPlayerExact(args[1]);
                 if (who == null) {
-                    getInterface(ILanguage.class).message(sender, Message.General.NOT_ONLINE_PLAYER,
+                    getLanguage().message(sender, Message.General.NOT_ONLINE_PLAYER,
                             Pair.of(Placeholder.PLAYER, args[1]));
                     return null;
                 }
@@ -113,14 +112,14 @@ public class TeleportLastLocationCommand extends FeatherCommand<TeleportLastLoca
                 break;
             }
             default: {
-                getInterface(ILanguage.class).message(sender, Message.General.USAGE_INVALID,
+                getLanguage().message(sender, Message.General.USAGE_INVALID,
                         Message.Teleport.USAGE_OFFLINE);
                 return null;
             }
         }
 
         if (destination == null) {
-            getInterface(ILanguage.class).message(sender, Message.General.NOT_VALID_PLAYER,
+            getLanguage().message(sender, Message.General.NOT_VALID_PLAYER,
                     Pair.of(Placeholder.STRING, args[0]));
             return null;
         }

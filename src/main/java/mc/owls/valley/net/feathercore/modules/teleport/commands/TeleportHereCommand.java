@@ -6,7 +6,7 @@
  *
  * @file TeleportHereCommand.java
  * @author Alexandru Delegeanu
- * @version 0.7
+ * @version 0.8
  * @description Teleport the target player to command sender player
  */
 
@@ -24,7 +24,6 @@ import mc.owls.valley.net.feathercore.api.common.minecraft.Args;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
-import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 import mc.owls.valley.net.feathercore.modules.teleport.interfaces.ITeleport;
 
 public class TeleportHereCommand extends FeatherCommand<TeleportHereCommand.CommandData> {
@@ -38,7 +37,7 @@ public class TeleportHereCommand extends FeatherCommand<TeleportHereCommand.Comm
     @Override
     protected boolean hasPermission(final CommandSender sender, final CommandData data) {
         if (!sender.hasPermission("feathercore.teleport.here")) {
-            getInterface(ILanguage.class).message(sender, Message.General.NO_PERMISSION);
+            getLanguage().message(sender, Message.General.NO_PERMISSION);
             return false;
         }
         return true;
@@ -47,13 +46,13 @@ public class TeleportHereCommand extends FeatherCommand<TeleportHereCommand.Comm
     @Override
     protected void execute(final CommandSender sender, final CommandData data) {
         if (!(sender instanceof Player)) {
-            getInterface(ILanguage.class).message(sender, Message.General.PLAYERS_ONLY);
+            getLanguage().message(sender, Message.General.PLAYERS_ONLY);
             return;
         }
 
         getInterface(ITeleport.class).teleport(data.who, (Player) sender);
 
-        getInterface(ILanguage.class).message(sender, Message.Teleport.HERE,
+        getLanguage().message(sender, Message.Teleport.HERE,
                 Pair.of(Placeholder.PLAYER, data.who.getName()));
     }
 
@@ -68,7 +67,7 @@ public class TeleportHereCommand extends FeatherCommand<TeleportHereCommand.Comm
                 if (parsedArgs.success()) {
                     who = parsedArgs.getPlayer(0);
                 } else {
-                    getInterface(ILanguage.class).message(sender, Message.General.NOT_ONLINE_PLAYER,
+                    getLanguage().message(sender, Message.General.NOT_ONLINE_PLAYER,
                             Pair.of(Placeholder.PLAYER, args[0]));
                     return null;
                 }
@@ -76,7 +75,7 @@ public class TeleportHereCommand extends FeatherCommand<TeleportHereCommand.Comm
                 break;
             }
             default: {
-                getInterface(ILanguage.class).message(sender, Message.General.USAGE_INVALID,
+                getLanguage().message(sender, Message.General.USAGE_INVALID,
                         Message.Teleport.USAGE_TPHERE);
                 return null;
             }

@@ -6,7 +6,7 @@
  *
  * @file LanguageCommand.java
  * @author Alexandru Delegeanu
- * @version 0.7
+ * @version 0.8
  * @description Manage player's messages language
  */
 
@@ -24,10 +24,8 @@ import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
-import mc.owls.valley.net.feathercore.core.interfaces.IPluginProvider;
 import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
 import mc.owls.valley.net.feathercore.modules.language.events.LanguageChangeEvent;
-import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 
 public class LanguageCommand extends FeatherCommand<LanguageCommand.CommandData> {
     public LanguageCommand(final InitData data) {
@@ -52,21 +50,21 @@ public class LanguageCommand extends FeatherCommand<LanguageCommand.CommandData>
             case INFO: {
                 final var playerLangPrefix = getInterface(IPlayersData.class)
                         .getPlayerModel((OfflinePlayer) sender).language;
-                final var langExtended = getInterface(ILanguage.class).getConfig().getConfigurationSection("languages")
+                final var langExtended = getLanguage().getConfig().getConfigurationSection("languages")
                         .getString(playerLangPrefix, "");
-                getInterface(ILanguage.class).message(sender, Message.Language.INFO,
+                getLanguage().message(sender, Message.Language.INFO,
                         Pair.of(Placeholder.LANGUAGE, langExtended));
                 break;
             }
             case LIST: {
-                final var langConfig = getInterface(ILanguage.class).getConfig().getConfigurationSection("languages");
+                final var langConfig = getLanguage().getConfig().getConfigurationSection("languages");
                 final StringBuilder sb = new StringBuilder();
                 for (final var lang : langConfig.getKeys(false)) {
                     final var longForm = langConfig.getString(lang);
                     sb.append("\n   ").append(lang).append(": ").append(longForm);
                 }
 
-                getInterface(ILanguage.class).message(sender, Message.Language.LIST,
+                getLanguage().message(sender, Message.Language.LIST,
                         Pair.of(Placeholder.LANGUAGE, sb.toString()));
                 break;
             }
@@ -74,12 +72,12 @@ public class LanguageCommand extends FeatherCommand<LanguageCommand.CommandData>
                 final var playerModel = getInterface(IPlayersData.class).getPlayerModel((OfflinePlayer) sender);
                 playerModel.language = data.language;
                 getInterface(IPlayersData.class).markPlayerModelForSave(playerModel);
-                getInterface(ILanguage.class).message(sender, Message.Language.CHANGE_SUCCESS);
+                getLanguage().message(sender, Message.Language.CHANGE_SUCCESS);
 
                 // TODO: refactor call
-                getInterface(IPluginProvider.class).getPlugin().getServer().getPluginManager().callEvent(
+                getPlugin().getServer().getPluginManager().callEvent(
                         new LanguageChangeEvent((Player) sender, data.language,
-                                getInterface(ILanguage.class).getTranslation(sender)));
+                                getLanguage().getTranslation(sender)));
                 break;
             }
         }
@@ -87,7 +85,7 @@ public class LanguageCommand extends FeatherCommand<LanguageCommand.CommandData>
 
     protected CommandData parse(final CommandSender sender, final String[] args) {
         if (args.length != 1) {
-            getInterface(ILanguage.class).message(sender, Message.Language.UNKNOWN, Message.Language.USAGE);
+            getLanguage().message(sender, Message.Language.UNKNOWN, Message.Language.USAGE);
             return null;
         }
 
@@ -100,9 +98,9 @@ public class LanguageCommand extends FeatherCommand<LanguageCommand.CommandData>
         } else if (option.equals("list")) {
             commandType = CommandType.LIST;
         } else {
-            if (!getInterface(ILanguage.class).getConfig().getConfigurationSection("languages").getKeys(false)
+            if (!getLanguage().getConfig().getConfigurationSection("languages").getKeys(false)
                     .contains(option)) {
-                getInterface(ILanguage.class).message(sender, Message.Language.UNKNOWN, Message.Language.USAGE);
+                getLanguage().message(sender, Message.Language.UNKNOWN, Message.Language.USAGE);
                 return null;
             }
             commandType = CommandType.CHANGE;
@@ -117,7 +115,7 @@ public class LanguageCommand extends FeatherCommand<LanguageCommand.CommandData>
         List<String> completions = new ArrayList<>();
 
         final var languages = new ArrayList<>(
-                getInterface(ILanguage.class).getConfig().getConfigurationSection("languages").getKeys(false));
+                getLanguage().getConfig().getConfigurationSection("languages").getKeys(false));
         languages.add("info");
         languages.add("list");
 

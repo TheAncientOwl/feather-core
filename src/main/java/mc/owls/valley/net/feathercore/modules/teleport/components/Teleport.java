@@ -6,7 +6,7 @@
  *
  * @file Teleport.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @description Module responsible for managing teleports
  */
 
@@ -27,7 +27,6 @@ import org.bukkit.scheduler.BukkitTask;
 import mc.owls.valley.net.feathercore.api.common.java.JavaExt;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
-import mc.owls.valley.net.feathercore.core.interfaces.IPluginProvider;
 import mc.owls.valley.net.feathercore.modules.teleport.interfaces.ITeleport;
 
 public class Teleport extends FeatherModule implements ITeleport {
@@ -85,8 +84,7 @@ public class Teleport extends FeatherModule implements ITeleport {
     @Override
     protected void onModuleEnable() throws FeatherSetupException {
         this.teleportCheckTask = Bukkit.getScheduler().runTaskTimerAsynchronously(
-                getInterface(IPluginProvider.class).getPlugin(),
-                new TeleportChecker(this), 0, this.config.getTicks("request.check-interval"));
+                getPlugin(), new TeleportChecker(this), 0, this.config.getTicks("request.check-interval"));
     }
 
     @Override
@@ -306,7 +304,7 @@ public class Teleport extends FeatherModule implements ITeleport {
                 }
             }
 
-            Bukkit.getScheduler().runTask(this.teleport.getInterface(IPluginProvider.class).getPlugin(), () -> {
+            Bukkit.getScheduler().runTask(this.teleport.getPlugin(), () -> {
                 teleportsToExecute.forEach((entry) -> {
                     switch (entry.type) {
                         case TO: {

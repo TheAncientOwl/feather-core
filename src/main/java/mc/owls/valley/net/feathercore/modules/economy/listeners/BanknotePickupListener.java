@@ -6,7 +6,7 @@
  *
  * @file BanknotePickListener.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @description Change banknote meta when picked up based on language
  */
 
@@ -25,9 +25,7 @@ import mc.owls.valley.net.feathercore.api.common.minecraft.NamespacedKey;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherListener;
-import mc.owls.valley.net.feathercore.core.interfaces.IPluginProvider;
 import mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomyProvider;
-import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 public class BanknotePickupListener extends FeatherListener {
@@ -48,7 +46,7 @@ public class BanknotePickupListener extends FeatherListener {
             return;
         }
 
-        final var valueKey = new NamespacedKey(getInterface(IPluginProvider.class).getPlugin(), meta,
+        final var valueKey = new NamespacedKey(getPlugin(), meta,
                 getInterface(IFeatherEconomyProvider.class).getConfig().getString("banknote.key"));
         if (!valueKey.isPresent()) {
             return;
@@ -56,12 +54,12 @@ public class BanknotePickupListener extends FeatherListener {
         final var banknoteValue = valueKey.get(PersistentDataType.DOUBLE);
 
         final var sender = (Player) event.getEntity();
-        final var lore = getInterface(ILanguage.class).getTranslation(sender)
+        final var lore = getLanguage().getTranslation(sender)
                 .getStringList(Message.Economy.BANKNOTE_LORE);
 
         meta.displayName(LegacyComponentSerializer.legacyAmpersand()
                 .deserialize(
-                        getInterface(ILanguage.class).getTranslation(sender).getString(Message.Economy.BANKNOTE_NAME)));
+                        getLanguage().getTranslation(sender).getString(Message.Economy.BANKNOTE_NAME)));
         meta.lore(lore.stream()
                 .map(line -> LegacyComponentSerializer.legacyAmpersand()
                         .deserialize(StringUtils.replacePlaceholders(line, Pair.of(Placeholder.AMOUNT, banknoteValue))))
