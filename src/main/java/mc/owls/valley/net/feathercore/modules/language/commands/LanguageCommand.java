@@ -74,7 +74,6 @@ public class LanguageCommand extends FeatherCommand<LanguageCommand.CommandData>
                 getInterface(IPlayersData.class).markPlayerModelForSave(playerModel);
                 getLanguage().message(sender, Message.Language.CHANGE_SUCCESS);
 
-                // TODO: refactor call
                 getPlugin().getServer().getPluginManager().callEvent(
                         new LanguageChangeEvent((Player) sender, data.language,
                                 getLanguage().getTranslation(sender)));
