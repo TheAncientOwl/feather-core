@@ -6,7 +6,7 @@
  *
  * @file ModulesManager.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @description Class responsible for modules lifecycle
  */
 
@@ -30,7 +30,7 @@ import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.FeatherListener;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
-import mc.owls.valley.net.feathercore.api.core.ModulesAccessor;
+import mc.owls.valley.net.feathercore.api.core.DependencyAccessor;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
 import mc.owls.valley.net.feathercore.api.exceptions.ModuleNotEnabledException;
 import mc.owls.valley.net.feathercore.core.configuration.bukkit.BukkitConfigFile;
@@ -55,7 +55,7 @@ public class ModulesManager {
     private InitializationData init = new InitializationData();
 
     private Map<String, FeatherModule> modules = new HashMap<>();
-    private ModulesAccessor.ModulesMapBuilder modulesMapBuilder = new ModulesAccessor.ModulesMapBuilder();
+    private DependencyAccessor.DependencyMapBuilder dependenciesMapBuilder = new DependencyAccessor.DependencyMapBuilder();
     private List<String> enableOrder = new ArrayList<>();
 
     /**
@@ -106,9 +106,9 @@ public class ModulesManager {
      * @throws FeatherSetupException
      */
     void loadModules(final FeatherCore core) throws FeatherSetupException {
-        this.modulesMapBuilder.addModule(IPluginProvider.class, core);
-        this.modulesMapBuilder.addModule(IFeatherLogger.class, core.getFeatherLogger());
-        this.modulesMapBuilder.addModule(IEnabledModulesProvider.class, core);
+        this.dependenciesMapBuilder.addDependency(IPluginProvider.class, core);
+        this.dependenciesMapBuilder.addDependency(IFeatherLogger.class, core.getFeatherLogger());
+        this.dependenciesMapBuilder.addDependency(IEnabledModulesProvider.class, core);
 
         final var config = YamlUtils.loadYaml(core.getPlugin(), FeatherCore.FEATHER_CORE_YML)
                 .getConfigurationSection("modules");
@@ -130,10 +130,10 @@ public class ModulesManager {
                         .getConstructor(FeatherModule.InitData.class)
                         .newInstance(new FeatherModule.InitData(moduleName, (Supplier<IConfigFile>) () -> {
                             return configFilePath == null ? null : new BukkitConfigFile(plugin, configFilePath);
-                        }, modulesMapBuilder.getMap()));
+                        }, dependenciesMapBuilder.getMap()));
 
                 for (final var interfaceName : moduleConfig.getStringList("interfaces")) {
-                    modulesMapBuilder.addModule(Class.forName(interfaceName), module.instance);
+                    dependenciesMapBuilder.addDependency(Class.forName(interfaceName), module.instance);
                 }
             } catch (final Exception e) {
                 throw new FeatherSetupException("Could not generate instance of class " + moduleClass + "\nReason: "
@@ -264,7 +264,7 @@ public class ModulesManager {
                 try {
                     final var cmdInstance = (FeatherCommand<?>) Class.forName(commandClass)
                             .getConstructor(FeatherCommand.InitData.class)
-                            .newInstance(new FeatherCommand.InitData(this.modulesMapBuilder.getMap()));
+                            .newInstance(new FeatherCommand.InitData(this.dependenciesMapBuilder.getMap()));
                     final var cmd = plugin.getCommand(commandName);
 
                     cmd.setExecutor(cmdInstance);
@@ -280,7 +280,7 @@ public class ModulesManager {
                 try {
                     final var listenerInstance = (FeatherListener) Class.forName(listenerClass)
                             .getConstructor(FeatherListener.InitData.class)
-                            .newInstance(new FeatherListener.InitData(this.modulesMapBuilder.getMap()));
+                            .newInstance(new FeatherListener.InitData(this.dependenciesMapBuilder.getMap()));
 
                     pluginManager.registerEvents(listenerInstance, plugin);
                 } catch (final Exception e) {
@@ -299,7 +299,8 @@ public class ModulesManager {
             final var moduleName = entry.getKey();
 
             if (!this.init.enabledModules.contains(moduleName)) {
-                this.modulesMapBuilder.removeModule(this.init.moduleConfigs.get(moduleName).instance.getClass());
+                this.dependenciesMapBuilder
+                        .removeDependency(this.init.moduleConfigs.get(moduleName).instance.getClass());
                 iterator.remove();
                 this.enableOrder.remove(moduleName);
             }

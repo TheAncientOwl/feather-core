@@ -6,7 +6,7 @@
  *
  * @file FeatherListener.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.3
  * @description Listener interface for paper events
  */
 
@@ -16,7 +16,7 @@ import java.util.Map;
 
 import org.bukkit.event.Listener;
 
-public abstract class FeatherListener extends ModulesAccessor implements Listener {
+public abstract class FeatherListener extends DependencyAccessor implements Listener {
     public static final record InitData(Map<Class<?>, Object> modules) {
     }
 

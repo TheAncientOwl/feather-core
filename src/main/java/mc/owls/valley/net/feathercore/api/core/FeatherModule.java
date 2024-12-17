@@ -6,7 +6,7 @@
  *
  * @file FeatherModule.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @description Base class for plugin module
  */
 
@@ -18,7 +18,7 @@ import java.util.function.Supplier;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
 
-public abstract class FeatherModule extends ModulesAccessor {
+public abstract class FeatherModule extends DependencyAccessor {
     public final static String HIDE_LIFECYCLE_PREFIX = "$";
 
     private final String name;

@@ -6,7 +6,7 @@
  *
  * @file FeatherCommand.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @description Base class for plugin command
  */
 
@@ -20,7 +20,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
-public abstract class FeatherCommand<CommandData> extends ModulesAccessor implements CommandExecutor, TabCompleter {
+public abstract class FeatherCommand<CommandData> extends DependencyAccessor implements CommandExecutor, TabCompleter {
     public static final record InitData(Map<Class<?>, Object> modules) {
     }
 
