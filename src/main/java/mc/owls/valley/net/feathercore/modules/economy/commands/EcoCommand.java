@@ -6,7 +6,7 @@
  *
  * @file EcoCommand.java
  * @author Alexandru Delegeanu
- * @version 0.7
+ * @version 0.8
  * @description Manage server economy
  */
 
@@ -49,25 +49,25 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
 
     @Override
     protected void execute(final CommandSender sender, final CommandData data) {
+        final var economy = getInterface(IFeatherEconomyProvider.class).getEconomy();
+
         switch (data.commandType) {
             case GIVE:
-                getInterface(IFeatherEconomyProvider.class).getEconomy().depositPlayer(data.player, data.amount);
+                economy.depositPlayer(data.player, data.amount);
                 break;
             case TAKE:
-                getInterface(IFeatherEconomyProvider.class).getEconomy().withdrawPlayer(data.player, data.amount);
+                economy.withdrawPlayer(data.player, data.amount);
                 break;
             case SET:
-                getInterface(IFeatherEconomyProvider.class).getEconomy().withdrawPlayer(data.player, data.oldBalance);
-                getInterface(IFeatherEconomyProvider.class).getEconomy().depositPlayer(data.player, data.amount);
+                economy.withdrawPlayer(data.player, data.oldBalance);
+                economy.depositPlayer(data.player, data.amount);
                 break;
         }
 
         getLanguage().message(sender, Message.Economy.ECO_SUCCESS, List.of(
                 Pair.of(Placeholder.PLAYER, data.player.getName()),
-                Pair.of(Placeholder.OLD,
-                        getInterface(IFeatherEconomyProvider.class).getEconomy().format(data.oldBalance)),
-                Pair.of(Placeholder.NEW, getInterface(IFeatherEconomyProvider.class).getEconomy()
-                        .format(getInterface(IFeatherEconomyProvider.class).getEconomy().getBalance(data.player)))));
+                Pair.of(Placeholder.OLD, economy.format(data.oldBalance)),
+                Pair.of(Placeholder.NEW, economy.format(economy.getBalance(data.player)))));
     }
 
     protected CommandData parse(final CommandSender sender, final String[] args) {
@@ -106,45 +106,44 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
         }
 
         // 4. parse command type and validate the ranges
-        final double oldBalance = getInterface(IFeatherEconomyProvider.class).getEconomy().getBalance(player);
+        final var economy = getInterface(IFeatherEconomyProvider.class).getEconomy();
+        final var economyConfig = getInterface(IFeatherEconomyProvider.class).getConfig();
+
+        final double oldBalance = economy.getBalance(player);
         CommandType commandType = null;
         switch (actionStr) {
             case "give": {
-                final var max = getInterface(IFeatherEconomyProvider.class).getConfig().getDouble("balance.max");
+                final var max = economyConfig.getDouble("balance.max");
                 if (oldBalance + amount > max) {
                     getLanguage().message(sender, Message.Economy.ECO_BOUNDS_MAX,
-                            Pair.of(Placeholder.MAX,
-                                    getInterface(IFeatherEconomyProvider.class).getEconomy().format(max)));
+                            Pair.of(Placeholder.MAX, economy.format(max)));
                     return null;
                 }
                 commandType = CommandType.GIVE;
                 break;
             }
             case "take": {
-                final var min = getInterface(IFeatherEconomyProvider.class).getConfig().getDouble("balance.min");
+                final var min = economyConfig.getDouble("balance.min");
                 if (oldBalance - amount < min) {
                     getLanguage().message(sender, Message.Economy.ECO_BOUNDS_MIN,
-                            Pair.of(Placeholder.MIN,
-                                    getInterface(IFeatherEconomyProvider.class).getEconomy().format(min)));
+                            Pair.of(Placeholder.MIN, economy.format(min)));
                     return null;
                 }
                 commandType = CommandType.TAKE;
                 break;
             }
             case "set": {
-                final var max = getInterface(IFeatherEconomyProvider.class).getConfig().getDouble("balance.max");
+                final var max = economyConfig.getDouble("balance.max");
                 if (amount > max) {
                     getLanguage().message(sender, Message.Economy.ECO_BOUNDS_MAX,
-                            Pair.of(Placeholder.MAX,
-                                    getInterface(IFeatherEconomyProvider.class).getEconomy().format(max)));
+                            Pair.of(Placeholder.MAX, economy.format(max)));
                     return null;
                 }
 
-                final var min = getInterface(IFeatherEconomyProvider.class).getConfig().getDouble("balance.min");
+                final var min = economyConfig.getDouble("balance.min");
                 if (amount < min) {
                     getLanguage().message(sender, Message.Economy.ECO_BOUNDS_MIN,
-                            Pair.of(Placeholder.MIN,
-                                    getInterface(IFeatherEconomyProvider.class).getEconomy().format(min)));
+                            Pair.of(Placeholder.MIN, economy.format(min)));
                     return null;
                 }
 

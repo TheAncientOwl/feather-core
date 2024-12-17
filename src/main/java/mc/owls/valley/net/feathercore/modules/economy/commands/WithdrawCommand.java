@@ -6,7 +6,7 @@
  *
  * @file WithdrawCommand.java
  * @author Alexandru Delegeanu
- * @version 0.7
+ * @version 0.8
  * @description Withdraw banknotes from player's balance
  */
 
@@ -51,15 +51,14 @@ public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData>
 
     @Override
     protected void execute(final CommandSender sender, final CommandData data) {
-        getInterface(IFeatherEconomyProvider.class).getEconomy().withdrawPlayer((Player) sender, data.withdrawValue);
+        final var economy = getInterface(IFeatherEconomyProvider.class).getEconomy();
+
+        economy.withdrawPlayer((Player) sender, data.withdrawValue);
         ((Player) sender).getInventory().addItem(data.banknote);
 
         getLanguage().message(sender, Message.Economy.WITHDRAW_SUCCESS, List.of(
-                Pair.of(Placeholder.AMOUNT,
-                        getInterface(IFeatherEconomyProvider.class).getEconomy().format(data.withdrawValue)),
-                Pair.of(Placeholder.BALANCE, getInterface(IFeatherEconomyProvider.class).getEconomy()
-                        .format(getInterface(IFeatherEconomyProvider.class).getEconomy()
-                                .getBalance((Player) sender)))));
+                Pair.of(Placeholder.AMOUNT, economy.format(data.withdrawValue)),
+                Pair.of(Placeholder.BALANCE, economy.format(economy.getBalance((Player) sender)))));
     }
 
     protected CommandData parse(final CommandSender sender, final String[] args) {

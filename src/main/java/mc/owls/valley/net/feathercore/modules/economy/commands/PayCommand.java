@@ -6,7 +6,7 @@
  *
  * @file PayCommand.java
  * @author Alexandru Delegeanu
- * @version 0.7
+ * @version 0.8
  * @description Pay player with in-game currency
  */
 
@@ -48,10 +48,12 @@ public class PayCommand extends FeatherCommand<PayCommand.CommandData> {
 
     @Override
     protected void execute(final CommandSender sender, final CommandData data) {
-        getInterface(IFeatherEconomyProvider.class).getEconomy().withdrawPlayer((Player) sender, data.amount);
-        getInterface(IFeatherEconomyProvider.class).getEconomy().depositPlayer(data.receiver, data.amount);
+        final var economy = getInterface(IFeatherEconomyProvider.class).getEconomy();
 
-        final var amount = getInterface(IFeatherEconomyProvider.class).getEconomy().format(data.amount);
+        economy.withdrawPlayer((Player) sender, data.amount);
+        economy.depositPlayer(data.receiver, data.amount);
+
+        final var amount = economy.format(data.amount);
 
         getLanguage().message(sender, Message.Economy.PAY_SEND, List.of(
                 Pair.of(Placeholder.PLAYER, data.receiver.getName()),
@@ -110,20 +112,23 @@ public class PayCommand extends FeatherCommand<PayCommand.CommandData> {
         }
 
         // 6. check if amount is viable to be transferred
-        final var minAmount = getInterface(IFeatherEconomyProvider.class).getConfig().getDouble("minimum-pay-amount");
+        final var economy = getInterface(IFeatherEconomyProvider.class).getEconomy();
+        final var economyConfig = getInterface(IFeatherEconomyProvider.class).getConfig();
+
+        final var minAmount = economyConfig.getDouble("minimum-pay-amount");
         if (amount < minAmount) {
             getLanguage().message(sender, Message.Economy.PAY_MIN_AMOUNT,
                     Pair.of(Placeholder.AMOUNT, minAmount));
             return null;
         }
 
-        if (!getInterface(IFeatherEconomyProvider.class).getEconomy().has((Player) sender, amount)) {
+        if (!economy.has((Player) sender, amount)) {
             getLanguage().message(sender, Message.Economy.PAY_NO_FUNDS);
             return null;
         }
 
-        final var maxBalance = getInterface(IFeatherEconomyProvider.class).getConfig().getDouble("balance.max");
-        if (getInterface(IFeatherEconomyProvider.class).getEconomy().getBalance(receiverPlayer) + amount > maxBalance) {
+        final var maxBalance = economyConfig.getDouble("balance.max");
+        if (economy.getBalance(receiverPlayer) + amount > maxBalance) {
             getLanguage().message(sender, Message.Economy.PAY_BALANCE_EXCEEDS,
                     Pair.of(Placeholder.MAX, maxBalance));
             return null;
@@ -151,5 +156,4 @@ public class PayCommand extends FeatherCommand<PayCommand.CommandData> {
 
         return completions;
     }
-
 }
