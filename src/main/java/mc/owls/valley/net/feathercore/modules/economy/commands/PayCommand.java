@@ -6,7 +6,7 @@
  *
  * @file PayCommand.java
  * @author Alexandru Delegeanu
- * @version 0.8
+ * @version 0.9
  * @description Pay player with in-game currency
  */
 
@@ -27,7 +27,7 @@ import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
-import mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomyProvider;
+import mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomy;
 
 public class PayCommand extends FeatherCommand<PayCommand.CommandData> {
     public PayCommand(final InitData data) {
@@ -48,7 +48,7 @@ public class PayCommand extends FeatherCommand<PayCommand.CommandData> {
 
     @Override
     protected void execute(final CommandSender sender, final CommandData data) {
-        final var economy = getInterface(IFeatherEconomyProvider.class).getEconomy();
+        final var economy = getInterface(IFeatherEconomy.class).getEconomy();
 
         economy.withdrawPlayer((Player) sender, data.amount);
         economy.depositPlayer(data.receiver, data.amount);
@@ -112,8 +112,8 @@ public class PayCommand extends FeatherCommand<PayCommand.CommandData> {
         }
 
         // 6. check if amount is viable to be transferred
-        final var economy = getInterface(IFeatherEconomyProvider.class).getEconomy();
-        final var economyConfig = getInterface(IFeatherEconomyProvider.class).getConfig();
+        final var economy = getInterface(IFeatherEconomy.class).getEconomy();
+        final var economyConfig = getInterface(IFeatherEconomy.class).getConfig();
 
         final var minAmount = economyConfig.getDouble("minimum-pay-amount");
         if (amount < minAmount) {

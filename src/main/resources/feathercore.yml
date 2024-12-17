@@ -56,7 +56,7 @@ modules:
   FeatherEconomyProvider:
     class: mc.owls.valley.net.feathercore.modules.economy.components.FeatherEconomyProvider
     interfaces:
-      - mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomyProvider
+      - mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomy
     dependencies: [PlayersData, LanguageManager]
     mandatory: true
     config: modules/economy.yml

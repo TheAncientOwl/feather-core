@@ -6,7 +6,7 @@
  *
  * @file WithdrawCommand.java
  * @author Alexandru Delegeanu
- * @version 0.8
+ * @version 0.9
  * @description Withdraw banknotes from player's balance
  */
 
@@ -29,7 +29,7 @@ import mc.owls.valley.net.feathercore.api.common.minecraft.NamespacedKey;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
-import mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomyProvider;
+import mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomy;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData> {
@@ -51,7 +51,7 @@ public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData>
 
     @Override
     protected void execute(final CommandSender sender, final CommandData data) {
-        final var economy = getInterface(IFeatherEconomyProvider.class).getEconomy();
+        final var economy = getInterface(IFeatherEconomy.class).getEconomy();
 
         economy.withdrawPlayer((Player) sender, data.withdrawValue);
         ((Player) sender).getInventory().addItem(data.banknote);
@@ -96,17 +96,17 @@ public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData>
 
         // 4. check if withdraw data is valid
         final var minWithdraw = Math.max(0,
-                getInterface(IFeatherEconomyProvider.class).getConfig().getDouble("banknote.minimum-value"));
+                getInterface(IFeatherEconomy.class).getConfig().getDouble("banknote.minimum-value"));
         if (banknoteValue < minWithdraw) {
             getLanguage().message(sender, Message.Economy.WITHDRAW_MIN_AMOUNT,
                     Pair.of(Placeholder.MIN,
-                            getInterface(IFeatherEconomyProvider.class).getEconomy().format(minWithdraw)));
+                            getInterface(IFeatherEconomy.class).getEconomy().format(minWithdraw)));
             return null;
         }
 
         final var withdrawValue = banknoteValue * banknotesCount;
 
-        if (!getInterface(IFeatherEconomyProvider.class).getEconomy().has((Player) sender, withdrawValue)) {
+        if (!getInterface(IFeatherEconomy.class).getEconomy().has((Player) sender, withdrawValue)) {
             getLanguage().message(sender, Message.Economy.WITHDRAW_NO_FUNDS);
             return null;
         }
@@ -160,7 +160,7 @@ public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData>
             final double banknoteValue, final int banknotesCount, final List<String> lore) {
         // 1. create item stack
         final Material material = Material
-                .getMaterial(getInterface(IFeatherEconomyProvider.class).getConfig().getString("banknote.material"));
+                .getMaterial(getInterface(IFeatherEconomy.class).getConfig().getString("banknote.material"));
         ItemStack banknote = null;
 
         try {
@@ -186,7 +186,7 @@ public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData>
                                 List.of(Pair.of(Placeholder.AMOUNT, banknoteValue)))))
                 .toList());
         new NamespacedKey(getPlugin(), meta,
-                getInterface(IFeatherEconomyProvider.class).getConfig().getString("banknote.key"))
+                getInterface(IFeatherEconomy.class).getConfig().getString("banknote.key"))
                 .set(PersistentDataType.DOUBLE, banknoteValue);
 
         // 4. finish itemstack setup

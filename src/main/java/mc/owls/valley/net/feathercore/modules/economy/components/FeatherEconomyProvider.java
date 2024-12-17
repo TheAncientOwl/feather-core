@@ -6,7 +6,7 @@
  *
  * @file FeatherEconomyProvider.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @description Module responsible for managing vault/server Economy
  */
 
@@ -21,10 +21,10 @@ import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
 import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
-import mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomyProvider;
+import mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomy;
 import net.milkbowl.vault.economy.Economy;
 
-public class FeatherEconomyProvider extends FeatherModule implements IFeatherEconomyProvider {
+public class FeatherEconomyProvider extends FeatherModule implements IFeatherEconomy {
     public FeatherEconomyProvider(final InitData data) {
         super(data);
     }

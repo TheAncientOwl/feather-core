@@ -6,7 +6,7 @@
  *
  * @file DepositCommand.java
  * @author Alexandru Delegeanu
- * @version 0.9
+ * @version 0.10
  * @description Deposit banknotes to player's balance
  */
 
@@ -25,7 +25,7 @@ import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.common.minecraft.NamespacedKey;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
-import mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomyProvider;
+import mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomy;
 
 public class DepositCommand extends FeatherCommand<DepositCommand.CommandData> {
     public DepositCommand(final InitData data) {
@@ -46,7 +46,7 @@ public class DepositCommand extends FeatherCommand<DepositCommand.CommandData> {
 
     @Override
     protected void execute(final CommandSender sender, final CommandData data) {
-        final var economy = getInterface(IFeatherEconomyProvider.class).getEconomy();
+        final var economy = getInterface(IFeatherEconomy.class).getEconomy();
         economy.depositPlayer((Player) sender, data.depositValue);
         data.itemInHand.setAmount(data.itemInHand.getAmount() - data.banknotesCount);
 
@@ -74,7 +74,7 @@ public class DepositCommand extends FeatherCommand<DepositCommand.CommandData> {
             return null;
         }
 
-        final var economyConfig = getInterface(IFeatherEconomyProvider.class).getConfig();
+        final var economyConfig = getInterface(IFeatherEconomy.class).getConfig();
 
         final var namespacedKey = new NamespacedKey(getPlugin(), itemInHand.getItemMeta(),
                 economyConfig.getString("banknote.key"));
@@ -106,7 +106,7 @@ public class DepositCommand extends FeatherCommand<DepositCommand.CommandData> {
         }
 
         // 4. check for max deposit value
-        final var economy = getInterface(IFeatherEconomyProvider.class).getEconomy();
+        final var economy = getInterface(IFeatherEconomy.class).getEconomy();
         final var depositValue = banknoteValue * banknotesCount;
         final var maxBalance = economyConfig.getDouble("balance.max");
         if (economy.getBalance((Player) sender) + depositValue > maxBalance) {

@@ -6,7 +6,7 @@
  *
  * @file BalanceCommand.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @description Check player's balance
  */
 
@@ -25,7 +25,7 @@ import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
-import mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomyProvider;
+import mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomy;
 
 public class BalanceCommand extends FeatherCommand<BalanceCommand.CommandData> {
     public BalanceCommand(final InitData data) {
@@ -50,7 +50,7 @@ public class BalanceCommand extends FeatherCommand<BalanceCommand.CommandData> {
 
     @Override
     protected void execute(final CommandSender sender, final CommandData data) {
-        final var economy = getInterface(IFeatherEconomyProvider.class).getEconomy();
+        final var economy = getInterface(IFeatherEconomy.class).getEconomy();
         switch (data.commandType) {
             case SELF:
                 getLanguage().message(sender, Message.Economy.BALANCE_SELF,

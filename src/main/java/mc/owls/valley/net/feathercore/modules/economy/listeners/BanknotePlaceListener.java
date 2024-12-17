@@ -6,7 +6,7 @@
  *
  * @file BanknotePlaceListener.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @description Prevent player from placing blocks representing banknotes
  */
 
@@ -19,7 +19,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.common.minecraft.NamespacedKey;
 import mc.owls.valley.net.feathercore.api.core.FeatherListener;
-import mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomyProvider;
+import mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomy;
 
 public class BanknotePlaceListener extends FeatherListener {
     public BanknotePlaceListener(final InitData data) {
@@ -35,7 +35,7 @@ public class BanknotePlaceListener extends FeatherListener {
         final var itemMeta = event.getItemInHand().getItemMeta();
         if (itemMeta != null
                 && new NamespacedKey(getPlugin(), itemMeta,
-                        getInterface(IFeatherEconomyProvider.class).getConfig().getString("banknote.key"))
+                        getInterface(IFeatherEconomy.class).getConfig().getString("banknote.key"))
                         .isPresent()) {
             event.setCancelled(true);
             getLanguage().message(event.getPlayer(), Message.Economy.BANKNOTE_PLACE);

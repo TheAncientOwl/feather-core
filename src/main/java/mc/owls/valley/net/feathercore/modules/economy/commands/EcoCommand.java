@@ -6,7 +6,7 @@
  *
  * @file EcoCommand.java
  * @author Alexandru Delegeanu
- * @version 0.8
+ * @version 0.9
  * @description Manage server economy
  */
 
@@ -24,7 +24,7 @@ import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
-import mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomyProvider;
+import mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomy;
 
 public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
     public EcoCommand(final InitData data) {
@@ -49,7 +49,7 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
 
     @Override
     protected void execute(final CommandSender sender, final CommandData data) {
-        final var economy = getInterface(IFeatherEconomyProvider.class).getEconomy();
+        final var economy = getInterface(IFeatherEconomy.class).getEconomy();
 
         switch (data.commandType) {
             case GIVE:
@@ -106,8 +106,8 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
         }
 
         // 4. parse command type and validate the ranges
-        final var economy = getInterface(IFeatherEconomyProvider.class).getEconomy();
-        final var economyConfig = getInterface(IFeatherEconomyProvider.class).getConfig();
+        final var economy = getInterface(IFeatherEconomy.class).getEconomy();
+        final var economyConfig = getInterface(IFeatherEconomy.class).getConfig();
 
         final double oldBalance = economy.getBalance(player);
         CommandType commandType = null;

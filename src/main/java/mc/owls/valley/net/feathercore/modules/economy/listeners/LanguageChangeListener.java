@@ -6,7 +6,7 @@
  *
  * @file BanknotePickListener.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @description Update banknote meta when player's language changes
  */
 
@@ -21,7 +21,7 @@ import mc.owls.valley.net.feathercore.api.common.minecraft.NamespacedKey;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherListener;
-import mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomyProvider;
+import mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomy;
 import mc.owls.valley.net.feathercore.modules.language.events.LanguageChangeEvent;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
@@ -54,7 +54,7 @@ public class LanguageChangeListener extends FeatherListener {
             }
 
             final var valueKey = new NamespacedKey(getPlugin(), meta,
-                    getInterface(IFeatherEconomyProvider.class).getConfig().getString("banknote.key"));
+                    getInterface(IFeatherEconomy.class).getConfig().getString("banknote.key"));
             if (!valueKey.isPresent()) {
                 continue;
             }
