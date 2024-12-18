@@ -15,6 +15,8 @@ function print_feather_help() {
     print "${DARK_GRAY}» ${DARK_AQUA}--install${DARK_GRAY}/${DARK_AQUA}-i${DARK_GRAY}: ${RESET}install the plugin at dev server location"
     print "${DARK_GRAY}» ${DARK_AQUA}--verbose${DARK_GRAY}/${DARK_AQUA}-v${DARK_GRAY}: ${RESET}print verbose messages for install phase"
     print "${DARK_GRAY}» ${DARK_AQUA}--run${DARK_GRAY}/${DARK_AQUA}-r${DARK_GRAY}: ${RESET}run the dev server"
+    print "${DARK_GRAY}» ${DARK_AQUA}--test${DARK_GRAY}/${DARK_AQUA}-t${DARK_GRAY}: ${RESET}run unit tests"
+    print "${DARK_GRAY}» ${DARK_AQUA}--coverage${DARK_GRAY}: ${RESET}run unit tests coverage"
 }
 
 # » help check
@@ -30,6 +32,9 @@ clean=false
 run=false
 configure=false
 verbose=false
+tests=false
+headers=false
+coverage=false
 
 while [[ $# -gt 0 ]]; do
     flag=$1
@@ -58,6 +63,15 @@ while [[ $# -gt 0 ]]; do
         elif [[ "$flag" == "--verbose" ]]; then
             feather_print "${DARK_AQUA}Detected 'verbose' flag"
             verbose=true
+        elif [[ "$flag" == "--test" ]]; then
+            feather_print "${DARK_AQUA}Detected 'test' flag"
+            test=true
+        elif [[ "$flag" == "--headers" ]]; then
+            feather_print "${DARK_AQUA}Detected 'headers' flag"
+            headers=true
+        elif [[ "$flag" == "--coverage" ]]; then
+            feather_print "${DARK_AQUA}Detected 'coverage' flag"
+            coverage=true
         else
             feather_print "${DARK_RED}Unknown flag: '${LIGHT_RED}$flag${DARK_RED}'"
         fi
@@ -91,6 +105,10 @@ while [[ $# -gt 0 ]]; do
         v)
             feather_print "${DARK_AQUA}Detected 'verbose' flag"
             verbose=true
+            ;;
+        t)
+            feather_print "${DARK_AQUA}Detected 'test' flag"
+            test=true
             ;;
         *)
             feather_print "${DARK_RED}Unknown flag: '${LIGHT_RED}${flag:$i:1}${DARK_RED}'"
@@ -135,6 +153,16 @@ if [ "$install" = true ]; then
     fi
     cp target/FeatherCore* ${PLUGINS_PATH}
     feather_print "${DARK_AQUA}Plugin installed to ${PLUGINS_PATH}"
+fi
+
+if [ "$test" = true ]; then
+    feather_print "${DARK_AQUA}Running unit tests"
+    mvn test
+fi
+
+if [ "$coverage" = true ]; then
+    feather_print "${DARK_AQUA}Running unit tests coverage"
+    mvn clean jacoco:prepare-agent install jacoco:report
 fi
 
 if [ "$run" = true ]; then
