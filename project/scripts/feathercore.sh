@@ -41,13 +41,6 @@ coverage=false
 while [[ $# -gt 0 ]]; do
     flag=$1
 
-    if [[ "$flag" != "-"* ]]; then
-        echo $flag
-        feather_print "${DARK_RED}Unknown flag: '${LIGHT_RED}$flag${DARK_RED}'"
-        shift
-        continue
-    fi
-
     case "$flag" in
     --help)
         print_feather_help
@@ -80,7 +73,7 @@ while [[ $# -gt 0 ]]; do
         feather_print "${DARK_AQUA}Detected 'headers' flag"
         headers=true
         ;;
-    --covergage)
+    --coverage)
         feather_print "${DARK_AQUA}Detected 'coverage' flag"
         coverage=true
         ;;
