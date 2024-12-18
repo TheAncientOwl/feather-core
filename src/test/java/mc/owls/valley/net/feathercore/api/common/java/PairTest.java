@@ -7,7 +7,7 @@
  * @file PairTest.java
  * @author Alexandru Delegeanu
  * @version 0.1
- * @test_unit Pair
+ * @test_unit Pair#0.1
  * @description Unit tests for Pair
  */
 

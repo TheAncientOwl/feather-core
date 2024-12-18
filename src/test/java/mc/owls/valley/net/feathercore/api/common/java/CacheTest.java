@@ -7,7 +7,7 @@
  * @file CacheTest.java
  * @author Alexandru Delegeanu
  * @version 0.1
- * @test_unit Cache
+ * @test_unit Cache#0.2
  * @description Unit tests for Cache
  */
 

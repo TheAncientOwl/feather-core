@@ -6,7 +6,7 @@
  *
  * @file TimeUtils.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Utility class
  */
 
@@ -114,7 +114,8 @@ public class TimeUtils {
             sb.append(milliseconds).append("ms");
         }
 
-        return sb.toString();
+        final var str = sb.toString();
+        return str.isEmpty() ? "0s" : sb.toString();
     }
 
 }

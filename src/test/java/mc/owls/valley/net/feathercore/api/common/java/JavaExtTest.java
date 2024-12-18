@@ -7,7 +7,7 @@
  * @file JavaExtTest.java
  * @author Alexandru Delegeanu
  * @version 0.1
- * @test_unit JavaExt
+ * @test_unit JavaExt#0.1
  * @description Unit tests for JavaExt
  */
 
