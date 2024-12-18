@@ -12,8 +12,8 @@
 
 package mc.owls.valley.net.feathercore.modules.logo.components;
 
-import mc.owls.valley.net.feathercore.api.common.minecraft.YamlUtils;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
+import mc.owls.valley.net.feathercore.api.common.util.YamlUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
 import mc.owls.valley.net.feathercore.modules.logo.interfaces.ILogoManager;

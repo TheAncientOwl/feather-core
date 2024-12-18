@@ -10,7 +10,7 @@
  * @description Utility class
  */
 
-package mc.owls.valley.net.feathercore.api.common.minecraft;
+package mc.owls.valley.net.feathercore.api.common.util;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,7 +20,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
 
 public class YamlUtils {
