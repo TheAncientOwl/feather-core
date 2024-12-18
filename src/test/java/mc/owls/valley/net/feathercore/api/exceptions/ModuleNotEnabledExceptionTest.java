@@ -11,7 +11,7 @@
  * @description Unit tests for ModuleNotEnabledException
  */
 
-package mc.owls.valley.net.feathercore.api.common.exceptions;
+package mc.owls.valley.net.feathercore.api.exceptions;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
