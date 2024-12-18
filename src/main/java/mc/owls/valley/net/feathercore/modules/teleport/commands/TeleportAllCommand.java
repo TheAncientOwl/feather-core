@@ -21,8 +21,8 @@ import org.bukkit.entity.Player;
 
 import mc.owls.valley.net.feathercore.api.common.java.Pair;
 import mc.owls.valley.net.feathercore.api.common.language.Message;
-import mc.owls.valley.net.feathercore.api.common.minecraft.Args;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;
+import mc.owls.valley.net.feathercore.api.common.util.Args;
 import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.modules.teleport.interfaces.ITeleport;

@@ -10,7 +10,7 @@
  * @description Utility for parsing objects from command string args
  */
 
-package mc.owls.valley.net.feathercore.api.common.minecraft;
+package mc.owls.valley.net.feathercore.api.common.util;
 
 import java.util.function.Function;
 
