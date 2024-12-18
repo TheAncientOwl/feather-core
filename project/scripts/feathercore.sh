@@ -9,14 +9,16 @@ PLUGINS_PATH="${FEATHER_CORE_ROOT}/dev/server/plugins"
 # » helpers
 function print_feather_help() {
     feather_print "${DARK_GRAY}«${YELLOW} Help ${DARK_GRAY}»"
-    print "${DARK_GRAY}» ${DARK_AQUA}--help${DARK_GRAY}/${DARK_AQUA}-h${DARK_GRAY}: ${RESET}display this menu"
+    print "${DARK_GRAY}» ${DARK_AQUA}--help${DARK_GRAY}: ${RESET}display this menu"
     print "${DARK_GRAY}» ${DARK_AQUA}--configure${DARK_GRAY}/${DARK_AQUA}-x${DARK_GRAY}: ${RESET}configure maven project"
     print "${DARK_GRAY}» ${DARK_AQUA}--clean${DARK_GRAY}/${DARK_AQUA}-c${DARK_GRAY}: ${RESET}remove the plugin files from dev server location"
     print "${DARK_GRAY}» ${DARK_AQUA}--install${DARK_GRAY}/${DARK_AQUA}-i${DARK_GRAY}: ${RESET}install the plugin at dev server location"
     print "${DARK_GRAY}» ${DARK_AQUA}--verbose${DARK_GRAY}/${DARK_AQUA}-v${DARK_GRAY}: ${RESET}print verbose messages for install phase"
     print "${DARK_GRAY}» ${DARK_AQUA}--run${DARK_GRAY}/${DARK_AQUA}-r${DARK_GRAY}: ${RESET}run the dev server"
+    print "${DARK_GRAY}» ${DARK_AQUA}--headers${DARK_GRAY}/${DARK_AQUA}-h${DARK_GRAY}: ${RESET}run unit tests"
     print "${DARK_GRAY}» ${DARK_AQUA}--test${DARK_GRAY}/${DARK_AQUA}-t${DARK_GRAY}: ${RESET}run unit tests"
     print "${DARK_GRAY}» ${DARK_AQUA}--coverage${DARK_GRAY}: ${RESET}run unit tests coverage"
+    print "${DARK_GRAY}» ${DARK_AQUA}--dev${DARK_GRAY}: ${RESET}clean install + server run"
 }
 
 # » help check
@@ -40,81 +42,58 @@ while [[ $# -gt 0 ]]; do
     flag=$1
 
     if [[ "$flag" != "-"* ]]; then
+        echo $flag
         feather_print "${DARK_RED}Unknown flag: '${LIGHT_RED}$flag${DARK_RED}'"
         shift
         continue
     fi
 
-    if [[ "$flag" == "--"* ]]; then
-        if [[ "$flag" == "--help" ]]; then
-            print_feather_help
-        elif [[ "$flag" == "--clean" ]]; then
-            feather_print "${DARK_AQUA}Detected 'clean' flag"
-            clean=true
-        elif [[ "$flag" == "--install" ]]; then
-            feather_print "${DARK_AQUA}Detected 'install' flag"
-            install=true
-        elif [[ "$flag" == "--run" ]]; then
-            feather_print "${DARK_AQUA}Detected 'run server' flag"
-            run=true
-        elif [[ "$flag" == "--configure" ]]; then
-            feather_print "${DARK_AQUA}Detected 'configure' flag"
-            configure=true
-        elif [[ "$flag" == "--verbose" ]]; then
-            feather_print "${DARK_AQUA}Detected 'verbose' flag"
-            verbose=true
-        elif [[ "$flag" == "--test" ]]; then
-            feather_print "${DARK_AQUA}Detected 'test' flag"
-            test=true
-        elif [[ "$flag" == "--headers" ]]; then
-            feather_print "${DARK_AQUA}Detected 'headers' flag"
-            headers=true
-        elif [[ "$flag" == "--coverage" ]]; then
-            feather_print "${DARK_AQUA}Detected 'coverage' flag"
-            coverage=true
-        else
-            feather_print "${DARK_RED}Unknown flag: '${LIGHT_RED}$flag${DARK_RED}'"
-        fi
-
-        shift
-        continue
-    fi
-
-    length=${#flag}
-    for ((i = 1; i < length; i++)); do
-        case "${flag:$i:1}" in
-        h)
-            print_feather_help
-            ;;
-        c)
-            feather_print "${DARK_AQUA}Detected 'clean' flag"
-            clean=true
-            ;;
-        i)
-            feather_print "${DARK_AQUA}Detected 'install' flag"
-            install=true
-            ;;
-        r)
-            feather_print "${DARK_AQUA}Detected 'run server' flag"
-            run=true
-            ;;
-        x)
-            feather_print "${DARK_AQUA}Detected 'configure' flag"
-            configure=true
-            ;;
-        v)
-            feather_print "${DARK_AQUA}Detected 'verbose' flag"
-            verbose=true
-            ;;
-        t)
-            feather_print "${DARK_AQUA}Detected 'test' flag"
-            test=true
-            ;;
-        *)
-            feather_print "${DARK_RED}Unknown flag: '${LIGHT_RED}${flag:$i:1}${DARK_RED}'"
-            ;;
-        esac
-    done
+    case "$flag" in
+    --help)
+        print_feather_help
+        ;;
+    --clean | -c)
+        feather_print "${DARK_AQUA}Detected 'clean' flag"
+        clean=true
+        ;;
+    --install | -i)
+        feather_print "${DARK_AQUA}Detected 'install' flag"
+        install=true
+        ;;
+    --run | -r)
+        feather_print "${DARK_AQUA}Detected 'run server' flag"
+        run=true
+        ;;
+    --configure | -x)
+        feather_print "${DARK_AQUA}Detected 'configure' flag"
+        configure=true
+        ;;
+    --verbose | -v)
+        feather_print "${DARK_AQUA}Detected 'verbose' flag"
+        verbose=true
+        ;;
+    --test | -t)
+        feather_print "${DARK_AQUA}Detected 'test' flag"
+        test=true
+        ;;
+    --headers | -h)
+        feather_print "${DARK_AQUA}Detected 'headers' flag"
+        headers=true
+        ;;
+    --covergage)
+        feather_print "${DARK_AQUA}Detected 'coverage' flag"
+        coverage=true
+        ;;
+    --dev)
+        feather_print "${DARK_AQUA}Detected 'dev' flag"
+        clean=true
+        install=true
+        run=true
+        ;;
+    *)
+        feather_print "${DARK_RED}Unknown flag: '${LIGHT_RED}${flag}${DARK_RED}'"
+        ;;
+    esac
 
     shift
 done
@@ -173,4 +152,9 @@ if [ "$run" = true ]; then
     cd $FEATHER_CORE_ROOT
     feather_print "${DARK_AQUA}Development server stopped"
     $FEATHER_CORE_ROOT/project/scripts/mongodb.sh -x
+fi
+
+if [ "$headers" = true ]; then
+    feather_print "${DARK_AQUA}Setting up files header"
+    $FEATHER_CORE_ROOT/project/scripts/setup_files_header.sh*
 fi
