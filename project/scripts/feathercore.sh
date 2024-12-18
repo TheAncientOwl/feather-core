@@ -135,6 +135,7 @@ fi
 if [ "$coverage" = true ]; then
     feather_print "${DARK_AQUA}Running unit tests coverage"
     mvn clean jacoco:prepare-agent install jacoco:report
+    cp $FEATHER_CORE_ROOT/project/coverage/resources/* $FEATHER_CORE_ROOT/target/site/jacoco/jacoco-resources/.
 fi
 
 if [ "$run" = true ]; then
@@ -149,5 +150,5 @@ fi
 
 if [ "$headers" = true ]; then
     feather_print "${DARK_AQUA}Setting up files header"
-    $FEATHER_CORE_ROOT/project/scripts/setup_files_header.sh*
+    $FEATHER_CORE_ROOT/project/scripts/setup_files_header.sh
 fi
