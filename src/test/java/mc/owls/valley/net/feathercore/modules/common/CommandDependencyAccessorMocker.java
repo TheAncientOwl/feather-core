@@ -17,7 +17,8 @@ import static org.mockito.Mockito.mock;
 import org.bukkit.command.CommandSender;
 import org.junit.jupiter.api.BeforeEach;
 
-public abstract class CommandDependencyAccessorMocker<CommandType> extends DependencyAccessorMocker {
+public abstract class CommandDependencyAccessorMocker<CommandType>
+        extends DependencyAccessorMocker {
     protected CommandSender mockSender;
     protected CommandType commandInstance;
 

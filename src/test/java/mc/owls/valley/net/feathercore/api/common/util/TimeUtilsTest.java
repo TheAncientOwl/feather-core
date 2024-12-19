@@ -23,23 +23,33 @@ class TimeUtilsTest {
     @Test
     void testFormatElapsed() {
         assertEquals("5s", TimeUtils.formatElapsed(0L, 5000L)); // 5 seconds
-        assertEquals("1h, 30m, 45s", TimeUtils.formatElapsed(0L, 5445000L)); // 1 hour, 30 minutes, 45 seconds
+        assertEquals("1h, 30m, 45s", TimeUtils.formatElapsed(0L, 5445000L)); // 1 hour, 30 minutes,
+                                                                             // 45 seconds
         assertEquals("2m, 30s", TimeUtils.formatElapsed(0L, 150000L)); // 2 minutes, 30 seconds
         assertEquals("500ms", TimeUtils.formatElapsed(0L, 500L)); // 500 milliseconds
         assertEquals("0s", TimeUtils.formatElapsed(0L, 0L)); // 0 milliseconds should show as "0s"
         assertEquals("1h, 23m, 45s, 567ms",
-                TimeUtils.formatElapsed(0L, 5025567L));// 1 hour, 23 minutes, 45 seconds, and 567 milliseconds
+                TimeUtils.formatElapsed(0L, 5025567L));// 1 hour, 23 minutes, 45 seconds, and 567
+                                                       // milliseconds
 
         final var c_delay = 534543L;
         assertEquals("5s", TimeUtils.formatElapsed(0L + c_delay, 5000L + c_delay)); // 5 seconds
         assertEquals("1h, 30m, 45s",
-                TimeUtils.formatElapsed(0L + c_delay, 5445000L + c_delay)); // 1 hour, 30 minutes, 45 seconds
+                TimeUtils.formatElapsed(0L + c_delay, 5445000L + c_delay)); // 1 hour, 30 minutes,
+                                                                            // 45 seconds
 
-        assertEquals("2m, 30s", TimeUtils.formatElapsed(0L + c_delay, 150000L + c_delay)); // 2 minutes, 30 seconds
-        assertEquals("500ms", TimeUtils.formatElapsed(0L + c_delay, 500L + c_delay)); // 500 milliseconds
-        assertEquals("0s", TimeUtils.formatElapsed(0L + c_delay, 0L + c_delay)); // 0 milliseconds should show as "0s"
+        assertEquals("2m, 30s", TimeUtils.formatElapsed(0L + c_delay, 150000L + c_delay)); // 2
+                                                                                           // minutes,
+                                                                                           // 30
+                                                                                           // seconds
+        assertEquals("500ms", TimeUtils.formatElapsed(0L + c_delay, 500L + c_delay)); // 500
+                                                                                      // milliseconds
+        assertEquals("0s", TimeUtils.formatElapsed(0L + c_delay, 0L + c_delay)); // 0 milliseconds
+                                                                                 // should show as
+                                                                                 // "0s"
         assertEquals("1h, 23m, 45s, 567ms",
-                TimeUtils.formatElapsed(0L + c_delay, 5025567L + c_delay));// 1 hour, 23 minutes, 45 seconds,
+                TimeUtils.formatElapsed(0L + c_delay, 5025567L + c_delay));// 1 hour, 23 minutes, 45
+                                                                           // seconds,
                                                                            // and 567 milliseconds
     }
 

@@ -55,8 +55,7 @@ public class PlayerModel {
     @Property("last_known_location")
     public LocationModel lastKnownLocation;
 
-    public PlayerModel() {
-    }
+    public PlayerModel() {}
 
     public PlayerModel(final Player player, final double balance, final String language) {
         this.uuid = player.getUniqueId();

@@ -48,8 +48,8 @@ public interface ILootChests extends IConfigAccessor {
      * 
      * @param player
      * @param location
-     * @return the time when @player opened chest at @location,
-     *         null if the chest was not opened before
+     * @return the time when @player opened chest at @location, null if the chest was not opened
+     *         before
      */
     public Long getOpenChestTime(final Player player, final String location);
 
@@ -58,9 +58,10 @@ public interface ILootChests extends IConfigAccessor {
      * 
      * @param player
      * @param location
-     * @param now      usually System.now()
+     * @param now usually System.now()
      */
-    public void openChest(final Player player, final String chestType, final String location, final Long now);
+    public void openChest(final Player player, final String chestType, final String location,
+            final Long now);
 
     /**
      * Saves given chest to config

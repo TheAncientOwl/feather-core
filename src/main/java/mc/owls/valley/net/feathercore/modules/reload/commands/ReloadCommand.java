@@ -56,7 +56,8 @@ public class ReloadCommand extends FeatherCommand<ReloadCommand.CommandData> {
         }
 
         getLanguage().message(sender,
-                data.modules.size() == 1 ? Message.Reload.CONFIG_RELOADED : Message.Reload.CONFIGS_RELOADED);
+                data.modules.size() == 1 ? Message.Reload.CONFIG_RELOADED
+                        : Message.Reload.CONFIGS_RELOADED);
     }
 
     protected CommandData parse(final CommandSender sender, final String[] args) {

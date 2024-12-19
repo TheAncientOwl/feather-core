@@ -37,9 +37,11 @@ public class TeleportListener extends FeatherListener {
         }
 
         if ((event.getCause() == TeleportCause.CHORUS_FRUIT
-                && !getInterface(IPvPManager.class).getConfig().getBoolean("block-tp.chorus-fruit")) ||
+                && !getInterface(IPvPManager.class).getConfig().getBoolean("block-tp.chorus-fruit"))
+                ||
                 (event.getCause() == TeleportCause.ENDER_PEARL
-                        && !getInterface(IPvPManager.class).getConfig().getBoolean("block-tp.ender-pearl"))) {
+                        && !getInterface(IPvPManager.class).getConfig()
+                                .getBoolean("block-tp.ender-pearl"))) {
             event.setCancelled(true);
             getLanguage().message(player, Message.PvPManager.TELEPORT);
         }

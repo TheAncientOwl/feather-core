@@ -73,7 +73,8 @@ public class DependencyAccessor implements IGeneralDependencyAccessor {
         if (instance != null) {
             return instance.getEnabledModules();
         }
-        throw new IllegalStateException("IEnabledModulesProvider instance not found in dependencies.");
+        throw new IllegalStateException(
+                "IEnabledModulesProvider instance not found in dependencies.");
     }
 
     @Override

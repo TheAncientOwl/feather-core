@@ -22,7 +22,8 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 public class InventoryConfig {
     private static final int MAX_INVENTORY_SIZE = 54;
 
-    public static void serialize(final IPropertyAccessor config, final String path, final Inventory inventory) {
+    public static void serialize(final IPropertyAccessor config, final String path,
+            final Inventory inventory) {
         final var inventorySize = inventory.getSize();
         config.setInt(path + ".size", Math.min(inventorySize, MAX_INVENTORY_SIZE));
 

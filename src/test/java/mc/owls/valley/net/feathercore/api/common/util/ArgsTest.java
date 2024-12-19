@@ -46,8 +46,9 @@ class ArgsTest {
 
     @Test
     void testParseResultSuccess() {
-        Object[] parsedArgs = { "test", 42, 3.14 };
-        Args.ParseResult result = new Args.ParseResult(parsedArgs, Args.ParseResult.PARSE_SUCCESS_INDEX);
+        Object[] parsedArgs = {"test", 42, 3.14};
+        Args.ParseResult result =
+                new Args.ParseResult(parsedArgs, Args.ParseResult.PARSE_SUCCESS_INDEX);
 
         assertTrue(result.success(), "ParseResult should indicate success");
         assertEquals("test", result.getString(0), "First argument should be 'test'");
@@ -74,23 +75,26 @@ class ArgsTest {
         World mockWorld = mock(World.class);
         when(Bukkit.getWorld("WorldName")).thenReturn(mockWorld);
 
-        String[] inputArgs = { "123", "4.56", "PlayerName", "OfflinePlayerName", "WorldName", "somestr" };
+        String[] inputArgs =
+                {"123", "4.56", "PlayerName", "OfflinePlayerName", "WorldName", "somestr"};
 
-        Args.ParseResult result = Args.parse(inputArgs, Args::getInt, Args::getDouble, Args::getOnlinePlayer,
-                Args::getOfflinePlayer, Args::getWorld, Args::getString);
+        Args.ParseResult result =
+                Args.parse(inputArgs, Args::getInt, Args::getDouble, Args::getOnlinePlayer,
+                        Args::getOfflinePlayer, Args::getWorld, Args::getString);
 
         assertTrue(result.success(), "Parse should succeed for valid input");
         assertEquals(123, result.getInt(0), "1st parsed argument should be 123");
         assertEquals(4.56, result.getDouble(1), "2nd parsed argument should be 4.56");
         assertNotNull(result.getPlayer(2), "3rd parsed argument ~ Online player should be found");
-        assertNotNull(result.getOfflinePlayer(3), "4th parsed argument ~ Offline player should be found");
+        assertNotNull(result.getOfflinePlayer(3),
+                "4th parsed argument ~ Offline player should be found");
         assertNotNull(result.getWorld(4), "5th parsed argument ~ World should be found");
         assertEquals("somestr", result.getString(5), "6th parsed argument should be somestr");
     }
 
     @Test
     void testParseFailure() {
-        String[] inputArgs = { "123", "invalid" };
+        String[] inputArgs = {"123", "invalid"};
         Args.ParseResult result = Args.parse(inputArgs, Args::getInt, Args::getDouble);
 
         assertFalse(result.success(), "Parse should fail for invalid input");

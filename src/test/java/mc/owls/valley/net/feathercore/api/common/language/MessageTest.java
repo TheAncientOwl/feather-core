@@ -23,9 +23,11 @@ class MessageTest {
         var General = new Message.General(); // Message.General should contain only static fields
         var Reload = new Message.Reload(); // Message.Reload should contain only static fields
         var Language = new Message.Language(); // Message.Language should contain only static fields
-        var PvPManager = new Message.PvPManager(); // Message.PvPManager should contain only static fields
+        var PvPManager = new Message.PvPManager(); // Message.PvPManager should contain only static
+                                                   // fields
         var Economy = new Message.Economy(); // Message.Economy should contain only static fields
-        var LootChests = new Message.LootChests(); // Message.LootChests should contain only static fields
+        var LootChests = new Message.LootChests(); // Message.LootChests should contain only static
+                                                   // fields
         var Teleport = new Message.Teleport(); // Message.Teleport should contain only static fields
     }
 }

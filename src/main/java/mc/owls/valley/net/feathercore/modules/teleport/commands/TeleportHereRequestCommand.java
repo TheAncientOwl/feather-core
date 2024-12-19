@@ -27,7 +27,8 @@ import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.modules.teleport.components.Teleport.RequestType;
 import mc.owls.valley.net.feathercore.modules.teleport.interfaces.ITeleport;
 
-public class TeleportHereRequestCommand extends FeatherCommand<TeleportHereRequestCommand.CommandData> {
+public class TeleportHereRequestCommand
+        extends FeatherCommand<TeleportHereRequestCommand.CommandData> {
     public TeleportHereRequestCommand(final InitData data) {
         super(data);
     }
@@ -107,7 +108,8 @@ public class TeleportHereRequestCommand extends FeatherCommand<TeleportHereReque
 
         switch (args.length) {
             case 1:
-                completions = StringUtils.filterStartingWith(StringUtils.getOnlinePlayers(), args[0]);
+                completions =
+                        StringUtils.filterStartingWith(StringUtils.getOnlinePlayers(), args[0]);
                 break;
             default:
                 break;

@@ -75,11 +75,12 @@ class BroadcastTest {
     @Test
     void testBroadcastMultipleMessages() {
         // Prepare test data
-        String[] messages = { "Message 1", "Message 2" };
+        String[] messages = {"Message 1", "Message 2"};
 
         // Mock StringUtils.translateColors method
         try (var mocked = mockStatic(StringUtils.class)) {
-            mocked.when(() -> StringUtils.translateColors(anyString())).thenReturn("translated message");
+            mocked.when(() -> StringUtils.translateColors(anyString()))
+                    .thenReturn("translated message");
 
             // Call the method under test
             Broadcast.broadcast(messages);
@@ -133,7 +134,8 @@ class BroadcastTest {
             mocked.when(() -> StringUtils.translateColors(anyString())).thenAnswer(invocation -> {
                 return invocation.getArgument(0);
             });
-            mocked.when(() -> StringUtils.replacePlaceholders(anyString(), anyList())).thenReturn("Hello World!");
+            mocked.when(() -> StringUtils.replacePlaceholders(anyString(), anyList()))
+                    .thenReturn("Hello World!");
 
             // Call the method under test
             Broadcast.broadcast(mockPropertyAccessor, "key", placeholders);

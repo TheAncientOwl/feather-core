@@ -46,7 +46,8 @@ public class LogoManager extends FeatherModule implements ILogoManager {
                 " &e&l░░    &6&l░░    ░░  &eFeather&6Core &bv"
                         + YamlUtils.loadYaml(plugin, "plugin.yml").getString(
                                 "version"),
-                " &e&l░░░░  &6&l░░        &7&oRunning on " + getServerType() + " " + server.getVersion(),
+                " &e&l░░░░  &6&l░░        &7&oRunning on " + getServerType() + " "
+                        + server.getVersion(),
                 " &e&l░░    &6&l░░    ░░  &7&oAuthor: DefaultyBuf",
                 " &e&l░░    &6&l  ░░░░",
                 "",

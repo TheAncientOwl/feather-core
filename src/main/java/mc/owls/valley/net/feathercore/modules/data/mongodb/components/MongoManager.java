@@ -47,17 +47,20 @@ public class MongoManager extends FeatherModule implements IMongoDB {
 
     @Override
     protected void onModuleEnable() throws FeatherSetupException {
-        final ConnectionString connectionString = new ConnectionString(this.config.getString("uri"));
+        final ConnectionString connectionString =
+                new ConnectionString(this.config.getString("uri"));
 
         final MongoClientSettings settings = MongoClientSettings.builder()
                 .uuidRepresentation(UuidRepresentation.STANDARD)
                 .applyConnectionString(connectionString)
                 .serverApi(ServerApi.builder().version(ServerApiVersion.V1).build())
                 .applyToSocketSettings(builder -> {
-                    builder.connectTimeout((int) this.config.getMillis("timeouts.connection"), TimeUnit.MILLISECONDS);
+                    builder.connectTimeout((int) this.config.getMillis("timeouts.connection"),
+                            TimeUnit.MILLISECONDS);
                 })
                 .applyToClusterSettings(builder -> {
-                    builder.serverSelectionTimeout(this.config.getMillis("timeouts.selection"), TimeUnit.MILLISECONDS);
+                    builder.serverSelectionTimeout(this.config.getMillis("timeouts.selection"),
+                            TimeUnit.MILLISECONDS);
                 })
                 .build();
 
@@ -66,7 +69,8 @@ public class MongoManager extends FeatherModule implements IMongoDB {
         try {
             this.mongoClient.listDatabaseNames().first();
         } catch (final MongoTimeoutException e) {
-            throw new FeatherSetupException("Could not connect to mongodb at " + this.config.getString("uri"));
+            throw new FeatherSetupException(
+                    "Could not connect to mongodb at " + this.config.getString("uri"));
         }
 
         this.datastore = Morphia.createDatastore(

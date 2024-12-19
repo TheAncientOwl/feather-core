@@ -86,8 +86,8 @@ public class LootChests extends FeatherModule implements ILootChests {
      * 
      * @param player
      * @param location
-     * @return the time when @player opened chest at @location,
-     *         null if the chest was not opened before
+     * @return the time when @player opened chest at @location, null if the chest was not opened
+     *         before
      */
     public Long getOpenChestTime(final Player player, final String location) {
         final PlayerModel playerModel = getInterface(IPlayersData.class).getPlayerModel(player);
@@ -99,9 +99,10 @@ public class LootChests extends FeatherModule implements ILootChests {
      * 
      * @param player
      * @param location
-     * @param now      usually System.now()
+     * @param now usually System.now()
      */
-    public void openChest(final Player player, final String chestType, final String location, final Long now) {
+    public void openChest(final Player player, final String chestType, final String location,
+            final Long now) {
         final Inventory chest = this.config.getInventory("chests." + chestType);
         final PlayerModel playerModel = getInterface(IPlayersData.class).getPlayerModel(player);
 
@@ -112,7 +113,8 @@ public class LootChests extends FeatherModule implements ILootChests {
             getInterface(IPlayersData.class).markPlayerModelForSave(playerModel);
         } else {
             getLogger()
-                    .warn("&8[&2Loot&aChests&8] &eUnknown chest type &6'" + chestType + "' &efound at location &6"
+                    .warn("&8[&2Loot&aChests&8] &eUnknown chest type &6'" + chestType
+                            + "' &efound at location &6"
                             + location + "&e. Removing chest location from internal database.");
             unsetChest(location);
             playerModel.chestLocationToOpenTime.remove(location);
@@ -139,7 +141,8 @@ public class LootChests extends FeatherModule implements ILootChests {
             this.config.saveConfig();
         } catch (final Exception e) {
             getLogger().error(
-                    "Could not save chest config to file loot-chests.yml. \nReason: " + StringUtils.exceptionToStr(e));
+                    "Could not save chest config to file loot-chests.yml. \nReason: "
+                            + StringUtils.exceptionToStr(e));
         }
     }
 

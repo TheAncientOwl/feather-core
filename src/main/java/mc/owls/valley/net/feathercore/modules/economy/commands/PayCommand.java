@@ -90,12 +90,14 @@ public class PayCommand extends FeatherCommand<PayCommand.CommandData> {
         }
 
         // 4. check if receiver accepts payments
-        final PlayerModel playerModel = getInterface(IPlayersData.class).getPlayerModel(receiverPlayer);
+        final PlayerModel playerModel =
+                getInterface(IPlayersData.class).getPlayerModel(receiverPlayer);
         if (playerModel == null) {
             return null;
         }
 
-        if (!playerModel.acceptsPayments && !sender.hasPermission("feathercore.economy.general.pay.override")) {
+        if (!playerModel.acceptsPayments
+                && !sender.hasPermission("feathercore.economy.general.pay.override")) {
             getLanguage().message(sender, Message.Economy.PAY_TOGGLE_NOT_ACCEPTING,
                     Pair.of(Placeholder.PLAYER, receiverPlayer.getName()));
             return null;

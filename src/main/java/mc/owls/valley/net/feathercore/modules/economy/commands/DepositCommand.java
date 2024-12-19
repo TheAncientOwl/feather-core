@@ -32,7 +32,8 @@ public class DepositCommand extends FeatherCommand<DepositCommand.CommandData> {
         super(data);
     }
 
-    public static record CommandData(ItemStack itemInHand, int banknotesCount, double depositValue) {
+    public static record CommandData(ItemStack itemInHand, int banknotesCount,
+            double depositValue) {
     }
 
     @Override
@@ -63,7 +64,8 @@ public class DepositCommand extends FeatherCommand<DepositCommand.CommandData> {
         }
 
         if (args.length != 1) {
-            getLanguage().message(sender, Message.General.USAGE_INVALID, Message.Economy.USAGE_DEPOSIT);
+            getLanguage().message(sender, Message.General.USAGE_INVALID,
+                    Message.Economy.USAGE_DEPOSIT);
             return null;
         }
 

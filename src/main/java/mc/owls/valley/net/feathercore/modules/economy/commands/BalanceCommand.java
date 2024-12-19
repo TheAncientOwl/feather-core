@@ -54,12 +54,14 @@ public class BalanceCommand extends FeatherCommand<BalanceCommand.CommandData> {
         switch (data.commandType) {
             case SELF:
                 getLanguage().message(sender, Message.Economy.BALANCE_SELF,
-                        Pair.of(Placeholder.BALANCE, economy.format(economy.getBalance((Player) sender))));
+                        Pair.of(Placeholder.BALANCE,
+                                economy.format(economy.getBalance((Player) sender))));
                 break;
             case OTHER:
                 getLanguage().message(sender, Message.Economy.BALANCE_OTHER, List.of(
                         Pair.of(Placeholder.PLAYER, data.other.getName()),
-                        Pair.of(Placeholder.BALANCE, economy.format(economy.getBalance(data.other)))));
+                        Pair.of(Placeholder.BALANCE,
+                                economy.format(economy.getBalance(data.other)))));
                 break;
         }
     }

@@ -90,7 +90,8 @@ public class TeleportHereCommand extends FeatherCommand<TeleportHereCommand.Comm
 
         switch (args.length) {
             case 1:
-                completions = StringUtils.filterStartingWith(StringUtils.getOnlinePlayers(), args[0]);
+                completions =
+                        StringUtils.filterStartingWith(StringUtils.getOnlinePlayers(), args[0]);
                 break;
             default:
                 break;

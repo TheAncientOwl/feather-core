@@ -51,7 +51,8 @@ public class RandomTeleportCommand extends FeatherCommand<RandomTeleportCommand.
         final var world = data.who.getWorld();
 
         if (!sender.hasPermission("feathercore.teleport.random.self." + world.getName()) ||
-                (!selfTeleport && !sender.hasPermission("feathercore.teleport.random.other." + world.getName()))) {
+                (!selfTeleport && !sender
+                        .hasPermission("feathercore.teleport.random.other." + world.getName()))) {
             getLanguage().message(sender, Message.General.NO_PERMISSION);
             return false;
         }
@@ -64,13 +65,16 @@ public class RandomTeleportCommand extends FeatherCommand<RandomTeleportCommand.
 
         final boolean selfTeleport = (sender instanceof Player && data.who.equals((Player) sender));
 
-        if (sender instanceof Player && !sender.hasPermission("feathercore.teleport.random.bypass-cooldown")) {
+        if (sender instanceof Player
+                && !sender.hasPermission("feathercore.teleport.random.bypass-cooldown")) {
             final var rtpTime = this.playersToRtpTime.get(((Player) sender).getUniqueId());
-            final var cooldown = getInterface(ITeleport.class).getConfig().getMillis("random.cooldown");
+            final var cooldown =
+                    getInterface(ITeleport.class).getConfig().getMillis("random.cooldown");
 
             if (rtpTime != null && rtpTime + cooldown > now) {
                 getLanguage().message(sender, Message.Teleport.RTP_COOLDOWN,
-                        Pair.of(Placeholder.COOLDOWN, TimeUtils.formatRemaining(rtpTime, cooldown)));
+                        Pair.of(Placeholder.COOLDOWN,
+                                TimeUtils.formatRemaining(rtpTime, cooldown)));
                 return;
             }
         }
@@ -126,7 +130,8 @@ public class RandomTeleportCommand extends FeatherCommand<RandomTeleportCommand.
             double z = (int) (location.getZ()) + rand + 0.5D;
             int y = world.getHighestBlockYAt((int) x, (int) z);
 
-            final var randLocation = new Location(world, x, y, z, location.getYaw(), location.getPitch());
+            final var randLocation =
+                    new Location(world, x, y, z, location.getYaw(), location.getPitch());
 
             if (!worldBorder.isInside(randLocation)) {
                 continue;
@@ -156,7 +161,8 @@ public class RandomTeleportCommand extends FeatherCommand<RandomTeleportCommand.
         final var down = block.getRelative(BlockFace.DOWN);
         final var up = block.getRelative(BlockFace.UP);
 
-        return !block.isLiquid() && !block.isSolid() && down.isSolid() && !up.isLiquid() && !up.isSolid();
+        return !block.isLiquid() && !block.isSolid() && down.isSolid() && !up.isLiquid()
+                && !up.isSolid();
     }
 
     protected CommandData parse(final CommandSender sender, final String[] args) {
@@ -202,7 +208,8 @@ public class RandomTeleportCommand extends FeatherCommand<RandomTeleportCommand.
 
         switch (args.length) {
             case 1:
-                completions = StringUtils.filterStartingWith(StringUtils.getOnlinePlayers(), args[0]);
+                completions =
+                        StringUtils.filterStartingWith(StringUtils.getOnlinePlayers(), args[0]);
                 break;
             default:
                 break;

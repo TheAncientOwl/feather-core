@@ -51,6 +51,7 @@ class FeatherSetupExceptionTest {
         FeatherSetupException exception = new FeatherSetupException(cause);
 
         assertEquals(cause, exception.getCause(), "Cause should match the input cause");
-        assertEquals(cause.toString(), exception.getMessage(), "Message should match the cause's toString()");
+        assertEquals(cause.toString(), exception.getMessage(),
+                "Message should match the cause's toString()");
     }
 }

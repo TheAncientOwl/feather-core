@@ -38,7 +38,8 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
         SET, UNSET, CREATE, DELETE, INFO, LOCATIONS
     }
 
-    public static record CommandData(CommandType commandType, String chestType, String displayName, long cooldown,
+    public static record CommandData(CommandType commandType, String chestType, String displayName,
+            long cooldown,
             Chest chest) {
     }
 
@@ -103,7 +104,8 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
         if (Set.of(CommandType.SET, CommandType.DELETE, CommandType.LOCATIONS)
                 .contains(commandType)) {
             if (args.length < 2) {
-                getLanguage().message(sender, Message.General.USAGE_INVALID, Message.LootChests.USAGE);
+                getLanguage().message(sender, Message.General.USAGE_INVALID,
+                        Message.LootChests.USAGE);
                 return null;
             }
 
@@ -134,7 +136,8 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
         }
 
         // set, unset, create, info -> chest
-        if (Set.of(CommandType.SET, CommandType.UNSET, CommandType.CREATE, CommandType.INFO).contains(commandType)) {
+        if (Set.of(CommandType.SET, CommandType.UNSET, CommandType.CREATE, CommandType.INFO)
+                .contains(commandType)) {
             if (!(sender instanceof Player)) {
                 getLanguage().message(sender, Message.General.PLAYERS_ONLY);
                 return null;
@@ -152,7 +155,8 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
         }
 
         if (chestType == null && chest != null) {
-            chestType = getInterface(ILootChests.class).getChestType(chest.getLocation().toString());
+            chestType =
+                    getInterface(ILootChests.class).getChestType(chest.getLocation().toString());
         }
 
         return new CommandData(commandType, chestType, displayName, cooldown, chest);
@@ -243,8 +247,10 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
 
             completions = StringUtils.filterStartingWith(arg0Values, args[0]);
         } else if (args.length == 2
-                && (arg0.equals("create") || arg0.equals("set") || arg0.equals("delete") || arg0.equals("locations"))) {
-            for (final var type : getInterface(ILootChests.class).getConfig().getConfigurationSection("chests")
+                && (arg0.equals("create") || arg0.equals("set") || arg0.equals("delete")
+                        || arg0.equals("locations"))) {
+            for (final var type : getInterface(ILootChests.class).getConfig()
+                    .getConfigurationSection("chests")
                     .getKeys(false)) {
                 completions.add(type);
             }

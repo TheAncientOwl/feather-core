@@ -110,7 +110,8 @@ class InventoryConfigTest {
         IPropertyAccessor mockConfig = mock(IPropertyAccessor.class);
 
         // Mock an exception
-        when(mockConfig.getConfigurationSection("content")).thenThrow(new RuntimeException("Test exception"));
+        when(mockConfig.getConfigurationSection("content"))
+                .thenThrow(new RuntimeException("Test exception"));
 
         // Call the deserialize method
         Inventory inventory = InventoryConfig.deserialize(mockConfig);
@@ -122,6 +123,7 @@ class InventoryConfigTest {
     @Test
     void dummyConstructor() {
         @SuppressWarnings("unused")
-        var InventoryConfig = new InventoryConfig(); // InventoryConfig should contain only static methods
+        var InventoryConfig = new InventoryConfig(); // InventoryConfig should contain only static
+                                                     // methods
     }
 }

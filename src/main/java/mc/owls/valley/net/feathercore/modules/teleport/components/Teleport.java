@@ -31,8 +31,7 @@ import mc.owls.valley.net.feathercore.modules.teleport.interfaces.ITeleport;
 
 public class Teleport extends FeatherModule implements ITeleport {
     public static enum RequestType {
-        TO,
-        HERE
+        TO, HERE
     }
 
     private static final class TeleportRequest {
@@ -41,7 +40,8 @@ public class Teleport extends FeatherModule implements ITeleport {
         private final RequestType type;
         private long time = 0;
 
-        public TeleportRequest(final Player issuer, final Player target, final RequestType type, final long time) {
+        public TeleportRequest(final Player issuer, final Player target, final RequestType type,
+                final long time) {
             this.issuer = issuer;
             this.target = target;
             this.type = type;
@@ -84,12 +84,12 @@ public class Teleport extends FeatherModule implements ITeleport {
     @Override
     protected void onModuleEnable() throws FeatherSetupException {
         this.teleportCheckTask = Bukkit.getScheduler().runTaskTimerAsynchronously(
-                getPlugin(), new TeleportChecker(this), 0, this.config.getTicks("request.check-interval"));
+                getPlugin(), new TeleportChecker(this), 0,
+                this.config.getTicks("request.check-interval"));
     }
 
     @Override
-    protected void onModuleDisable() {
-    }
+    protected void onModuleDisable() {}
 
     @Override
     public void teleport(final Player who, final Player to) {
@@ -102,7 +102,8 @@ public class Teleport extends FeatherModule implements ITeleport {
     }
 
     @Override
-    public void teleport(final Player who, final double x, final double y, final double z, final World world) {
+    public void teleport(final Player who, final double x, final double y, final double z,
+            final World world) {
         final var whoLocation = who.getLocation();
         who.teleport(new Location(world, x, y, z, whoLocation.getYaw(), whoLocation.getPitch()));
     }
@@ -110,15 +111,12 @@ public class Teleport extends FeatherModule implements ITeleport {
     @Override
     public void teleport(final Player who, final double x, final double y, final double z) {
         final var whoLocation = who.getLocation();
-        who.teleport(new Location(whoLocation.getWorld(), x, y, z, whoLocation.getYaw(), whoLocation.getPitch()));
+        who.teleport(new Location(whoLocation.getWorld(), x, y, z, whoLocation.getYaw(),
+                whoLocation.getPitch()));
     }
 
     public static enum RequestStatus {
-        ALREADY_REQUESTED,
-        REQUESTED,
-        NO_SUCH_REQUEST,
-        CANCELLED,
-        ACCEPTED
+        ALREADY_REQUESTED, REQUESTED, NO_SUCH_REQUEST, CANCELLED, ACCEPTED
     }
 
     /**
@@ -153,7 +151,8 @@ public class Teleport extends FeatherModule implements ITeleport {
      * @return NO_SUCH_REQUEST | CANCELLED
      */
     @Override
-    public RequestStatus cancelRequest(final Player issuer, final Player target, final RequestType type) {
+    public RequestStatus cancelRequest(final Player issuer, final Player target,
+            final RequestType type) {
         final var index = JavaExt.findIndex(this.requests, (req) -> {
             return req.equals(issuer, target, type);
         });
@@ -200,7 +199,8 @@ public class Teleport extends FeatherModule implements ITeleport {
      * @return NO_SUCH_REQUEST | ACCEPTED
      */
     @Override
-    public RequestStatus acceptRequest(final Player issuer, final Player target, final RequestType type) {
+    public RequestStatus acceptRequest(final Player issuer, final Player target,
+            final RequestType type) {
         final var index = JavaExt.findIndex(this.requests, (req) -> {
             return req.equals(issuer, target, type);
         });
@@ -215,7 +215,8 @@ public class Teleport extends FeatherModule implements ITeleport {
         timedRequest.updateTime(System.currentTimeMillis());
 
         this.teleports.put(
-                timedRequest.is(RequestType.TO) ? timedRequest.issuer.getUniqueId() : timedRequest.target.getUniqueId(),
+                timedRequest.is(RequestType.TO) ? timedRequest.issuer.getUniqueId()
+                        : timedRequest.target.getUniqueId(),
                 timedRequest);
 
         return RequestStatus.ACCEPTED;
@@ -245,7 +246,8 @@ public class Teleport extends FeatherModule implements ITeleport {
         timedRequest.updateTime(System.currentTimeMillis());
 
         this.teleports.put(
-                timedRequest.is(RequestType.TO) ? timedRequest.issuer.getUniqueId() : timedRequest.target.getUniqueId(),
+                timedRequest.is(RequestType.TO) ? timedRequest.issuer.getUniqueId()
+                        : timedRequest.target.getUniqueId(),
                 timedRequest);
 
         return RequestStatus.ACCEPTED;
@@ -264,8 +266,7 @@ public class Teleport extends FeatherModule implements ITeleport {
     /**
      * 
      * @param player
-     * @return true if player was waiting for teleport and it was cancelled, false
-     *         otherwise
+     * @return true if player was waiting for teleport and it was cancelled, false otherwise
      */
     @Override
     public boolean cancelTeleport(final Player player) {
@@ -281,8 +282,7 @@ public class Teleport extends FeatherModule implements ITeleport {
         }
 
         /**
-         * @brief Check for player teleports: execute them and clean the data-structure
-         *        when needed
+         * @brief Check for player teleports: execute them and clean the data-structure when needed
          */
         @Override
         public void run() {

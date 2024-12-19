@@ -26,7 +26,8 @@ public interface ITeleport extends IConfigAccessor {
 
     public void teleport(final Player who, final Location where);
 
-    public void teleport(final Player who, final double x, final double y, final double z, final World world);
+    public void teleport(final Player who, final double x, final double y, final double z,
+            final World world);
 
     public void teleport(final Player who, final double x, final double y, final double z);
 
@@ -50,7 +51,8 @@ public interface ITeleport extends IConfigAccessor {
      * @see Teleport.RequestStatus
      * @return NO_SUCH_REQUEST | CANCELLED
      */
-    public RequestStatus cancelRequest(final Player issuer, final Player target, final RequestType type);
+    public RequestStatus cancelRequest(final Player issuer, final Player target,
+            final RequestType type);
 
     /**
      * 
@@ -71,7 +73,8 @@ public interface ITeleport extends IConfigAccessor {
      * @see Teleport.RequestStatus
      * @return NO_SUCH_REQUEST | ACCEPTED
      */
-    public RequestStatus acceptRequest(final Player issuer, final Player target, final RequestType type);
+    public RequestStatus acceptRequest(final Player issuer, final Player target,
+            final RequestType type);
 
     /**
      * 
@@ -93,8 +96,7 @@ public interface ITeleport extends IConfigAccessor {
     /**
      * 
      * @param player
-     * @return true if player was waiting for teleport and it was cancelled, false
-     *         otherwise
+     * @return true if player was waiting for teleport and it was cancelled, false otherwise
      */
     public boolean cancelTeleport(final Player player);
 }

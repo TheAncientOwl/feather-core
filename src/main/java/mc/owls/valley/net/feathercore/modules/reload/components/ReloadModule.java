@@ -23,11 +23,9 @@ public class ReloadModule extends FeatherModule implements IReloadModule {
     }
 
     @Override
-    protected void onModuleEnable() throws FeatherSetupException {
-    }
+    protected void onModuleEnable() throws FeatherSetupException {}
 
     @Override
-    protected void onModuleDisable() {
-    }
+    protected void onModuleDisable() {}
 
 }

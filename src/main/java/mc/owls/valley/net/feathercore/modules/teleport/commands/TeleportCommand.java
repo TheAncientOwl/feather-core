@@ -89,7 +89,8 @@ public class TeleportCommand extends FeatherCommand<TeleportCommand.CommandData>
             }
             case 2: {
                 // /tp [who-player] [destination-player]
-                final var parsedArgs = Args.parse(args, Args::getOnlinePlayer, Args::getOnlinePlayer);
+                final var parsedArgs =
+                        Args.parse(args, Args::getOnlinePlayer, Args::getOnlinePlayer);
 
                 if (parsedArgs.success()) {
                     who = parsedArgs.getPlayer(0);
@@ -118,10 +119,12 @@ public class TeleportCommand extends FeatherCommand<TeleportCommand.CommandData>
 
         switch (args.length) {
             case 1:
-                completions = StringUtils.filterStartingWith(StringUtils.getOnlinePlayers(), args[0]);
+                completions =
+                        StringUtils.filterStartingWith(StringUtils.getOnlinePlayers(), args[0]);
                 break;
             case 2:
-                completions = StringUtils.filterStartingWith(StringUtils.getOnlinePlayers(), args[1]);
+                completions =
+                        StringUtils.filterStartingWith(StringUtils.getOnlinePlayers(), args[1]);
                 break;
             default:
                 break;

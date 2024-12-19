@@ -69,8 +69,9 @@ public class PlayersData extends FeatherModule implements IPlayersData {
 
     @Override
     public void handleNewPlayer(final Player player) {
-        final PlayerModel playerModel = new PlayerModel(player, this.config.getDouble("starting-balance"),
-                this.config.getString("default-language"));
+        final PlayerModel playerModel =
+                new PlayerModel(player, this.config.getDouble("starting-balance"),
+                        this.config.getString("default-language"));
 
         this.playersDataCache.put(playerModel.uuid, playerModel);
         getInterface(IMongoDB.class).getPlayersDAO().save(playerModel);

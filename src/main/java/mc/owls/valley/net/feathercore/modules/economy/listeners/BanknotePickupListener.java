@@ -59,10 +59,12 @@ public class BanknotePickupListener extends FeatherListener {
 
         meta.displayName(LegacyComponentSerializer.legacyAmpersand()
                 .deserialize(
-                        getLanguage().getTranslation(sender).getString(Message.Economy.BANKNOTE_NAME)));
+                        getLanguage().getTranslation(sender)
+                                .getString(Message.Economy.BANKNOTE_NAME)));
         meta.lore(lore.stream()
                 .map(line -> LegacyComponentSerializer.legacyAmpersand()
-                        .deserialize(StringUtils.replacePlaceholders(line, Pair.of(Placeholder.AMOUNT, banknoteValue))))
+                        .deserialize(StringUtils.replacePlaceholders(line,
+                                Pair.of(Placeholder.AMOUNT, banknoteValue))))
                 .toList());
 
         itemStack.setItemMeta(meta);

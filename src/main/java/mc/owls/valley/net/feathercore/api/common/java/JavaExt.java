@@ -31,7 +31,8 @@ public class JavaExt {
         return Optional.empty();
     }
 
-    public static <T> Optional<Integer> findIndex(final List<T> list, final Predicate<T> predicate) {
+    public static <T> Optional<Integer> findIndex(final List<T> list,
+            final Predicate<T> predicate) {
         if (list == null) {
             return Optional.empty();
         }
@@ -45,7 +46,8 @@ public class JavaExt {
         return Optional.empty();
     }
 
-    public static <T> Optional<Integer> findLastIndex(final List<T> list, final Predicate<T> predicate) {
+    public static <T> Optional<Integer> findLastIndex(final List<T> list,
+            final Predicate<T> predicate) {
         if (list == null) {
             return Optional.empty();
         }

@@ -56,7 +56,8 @@ public class ModulesManager {
     private InitializationData init = new InitializationData();
 
     private Map<String, FeatherModule> modules = new HashMap<>();
-    private DependencyAccessor.DependencyMapBuilder dependenciesMapBuilder = new DependencyAccessor.DependencyMapBuilder();
+    private DependencyAccessor.DependencyMapBuilder dependenciesMapBuilder =
+            new DependencyAccessor.DependencyMapBuilder();
     private List<String> enableOrder = new ArrayList<>();
 
     /**
@@ -79,7 +80,8 @@ public class ModulesManager {
         return modules;
     }
 
-    public void onEnable(final FeatherCore core) throws FeatherSetupException, ModuleNotEnabledException {
+    public void onEnable(final FeatherCore core)
+            throws FeatherSetupException, ModuleNotEnabledException {
         this.init.moduleConfigs.clear();
         this.init.enabledModules.clear();
         this.modules.clear();
@@ -127,16 +129,20 @@ public class ModulesManager {
             try {
                 module.instance = (FeatherModule) Class.forName(moduleClass)
                         .getConstructor(FeatherModule.InitData.class)
-                        .newInstance(new FeatherModule.InitData(moduleName, (Supplier<IConfigFile>) () -> {
-                            return configFilePath == null ? null : new BukkitConfigFile(plugin, configFilePath);
-                        }, dependenciesMapBuilder.getMap()));
+                        .newInstance(new FeatherModule.InitData(moduleName,
+                                (Supplier<IConfigFile>) () -> {
+                                    return configFilePath == null ? null
+                                            : new BukkitConfigFile(plugin, configFilePath);
+                                }, dependenciesMapBuilder.getMap()));
 
                 for (final var interfaceName : moduleConfig.getStringList("interfaces")) {
-                    dependenciesMapBuilder.addDependency(Class.forName(interfaceName), module.instance);
+                    dependenciesMapBuilder.addDependency(Class.forName(interfaceName),
+                            module.instance);
                 }
             } catch (final Exception e) {
-                throw new FeatherSetupException("Could not generate instance of class " + moduleClass + "\nReason: "
-                        + StringUtils.exceptionToStr(e));
+                throw new FeatherSetupException(
+                        "Could not generate instance of class " + moduleClass + "\nReason: "
+                                + StringUtils.exceptionToStr(e));
             }
 
             // 3. set mandatory
@@ -164,8 +170,9 @@ public class ModulesManager {
 
             for (final var dependency : moduleConfig.dependencies) {
                 if (!this.init.moduleConfigs.containsKey(dependency)) {
-                    throw new FeatherSetupException("Dependency '" + dependency + "' of module '" + moduleName
-                            + "' does not name any valid module");
+                    throw new FeatherSetupException(
+                            "Dependency '" + dependency + "' of module '" + moduleName
+                                    + "' does not name any valid module");
                 }
             }
         }
@@ -246,8 +253,9 @@ public class ModulesManager {
             // check if all dependencies are enabled
             for (final var dependency : module.dependencies) {
                 if (!this.init.enabledModules.contains(dependency)) {
-                    throw new FeatherSetupException("Module " + moduleName + " failed to enable because dependency "
-                            + dependency + " is not enabled yet.");
+                    throw new FeatherSetupException(
+                            "Module " + moduleName + " failed to enable because dependency "
+                                    + dependency + " is not enabled yet.");
                 }
             }
 
@@ -263,14 +271,16 @@ public class ModulesManager {
                 try {
                     final var cmdInstance = (FeatherCommand<?>) Class.forName(commandClass)
                             .getConstructor(FeatherCommand.InitData.class)
-                            .newInstance(new FeatherCommand.InitData(this.dependenciesMapBuilder.getMap()));
+                            .newInstance(new FeatherCommand.InitData(
+                                    this.dependenciesMapBuilder.getMap()));
                     final var cmd = plugin.getCommand(commandName);
 
                     cmd.setExecutor(cmdInstance);
                     cmd.setTabCompleter(cmdInstance);
                 } catch (final Exception e) {
                     throw new FeatherSetupException(
-                            "Could not setup command " + commandName + "\nReason: " + StringUtils.exceptionToStr(e));
+                            "Could not setup command " + commandName + "\nReason: "
+                                    + StringUtils.exceptionToStr(e));
                 }
             }
 
@@ -279,12 +289,14 @@ public class ModulesManager {
                 try {
                     final var listenerInstance = (FeatherListener) Class.forName(listenerClass)
                             .getConstructor(FeatherListener.InitData.class)
-                            .newInstance(new FeatherListener.InitData(this.dependenciesMapBuilder.getMap()));
+                            .newInstance(new FeatherListener.InitData(
+                                    this.dependenciesMapBuilder.getMap()));
 
                     pluginManager.registerEvents(listenerInstance, plugin);
                 } catch (final Exception e) {
                     throw new FeatherSetupException(
-                            "Could not setup listener " + listenerClass + "\nReason: " + StringUtils.exceptionToStr(e));
+                            "Could not setup listener " + listenerClass + "\nReason: "
+                                    + StringUtils.exceptionToStr(e));
                 }
             }
 
@@ -299,7 +311,8 @@ public class ModulesManager {
 
             if (!this.init.enabledModules.contains(moduleName)) {
                 this.dependenciesMapBuilder
-                        .removeDependency(this.init.moduleConfigs.get(moduleName).instance.getClass());
+                        .removeDependency(
+                                this.init.moduleConfigs.get(moduleName).instance.getClass());
                 iterator.remove();
                 this.enableOrder.remove(moduleName);
             }

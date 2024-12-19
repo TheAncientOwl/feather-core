@@ -40,8 +40,7 @@ public interface IPlayersData {
     public void savePlayerModel(final PlayerModel playerModel);
 
     /**
-     * @deprecated As of FeatherCore 0.2.3 use
-     *             {{@link #markPlayerModelForSave(UUID)}} or
+     * @deprecated As of FeatherCore 0.2.3 use {{@link #markPlayerModelForSave(UUID)}} or
      *             {{@link #markPlayerModelForSave(Player)}} instead
      */
     public boolean markPlayerModelForSave(final String name);

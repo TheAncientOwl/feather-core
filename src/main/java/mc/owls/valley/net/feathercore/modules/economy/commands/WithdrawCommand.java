@@ -96,7 +96,8 @@ public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData>
 
         // 4. check if withdraw data is valid
         final var minWithdraw = Math.max(0,
-                getInterface(IFeatherEconomy.class).getConfig().getDouble("banknote.minimum-value"));
+                getInterface(IFeatherEconomy.class).getConfig()
+                        .getDouble("banknote.minimum-value"));
         if (banknoteValue < minWithdraw) {
             getLanguage().message(sender, Message.Economy.WITHDRAW_MIN_AMOUNT,
                     Pair.of(Placeholder.MIN,
@@ -160,7 +161,8 @@ public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData>
             final double banknoteValue, final int banknotesCount, final List<String> lore) {
         // 1. create item stack
         final Material material = Material
-                .getMaterial(getInterface(IFeatherEconomy.class).getConfig().getString("banknote.material"));
+                .getMaterial(getInterface(IFeatherEconomy.class).getConfig()
+                        .getString("banknote.material"));
         ItemStack banknote = null;
 
         try {
@@ -179,7 +181,8 @@ public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData>
         final ItemMeta meta = banknote.getItemMeta();
         meta.displayName(LegacyComponentSerializer.legacyAmpersand()
                 .deserialize(
-                        getLanguage().getTranslation(sender).getString(Message.Economy.BANKNOTE_NAME)));
+                        getLanguage().getTranslation(sender)
+                                .getString(Message.Economy.BANKNOTE_NAME)));
         meta.lore(lore.stream()
                 .map(line -> LegacyComponentSerializer.legacyAmpersand()
                         .deserialize(StringUtils.replacePlaceholders(line,
@@ -187,7 +190,7 @@ public class WithdrawCommand extends FeatherCommand<WithdrawCommand.CommandData>
                 .toList());
         new NamespacedKey(getPlugin(), meta,
                 getInterface(IFeatherEconomy.class).getConfig().getString("banknote.key"))
-                .set(PersistentDataType.DOUBLE, banknoteValue);
+                        .set(PersistentDataType.DOUBLE, banknoteValue);
 
         // 4. finish itemstack setup
         banknote.setItemMeta(meta);

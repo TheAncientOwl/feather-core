@@ -60,8 +60,7 @@ public abstract class FeatherModule extends DependencyAccessor {
         }
     }
 
-    protected void onModuleEnable() throws FeatherSetupException {
-    };
+    protected void onModuleEnable() throws FeatherSetupException {};
 
     protected abstract void onModuleDisable();
 }

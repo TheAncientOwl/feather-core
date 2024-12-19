@@ -100,7 +100,8 @@ public class TeleportAllCommand extends FeatherCommand<TeleportAllCommand.Comman
 
         switch (args.length) {
             case 1:
-                completions = StringUtils.filterStartingWith(StringUtils.getOnlinePlayers(), args[0]);
+                completions =
+                        StringUtils.filterStartingWith(StringUtils.getOnlinePlayers(), args[0]);
                 break;
             default:
                 break;

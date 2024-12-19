@@ -30,8 +30,7 @@ public class LocationModel {
     @Property("world_name")
     public String world;
 
-    public LocationModel() {
-    }
+    public LocationModel() {}
 
     public LocationModel(org.bukkit.Location location) {
         this.x = location.getX();

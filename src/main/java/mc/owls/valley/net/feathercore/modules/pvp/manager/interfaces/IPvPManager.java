@@ -39,7 +39,7 @@ public interface IPvPManager extends IConfigAccessor {
     /**
      * Tags given players in combat.
      * 
-     * @param victim   player who was damaged
+     * @param victim player who was damaged
      * @param attacker player who damaged
      */
     public void putPlayersInCombat(final Player victim, final Player attacker);

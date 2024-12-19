@@ -35,7 +35,8 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
         SET, GIVE, TAKE,
     }
 
-    public static record CommandData(OfflinePlayer player, CommandType commandType, double oldBalance, double amount) {
+    public static record CommandData(OfflinePlayer player, CommandType commandType,
+            double oldBalance, double amount) {
     }
 
     @Override
@@ -151,7 +152,8 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
                 break;
             }
             default: {
-                getLanguage().message(sender, Message.General.USAGE_INVALID, Message.Economy.USAGE_ECO);
+                getLanguage().message(sender, Message.General.USAGE_INVALID,
+                        Message.Economy.USAGE_ECO);
                 return null;
             }
         }

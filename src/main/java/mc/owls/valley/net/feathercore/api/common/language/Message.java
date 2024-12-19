@@ -73,7 +73,8 @@ public final class Message {
         public static final String PAY_SEND = "economy.pay.success.send";
         public static final String PAY_RECEIVE = "economy.pay.success.receive";
 
-        public static final String PAY_TOGGLE_NOT_ACCEPTING = "economy.paytoggle.error.does-not-accept";
+        public static final String PAY_TOGGLE_NOT_ACCEPTING =
+                "economy.paytoggle.error.does-not-accept";
         public static final String PAY_TOGGLE_TRUE = "economy.paytoggle.success.status-true";
         public static final String PAY_TOGGLE_FALSE = "economy.paytoggle.success.status-false";
 
@@ -84,8 +85,10 @@ public final class Message {
 
         public static final String DEPOSIT_SUCCESS = "economy.deposit.success";
         public static final String DEPOSIT_INVALID_AMOUNT = "economy.deposit.error.invalid-amount";
-        public static final String DEPOSIT_BALANCE_EXCEEDS = "economy.deposit.error.balance-exceeds";
-        public static final String DEPOSIT_NEGATIVE_AMOUNT = "economy.deposit.error.negative-amount";
+        public static final String DEPOSIT_BALANCE_EXCEEDS =
+                "economy.deposit.error.balance-exceeds";
+        public static final String DEPOSIT_NEGATIVE_AMOUNT =
+                "economy.deposit.error.negative-amount";
 
         public static final String BANKNOTE_LANG = "economy.banknote.lang";
         public static final String BANKNOTE_NAME = "economy.banknote.display-name";
@@ -139,12 +142,16 @@ public final class Message {
         public static final String REQUEST_ACCEPT_TARGET = "teleport.request.accept.target";
         public static final String REQUEST_DECLINE_ISSUER = "teleport.request.decline.issuer";
         public static final String REQUEST_DECLINE_TARGET = "teleport.request.decline.target";
-        public static final String REQUEST_TO_EXECUTE_PENDING = "teleport.request.execute.to.pending";
+        public static final String REQUEST_TO_EXECUTE_PENDING =
+                "teleport.request.execute.to.pending";
         public static final String REQUEST_TO_EXECUTE_ISSUER = "teleport.request.execute.to.issuer";
         public static final String REQUEST_TO_EXECUTE_TARGET = "teleport.request.execute.to.target";
-        public static final String REQUEST_HERE_EXECUTE_PENDING = "teleport.request.execute.here.pending";
-        public static final String REQUEST_HERE_EXECUTE_ISSUER = "teleport.request.execute.here.issuer";
-        public static final String REQUEST_HERE_EXECUTE_TARGET = "teleport.request.execute.here.target";
+        public static final String REQUEST_HERE_EXECUTE_PENDING =
+                "teleport.request.execute.here.pending";
+        public static final String REQUEST_HERE_EXECUTE_ISSUER =
+                "teleport.request.execute.here.issuer";
+        public static final String REQUEST_HERE_EXECUTE_TARGET =
+                "teleport.request.execute.here.target";
         public static final String NO_SUCH_REQUEST = "teleport.request.no-such-request";
         public static final String REQUEST_CANCEL = "teleport.request.cancel";
         public static final String MOVED_WHILE_WAITING = "teleport.request.moved-while-waiting";

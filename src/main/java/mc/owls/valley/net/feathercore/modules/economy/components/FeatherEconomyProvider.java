@@ -45,8 +45,10 @@ public class FeatherEconomyProvider extends FeatherModule implements IFeatherEco
             throw new FeatherSetupException("Vault dependency is not installed");
         }
 
-        final FeatherEconomy featherEconomy = new FeatherEconomy(getInterface(IPlayersData.class), getConfig());
-        server.getServicesManager().register(Economy.class, featherEconomy, plugin, ServicePriority.High);
+        final FeatherEconomy featherEconomy =
+                new FeatherEconomy(getInterface(IPlayersData.class), getConfig());
+        server.getServicesManager().register(Economy.class, featherEconomy, plugin,
+                ServicePriority.High);
     }
 
     private void setupVault() throws FeatherSetupException {
@@ -57,7 +59,8 @@ public class FeatherEconomyProvider extends FeatherModule implements IFeatherEco
             throw new FeatherSetupException("Vault dependency is not installed");
         }
 
-        final RegisteredServiceProvider<Economy> rsp = server.getServicesManager().getRegistration(Economy.class);
+        final RegisteredServiceProvider<Economy> rsp =
+                server.getServicesManager().getRegistration(Economy.class);
         if (rsp == null) {
             throw new FeatherSetupException("Could not find feather economy provider!");
         }
@@ -66,8 +69,7 @@ public class FeatherEconomyProvider extends FeatherModule implements IFeatherEco
     }
 
     @Override
-    protected void onModuleDisable() {
-    }
+    protected void onModuleDisable() {}
 
     @Override
     public Economy getEconomy() {

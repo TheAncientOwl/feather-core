@@ -50,14 +50,16 @@ public class LanguageCommand extends FeatherCommand<LanguageCommand.CommandData>
             case INFO: {
                 final var playerLangPrefix = getInterface(IPlayersData.class)
                         .getPlayerModel((OfflinePlayer) sender).language;
-                final var langExtended = getLanguage().getConfig().getConfigurationSection("languages")
-                        .getString(playerLangPrefix, "");
+                final var langExtended =
+                        getLanguage().getConfig().getConfigurationSection("languages")
+                                .getString(playerLangPrefix, "");
                 getLanguage().message(sender, Message.Language.INFO,
                         Pair.of(Placeholder.LANGUAGE, langExtended));
                 break;
             }
             case LIST: {
-                final var langConfig = getLanguage().getConfig().getConfigurationSection("languages");
+                final var langConfig =
+                        getLanguage().getConfig().getConfigurationSection("languages");
                 final StringBuilder sb = new StringBuilder();
                 for (final var lang : langConfig.getKeys(false)) {
                     final var longForm = langConfig.getString(lang);
@@ -69,7 +71,8 @@ public class LanguageCommand extends FeatherCommand<LanguageCommand.CommandData>
                 break;
             }
             case CHANGE: {
-                final var playerModel = getInterface(IPlayersData.class).getPlayerModel((OfflinePlayer) sender);
+                final var playerModel =
+                        getInterface(IPlayersData.class).getPlayerModel((OfflinePlayer) sender);
                 playerModel.language = data.language;
                 getInterface(IPlayersData.class).markPlayerModelForSave(playerModel);
                 getLanguage().message(sender, Message.Language.CHANGE_SUCCESS);

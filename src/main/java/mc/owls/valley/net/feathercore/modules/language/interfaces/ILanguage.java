@@ -24,7 +24,8 @@ public interface ILanguage {
 
     public void message(final CommandSender receiver, String... keys);
 
-    public void message(final CommandSender receiver, final String key, Pair<String, Object> placeholder);
+    public void message(final CommandSender receiver, final String key,
+            Pair<String, Object> placeholder);
 
     public void message(final CommandSender receiver, final String key,
             final List<Pair<String, Object>> placeholders);

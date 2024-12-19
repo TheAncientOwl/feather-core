@@ -20,7 +20,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
-public abstract class FeatherCommand<CommandData> extends DependencyAccessor implements CommandExecutor, TabCompleter {
+public abstract class FeatherCommand<CommandData> extends DependencyAccessor
+        implements CommandExecutor, TabCompleter {
     public static final record InitData(Map<Class<?>, Object> modules) {
     }
 
@@ -29,7 +30,8 @@ public abstract class FeatherCommand<CommandData> extends DependencyAccessor imp
     }
 
     @Override
-    public final boolean onCommand(final CommandSender sender, final Command cmd, final String label,
+    public final boolean onCommand(final CommandSender sender, final Command cmd,
+            final String label,
             final String[] args) {
         final CommandData data = parse(sender, args);
 
@@ -41,7 +43,8 @@ public abstract class FeatherCommand<CommandData> extends DependencyAccessor imp
     }
 
     @Override
-    public final List<String> onTabComplete(final CommandSender sender, final Command cmd, final String alias,
+    public final List<String> onTabComplete(final CommandSender sender, final Command cmd,
+            final String alias,
             final String[] args) {
         return onTabComplete(args);
     }

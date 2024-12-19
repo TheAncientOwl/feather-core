@@ -33,6 +33,5 @@ public class LootChestsModel {
     @Property("chests")
     public Map<String, String> locationToType = new HashMap<>();
 
-    public LootChestsModel() {
-    }
+    public LootChestsModel() {}
 }

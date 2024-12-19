@@ -30,7 +30,8 @@ import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerMode
 import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
 import mc.owls.valley.net.feathercore.modules.teleport.interfaces.ITeleport;
 
-public class TeleportLastLocationCommand extends FeatherCommand<TeleportLastLocationCommand.CommandData> {
+public class TeleportLastLocationCommand
+        extends FeatherCommand<TeleportLastLocationCommand.CommandData> {
     public TeleportLastLocationCommand(final InitData data) {
         super(data);
     }
@@ -61,7 +62,8 @@ public class TeleportLastLocationCommand extends FeatherCommand<TeleportLastLoca
             return;
         }
 
-        getInterface(ITeleport.class).teleport(data.who, data.destination.x, data.destination.y, data.destination.z,
+        getInterface(ITeleport.class).teleport(data.who, data.destination.x, data.destination.y,
+                data.destination.z,
                 world);
 
         getLanguage().message(data.who, Message.Teleport.POSITION, List.of(
@@ -95,7 +97,8 @@ public class TeleportLastLocationCommand extends FeatherCommand<TeleportLastLoca
                         return null;
                     } else {
                         who = (Player) sender;
-                        destination = getInterface(IPlayersData.class).getPlayerModel(parsedArgs.getOfflinePlayer(0));
+                        destination = getInterface(IPlayersData.class)
+                                .getPlayerModel(parsedArgs.getOfflinePlayer(0));
                     }
                 } else {
                     getLanguage().message(sender, Message.General.NOT_VALID_PLAYER,
@@ -106,10 +109,12 @@ public class TeleportLastLocationCommand extends FeatherCommand<TeleportLastLoca
             }
             case 2: {
                 // /tpoffline [destination-player] (who-player)
-                final var parsedArgs = Args.parse(args, Args::getOfflinePlayer, Args::getOnlinePlayer);
+                final var parsedArgs =
+                        Args.parse(args, Args::getOfflinePlayer, Args::getOnlinePlayer);
 
                 if (parsedArgs.success()) {
-                    destination = getInterface(IPlayersData.class).getPlayerModel(parsedArgs.getOfflinePlayer(0));
+                    destination = getInterface(IPlayersData.class)
+                            .getPlayerModel(parsedArgs.getOfflinePlayer(0));
                     who = parsedArgs.getPlayer(1);
                     if (who == null) {
                         return null;
@@ -156,7 +161,8 @@ public class TeleportLastLocationCommand extends FeatherCommand<TeleportLastLoca
                 completions.add("player");
                 break;
             case 2:
-                completions = StringUtils.filterStartingWith(StringUtils.getOnlinePlayers(), args[1]);
+                completions =
+                        StringUtils.filterStartingWith(StringUtils.getOnlinePlayers(), args[1]);
                 break;
         }
 

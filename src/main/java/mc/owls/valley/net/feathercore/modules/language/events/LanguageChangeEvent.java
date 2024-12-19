@@ -29,7 +29,8 @@ public class LanguageChangeEvent extends Event implements Cancellable {
     private final String language;
     private final IConfigFile translation;
 
-    public LanguageChangeEvent(final Player player, final String language, final IConfigFile translation) {
+    public LanguageChangeEvent(final Player player, final String language,
+            final IConfigFile translation) {
         this.cancelled = false;
 
         this.player = player;

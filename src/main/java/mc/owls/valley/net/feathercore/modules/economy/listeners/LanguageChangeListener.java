@@ -64,7 +64,8 @@ public class LanguageChangeListener extends FeatherListener {
             meta.lore(banknoteLore.stream()
                     .map(line -> LegacyComponentSerializer.legacyAmpersand()
                             .deserialize(
-                                    StringUtils.replacePlaceholders(line, Pair.of(Placeholder.AMOUNT, banknoteValue))))
+                                    StringUtils.replacePlaceholders(line,
+                                            Pair.of(Placeholder.AMOUNT, banknoteValue))))
                     .toList());
 
             itemStack.setItemMeta(meta);

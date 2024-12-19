@@ -42,8 +42,7 @@ public class LanguageManager extends FeatherModule implements ILanguage {
     }
 
     @Override
-    protected void onModuleDisable() {
-    }
+    protected void onModuleDisable() {}
 
     public IConfigFile getTranslation(final String language) {
         IConfigFile translation = this.translations.get(language);
@@ -63,17 +62,20 @@ public class LanguageManager extends FeatherModule implements ILanguage {
     @Override
     public IConfigFile getTranslation(final CommandSender sender) {
         return getTranslation(
-                sender instanceof Player ? getInterface(IPlayersData.class).getPlayerModel((Player) sender).language
+                sender instanceof Player
+                        ? getInterface(IPlayersData.class).getPlayerModel((Player) sender).language
                         : "en");
     }
 
     private IConfigFile loadTranslation(final String language) {
         IConfigFile translation = null;
         try {
-            translation = new BukkitConfigFile(getPlugin(), Path.of("language", language + ".yml").toString());
+            translation = new BukkitConfigFile(getPlugin(),
+                    Path.of("language", language + ".yml").toString());
         } catch (final Exception e) {
             getLogger()
-                    .error("Could not load translation '" + language + "'\nReason: " + StringUtils.exceptionToStr(e));
+                    .error("Could not load translation '" + language + "'\nReason: "
+                            + StringUtils.exceptionToStr(e));
         }
 
         return translation;
@@ -108,7 +110,8 @@ public class LanguageManager extends FeatherModule implements ILanguage {
     }
 
     @Override
-    public void message(final CommandSender receiver, final String key, Pair<String, Object> placeholder) {
+    public void message(final CommandSender receiver, final String key,
+            Pair<String, Object> placeholder) {
         receiver
                 .sendMessage(StringUtils
                         .translateColors(

@@ -71,7 +71,8 @@ class ReloadCommandTest extends CommandDependencyAccessorMocker<ReloadCommand> {
 
     @Test
     void testExecute_ReloadsConfigsAndTranslations() {
-        final List<FeatherModule> enabledModules = List.of(ModuleMocks.ReloadModule(), mock(LanguageManager.class));
+        final List<FeatherModule> enabledModules =
+                List.of(ModuleMocks.ReloadModule(), mock(LanguageManager.class));
         when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
 
         final var commandData = new ReloadCommand.CommandData(enabledModules);
@@ -88,7 +89,7 @@ class ReloadCommandTest extends CommandDependencyAccessorMocker<ReloadCommand> {
         final List<FeatherModule> enabledModules = List.of(ModuleMocks.ReloadModule());
         when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
 
-        final var args = new String[] { ModuleMocks.RELOAD_MODULE_NAME };
+        final var args = new String[] {ModuleMocks.RELOAD_MODULE_NAME};
         final var result = commandInstance.parse(mockSender, args);
 
         assertNotNull(result);
@@ -102,7 +103,7 @@ class ReloadCommandTest extends CommandDependencyAccessorMocker<ReloadCommand> {
         final List<FeatherModule> enabledModules = List.of(ModuleMocks.ReloadModule());
         when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
 
-        final var args = new String[] { "all" };
+        final var args = new String[] {"all"};
         final var result = commandInstance.parse(mockSender, args);
 
         assertNotNull(result);
@@ -115,7 +116,7 @@ class ReloadCommandTest extends CommandDependencyAccessorMocker<ReloadCommand> {
     void testParse_InvalidArgument() {
         when(commandInstance.getEnabledModules()).thenReturn(List.of());
 
-        final var args = new String[] { "nonexistent-module" };
+        final var args = new String[] {"nonexistent-module"};
         final var result = commandInstance.parse(mockSender, args);
 
         assertNull(result);
@@ -155,7 +156,7 @@ class ReloadCommandTest extends CommandDependencyAccessorMocker<ReloadCommand> {
         final List<FeatherModule> enabledModules = List.of(ModuleMocks.ReloadModule());
         when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
 
-        final var args = new String[] { "re" };
+        final var args = new String[] {"re"};
         final var completions = commandInstance.onTabComplete(args);
 
         assertEquals(1, completions.size());
@@ -169,7 +170,7 @@ class ReloadCommandTest extends CommandDependencyAccessorMocker<ReloadCommand> {
         final List<FeatherModule> enabledModules = List.of(ModuleMocks.ReloadModule());
         when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
 
-        final var args = new String[] { "unknown" };
+        final var args = new String[] {"unknown"};
         final var completions = commandInstance.onTabComplete(args);
 
         assertTrue(completions.isEmpty());

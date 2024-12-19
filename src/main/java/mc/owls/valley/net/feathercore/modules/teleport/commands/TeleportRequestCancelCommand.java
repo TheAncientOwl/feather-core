@@ -26,7 +26,8 @@ import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.modules.teleport.interfaces.ITeleport;
 
-public class TeleportRequestCancelCommand extends FeatherCommand<TeleportRequestCancelCommand.CommandData> {
+public class TeleportRequestCancelCommand
+        extends FeatherCommand<TeleportRequestCancelCommand.CommandData> {
     public TeleportRequestCancelCommand(final InitData data) {
         super(data);
     }
@@ -104,7 +105,8 @@ public class TeleportRequestCancelCommand extends FeatherCommand<TeleportRequest
         // TODO: Tab complete only available requests
         switch (args.length) {
             case 1:
-                completions = StringUtils.filterStartingWith(StringUtils.getOnlinePlayers(), args[0]);
+                completions =
+                        StringUtils.filterStartingWith(StringUtils.getOnlinePlayers(), args[0]);
                 break;
             default:
                 break;

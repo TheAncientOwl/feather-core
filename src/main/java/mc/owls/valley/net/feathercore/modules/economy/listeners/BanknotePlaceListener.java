@@ -36,7 +36,7 @@ public class BanknotePlaceListener extends FeatherListener {
         if (itemMeta != null
                 && new NamespacedKey(getPlugin(), itemMeta,
                         getInterface(IFeatherEconomy.class).getConfig().getString("banknote.key"))
-                        .isPresent()) {
+                                .isPresent()) {
             event.setCancelled(true);
             getLanguage().message(event.getPlayer(), Message.Economy.BANKNOTE_PLACE);
         }

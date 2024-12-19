@@ -38,11 +38,13 @@ public class TeleportPositionCommand extends FeatherCommand<TeleportPositionComm
 
     @Override
     protected boolean hasPermission(final CommandSender sender, final CommandData data) {
-        final boolean selfTeleport = (sender instanceof Player && data.player.equals((Player) sender));
+        final boolean selfTeleport =
+                (sender instanceof Player && data.player.equals((Player) sender));
 
         if (!sender.hasPermission("feathercore.teleport." + data.world.getName() + ".position") ||
                 (!selfTeleport
-                        && !sender.hasPermission("feathercore.teleport." + data.world.getName() + ".position.other"))) {
+                        && !sender.hasPermission("feathercore.teleport." + data.world.getName()
+                                + ".position.other"))) {
             getLanguage().message(sender, Message.General.NO_PERMISSION);
             return false;
         }
@@ -51,7 +53,8 @@ public class TeleportPositionCommand extends FeatherCommand<TeleportPositionComm
 
     @Override
     protected void execute(final CommandSender sender, final CommandData data) {
-        final boolean selfTeleport = (sender instanceof Player && data.player.equals((Player) sender));
+        final boolean selfTeleport =
+                (sender instanceof Player && data.player.equals((Player) sender));
 
         getInterface(ITeleport.class).teleport(data.player, data.x, data.y, data.z, data.world);
 
@@ -81,7 +84,8 @@ public class TeleportPositionCommand extends FeatherCommand<TeleportPositionComm
         switch (args.length) {
             case 3: {
                 // /tppos [x] [y] [z]
-                final var parsedArgs = Args.parse(args, Args::getDouble, Args::getDouble, Args::getDouble);
+                final var parsedArgs =
+                        Args.parse(args, Args::getDouble, Args::getDouble, Args::getDouble);
 
                 if (parsedArgs.success()) {
                     x = parsedArgs.getDouble(0);
@@ -96,8 +100,9 @@ public class TeleportPositionCommand extends FeatherCommand<TeleportPositionComm
             }
             case 4: {
                 // /tppos [x] [y] [z] (player|world)
-                final var parsedArgs = Args.parse(args, Args::getDouble, Args::getDouble, Args::getDouble,
-                        Args::getString);
+                final var parsedArgs =
+                        Args.parse(args, Args::getDouble, Args::getDouble, Args::getDouble,
+                                Args::getString);
 
                 if (parsedArgs.success()) {
                     x = parsedArgs.getDouble(0);
@@ -127,8 +132,9 @@ public class TeleportPositionCommand extends FeatherCommand<TeleportPositionComm
             }
             case 5: {
                 // /tppos [x] [y] [z] (world) (player)
-                final var parsedArgs = Args.parse(args, Args::getDouble, Args::getDouble, Args::getDouble,
-                        Args::getWorld, Args::getOnlinePlayer);
+                final var parsedArgs =
+                        Args.parse(args, Args::getDouble, Args::getDouble, Args::getDouble,
+                                Args::getWorld, Args::getOnlinePlayer);
 
                 if (parsedArgs.success()) {
                     x = parsedArgs.getDouble(0);
@@ -195,7 +201,8 @@ public class TeleportPositionCommand extends FeatherCommand<TeleportPositionComm
                 completions = StringUtils.filterStartingWith(StringUtils.getWorlds(), args[3]);
                 break;
             case 5:
-                completions = StringUtils.filterStartingWith(StringUtils.getOnlinePlayers(), args[4]);
+                completions =
+                        StringUtils.filterStartingWith(StringUtils.getOnlinePlayers(), args[4]);
                 break;
         }
 

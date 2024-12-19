@@ -46,7 +46,8 @@ public class PayToggleCommand extends FeatherCommand<PayToggleCommand.CommandDat
         getInterface(IPlayersData.class).markPlayerModelForSave(data.playerModel);
 
         getLanguage().message(sender,
-                data.playerModel.acceptsPayments ? Message.Economy.PAY_TOGGLE_TRUE : Message.Economy.PAY_TOGGLE_FALSE);
+                data.playerModel.acceptsPayments ? Message.Economy.PAY_TOGGLE_TRUE
+                        : Message.Economy.PAY_TOGGLE_FALSE);
     }
 
     protected CommandData parse(final CommandSender sender, final String args[]) {
@@ -62,7 +63,8 @@ public class PayToggleCommand extends FeatherCommand<PayToggleCommand.CommandDat
         }
 
         // 2. check if player data is stored
-        final PlayerModel playerModel = getInterface(IPlayersData.class).getPlayerModel((Player) sender);
+        final PlayerModel playerModel =
+                getInterface(IPlayersData.class).getPlayerModel((Player) sender);
         if (playerModel == null) {
             return null;
         }

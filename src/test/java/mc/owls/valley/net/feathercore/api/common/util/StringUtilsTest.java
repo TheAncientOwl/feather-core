@@ -77,7 +77,8 @@ class StringUtilsTest {
 
         try (MockedStatic<Bukkit> mockedBukkit = mockStatic(Bukkit.class)) {
             // Return the mock players when Bukkit.getOnlinePlayers() is called
-            mockedBukkit.when(Bukkit::getOnlinePlayers).thenReturn(List.of(mockPlayer1, mockPlayer2));
+            mockedBukkit.when(Bukkit::getOnlinePlayers)
+                    .thenReturn(List.of(mockPlayer1, mockPlayer2));
 
             // Test the method
             List<String> players = StringUtils.getOnlinePlayers();

@@ -57,7 +57,8 @@ public class TeleportAcceptCommand extends FeatherCommand<TeleportAcceptCommand.
                 getLanguage().message(data.target, Message.Teleport.REQUEST_ACCEPT_TARGET,
                         Pair.of(Placeholder.PLAYER, data.issuer.getName()));
 
-                final var delay = getInterface(ITeleport.class).getConfig().getMillis("request.accept-delay");
+                final var delay =
+                        getInterface(ITeleport.class).getConfig().getMillis("request.accept-delay");
                 if (delay > 0) {
                     getLanguage().message(data.target, Message.Teleport.REQUEST_DELAY,
                             Pair.of(Placeholder.COOLDOWN,
@@ -115,7 +116,8 @@ public class TeleportAcceptCommand extends FeatherCommand<TeleportAcceptCommand.
         // TODO: Tab complete only available requests
         switch (args.length) {
             case 1:
-                completions = StringUtils.filterStartingWith(StringUtils.getOnlinePlayers(), args[0]);
+                completions =
+                        StringUtils.filterStartingWith(StringUtils.getOnlinePlayers(), args[0]);
                 break;
             default:
                 break;

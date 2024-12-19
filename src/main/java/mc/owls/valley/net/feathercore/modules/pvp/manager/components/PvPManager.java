@@ -40,7 +40,8 @@ public class PvPManager extends FeatherModule implements IPvPManager {
     @Override
     protected void onModuleEnable() throws FeatherSetupException {
         this.combatCheckTask = Bukkit.getScheduler().runTaskTimerAsynchronously(
-                getPlugin(), new CombatChecker(this), 0, this.config.getTicks("combat.check-interval"));
+                getPlugin(), new CombatChecker(this), 0,
+                this.config.getTicks("combat.check-interval"));
     }
 
     @Override
@@ -75,7 +76,7 @@ public class PvPManager extends FeatherModule implements IPvPManager {
     /**
      * Tags given players in combat.
      * 
-     * @param victim   player who was damaged
+     * @param victim player who was damaged
      * @param attacker player who damaged
      */
     @Override

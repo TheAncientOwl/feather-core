@@ -35,7 +35,8 @@ class ReloadModuleTest extends DependencyAccessorMocker {
     @Test
     void testModuleBasics() {
         var module = new ReloadModule(
-                new FeatherModule.InitData(ModuleMocks.RELOAD_MODULE_NAME, () -> mockConfig, dependenciesMap));
+                new FeatherModule.InitData(ModuleMocks.RELOAD_MODULE_NAME, () -> mockConfig,
+                        dependenciesMap));
         assertDoesNotThrow(() -> module.onModuleEnable());
         assertDoesNotThrow(() -> module.onModuleDisable());
     }

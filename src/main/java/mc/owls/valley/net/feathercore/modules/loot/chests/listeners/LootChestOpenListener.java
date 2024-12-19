@@ -49,15 +49,18 @@ public class LootChestOpenListener extends FeatherListener {
         event.setCancelled(true);
 
         final Player player = event.getPlayer();
-        final Long openChestTime = getInterface(ILootChests.class).getOpenChestTime(player, chestLocation);
+        final Long openChestTime =
+                getInterface(ILootChests.class).getOpenChestTime(player, chestLocation);
 
         final var now = System.currentTimeMillis();
-        final var cooldown = getInterface(ILootChests.class).getConfig().getMillis("chests." + chestType + ".cooldown");
+        final var cooldown = getInterface(ILootChests.class).getConfig()
+                .getMillis("chests." + chestType + ".cooldown");
         if (openChestTime != null
                 && openChestTime + cooldown > now
                 && !player.hasPermission("feathercore.lootchests.bypass-cooldown")) {
             getLanguage().message(player, Message.LootChests.COOLDOWN,
-                    Pair.of(Placeholder.COOLDOWN, TimeUtils.formatRemaining(openChestTime, cooldown)));
+                    Pair.of(Placeholder.COOLDOWN,
+                            TimeUtils.formatRemaining(openChestTime, cooldown)));
             return;
         }
 
