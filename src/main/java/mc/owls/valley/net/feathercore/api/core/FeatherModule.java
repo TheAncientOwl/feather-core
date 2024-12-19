@@ -58,7 +58,6 @@ public abstract class FeatherModule extends DependencyAccessor {
         if (!name.startsWith(HIDE_LIFECYCLE_PREFIX)) {
             logger.info("&2" + this.name + "&8: &r" + message);
         }
-
     }
 
     protected void onModuleEnable() throws FeatherSetupException {

@@ -17,7 +17,6 @@ import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -28,7 +27,6 @@ import org.bukkit.entity.Player;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockbukkit.mockbukkit.MockBukkit;
 import org.mockito.MockedStatic;
 
 import mc.owls.valley.net.feathercore.api.common.java.Pair;
@@ -36,11 +34,10 @@ import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 
 class BroadcastTest {
-
-    private IPropertyAccessor mockPropertyAccessor = null;
-    private Player mockPlayer1 = null;
-    private Player mockPlayer2 = null;
-    private MockedStatic<Bukkit> mockedBukkit = null;
+    IPropertyAccessor mockPropertyAccessor = null;
+    Player mockPlayer1 = null;
+    Player mockPlayer2 = null;
+    MockedStatic<Bukkit> mockedBukkit = null;
 
     @BeforeEach
     void setUp() {

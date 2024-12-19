@@ -36,7 +36,6 @@ import mc.owls.valley.net.feathercore.api.configuration.IConfigSection;
 import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 
 class InventoryConfigTest {
-
     @SuppressWarnings("unused")
     private ServerMock server = null;
 

@@ -15,7 +15,7 @@ package mc.owls.valley.net.feathercore.api.common.minecraft;
 
 import org.junit.jupiter.api.Test;
 
-public class PlaceholderTest {
+class PlaceholderTest {
 
     @Test
     void dummyConstructor() {

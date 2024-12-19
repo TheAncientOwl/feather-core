@@ -18,8 +18,6 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.Test;
 
-import mc.owls.valley.net.feathercore.api.exceptions.ModuleNotEnabledException;
-
 class ModuleNotEnabledExceptionTest {
 
     @Test

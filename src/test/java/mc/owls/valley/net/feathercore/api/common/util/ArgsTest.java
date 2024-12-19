@@ -32,7 +32,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 
 class ArgsTest {
-    private MockedStatic<Bukkit> mockedBukkit = null;
+    MockedStatic<Bukkit> mockedBukkit = null;
 
     @BeforeEach
     void setUpMocks() {

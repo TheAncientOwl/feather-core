@@ -33,7 +33,7 @@ import org.mockito.MockedStatic;
 import mc.owls.valley.net.feathercore.api.common.java.Pair;
 import net.md_5.bungee.api.ChatColor;
 
-public class StringUtilsTest {
+class StringUtilsTest {
 
     @BeforeEach
     void setUp() {

@@ -95,6 +95,8 @@ public class ReloadCommand extends FeatherCommand<ReloadCommand.CommandData> {
 
         if (args.length == 1) {
             completions = StringUtils.filterStartingWith(getEnabledModulesNames(), args[0]);
+        } else {
+            completions = getEnabledModulesNames();
         }
 
         return completions;

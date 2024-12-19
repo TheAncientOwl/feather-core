@@ -15,7 +15,7 @@ package mc.owls.valley.net.feathercore.api.common.language;
 
 import org.junit.jupiter.api.Test;
 
-public class MessageTest {
+class MessageTest {
     @Test
     @SuppressWarnings("unused")
     void dummyConstructor() {

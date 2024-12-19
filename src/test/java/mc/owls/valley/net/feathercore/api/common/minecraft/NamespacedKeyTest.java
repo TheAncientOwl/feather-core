@@ -30,12 +30,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class NamespacedKeyTest {
-
-    private JavaPlugin mockPlugin;
-    private ItemMeta mockItemMeta;
-    private PersistentDataContainer mockDataContainer;
-    private PersistentDataType<String, Integer> mockDataType;
-    private NamespacedKey namespacedKey;
+    JavaPlugin mockPlugin;
+    ItemMeta mockItemMeta;
+    PersistentDataContainer mockDataContainer;
+    PersistentDataType<String, Integer> mockDataType;
+    NamespacedKey namespacedKey;
 
     @BeforeEach
     @SuppressWarnings("unchecked")

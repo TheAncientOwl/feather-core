@@ -15,7 +15,8 @@ function print_feather_help() {
     print "${DARK_GRAY}» ${DARK_AQUA}--install${DARK_GRAY}/${DARK_AQUA}-i${DARK_GRAY}: ${RESET}install the plugin at dev server location"
     print "${DARK_GRAY}» ${DARK_AQUA}--verbose${DARK_GRAY}/${DARK_AQUA}-v${DARK_GRAY}: ${RESET}print verbose messages for install phase"
     print "${DARK_GRAY}» ${DARK_AQUA}--run${DARK_GRAY}/${DARK_AQUA}-r${DARK_GRAY}: ${RESET}run the dev server"
-    print "${DARK_GRAY}» ${DARK_AQUA}--headers${DARK_GRAY}/${DARK_AQUA}-h${DARK_GRAY}: ${RESET}run unit tests"
+    print "${DARK_GRAY}» ${DARK_AQUA}--headers${DARK_GRAY}/${DARK_AQUA}-h${DARK_GRAY}: ${RESET}setup headers"
+    print "${DARK_GRAY}» ${DARK_AQUA}--headers_test${DARK_GRAY}/${DARK_AQUA}-ht${DARK_GRAY}: ${RESET}setup unit tests headers"
     print "${DARK_GRAY}» ${DARK_AQUA}--test${DARK_GRAY}/${DARK_AQUA}-t${DARK_GRAY}: ${RESET}run unit tests"
     print "${DARK_GRAY}» ${DARK_AQUA}--coverage${DARK_GRAY}: ${RESET}run unit tests coverage"
     print "${DARK_GRAY}» ${DARK_AQUA}--dev${DARK_GRAY}: ${RESET}clean install + server run"
@@ -36,6 +37,7 @@ configure=false
 verbose=false
 tests=false
 headers=false
+headers_test=false
 coverage=false
 
 while [[ $# -gt 0 ]]; do
@@ -72,6 +74,10 @@ while [[ $# -gt 0 ]]; do
     --headers | -h)
         feather_print "${DARK_AQUA}Detected 'headers' flag"
         headers=true
+        ;;
+    --headers_test | -ht)
+        feather_print "${DARK_AQUA}Detected 'headers_test' flag"
+        headers_test=true
         ;;
     --coverage)
         feather_print "${DARK_AQUA}Detected 'coverage' flag"
@@ -151,4 +157,9 @@ fi
 if [ "$headers" = true ]; then
     feather_print "${DARK_AQUA}Setting up files header"
     $FEATHER_CORE_ROOT/project/scripts/setup_files_header.sh
+fi
+
+if [ "$headers_test" = true ]; then
+    feather_print "${DARK_AQUA}Setting up files header"
+    $FEATHER_CORE_ROOT/project/scripts/setup_files_header_test.sh
 fi
