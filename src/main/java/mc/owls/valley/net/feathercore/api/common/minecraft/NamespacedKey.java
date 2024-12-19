@@ -6,7 +6,7 @@
  *
  * @file NamespacedKey.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Utility to manage inventory ItemMeta namespaced key
  */
 
@@ -18,7 +18,6 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class NamespacedKey {
-
     private final org.bukkit.NamespacedKey key;
     private final PersistentDataContainer container;
 
@@ -28,7 +27,7 @@ public class NamespacedKey {
     }
 
     public boolean isPresent() {
-        return this.container == null || this.container.has(this.key);
+        return this.container != null && this.container.has(this.key);
     }
 
     public <P, C> C get(PersistentDataType<P, C> type) {
@@ -38,5 +37,4 @@ public class NamespacedKey {
     public <P, C> void set(final PersistentDataType<P, C> type, final C value) {
         this.container.set(this.key, type, value);
     }
-
 }

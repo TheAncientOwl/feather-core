@@ -6,7 +6,7 @@
  *
  * @file PairTest.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @test_unit Pair#0.1
  * @description Unit tests for Pair
  */
@@ -22,7 +22,7 @@ class PairTest {
     @Test
     void testPairInitializationWithConstructor() {
         // Create a Pair using the constructor
-        Pair<Integer, String> pair = new Pair<>(1, "one");
+        Pair<Integer, String> pair = Pair.of(1, "one");
 
         // Assert both fields are initialized correctly
         assertEquals(1, pair.first);
@@ -42,7 +42,7 @@ class PairTest {
     @Test
     void testPairAllowsNullValues() {
         // Create a Pair with null values
-        Pair<Object, Object> pair = new Pair<>(null, null);
+        Pair<Object, Object> pair = Pair.of(null, null);
 
         // Assert both fields are null
         assertNull(pair.first);
@@ -62,7 +62,7 @@ class PairTest {
     @Test
     void testPairFieldsAreMutable() {
         // Create a Pair and modify its fields
-        Pair<Integer, String> pair = new Pair<>(1, "one");
+        Pair<Integer, String> pair = Pair.of(1, "one");
 
         pair.first = 2;
         pair.second = "two";

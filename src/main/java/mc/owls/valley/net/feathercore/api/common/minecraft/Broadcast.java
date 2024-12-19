@@ -6,7 +6,7 @@
  *
  * @file Broadcast.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.4
  * @description Utility functions for broadcasting messages to players
  */
 
@@ -23,9 +23,8 @@ import mc.owls.valley.net.feathercore.api.configuration.IPropertyAccessor;
 public class Broadcast {
 
     public static void broadcast(final String message) {
-        final String coloredMessage = message;
-        for (final var player : Bukkit.getServer().getOnlinePlayers()) {
-            player.sendMessage(coloredMessage);
+        for (final var player : Bukkit.getOnlinePlayers()) {
+            player.sendMessage(message);
         }
     }
 

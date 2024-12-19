@@ -6,7 +6,7 @@
  *
  * @file StringUtilsTest.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @test_unit StringUtils#0.3
  * @description Unit tests for StringUtils
  */
@@ -51,7 +51,7 @@ public class StringUtilsTest {
     @Test
     void testReplacePlaceholdersSingleReplacement() {
         String message = "Hello, {name}!";
-        Pair<String, Object> replacement = new Pair<>("{name}", "John");
+        Pair<String, Object> replacement = Pair.of("{name}", "John");
         String result = StringUtils.replacePlaceholders(message, replacement);
         assertEquals("Hello, John!", result);
     }
@@ -60,8 +60,8 @@ public class StringUtilsTest {
     void testReplacePlaceholdersMultipleReplacements() {
         String message = "Hello, {name}! Your balance is {balance}.";
         List<Pair<String, Object>> replacements = new ArrayList<>();
-        replacements.add(new Pair<>("{name}", "John"));
-        replacements.add(new Pair<>("{balance}", 100));
+        replacements.add(Pair.of("{name}", "John"));
+        replacements.add(Pair.of("{balance}", 100));
 
         String result = StringUtils.replacePlaceholders(message, replacements);
         assertEquals("Hello, John! Your balance is 100.", result);
