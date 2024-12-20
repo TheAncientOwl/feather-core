@@ -1,3 +1,8 @@
+#!/bin/bash
+
+# » env variables
+source $FEATHER_CORE_ROOT/project/scripts/env.sh
+
 # » helpers
 function header_print() {
     print "${DARK_GRAY}[${DARK_GREEN}Headers${DARK_GRAY}]${RESET} » ${LIGHT_GRAY}$1"
