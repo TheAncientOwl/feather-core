@@ -6,7 +6,7 @@
  *
  * @file ReloadCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @test_unit ReloadCommand#0.7
  * @description Unit tests for ReloadCommand
  */
@@ -25,25 +25,26 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
-
 import mc.owls.valley.net.feathercore.api.common.java.Pair;
 import mc.owls.valley.net.feathercore.api.common.language.Message;
-import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
-import mc.owls.valley.net.feathercore.modules.common.CommandDependencyAccessorMocker;
+import mc.owls.valley.net.feathercore.modules.common.CommandTestMocker;
 import mc.owls.valley.net.feathercore.modules.common.ModuleMocks;
 import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
 
-class ReloadCommandTest extends CommandDependencyAccessorMocker<ReloadCommand> {
+class ReloadCommandTest extends CommandTestMocker<ReloadCommand> {
 
     @Override
-    protected ReloadCommand makeCommand() {
-        return new ReloadCommand(new FeatherCommand.InitData(dependenciesMap));
+    protected Class<ReloadCommand> getCommandClass() {
+        return ReloadCommand.class;
+    }
+
+    @Override
+    protected List<Pair<Class<?>, Object>> getOtherDependencies() {
+        return null;
     }
 
     @Test
@@ -73,7 +74,6 @@ class ReloadCommandTest extends CommandDependencyAccessorMocker<ReloadCommand> {
     void testExecute_ReloadsConfigsAndTranslations() {
         final List<FeatherModule> enabledModules =
                 List.of(ModuleMocks.ReloadModule(), mock(LanguageManager.class));
-        when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
 
         final var commandData = new ReloadCommand.CommandData(enabledModules);
         commandInstance.execute(mockSender, commandData);
@@ -175,4 +175,5 @@ class ReloadCommandTest extends CommandDependencyAccessorMocker<ReloadCommand> {
 
         assertTrue(completions.isEmpty());
     }
+
 }

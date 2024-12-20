@@ -13,20 +13,24 @@
 package mc.owls.valley.net.feathercore.modules.common;
 
 import static org.mockito.Mockito.mock;
-
+import java.lang.reflect.InvocationTargetException;
 import org.bukkit.command.CommandSender;
 import org.junit.jupiter.api.BeforeEach;
+import mc.owls.valley.net.feathercore.api.core.FeatherCommand;
 
-public abstract class CommandDependencyAccessorMocker<CommandType>
+public abstract class CommandTestMocker<CommandType extends FeatherCommand<?>>
         extends DependencyAccessorMocker {
     protected CommandSender mockSender;
     protected CommandType commandInstance;
 
     @BeforeEach
-    void setUpCommandTest() {
+    void setUpCommandTest()
+            throws InstantiationException, IllegalAccessException, IllegalArgumentException,
+            InvocationTargetException, NoSuchMethodException, SecurityException {
         mockSender = mock(CommandSender.class);
-        commandInstance = makeCommand();
+        commandInstance = getCommandClass().getConstructor(FeatherCommand.InitData.class)
+                .newInstance(new FeatherCommand.InitData(dependenciesMap));
     }
 
-    protected abstract CommandType makeCommand();
+    protected abstract Class<CommandType> getCommandClass();
 }

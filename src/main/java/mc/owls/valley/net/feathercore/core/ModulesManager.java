@@ -6,12 +6,13 @@
  *
  * @file ModulesManager.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @description Class responsible for modules lifecycle
  */
 
 package mc.owls.valley.net.feathercore.core;
 
+import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -81,7 +82,7 @@ public class ModulesManager {
     }
 
     public void onEnable(final FeatherCore core)
-            throws FeatherSetupException, ModuleNotEnabledException {
+            throws FeatherSetupException, ModuleNotEnabledException, IOException {
         this.init.moduleConfigs.clear();
         this.init.enabledModules.clear();
         this.modules.clear();
@@ -131,8 +132,13 @@ public class ModulesManager {
                         .getConstructor(FeatherModule.InitData.class)
                         .newInstance(new FeatherModule.InitData(moduleName,
                                 (Supplier<IConfigFile>) () -> {
-                                    return configFilePath == null ? null
-                                            : new BukkitConfigFile(plugin, configFilePath);
+                                    try {
+                                        return configFilePath == null ? null
+                                                : new BukkitConfigFile(plugin, configFilePath);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                        return null;
+                                    }
                                 }, dependenciesMapBuilder.getMap()));
 
                 for (final var interfaceName : moduleConfig.getStringList("interfaces")) {
@@ -233,9 +239,11 @@ public class ModulesManager {
      * 
      * @param core
      * @throws FeatherSetupException
+     * @throws ModuleNotEnabledException
+     * @throws IOException
      */
     private void enableModules(final JavaPlugin core)
-            throws FeatherSetupException, ModuleNotEnabledException {
+            throws FeatherSetupException, ModuleNotEnabledException, IOException {
         final IConfigFile modulesEnabledConfig = new BukkitConfigFile(core, "modules.yml");
 
         final var plugin = core;

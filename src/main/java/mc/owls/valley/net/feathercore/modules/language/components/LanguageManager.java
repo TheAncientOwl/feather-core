@@ -6,12 +6,13 @@
  *
  * @file LanguageManager.java
  * @author Alexandru Delegeanu
- * @version 0.7
+ * @version 0.8
  * @description Module responsible for managing plugin messages translations
  */
 
 package mc.owls.valley.net.feathercore.modules.language.components;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
@@ -69,13 +70,12 @@ public class LanguageManager extends FeatherModule implements ILanguage {
 
     private IConfigFile loadTranslation(final String language) {
         IConfigFile translation = null;
+
         try {
             translation = new BukkitConfigFile(getPlugin(),
                     Path.of("language", language + ".yml").toString());
-        } catch (final Exception e) {
-            getLogger()
-                    .error("Could not load translation '" + language + "'\nReason: "
-                            + StringUtils.exceptionToStr(e));
+        } catch (IOException e) {
+            getLogger().error(e.getStackTrace().toString());
         }
 
         return translation;

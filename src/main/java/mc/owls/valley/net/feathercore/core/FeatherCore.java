@@ -6,12 +6,13 @@
  *
  * @file FeatherCore.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @description Plugin entry point
  */
 
 package mc.owls.valley.net.feathercore.core;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.bukkit.plugin.java.JavaPlugin;
@@ -42,7 +43,7 @@ public class FeatherCore extends JavaPlugin implements IEnabledModulesProvider {
 
             getFeatherLogger().info("Successfully enabled&8. (&btook&8: &b"
                     + TimeUtils.formatElapsed(enableStartTime, enableFinishTime) + "&8)");
-        } catch (final FeatherSetupException | ModuleNotEnabledException e) {
+        } catch (final FeatherSetupException | ModuleNotEnabledException | IOException e) {
             this.featherLogger.error(StringUtils.exceptionToStr(e));
             this.getServer().getPluginManager().disablePlugin(this);
         }

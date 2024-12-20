@@ -6,7 +6,7 @@
  *
  * @file YamlUtils.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @test_unit YamlUtils#0.1
  * @description Unit tests for YamlUtils
  */
@@ -23,19 +23,22 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.when;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
+import java.util.logging.Logger;
+import org.bukkit.Bukkit;
+import org.bukkit.Server;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.junit.jupiter.api.Test;
-
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
 
+@ExtendWith(MockitoExtension.class)
 class YamlUtilsTest {
 
     @Test
@@ -81,6 +84,7 @@ class YamlUtilsTest {
         JavaPlugin mockPlugin = mock(JavaPlugin.class);
         InputStream mockInputStream = mock(InputStream.class);
 
+        // Mock the resource retrieval
         when(mockPlugin.getResource("invalid.yml")).thenReturn(mockInputStream);
         try {
             doThrow(new IOException("Stream read error")).when(mockInputStream).close();
@@ -88,13 +92,23 @@ class YamlUtilsTest {
             fail("Mock setup failed");
         }
 
-        // Call method under test and assert exception
-        FeatherSetupException exception = assertThrows(FeatherSetupException.class, () -> {
-            YamlUtils.loadYaml(mockPlugin, "invalid.yml");
-        });
+        // Mock static Bukkit.getServer() and its logger
+        try (var mockedBukkit = mockStatic(Bukkit.class)) {
+            Server mockServer = mock(Server.class);
+            Logger mockLogger = mock(Logger.class);
 
-        assertTrue(exception.getMessage().contains("Error on parsing resource"),
-                "Exception message should indicate parsing error");
+            // Mock Bukkit.getServer() and Bukkit.getLogger()
+            mockedBukkit.when(Bukkit::getServer).thenReturn(mockServer);
+            mockedBukkit.when(Bukkit::getLogger).thenReturn(mockLogger);
+
+            // Call method under test and assert exception
+            FeatherSetupException exception = assertThrows(FeatherSetupException.class, () -> {
+                YamlUtils.loadYaml(mockPlugin, "invalid.yml");
+            });
+
+            assertTrue(exception.getMessage().contains("Error on parsing resource"),
+                    "Exception message should indicate parsing error");
+        }
     }
 
     @Test
@@ -107,16 +121,19 @@ class YamlUtilsTest {
         when(mockPlugin.getResource("empty.yml")).thenReturn(mockInputStream);
 
         // Spy on YamlConfiguration to simulate a null return
-        mockStatic(YamlConfiguration.class);
-        when(YamlConfiguration.loadConfiguration(any(InputStreamReader.class))).thenReturn(null);
+        try (var mockedYamlConfiguration = mockStatic(YamlConfiguration.class)) {
+            mockedYamlConfiguration
+                    .when(() -> YamlConfiguration.loadConfiguration(any(InputStreamReader.class)))
+                    .thenReturn(null);
 
-        // Call method under test and assert exception
-        FeatherSetupException exception = assertThrows(FeatherSetupException.class, () -> {
-            YamlUtils.loadYaml(mockPlugin, "empty.yml");
-        });
+            // Call method under test and assert exception
+            FeatherSetupException exception = assertThrows(FeatherSetupException.class, () -> {
+                YamlUtils.loadYaml(mockPlugin, "empty.yml");
+            });
 
-        assertTrue(exception.getMessage().contains("Failed to read yaml resource"),
-                "Exception message should indicate null FileConfiguration");
+            assertTrue(exception.getMessage().contains("Failed to read yaml resource"),
+                    "Exception message should indicate null FileConfiguration");
+        }
     }
 
     @Test

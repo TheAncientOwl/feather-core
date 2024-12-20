@@ -6,7 +6,7 @@
  *
  * @file BukkitConfigFile.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Bukkit implementation of @see IConfigFile
  */
 
@@ -17,13 +17,11 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import mc.owls.valley.net.feathercore.api.common.minecraft.InventoryConfig;
 import mc.owls.valley.net.feathercore.api.common.util.TimeUtils;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
@@ -35,11 +33,15 @@ public class BukkitConfigFile implements IConfigFile {
     private File configFile;
     private FileConfiguration fileConfiguration;
 
-    public BukkitConfigFile(final JavaPlugin plugin, final String fileName) {
+    public BukkitConfigFile(final JavaPlugin plugin, final String fileName) throws IOException {
         this.plugin = plugin;
         this.fileName = fileName;
 
         this.configFile = new File(plugin.getDataFolder(), fileName);
+
+        if (!this.configFile.exists()) {
+            throw new IOException("Language file does not exist");
+        }
 
         saveDefaultConfig();
         loadConfig();
