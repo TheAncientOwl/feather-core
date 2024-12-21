@@ -6,7 +6,7 @@
  *
  * @file LanguageCommand.java
  * @author Alexandru Delegeanu
- * @version 0.8
+ * @version 0.9
  * @description Manage player's messages language
  */
 
@@ -32,7 +32,7 @@ public class LanguageCommand extends FeatherCommand<LanguageCommand.CommandData>
         super(data);
     }
 
-    private static enum CommandType {
+    public static enum CommandType {
         INFO, LIST, CHANGE
     }
 

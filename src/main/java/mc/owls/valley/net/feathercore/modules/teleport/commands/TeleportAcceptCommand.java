@@ -14,10 +14,8 @@ package mc.owls.valley.net.feathercore.modules.teleport.commands;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
 import mc.owls.valley.net.feathercore.api.common.java.Pair;
 import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.common.minecraft.Placeholder;

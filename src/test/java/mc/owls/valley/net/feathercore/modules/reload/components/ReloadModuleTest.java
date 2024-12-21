@@ -6,7 +6,7 @@
  *
  * @file ReloadModuleTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit ReloadModule#0.4
  * @description Unit tests for ReloadModule
  */
@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import mc.owls.valley.net.feathercore.api.common.java.Pair;
-import mc.owls.valley.net.feathercore.modules.common.ModuleMocks;
+import mc.owls.valley.net.feathercore.modules.common.Modules;
 import mc.owls.valley.net.feathercore.modules.common.ModuleTestMocker;
 
 class ReloadModuleTest extends ModuleTestMocker<ReloadModule> {
@@ -29,11 +29,11 @@ class ReloadModuleTest extends ModuleTestMocker<ReloadModule> {
 
     @Override
     protected String getModuleName() {
-        return ModuleMocks.RELOAD_MODULE_NAME;
+        return Modules.RELOAD.name();
     }
 
     @Override
-    protected List<Pair<Class<?>, Object>> getOtherDependencies() {
+    protected List<Pair<Class<?>, Object>> getOtherMockDependencies() {
         return null;
     }
 

@@ -6,13 +6,12 @@
  *
  * @file DependencyAccessorMocker.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Utility class for developing unit tests that use modules
  */
 
 package mc.owls.valley.net.feathercore.modules.common;
 
-import static org.mockito.Mockito.mock;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,9 +45,9 @@ public abstract class DependencyAccessorMocker {
         dependenciesMap.put(IFeatherLogger.class, mockFeatherLogger);
         dependenciesMap.put(IEnabledModulesProvider.class, mockEnabledModulesProvider);
 
-        final var otherModules = getOtherDependencies();
-        if (otherModules != null) {
-            for (final var dependency : otherModules) {
+        final var otherMockDependencies = getOtherMockDependencies();
+        if (otherMockDependencies != null) {
+            for (final var dependency : otherMockDependencies) {
                 dependenciesMap.put(dependency.first, dependency.second);
             }
         }
@@ -58,9 +57,5 @@ public abstract class DependencyAccessorMocker {
                 .when(mockJavaPlugin.getDataFolder()).thenReturn(TestUtils.getTestDataFolder());
     }
 
-    protected void addMock(Class<?> clazz) {
-        dependenciesMap.put(clazz, mock(clazz));
-    }
-
-    protected abstract List<Pair<Class<?>, Object>> getOtherDependencies();
+    protected abstract List<Pair<Class<?>, Object>> getOtherMockDependencies();
 }

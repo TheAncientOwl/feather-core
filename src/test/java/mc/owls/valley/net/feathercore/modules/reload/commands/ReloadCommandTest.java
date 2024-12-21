@@ -6,7 +6,7 @@
  *
  * @file ReloadCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit ReloadCommand#0.7
  * @description Unit tests for ReloadCommand
  */
@@ -32,7 +32,7 @@ import mc.owls.valley.net.feathercore.api.common.java.Pair;
 import mc.owls.valley.net.feathercore.api.common.language.Message;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.modules.common.CommandTestMocker;
-import mc.owls.valley.net.feathercore.modules.common.ModuleMocks;
+import mc.owls.valley.net.feathercore.modules.common.Modules;
 import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
 
 class ReloadCommandTest extends CommandTestMocker<ReloadCommand> {
@@ -43,7 +43,7 @@ class ReloadCommandTest extends CommandTestMocker<ReloadCommand> {
     }
 
     @Override
-    protected List<Pair<Class<?>, Object>> getOtherDependencies() {
+    protected List<Pair<Class<?>, Object>> getOtherMockDependencies() {
         return null;
     }
 
@@ -51,7 +51,7 @@ class ReloadCommandTest extends CommandTestMocker<ReloadCommand> {
     void testHasPermission_WithPermission() {
         when(mockSender.hasPermission("feathercore.reload")).thenReturn(true);
 
-        final var commandData = new ReloadCommand.CommandData(new ArrayList<>());
+        var commandData = new ReloadCommand.CommandData(new ArrayList<>());
         assertTrue(commandInstance.hasPermission(mockSender, commandData));
 
         verify(mockSender, times(1)).hasPermission("feathercore.reload");
@@ -62,7 +62,7 @@ class ReloadCommandTest extends CommandTestMocker<ReloadCommand> {
     void testHasPermission_WithoutPermission() {
         when(mockSender.hasPermission("feathercore.reload")).thenReturn(false);
 
-        final var commandData = new ReloadCommand.CommandData(new ArrayList<>());
+        var commandData = new ReloadCommand.CommandData(new ArrayList<>());
         assertFalse(commandInstance.hasPermission(mockSender, commandData));
 
         verify(mockSender, times(1)).hasPermission("feathercore.reload");
@@ -73,9 +73,9 @@ class ReloadCommandTest extends CommandTestMocker<ReloadCommand> {
     @Test
     void testExecute_ReloadsConfigsAndTranslations() {
         final List<FeatherModule> enabledModules =
-                List.of(ModuleMocks.ReloadModule(), mock(LanguageManager.class));
+                List.of(Modules.RELOAD.Mock(), mock(LanguageManager.class));
 
-        final var commandData = new ReloadCommand.CommandData(enabledModules);
+        var commandData = new ReloadCommand.CommandData(enabledModules);
         commandInstance.execute(mockSender, commandData);
 
         verify(enabledModules.get(0).getConfig(), times(1)).reloadConfig();
@@ -86,11 +86,11 @@ class ReloadCommandTest extends CommandTestMocker<ReloadCommand> {
     @Test
     void testParse_ValidAllArgument() {
         // TODO: Add more modules when mocks implemented
-        final List<FeatherModule> enabledModules = List.of(ModuleMocks.ReloadModule());
+        final List<FeatherModule> enabledModules = List.of(Modules.RELOAD.Mock());
         when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
 
-        final var args = new String[] {ModuleMocks.RELOAD_MODULE_NAME};
-        final var result = commandInstance.parse(mockSender, args);
+        var args = new String[] {Modules.RELOAD.name()};
+        var result = commandInstance.parse(mockSender, args);
 
         assertNotNull(result);
         assertEquals(1, result.modules().size());
@@ -100,11 +100,11 @@ class ReloadCommandTest extends CommandTestMocker<ReloadCommand> {
     @Test
     void testParse_ValidArgument() {
         // TODO: Add more modules when mocks implemented
-        final List<FeatherModule> enabledModules = List.of(ModuleMocks.ReloadModule());
+        final List<FeatherModule> enabledModules = List.of(Modules.RELOAD.Mock());
         when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
 
-        final var args = new String[] {"all"};
-        final var result = commandInstance.parse(mockSender, args);
+        var args = new String[] {"all"};
+        var result = commandInstance.parse(mockSender, args);
 
         assertNotNull(result);
         assertEquals(1, result.modules().size());
@@ -116,8 +116,8 @@ class ReloadCommandTest extends CommandTestMocker<ReloadCommand> {
     void testParse_InvalidArgument() {
         when(commandInstance.getEnabledModules()).thenReturn(List.of());
 
-        final var args = new String[] {"nonexistent-module"};
-        final var result = commandInstance.parse(mockSender, args);
+        var args = new String[] {"nonexistent-module"};
+        var result = commandInstance.parse(mockSender, args);
 
         assertNull(result);
         verify(mockLanguage, times(1))
@@ -127,8 +127,8 @@ class ReloadCommandTest extends CommandTestMocker<ReloadCommand> {
     @Test
     @SuppressWarnings("unchecked")
     void testParse_EmptyArgument() {
-        final var args = new String[] {};
-        final var result = commandInstance.parse(mockSender, args);
+        var args = new String[] {};
+        var result = commandInstance.parse(mockSender, args);
 
         assertNull(result);
         verify(mockLanguage, times(1))
@@ -138,40 +138,40 @@ class ReloadCommandTest extends CommandTestMocker<ReloadCommand> {
     @Test
     void testOnTabComplete_NoArgument() {
         // TODO: Add more modules when mocks implemented
-        final List<FeatherModule> enabledModules = List.of(ModuleMocks.ReloadModule());
+        final List<FeatherModule> enabledModules = List.of(Modules.RELOAD.Mock());
         when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
 
-        final var args = new String[] {};
-        final var completions = commandInstance.onTabComplete(args);
+        var args = new String[] {};
+        var completions = commandInstance.onTabComplete(args);
 
         assertEquals(2, completions.size());
         assertEquals("all", completions.get(0), "1st completion should be 'all'");
-        assertEquals(ModuleMocks.RELOAD_MODULE_NAME, completions.get(1),
-                "2nd completion should be '" + ModuleMocks.RELOAD_MODULE_NAME + "'");
+        assertEquals(Modules.RELOAD.name(), completions.get(1),
+                "2nd completion should be '" + Modules.RELOAD.name() + "'");
     }
 
     @Test
     void testOnTabComplete_SingleArgument() {
         // TODO: Add more modules when mocks implemented
-        final List<FeatherModule> enabledModules = List.of(ModuleMocks.ReloadModule());
+        final List<FeatherModule> enabledModules = List.of(Modules.RELOAD.Mock());
         when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
 
-        final var args = new String[] {"re"};
-        final var completions = commandInstance.onTabComplete(args);
+        var args = new String[] {"re"};
+        var completions = commandInstance.onTabComplete(args);
 
         assertEquals(1, completions.size());
-        assertEquals(ModuleMocks.RELOAD_MODULE_NAME, completions.get(0),
-                "1st completion should be '" + ModuleMocks.RELOAD_MODULE_NAME + "'");
+        assertEquals(Modules.RELOAD.name(), completions.get(0),
+                "1st completion should be '" + Modules.RELOAD.name() + "'");
     }
 
     @Test
     void testOnTabComplete_NoMatchingArgument() {
         // TODO: Add more modules when mocks implemented
-        final List<FeatherModule> enabledModules = List.of(ModuleMocks.ReloadModule());
+        final List<FeatherModule> enabledModules = List.of(Modules.RELOAD.Mock());
         when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
 
-        final var args = new String[] {"unknown"};
-        final var completions = commandInstance.onTabComplete(args);
+        var args = new String[] {"unknown"};
+        var completions = commandInstance.onTabComplete(args);
 
         assertTrue(completions.isEmpty());
     }

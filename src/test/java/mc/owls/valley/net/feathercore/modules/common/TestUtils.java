@@ -6,7 +6,7 @@
  *
  * @file TestUtils.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Testing utilities
  */
 package mc.owls.valley.net.feathercore.modules.common;
@@ -17,6 +17,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.SecureRandom;
+import java.util.List;
+import mc.owls.valley.net.feathercore.api.common.java.Pair;
+import mc.owls.valley.net.feathercore.api.common.util.StringUtils;
 
 public class TestUtils {
     public static Path getTestDataFolderPath() {
@@ -85,4 +88,15 @@ public class TestUtils {
 
         return randomString.toString() + "." + extension;
     }
+
+    public static String placeholderize(String message,
+            final Pair<String, Object> replacement) {
+        return StringUtils.replacePlaceholders(message, replacement).replace("&", "§");
+    }
+
+    public static String placeholderize(String message,
+            final List<Pair<String, Object>> replacements) {
+        return StringUtils.replacePlaceholders(message, replacements).replace("&", "§");
+    }
+
 }
