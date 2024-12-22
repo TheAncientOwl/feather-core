@@ -6,8 +6,8 @@
  *
  * @file LanguageChangeEventTest.java
  * @author Alexandru Delegeanu
- * @version 0.1
- * @test_unit LanguageChangeEvent#0.2
+ * @version 0.2
+ * @test_unit LanguageChangeEvent#0.3
  * @description Unit tests for LanguageChangeEvent
  */
 
@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
@@ -64,5 +65,42 @@ class LanguageChangeEventTest {
         assertNotNull(handlers, "HandlerList should not be null");
         assertSame(handlers, LanguageChangeEvent.getHandlerList(),
                 "getHandlers and getHandlerList should return the same instance");
+    }
+
+    @Test
+    @SuppressWarnings("unlikely-arg-type")
+    void testEquals() {
+        // Mock the Player object
+        Player mockPlayer1 = mock(Player.class);
+        Player mockPlayer2 = mock(Player.class);
+
+        IConfigFile mockConfigEn = mock(IConfigFile.class);
+        IConfigFile mockConfigDe = mock(IConfigFile.class);
+
+        when(mockPlayer1.getName()).thenReturn("Player1");
+        when(mockPlayer2.getName()).thenReturn("Player2");
+
+        LanguageChangeEvent event1 = new LanguageChangeEvent(mockPlayer1, "en", mockConfigEn);
+        LanguageChangeEvent event2 = new LanguageChangeEvent(mockPlayer1, "en", mockConfigEn);
+        LanguageChangeEvent event3 = new LanguageChangeEvent(mockPlayer2, "de", mockConfigDe);
+        LanguageChangeEvent event4 = new LanguageChangeEvent(mockPlayer1, "de", mockConfigDe);
+        LanguageChangeEvent event5 = new LanguageChangeEvent(mockPlayer1, "en", mockConfigDe);
+
+        assertFalse(event1.equals("SomeString"), "Other types should not be equal to event");
+        assertFalse(event1.equals(null), "Event should be different than null");
+        assertTrue(event1.equals(event1), "An event should be equal to itself");
+        assertTrue(event1.equals(event2),
+                "Events with the same player and language should be equal");
+        assertFalse(event1.equals(event3),
+                "Events with different players or languages should not be equal");
+
+        when(mockPlayer1.getName()).thenReturn("Player");
+        when(mockPlayer2.getName()).thenReturn("Player");
+
+        assertFalse(event1.equals(event4),
+                "Events with same player, different language should not be equal");
+
+        assertFalse(event1.equals(event5),
+                "Events with same player, same language, different translation should not be equal");
     }
 }

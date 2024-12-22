@@ -6,7 +6,7 @@
  *
  * @file ReloadCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @test_unit ReloadCommand#0.7
  * @description Unit tests for ReloadCommand
  */
@@ -85,8 +85,8 @@ class ReloadCommandTest extends CommandTestMocker<ReloadCommand> {
 
     @Test
     void testParse_ValidAllArgument() {
-        // TODO: Add more modules when mocks implemented
-        final List<FeatherModule> enabledModules = List.of(Modules.RELOAD.Mock());
+        final List<FeatherModule> enabledModules = List.of(Modules.RELOAD.Mock(),
+                Modules.LANGUAGE.Mock(), Modules.PLAYERS_DATA.Mock());
         when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
 
         var args = new String[] {Modules.RELOAD.name()};
@@ -99,16 +99,18 @@ class ReloadCommandTest extends CommandTestMocker<ReloadCommand> {
 
     @Test
     void testParse_ValidArgument() {
-        // TODO: Add more modules when mocks implemented
-        final List<FeatherModule> enabledModules = List.of(Modules.RELOAD.Mock());
+        final List<FeatherModule> enabledModules = List.of(Modules.RELOAD.Mock(),
+                Modules.LANGUAGE.Mock(), Modules.PLAYERS_DATA.Mock());
         when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
 
         var args = new String[] {"all"};
         var result = commandInstance.parse(mockSender, args);
 
         assertNotNull(result);
-        assertEquals(1, result.modules().size());
+        assertEquals(3, result.modules().size());
         assertEquals(enabledModules.get(0), result.modules().get(0));
+        assertEquals(enabledModules.get(1), result.modules().get(1));
+        assertEquals(enabledModules.get(2), result.modules().get(2));
     }
 
     @Test
@@ -137,23 +139,27 @@ class ReloadCommandTest extends CommandTestMocker<ReloadCommand> {
 
     @Test
     void testOnTabComplete_NoArgument() {
-        // TODO: Add more modules when mocks implemented
-        final List<FeatherModule> enabledModules = List.of(Modules.RELOAD.Mock());
+        final List<FeatherModule> enabledModules = List.of(Modules.RELOAD.Mock(),
+                Modules.LANGUAGE.Mock(), Modules.PLAYERS_DATA.Mock());
         when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
 
         var args = new String[] {};
         var completions = commandInstance.onTabComplete(args);
 
-        assertEquals(2, completions.size());
+        assertEquals(4, completions.size());
         assertEquals("all", completions.get(0), "1st completion should be 'all'");
         assertEquals(Modules.RELOAD.name(), completions.get(1),
                 "2nd completion should be '" + Modules.RELOAD.name() + "'");
+        assertEquals(Modules.LANGUAGE.name(), completions.get(2),
+                "3rd completion should be '" + Modules.LANGUAGE.name() + "'");
+        assertEquals(Modules.PLAYERS_DATA.name(), completions.get(3),
+                "4th completion should be '" + Modules.PLAYERS_DATA.name() + "'");
     }
 
     @Test
     void testOnTabComplete_SingleArgument() {
-        // TODO: Add more modules when mocks implemented
-        final List<FeatherModule> enabledModules = List.of(Modules.RELOAD.Mock());
+        final List<FeatherModule> enabledModules = List.of(Modules.RELOAD.Mock(),
+                Modules.LANGUAGE.Mock(), Modules.PLAYERS_DATA.Mock());
         when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
 
         var args = new String[] {"re"};
@@ -166,8 +172,8 @@ class ReloadCommandTest extends CommandTestMocker<ReloadCommand> {
 
     @Test
     void testOnTabComplete_NoMatchingArgument() {
-        // TODO: Add more modules when mocks implemented
-        final List<FeatherModule> enabledModules = List.of(Modules.RELOAD.Mock());
+        final List<FeatherModule> enabledModules = List.of(Modules.RELOAD.Mock(),
+                Modules.LANGUAGE.Mock(), Modules.PLAYERS_DATA.Mock());
         when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
 
         var args = new String[] {"unknown"};

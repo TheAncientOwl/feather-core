@@ -6,11 +6,13 @@
  *
  * @file LanguageChangeEvent.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Language change event data
  */
 
 package mc.owls.valley.net.feathercore.modules.language.events;
+
+import java.util.Objects;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -67,5 +69,18 @@ public class LanguageChangeEvent extends Event implements Cancellable {
 
     public static HandlerList getHandlerList() {
         return handlers;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+
+        LanguageChangeEvent that = (LanguageChangeEvent) obj;
+        return Objects.equals(player, that.player) &&
+                Objects.equals(language, that.language) &&
+                Objects.equals(translation, that.translation);
     }
 }
