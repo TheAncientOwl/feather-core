@@ -1,25 +1,26 @@
 #!/bin/bash
 
-# » env variables
 source $FEATHER_CORE_ROOT/project/scripts/env.sh
 
-# » helpers
 function header_print() {
     print "${DARK_GRAY}[${DARK_GREEN}Headers${DARK_GRAY}]${RESET} » ${LIGHT_GRAY}$1"
 }
 
-header_print "Begin"
+function feather_headers() {
+    feather_print "${DARK_AQUA}Setting up files header"
 
-# Loop through all .java files
-find . -type f -name "*.java" | while read -r file; do
-    # Check if the file already contains the header
-    if ! grep -q "/\\*\\*" "$file" && ! grep -q "// testfile" "$file"; then
-        # Get the filename without the path
-        filename=$(basename "$file")
+    header_print "Begin"
 
-        if [[ $filename == *"Test.java" ]]; then
-            # Define the test header
-            header="/**
+    # Loop through all .java files
+    find . -type f -name "*.java" | while read -r file; do
+        # Check if the file already contains the header
+        if ! grep -q "/\\*\\*" "$file" && ! grep -q "// testfile" "$file"; then
+            # Get the filename without the path
+            filename=$(basename "$file")
+
+            if [[ $filename == *"Test.java" ]]; then
+                # Define the test header
+                header="/**
  * ------------------------------------------------------------------------- *
  *                     Copyright (c) by FeatherCore 2024                     *
  * ------------------------------------------------------------------------- *
@@ -32,9 +33,9 @@ find . -type f -name "*.java" | while read -r file; do
  * @description Unit tests for ${filename:0:-9}
  */
  "
-        else
-            # Define the general header
-            header="/**
+            else
+                # Define the general header
+                header="/**
  * ------------------------------------------------------------------------- *
  *                     Copyright (c) by FeatherCore 2024                     *
  * ------------------------------------------------------------------------- *
@@ -45,14 +46,16 @@ find . -type f -name "*.java" | while read -r file; do
  * @version 0.1
  * @description TODO: add description
  */"
+            fi
+
+            header_print "Adding header to $file"
+            (
+                echo "$header"
+                cat "$file"
+            ) >temp_file && mv temp_file "$file"
         fi
+    done
 
-        header_print "Adding header to $file"
-        (
-            echo "$header"
-            cat "$file"
-        ) >temp_file && mv temp_file "$file"
-    fi
-done
+    header_print "Done"
 
-header_print "Done"
+}
