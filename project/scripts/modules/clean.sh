@@ -2,6 +2,10 @@
 
 source $FEATHER_CORE_ROOT/project/scripts/env.sh
 
+function feather_clean_help() {
+    print "${DARK_GRAY}» ${DARK_AQUA}--clean${DARK_GRAY}/${DARK_AQUA}-c${DARK_GRAY}: ${RESET}remove the plugin files from dev server location"
+}
+
 function remove_files() {
     feather_print "${DARK_AQUA}Removing FeatherCore files from ${1}"
     rm -rf ${1}/FeatherCore*

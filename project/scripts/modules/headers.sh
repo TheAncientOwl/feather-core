@@ -2,6 +2,10 @@
 
 source $FEATHER_CORE_ROOT/project/scripts/env.sh
 
+function feather_headers_help() {
+    print "${DARK_GRAY}» ${DARK_AQUA}--headers${DARK_GRAY}/${DARK_AQUA}-h${DARK_GRAY}: ${RESET}setup headers"
+}
+
 function header_print() {
     print "${DARK_GRAY}[${DARK_GREEN}Headers${DARK_GRAY}]${RESET} » ${LIGHT_GRAY}$1"
 }

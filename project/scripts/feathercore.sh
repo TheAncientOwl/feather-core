@@ -10,6 +10,7 @@ source $FEATHER_CORE_ROOT/project/scripts/modules/headers.sh
 source $FEATHER_CORE_ROOT/project/scripts/modules/configure.sh
 source $FEATHER_CORE_ROOT/project/scripts/modules/test.sh
 source $FEATHER_CORE_ROOT/project/scripts/modules/coverage.sh
+source $FEATHER_CORE_ROOT/project/scripts/modules/dev.sh
 
 # » variables
 PLUGINS_PATH="${FEATHER_CORE_ROOT}/dev/server/plugins"
@@ -18,14 +19,14 @@ PLUGINS_PATH="${FEATHER_CORE_ROOT}/dev/server/plugins"
 function print_feather_help() {
     feather_print "${DARK_GRAY}«${YELLOW} Help ${DARK_GRAY}»"
     print "${DARK_GRAY}» ${DARK_AQUA}--help${DARK_GRAY}: ${RESET}display this menu"
-    print "${DARK_GRAY}» ${DARK_AQUA}--clean${DARK_GRAY}/${DARK_AQUA}-c${DARK_GRAY}: ${RESET}remove the plugin files from dev server location"
-    print "${DARK_GRAY}» ${DARK_AQUA}--configure${DARK_GRAY}/${DARK_AQUA}-x${DARK_GRAY}: ${RESET}configure maven project"
-    print "${DARK_GRAY}» ${DARK_AQUA}--install${DARK_GRAY}/${DARK_AQUA}-i${DARK_GRAY}: ${RESET}install the plugin at dev server location"
-    print "${DARK_GRAY}» ${DARK_AQUA}--run${DARK_GRAY}/${DARK_AQUA}-r${DARK_GRAY}: ${RESET}run the dev server"
-    print "${DARK_GRAY}» ${DARK_AQUA}--dev${DARK_GRAY}/${DARK_AQUA}-d: ${RESET}clean install + server run"
-    print "${DARK_GRAY}» ${DARK_AQUA}--headers${DARK_GRAY}/${DARK_AQUA}-h${DARK_GRAY}: ${RESET}setup headers"
-    print "${DARK_GRAY}» ${DARK_AQUA}--test${DARK_GRAY}/${DARK_AQUA}-t${DARK_GRAY}: ${RESET}run unit tests"
-    print "${DARK_GRAY}» ${DARK_AQUA}--coverage${DARK_GRAY}/${DARK_AQUA}-k: ${RESET}run unit tests coverage"
+    feather_clean_help
+    feather_configure_help
+    feather_coverage_help
+    feather_dev_help
+    feather_headers_help
+    feather_install_help
+    feather_run_help
+    feather_test_help
 }
 
 # » help check
