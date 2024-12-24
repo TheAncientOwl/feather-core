@@ -30,6 +30,10 @@ public class TestUtils {
         return getTestDataFolderPath().toFile();
     }
 
+    public static TempFile makeTempFile(final String path, final String content) {
+        return makeTempFile(Paths.get(path), content);
+    }
+
     public static TempFile makeTempFile(final Path path) {
         final var filePath = getTestDataFolderPath().resolve(path);
 
@@ -48,7 +52,7 @@ public class TestUtils {
     }
 
     public static TempFile makeTempFile(final Path path, final String content) {
-        final var tempFile = makeTempFile(path);
+        final var tempFile = makeTempFile(getTestDataFolderPath().resolve(path));
         try {
             Files.write(tempFile.getPath(), content.getBytes());
         } catch (IOException e) {
