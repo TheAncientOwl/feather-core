@@ -3,7 +3,7 @@
 source $FEATHER_CORE_ROOT/project/scripts/env.sh
 
 function feather_install_help() {
-    print "${DARK_GRAY}» ${DARK_AQUA}--install${DARK_GRAY}/${DARK_AQUA}-i${DARK_GRAY}: ${RESET}install the plugin at dev server location"
+    print "${DARK_GRAY}» ${DARK_AQUA}--install${DARK_GRAY}   | ${DARK_AQUA}-i${DARK_GRAY}: ${RESET}install the plugin at dev server location"
 }
 
 function feather_install() {

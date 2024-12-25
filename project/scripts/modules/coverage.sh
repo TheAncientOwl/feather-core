@@ -3,7 +3,7 @@
 source $FEATHER_CORE_ROOT/project/scripts/env.sh
 
 function feather_coverage_help() {
-    print "${DARK_GRAY}» ${DARK_AQUA}--coverage${DARK_GRAY}/${DARK_AQUA}-k: ${RESET}run unit tests coverage"
+    print "${DARK_GRAY}» ${DARK_AQUA}--coverage${DARK_GRAY}  | ${DARK_AQUA}-k: ${RESET}run unit tests coverage"
 
 }
 

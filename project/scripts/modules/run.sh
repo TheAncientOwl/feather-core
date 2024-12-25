@@ -3,7 +3,7 @@
 source $FEATHER_CORE_ROOT/project/scripts/env.sh
 
 function feather_run_help() {
-    print "${DARK_GRAY}» ${DARK_AQUA}--run${DARK_GRAY}/${DARK_AQUA}-r${DARK_GRAY}: ${RESET}run the dev server"
+    print "${DARK_GRAY}» ${DARK_AQUA}--run${DARK_GRAY}       | ${DARK_AQUA}-r${DARK_GRAY}: ${RESET}run the dev server"
 }
 
 function feather_run() {

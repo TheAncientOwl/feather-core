@@ -3,7 +3,7 @@
 source $FEATHER_CORE_ROOT/project/scripts/env.sh
 
 function feather_test_help() {
-    print "${DARK_GRAY}» ${DARK_AQUA}--test${DARK_GRAY}/${DARK_AQUA}-t${DARK_GRAY}: ${RESET}run unit tests"
+    print "${DARK_GRAY}» ${DARK_AQUA}--test${DARK_GRAY}      | ${DARK_AQUA}-t${DARK_GRAY}: ${RESET}run unit tests"
 }
 
 function feather_test() {
