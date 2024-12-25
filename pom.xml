@@ -41,11 +41,6 @@
       <artifactId>morphia-core</artifactId>
       <version>2.3.7</version>
     </dependency>
-    <dependency>
-      <groupId>org.mongodb</groupId>
-      <artifactId>mongo-java-driver</artifactId>
-      <version>3.9.1</version>
-    </dependency>
     <!-- Vault -->
     <dependency>
       <groupId>com.github.MilkBowl</groupId>
