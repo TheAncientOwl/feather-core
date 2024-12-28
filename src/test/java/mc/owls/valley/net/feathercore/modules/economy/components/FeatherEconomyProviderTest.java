@@ -6,7 +6,7 @@
  *
  * @file FeatherEconomyProviderTest.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @test_unit FeatherEconomyProvider#0.8
  * @description Unit tests for FeatherEconomyProvider
  */
@@ -66,7 +66,6 @@ class FeatherEconomyProviderTest extends ModuleTestMocker<FeatherEconomyProvider
 
     @BeforeEach
     public void setUp() {
-        Mockito.lenient().when(mockJavaPlugin.getServer()).thenReturn(mockServer);
         Mockito.lenient().when(mockServer.getPluginManager()).thenReturn(mockPluginManager);
         Mockito.lenient().when(mockServer.getServicesManager()).thenReturn(mockServicesManager);
     }

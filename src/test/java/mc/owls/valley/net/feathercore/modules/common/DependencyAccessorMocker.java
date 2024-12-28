@@ -6,7 +6,7 @@
  *
  * @file DependencyAccessorMocker.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @description Utility class for developing unit tests that use modules
  */
 
@@ -15,6 +15,7 @@ package mc.owls.valley.net.feathercore.modules.common;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import org.bukkit.Server;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,6 +23,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import mc.owls.valley.net.feathercore.api.common.java.Pair;
 import mc.owls.valley.net.feathercore.api.core.IFeatherLogger;
 import mc.owls.valley.net.feathercore.core.interfaces.IEnabledModulesProvider;
@@ -31,7 +33,7 @@ import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 public abstract class DependencyAccessorMocker {
     protected Map<Class<?>, Object> dependenciesMap;
 
-    @Mock protected ILanguage mockLanguage;
+    protected ILanguage mockLanguage;
     @Mock protected JavaPlugin mockJavaPlugin;
     @Mock protected IFeatherLogger mockFeatherLogger;
     @Mock protected IEnabledModulesProvider mockEnabledModulesProvider;
@@ -39,6 +41,8 @@ public abstract class DependencyAccessorMocker {
 
     @BeforeEach
     void setUpDependencies() {
+        mockLanguage = Modules.LANGUAGE.Mock();
+
         dependenciesMap = new HashMap<>();
         dependenciesMap.put(ILanguage.class, mockLanguage);
         dependenciesMap.put(JavaPlugin.class, mockJavaPlugin);
@@ -52,6 +56,7 @@ public abstract class DependencyAccessorMocker {
             }
         }
 
+        Mockito.lenient().when(mockJavaPlugin.getName()).thenReturn("FeatherCore");
         Mockito.lenient().when(mockJavaPlugin.getServer()).thenReturn(mockServer);
         Mockito.lenient()
                 .when(mockJavaPlugin.getDataFolder()).thenReturn(TestUtils.getTestDataFolder());

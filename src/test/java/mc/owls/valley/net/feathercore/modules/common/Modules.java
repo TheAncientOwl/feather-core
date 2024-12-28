@@ -6,7 +6,7 @@
  *
  * @file Modules.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @description Create mocks / actual instances of all modules
  */
 
@@ -92,6 +92,9 @@ public final class Modules {
 
         public T Actual(JavaPlugin plugin, Map<Class<?>, Object> dependencies) {
             T moduleOut = null;
+
+            Mockito.lenient().when(plugin.getDataFolder())
+                    .thenReturn(TestUtils.getTestDataFolder());
 
             try {
                 moduleOut = (T) clazz.getConstructor(FeatherModule.InitData.class)

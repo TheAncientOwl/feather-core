@@ -6,7 +6,7 @@
  *
  * @file BukkitConfigFile.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @description Bukkit implementation of @see IConfigFile
  */
 
@@ -42,7 +42,7 @@ public class BukkitConfigFile implements IConfigFile {
         saveDefaultConfig();
 
         if (!this.configFile.exists()) {
-            throw new IOException("Language file does not exist");
+            throw new IOException("File '" + fileName + "' does not exist");
         }
 
         loadConfig();
