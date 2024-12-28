@@ -6,7 +6,7 @@
  *
  * @file BanknotePickupListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit BanknotePickupListener#0.5
  * @description Unit tests for BanknotePickupListener
  */
@@ -31,20 +31,22 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 
 import mc.owls.valley.net.feathercore.api.common.java.Pair;
 import mc.owls.valley.net.feathercore.api.common.minecraft.NamespacedKey;
 import mc.owls.valley.net.feathercore.modules.common.ListenerTestMocker;
 import mc.owls.valley.net.feathercore.modules.common.Modules;
 import mc.owls.valley.net.feathercore.modules.common.Resource;
+import mc.owls.valley.net.feathercore.modules.common.TempModule;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
 import mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomy;
+import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
 import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
 
 class BanknotePickupListenerTest extends ListenerTestMocker<BanknotePickupListener> {
@@ -68,6 +70,8 @@ class BanknotePickupListenerTest extends ListenerTestMocker<BanknotePickupListen
     IFeatherEconomy mockFeatherEconomy;
     IPlayersData mockPlayersData;
 
+    TempModule<LanguageManager> actualLanguage;
+
     @Override
     protected Class<BanknotePickupListener> getListenerClass() {
         return BanknotePickupListener.class;
@@ -83,17 +87,26 @@ class BanknotePickupListenerTest extends ListenerTestMocker<BanknotePickupListen
     }
 
     @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
+    void setUp() {
         Mockito.lenient().when(mockEvent.getEntity()).thenReturn(mockPlayer);
         Mockito.lenient().when(mockEvent.getEntityType()).thenReturn(EntityType.PLAYER);
         Mockito.lenient().when(mockEvent.getItem()).thenReturn(mockItem);
         Mockito.lenient().when(mockItem.getItemStack()).thenReturn(mockItemStack);
         Mockito.lenient().when(mockItemStack.getItemMeta()).thenReturn(mockItemMeta);
+
+        actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap,
+                injectAs(ILanguage.class), withResources(
+                        Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
+                        Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT)));
+    }
+
+    @AfterEach
+    void tearDown() {
+        actualLanguage.close();
     }
 
     @Test
-    public void testOnItemPickup_EventCancelled() {
+    void testOnItemPickup_EventCancelled() {
         when(mockEvent.isCancelled()).thenReturn(true);
 
         listenerInstance.onItemPickup(mockEvent);
@@ -102,7 +115,7 @@ class BanknotePickupListenerTest extends ListenerTestMocker<BanknotePickupListen
     }
 
     @Test
-    public void testOnItemPickup_NotPlayer() {
+    void testOnItemPickup_NotPlayer() {
         when(mockEvent.getEntityType()).thenReturn(EntityType.ZOMBIE);
 
         listenerInstance.onItemPickup(mockEvent);
@@ -111,7 +124,7 @@ class BanknotePickupListenerTest extends ListenerTestMocker<BanknotePickupListen
     }
 
     @Test
-    public void testOnItemPickup_MetaNull() {
+    void testOnItemPickup_MetaNull() {
         when(mockItemStack.getItemMeta()).thenReturn(null);
 
         listenerInstance.onItemPickup(mockEvent);
@@ -121,54 +134,37 @@ class BanknotePickupListenerTest extends ListenerTestMocker<BanknotePickupListen
 
     @Test
     void testOnItemPickup_NamespacedKeyNotPresent() {
-        try ( // @formatter:off
-            var actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap,
-                injectAs(ILanguage.class), withResources(
-                    Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
-                    Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT)
-            )))
-        { // @formatter:on
-            when(mockItemMeta.getPersistentDataContainer()).thenReturn(mockPersistentDataContainer);
-            when(mockPersistentDataContainer.has(any(org.bukkit.NamespacedKey.class)))
-                    .thenReturn(false);
+        when(mockItemMeta.getPersistentDataContainer()).thenReturn(mockPersistentDataContainer);
+        when(mockPersistentDataContainer.has(any(org.bukkit.NamespacedKey.class)))
+                .thenReturn(false);
 
-            var config = mockFeatherEconomy.getConfig();
-            when(config.getString("banknote.key")).thenReturn("banknote_key");
+        var config = mockFeatherEconomy.getConfig();
+        when(config.getString("banknote.key")).thenReturn("banknote_key");
 
-            listenerInstance.onItemPickup(mockEvent);
+        listenerInstance.onItemPickup(mockEvent);
 
-            verify(mockItemStack).getItemMeta();
-        }
+        verify(mockItemStack).getItemMeta();
     }
 
     @Test
-    public void testOnItemPickup_Success() {
-        try ( // @formatter:off
-            var actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap,
-                injectAs(ILanguage.class), withResources(
-                    Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
-                    Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT)
-            )))
-        { // @formatter:on
+    void testOnItemPickup_Success() {
+        var config = mockFeatherEconomy.getConfig();
+        when(config.getString("banknote.key")).thenReturn("banknote_key");
 
-            var config = mockFeatherEconomy.getConfig();
-            when(config.getString("banknote.key")).thenReturn("banknote_key");
+        when(mockItemMeta.getPersistentDataContainer()).thenReturn(mockPersistentDataContainer);
+        when(mockPersistentDataContainer.has(any(org.bukkit.NamespacedKey.class)))
+                .thenReturn(true);
 
-            when(mockItemMeta.getPersistentDataContainer()).thenReturn(mockPersistentDataContainer);
-            when(mockPersistentDataContainer.has(any(org.bukkit.NamespacedKey.class)))
-                    .thenReturn(true);
+        when(mockPersistentDataContainer.get(any(), eq(PersistentDataType.DOUBLE)))
+                .thenReturn(100.0);
 
-            when(mockPersistentDataContainer.get(any(), eq(PersistentDataType.DOUBLE)))
-                    .thenReturn(100.0);
+        PlayerModel playerModel = new PlayerModel();
+        playerModel.language = "en";
+        when(mockPlayersData.getPlayerModel(mockPlayer)).thenReturn(playerModel);
 
-            PlayerModel playerModel = new PlayerModel();
-            playerModel.language = "en";
-            when(mockPlayersData.getPlayerModel(mockPlayer)).thenReturn(playerModel);
+        listenerInstance.onItemPickup(mockEvent);
 
-            listenerInstance.onItemPickup(mockEvent);
-
-            verify(mockItemStack).getItemMeta();
-            verify(mockItemStack).setItemMeta(any());
-        }
+        verify(mockItemStack).getItemMeta();
+        verify(mockItemStack).setItemMeta(any());
     }
 }

@@ -6,7 +6,7 @@
  *
  * @file LanguageCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @test_unit LanguageCommand#0.9
  * @description Unit tests for LanguageCommand
  */
@@ -38,6 +38,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -56,11 +57,13 @@ import mc.owls.valley.net.feathercore.api.configuration.IConfigSection;
 import mc.owls.valley.net.feathercore.modules.common.CommandTestMocker;
 import mc.owls.valley.net.feathercore.modules.common.Modules;
 import mc.owls.valley.net.feathercore.modules.common.Resource;
+import mc.owls.valley.net.feathercore.modules.common.TempModule;
 import mc.owls.valley.net.feathercore.modules.common.TestUtils;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import mc.owls.valley.net.feathercore.modules.data.players.components.PlayersData;
 import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
 import mc.owls.valley.net.feathercore.modules.language.commands.LanguageCommand.CommandType;
+import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
 import mc.owls.valley.net.feathercore.modules.language.components.LanguageManagerTest;
 import mc.owls.valley.net.feathercore.modules.language.events.LanguageChangeEvent;
 import mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage;
@@ -93,6 +96,8 @@ class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
 
     @Mock IConfigFile mockLanguageConfig;
     @Mock IConfigSection mockLanguagesConfigSection;
+
+    TempModule<LanguageManager> actualLanguage;
 
     @Override
     protected Class<LanguageCommand> getCommandClass() {
@@ -128,6 +133,17 @@ class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
                 .thenReturn(mockLanguagesConfigSection);
 
         messageCaptor = ArgumentCaptor.forClass(String.class);
+
+        actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap,
+                injectAs(ILanguage.class), withResources(
+                        Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
+                        Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT),
+                        Resource.of("de.yml", DE_LANGUAGE_FILE_CONTENT)));
+    }
+
+    @AfterEach
+    void tearDown() {
+        actualLanguage.close();
     }
 
     @Test
@@ -165,142 +181,106 @@ class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
 
     @Test
     void execute_INFO() {
-        try ( // @formatter:off
-            var actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap,
-                injectAs(ILanguage.class), withResources(
-                    Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
-                    Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT)
-            )))
-        { // @formatter:on
+        var commandData = new LanguageCommand.CommandData(
+                LanguageCommand.CommandType.INFO, null);
 
-            var commandData = new LanguageCommand.CommandData(
-                    LanguageCommand.CommandType.INFO, null);
+        assertDoesNotThrow(() -> {
+            commandInstance.execute(mockPlayer, commandData);
+        });
 
-            assertDoesNotThrow(() -> {
-                commandInstance.execute(mockPlayer, commandData);
-            });
+        playerModel.language = LanguageManagerTest.FR.shortName();
 
-            playerModel.language = LanguageManagerTest.FR.shortName();
+        assertDoesNotThrow(() -> {
+            commandInstance.execute(mockPlayer, commandData);
+        });
 
-            assertDoesNotThrow(() -> {
-                commandInstance.execute(mockPlayer, commandData);
-            });
+        verify(mockPlayer, times(2)).sendMessage(messageCaptor.capture());
 
-            verify(mockPlayer, times(2)).sendMessage(messageCaptor.capture());
+        assertEquals(2, messageCaptor.getAllValues().size());
 
-            assertEquals(2, messageCaptor.getAllValues().size());
-
-            var rawMessage =
-                    actualLanguage.module().getTranslation("en").getString(Message.Language.INFO);
-            assertEquals(
-                    TestUtils.placeholderize(rawMessage, Pair.of(Placeholder.LANGUAGE, "English")),
-                    messageCaptor.getAllValues().get(0));
-            assertEquals(
-                    TestUtils.placeholderize(rawMessage, Pair.of(Placeholder.LANGUAGE, "")),
-                    messageCaptor.getAllValues().get(1));
-        }
+        var rawMessage =
+                actualLanguage.module().getTranslation("en").getString(Message.Language.INFO);
+        assertEquals(
+                TestUtils.placeholderize(rawMessage, Pair.of(Placeholder.LANGUAGE, "English")),
+                messageCaptor.getAllValues().get(0));
+        assertEquals(
+                TestUtils.placeholderize(rawMessage, Pair.of(Placeholder.LANGUAGE, "")),
+                messageCaptor.getAllValues().get(1));
     }
 
     @Test
     void execute_LIST() {
-        try ( // @formatter:off
-            var actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap,
-                injectAs(ILanguage.class), withResources(
-                    Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
-                    Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT)
-            )))
-        { // @formatter:on
 
-            var commandData = new LanguageCommand.CommandData(
-                    LanguageCommand.CommandType.LIST, null);
+        var commandData = new LanguageCommand.CommandData(
+                LanguageCommand.CommandType.LIST, null);
 
-            assertDoesNotThrow(() -> {
-                commandInstance.execute(mockPlayer, commandData);
-            });
+        assertDoesNotThrow(() -> {
+            commandInstance.execute(mockPlayer, commandData);
+        });
 
-            playerModel.language = LanguageManagerTest.FR.shortName();
+        playerModel.language = LanguageManagerTest.FR.shortName();
 
-            assertDoesNotThrow(() -> {
-                commandInstance.execute(mockPlayer, commandData);
-            });
+        assertDoesNotThrow(() -> {
+            commandInstance.execute(mockPlayer, commandData);
+        });
 
-            verify(mockPlayer, times(2)).sendMessage(messageCaptor.capture());
+        verify(mockPlayer, times(2)).sendMessage(messageCaptor.capture());
 
-            assertEquals(2, messageCaptor.getAllValues().size());
+        assertEquals(2, messageCaptor.getAllValues().size());
 
-            var rawMessage =
-                    actualLanguage.module().getTranslation("en").getString(Message.Language.LIST);
-            assertEquals(
-                    TestUtils.placeholderize(rawMessage,
-                            Pair.of(Placeholder.LANGUAGE, "\n   en: English\n   de: Deutsch")),
-                    messageCaptor.getAllValues().get(0));
-            assertEquals(
-                    TestUtils.placeholderize(rawMessage,
-                            Pair.of(Placeholder.LANGUAGE, "\n   en: English\n   de: Deutsch")),
-                    messageCaptor.getAllValues().get(1));
-        }
+        var rawMessage =
+                actualLanguage.module().getTranslation("en").getString(Message.Language.LIST);
+        assertEquals(
+                TestUtils.placeholderize(rawMessage,
+                        Pair.of(Placeholder.LANGUAGE, "\n   en: English\n   de: Deutsch")),
+                messageCaptor.getAllValues().get(0));
+        assertEquals(
+                TestUtils.placeholderize(rawMessage,
+                        Pair.of(Placeholder.LANGUAGE, "\n   en: English\n   de: Deutsch")),
+                messageCaptor.getAllValues().get(1));
     }
 
     @Test
     void execute_CHANGE() {
-        try ( // @formatter:off
-            var actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap,
-                injectAs(ILanguage.class), withResources(
-                    Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
-                    Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT),
-                    Resource.of("de.yml", DE_LANGUAGE_FILE_CONTENT)
-            )))
-        { // @formatter:on
-            PluginManager mockPluginManager = mock(PluginManager.class);
-            when(mockServer.getPluginManager()).thenReturn(mockPluginManager);
+        PluginManager mockPluginManager = mock(PluginManager.class);
+        when(mockServer.getPluginManager()).thenReturn(mockPluginManager);
 
-            var commandData = new LanguageCommand.CommandData(
-                    LanguageCommand.CommandType.CHANGE, "de");
+        var commandData = new LanguageCommand.CommandData(
+                LanguageCommand.CommandType.CHANGE, "de");
 
-            assertEquals("en", playerModel.language);
+        assertEquals("en", playerModel.language);
 
-            assertDoesNotThrow(() -> {
-                commandInstance.execute(mockPlayer, commandData);
-            });
+        assertDoesNotThrow(() -> {
+            commandInstance.execute(mockPlayer, commandData);
+        });
 
-            assertEquals("de", playerModel.language, "Player language was not changed");
+        assertEquals("de", playerModel.language, "Player language was not changed");
 
-            verify(mockPlayer).sendMessage(messageCaptor.capture());
-            verify(mockPlayersData).markPlayerModelForSave(playerModel);
-            verify(mockPluginManager).callEvent(new LanguageChangeEvent(mockPlayer, "de",
-                    actualLanguage.module().getTranslation("de")));
+        verify(mockPlayer).sendMessage(messageCaptor.capture());
+        verify(mockPlayersData).markPlayerModelForSave(playerModel);
+        verify(mockPluginManager).callEvent(new LanguageChangeEvent(mockPlayer, "de",
+                actualLanguage.module().getTranslation("de")));
 
-            assertEquals(1, messageCaptor.getAllValues().size());
+        assertEquals(1, messageCaptor.getAllValues().size());
 
-            var rawMessage =
-                    actualLanguage.module().getTranslation("de")
-                            .getString(Message.Language.CHANGE_SUCCESS);
-            assertEquals(TestUtils.placeholderize(rawMessage, Pair.of("", "")),
-                    messageCaptor.getValue());
-        }
+        var rawMessage =
+                actualLanguage.module().getTranslation("de")
+                        .getString(Message.Language.CHANGE_SUCCESS);
+        assertEquals(TestUtils.placeholderize(rawMessage, Pair.of("", "")),
+                messageCaptor.getValue());
     }
 
     @Test
     void execute_NULL() {
-        try ( // @formatter:off
-            var actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap,
-                injectAs(ILanguage.class), withResources(
-                    Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
-                    Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT),
-                    Resource.of("de.yml", DE_LANGUAGE_FILE_CONTENT)
-            )))
-        { // @formatter:on
+        var commandData = new LanguageCommand.CommandData(null, "de");
 
-            var commandData = new LanguageCommand.CommandData(null, "de");
+        assertEquals("en", playerModel.language);
 
-            assertEquals("en", playerModel.language);
+        assertThrows(NullPointerException.class, () -> {
+            commandInstance.execute(mockPlayer, commandData);
+        });
 
-            assertThrows(NullPointerException.class, () -> {
-                commandInstance.execute(mockPlayer, commandData);
-            });
-
-            assertEquals("en", playerModel.language, "Player language should not be changed");
-        }
+        assertEquals("en", playerModel.language, "Player language should not be changed");
     }
 
     @ParameterizedTest
@@ -337,68 +317,39 @@ class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
     void parse_CHANGE_EXIST(String arg) {
         var args = new String[] {arg};
 
-        try ( // @formatter:off
-            var actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap,
-                injectAs(ILanguage.class), withResources(
-                    Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
-                    Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT),
-                    Resource.of("de.yml", DE_LANGUAGE_FILE_CONTENT)
-            )))
-        { // @formatter:on
+        assertDoesNotThrow(() -> {
+            var commandData = commandInstance.parse(mockSender, args);
 
-            assertDoesNotThrow(() -> {
-                var commandData = commandInstance.parse(mockSender, args);
-
-                assertNotNull(commandData, "Command data should be parsed successfully");
-                assertEquals(CommandType.CHANGE, commandData.commandType(),
-                        "Command type should be change");
-                assertNotNull(commandData.language());
-                assertEquals(arg, commandData.language());
-            });
-        }
+            assertNotNull(commandData, "Command data should be parsed successfully");
+            assertEquals(CommandType.CHANGE, commandData.commandType(),
+                    "Command type should be change");
+            assertNotNull(commandData.language());
+            assertEquals(arg, commandData.language());
+        });
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"fr", "ro"})
     void parse_CHANGE_NOT_EXIST(String arg) {
         var args = new String[] {arg};
-        try ( // @formatter:off
-            var actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap,
-                injectAs(ILanguage.class), withResources(
-                    Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
-                    Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT),
-                    Resource.of("de.yml", DE_LANGUAGE_FILE_CONTENT)
-            )))
-        { // @formatter:on
 
-            assertDoesNotThrow(() -> {
-                var commandData = commandInstance.parse(mockSender, args);
+        assertDoesNotThrow(() -> {
+            var commandData = commandInstance.parse(mockSender, args);
 
-                assertNull(commandData, "Command data should be null");
-                verify(mockSender).sendMessage(anyString());
-            });
-        }
+            assertNull(commandData, "Command data should be null");
+            verify(mockSender).sendMessage(anyString());
+        });
     }
 
     @ParameterizedTest
     @MethodSource("getInvalidArguments")
     void parse_InvalidArguments(String[] args) {
-        try ( // @formatter:off
-            var actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap,
-                injectAs(ILanguage.class), withResources(
-                    Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
-                    Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT),
-                    Resource.of("de.yml", DE_LANGUAGE_FILE_CONTENT)
-            )))
-        { // @formatter:on
+        assertDoesNotThrow(() -> {
+            var commandData = commandInstance.parse(mockSender, args);
 
-            assertDoesNotThrow(() -> {
-                var commandData = commandInstance.parse(mockSender, args);
-
-                assertNull(commandData, "Command data should be null");
-                verify(mockSender).sendMessage(anyString());
-            });
-        }
+            assertNull(commandData, "Command data should be null");
+            verify(mockSender).sendMessage(anyString());
+        });
     }
 
     static Stream<Arguments> getInvalidArguments() {
@@ -414,22 +365,12 @@ class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
     @ParameterizedTest
     @MethodSource("getTabCompletions")
     void onTabComplete(String[] args, String[] expectedCompletions) {
-        try ( // @formatter:off
-            var actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap,
-                injectAs(ILanguage.class), withResources(
-                    Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
-                    Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT),
-                    Resource.of("de.yml", DE_LANGUAGE_FILE_CONTENT)
-            )))
-        { // @formatter:on
+        assertDoesNotThrow(() -> {
+            var completions = commandInstance.onTabComplete(args);
 
-            assertDoesNotThrow(() -> {
-                var completions = commandInstance.onTabComplete(args);
-
-                assertNotNull(completions, "Completions should not be null");
-                assertArrayEquals(expectedCompletions, completions.toArray());
-            });
-        }
+            assertNotNull(completions, "Completions should not be null");
+            assertArrayEquals(expectedCompletions, completions.toArray());
+        });
     }
 
     static Stream<Arguments> getTabCompletions() {
