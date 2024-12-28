@@ -6,20 +6,26 @@
  *
  * @file Modules.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @description Create mocks / actual instances of all modules
  */
 
 package mc.owls.valley.net.feathercore.modules.common;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
+
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
+
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mockito.Mockito;
+
 import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.core.configuration.bukkit.BukkitConfigFile;
@@ -29,6 +35,14 @@ import mc.owls.valley.net.feathercore.modules.language.components.LanguageManage
 import mc.owls.valley.net.feathercore.modules.reload.components.ReloadModule;
 
 public final class Modules {
+    public static final <T> Class<T> injectAs(Class<T> clazz) {
+        return clazz;
+    }
+
+    public static final List<Resource> withResources(Resource... resources) {
+        return List.of(resources);
+    }
+
     public static final ModuleConfig<LanguageManager> LANGUAGE =
             new ModuleConfig<LanguageManager>(
                     LanguageManager.class,
@@ -55,10 +69,6 @@ public final class Modules {
 
     public static final record ModuleConfig<T extends FeatherModule>(Class<T> clazz, String name,
             String relativeFolder) {
-        public Path absoluteConfig() {
-            return absoluteResource("config.yml");
-        }
-
         public Path relativeConfig() {
             return relativeResource("config.yml");
         }
@@ -70,10 +80,6 @@ public final class Modules {
         public Path absoluteResource(Object resource) {
             return TestUtils.getTestDataFolderPath()
                     .resolve(Paths.get(relativeFolder, resource.toString()));
-        }
-
-        public TempFile makeTempConfig(String content) {
-            return TestUtils.makeTempFile(absoluteConfig(), content);
         }
 
         public TempFile makeTempResource(Object relativePath, String content) {
@@ -90,11 +96,18 @@ public final class Modules {
             return mockModule;
         }
 
-        public T Actual(JavaPlugin plugin, Map<Class<?>, Object> dependencies) {
+        public TempModule<T> Actual(JavaPlugin plugin, Map<Class<?>, Object> dependencies,
+                Class<?> injectAs, List<Resource> resources) {
             T moduleOut = null;
 
             Mockito.lenient().when(plugin.getDataFolder())
                     .thenReturn(TestUtils.getTestDataFolder());
+
+            final var resourcesTempFiles = new ArrayList<TempFile>();
+
+            for (final var resource : resources) {
+                resourcesTempFiles.add(makeTempResource(resource.path(), resource.content()));
+            }
 
             try {
                 moduleOut = (T) clazz.getConstructor(FeatherModule.InitData.class)
@@ -110,13 +123,20 @@ public final class Modules {
                                         return null;
                                     }
                                 }, dependencies));
-
             } catch (Exception e) {
                 e.printStackTrace();
                 System.exit(1);
             }
 
-            return moduleOut;
+            TempModule<T> tempModule = new TempModule<T>(moduleOut, resourcesTempFiles);
+
+            assertNotNull(tempModule.module().getConfig(),
+                    "Failed to load config file for " + name + " module, '" + relativeConfig()
+                            + "'");
+
+            dependencies.put(injectAs, tempModule.module());
+
+            return tempModule;
         }
     }
 

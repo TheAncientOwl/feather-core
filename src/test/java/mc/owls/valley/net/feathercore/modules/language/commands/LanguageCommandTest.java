@@ -6,13 +6,15 @@
  *
  * @file LanguageCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit LanguageCommand#0.9
  * @description Unit tests for LanguageCommand
  */
 
 package mc.owls.valley.net.feathercore.modules.language.commands;
 
+import static mc.owls.valley.net.feathercore.modules.common.Modules.injectAs;
+import static mc.owls.valley.net.feathercore.modules.common.Modules.withResources;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -53,6 +55,7 @@ import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.configuration.IConfigSection;
 import mc.owls.valley.net.feathercore.modules.common.CommandTestMocker;
 import mc.owls.valley.net.feathercore.modules.common.Modules;
+import mc.owls.valley.net.feathercore.modules.common.Resource;
 import mc.owls.valley.net.feathercore.modules.common.TestUtils;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import mc.owls.valley.net.feathercore.modules.data.players.components.PlayersData;
@@ -163,13 +166,12 @@ class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
     @Test
     void execute_INFO() {
         try ( // @formatter:off
-            var languageConfigFile = Modules.LANGUAGE.makeTempConfig(LANGUAGE_CONFIG_CONTENT);
-            var enTranslationFile  = Modules.LANGUAGE.makeTempResource("en.yml", EN_LANGUAGE_FILE_CONTENT)
-        ) { // @formatter:on
-            var actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap);
-            dependenciesMap.put(ILanguage.class, actualLanguage);
-
-            assertNotNull(actualLanguage.getConfig(), "Failed to load config file");
+            var actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap,
+                injectAs(ILanguage.class), withResources(
+                    Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
+                    Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT)
+            )))
+        { // @formatter:on
 
             var commandData = new LanguageCommand.CommandData(
                     LanguageCommand.CommandType.INFO, null);
@@ -188,7 +190,8 @@ class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
 
             assertEquals(2, messageCaptor.getAllValues().size());
 
-            var rawMessage = actualLanguage.getTranslation("en").getString(Message.Language.INFO);
+            var rawMessage =
+                    actualLanguage.module().getTranslation("en").getString(Message.Language.INFO);
             assertEquals(
                     TestUtils.placeholderize(rawMessage, Pair.of(Placeholder.LANGUAGE, "English")),
                     messageCaptor.getAllValues().get(0));
@@ -201,13 +204,12 @@ class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
     @Test
     void execute_LIST() {
         try ( // @formatter:off
-            var languageConfigFile = Modules.LANGUAGE.makeTempConfig(LANGUAGE_CONFIG_CONTENT);
-            var enTranslationFile  = Modules.LANGUAGE.makeTempResource("en.yml", EN_LANGUAGE_FILE_CONTENT)
-        ) { // @formatter:on
-            var actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap);
-            dependenciesMap.put(ILanguage.class, actualLanguage);
-
-            assertNotNull(actualLanguage.getConfig(), "Failed to load config file");
+            var actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap,
+                injectAs(ILanguage.class), withResources(
+                    Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
+                    Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT)
+            )))
+        { // @formatter:on
 
             var commandData = new LanguageCommand.CommandData(
                     LanguageCommand.CommandType.LIST, null);
@@ -226,7 +228,8 @@ class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
 
             assertEquals(2, messageCaptor.getAllValues().size());
 
-            var rawMessage = actualLanguage.getTranslation("en").getString(Message.Language.LIST);
+            var rawMessage =
+                    actualLanguage.module().getTranslation("en").getString(Message.Language.LIST);
             assertEquals(
                     TestUtils.placeholderize(rawMessage,
                             Pair.of(Placeholder.LANGUAGE, "\n   en: English\n   de: Deutsch")),
@@ -241,17 +244,15 @@ class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
     @Test
     void execute_CHANGE() {
         try ( // @formatter:off
-            var languageConfigFile = Modules.LANGUAGE.makeTempConfig(LANGUAGE_CONFIG_CONTENT);
-            var enTranslationFile  = Modules.LANGUAGE.makeTempResource("en.yml", EN_LANGUAGE_FILE_CONTENT);
-            var deTranslationFile  = Modules.LANGUAGE.makeTempResource("de.yml", DE_LANGUAGE_FILE_CONTENT)
-        ) { // @formatter:on
+            var actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap,
+                injectAs(ILanguage.class), withResources(
+                    Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
+                    Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT),
+                    Resource.of("de.yml", DE_LANGUAGE_FILE_CONTENT)
+            )))
+        { // @formatter:on
             PluginManager mockPluginManager = mock(PluginManager.class);
             when(mockServer.getPluginManager()).thenReturn(mockPluginManager);
-
-            var actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap);
-            dependenciesMap.put(ILanguage.class, actualLanguage);
-
-            assertNotNull(actualLanguage.getConfig(), "Failed to load config file");
 
             var commandData = new LanguageCommand.CommandData(
                     LanguageCommand.CommandType.CHANGE, "de");
@@ -267,12 +268,13 @@ class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
             verify(mockPlayer).sendMessage(messageCaptor.capture());
             verify(mockPlayersData).markPlayerModelForSave(playerModel);
             verify(mockPluginManager).callEvent(new LanguageChangeEvent(mockPlayer, "de",
-                    actualLanguage.getTranslation("de")));
+                    actualLanguage.module().getTranslation("de")));
 
             assertEquals(1, messageCaptor.getAllValues().size());
 
             var rawMessage =
-                    actualLanguage.getTranslation("de").getString(Message.Language.CHANGE_SUCCESS);
+                    actualLanguage.module().getTranslation("de")
+                            .getString(Message.Language.CHANGE_SUCCESS);
             assertEquals(TestUtils.placeholderize(rawMessage, Pair.of("", "")),
                     messageCaptor.getValue());
         }
@@ -281,14 +283,13 @@ class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
     @Test
     void execute_NULL() {
         try ( // @formatter:off
-            var languageConfigFile = Modules.LANGUAGE.makeTempConfig(LANGUAGE_CONFIG_CONTENT);
-            var enTranslationFile  = Modules.LANGUAGE.makeTempResource("en.yml", EN_LANGUAGE_FILE_CONTENT);
-            var deTranslationFile  = Modules.LANGUAGE.makeTempResource("de.yml", DE_LANGUAGE_FILE_CONTENT)
-        ) { // @formatter:on
-            var actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap);
-            dependenciesMap.put(ILanguage.class, actualLanguage);
-
-            assertNotNull(actualLanguage.getConfig(), "Failed to load config file");
+            var actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap,
+                injectAs(ILanguage.class), withResources(
+                    Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
+                    Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT),
+                    Resource.of("de.yml", DE_LANGUAGE_FILE_CONTENT)
+            )))
+        { // @formatter:on
 
             var commandData = new LanguageCommand.CommandData(null, "de");
 
@@ -337,14 +338,13 @@ class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
         var args = new String[] {arg};
 
         try ( // @formatter:off
-            var languageConfigFile = Modules.LANGUAGE.makeTempConfig(LANGUAGE_CONFIG_CONTENT);
-            var enTranslationFile  = Modules.LANGUAGE.makeTempResource("en.yml", EN_LANGUAGE_FILE_CONTENT);
-            var deTranslationFile  = Modules.LANGUAGE.makeTempResource("de.yml", DE_LANGUAGE_FILE_CONTENT)
-        ) { // @formatter:on
-            var actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap);
-            dependenciesMap.put(ILanguage.class, actualLanguage);
-
-            assertNotNull(actualLanguage.getConfig(), "Failed to load config file");
+            var actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap,
+                injectAs(ILanguage.class), withResources(
+                    Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
+                    Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT),
+                    Resource.of("de.yml", DE_LANGUAGE_FILE_CONTENT)
+            )))
+        { // @formatter:on
 
             assertDoesNotThrow(() -> {
                 var commandData = commandInstance.parse(mockSender, args);
@@ -363,14 +363,13 @@ class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
     void parse_CHANGE_NOT_EXIST(String arg) {
         var args = new String[] {arg};
         try ( // @formatter:off
-            var languageConfigFile = Modules.LANGUAGE.makeTempConfig(LANGUAGE_CONFIG_CONTENT);
-            var enTranslationFile  = Modules.LANGUAGE.makeTempResource("en.yml", EN_LANGUAGE_FILE_CONTENT);
-            var deTranslationFile  = Modules.LANGUAGE.makeTempResource("de.yml", DE_LANGUAGE_FILE_CONTENT)
-        ) { // @formatter:on
-            var actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap);
-            dependenciesMap.put(ILanguage.class, actualLanguage);
-
-            assertNotNull(actualLanguage.getConfig(), "Failed to load config file");
+            var actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap,
+                injectAs(ILanguage.class), withResources(
+                    Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
+                    Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT),
+                    Resource.of("de.yml", DE_LANGUAGE_FILE_CONTENT)
+            )))
+        { // @formatter:on
 
             assertDoesNotThrow(() -> {
                 var commandData = commandInstance.parse(mockSender, args);
@@ -385,14 +384,13 @@ class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
     @MethodSource("getInvalidArguments")
     void parse_InvalidArguments(String[] args) {
         try ( // @formatter:off
-            var languageConfigFile = Modules.LANGUAGE.makeTempConfig(LANGUAGE_CONFIG_CONTENT);
-            var enTranslationFile  = Modules.LANGUAGE.makeTempResource("en.yml", EN_LANGUAGE_FILE_CONTENT);
-            var deTranslationFile  = Modules.LANGUAGE.makeTempResource("de.yml", DE_LANGUAGE_FILE_CONTENT)
-        ) { // @formatter:on
-            var actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap);
-            dependenciesMap.put(ILanguage.class, actualLanguage);
-
-            assertNotNull(actualLanguage.getConfig(), "Failed to load config file");
+            var actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap,
+                injectAs(ILanguage.class), withResources(
+                    Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
+                    Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT),
+                    Resource.of("de.yml", DE_LANGUAGE_FILE_CONTENT)
+            )))
+        { // @formatter:on
 
             assertDoesNotThrow(() -> {
                 var commandData = commandInstance.parse(mockSender, args);
@@ -417,14 +415,13 @@ class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
     @MethodSource("getTabCompletions")
     void onTabComplete(String[] args, String[] expectedCompletions) {
         try ( // @formatter:off
-            var languageConfigFile = Modules.LANGUAGE.makeTempConfig(LANGUAGE_CONFIG_CONTENT);
-            var enTranslationFile  = Modules.LANGUAGE.makeTempResource("en.yml", EN_LANGUAGE_FILE_CONTENT);
-            var deTranslationFile  = Modules.LANGUAGE.makeTempResource("de.yml", DE_LANGUAGE_FILE_CONTENT)
-        ) { // @formatter:on
-            var actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap);
-            dependenciesMap.put(ILanguage.class, actualLanguage);
-
-            assertNotNull(actualLanguage.getConfig(), "Failed to load config file");
+            var actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap,
+                injectAs(ILanguage.class), withResources(
+                    Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
+                    Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT),
+                    Resource.of("de.yml", DE_LANGUAGE_FILE_CONTENT)
+            )))
+        { // @formatter:on
 
             assertDoesNotThrow(() -> {
                 var completions = commandInstance.onTabComplete(args);

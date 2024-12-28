@@ -6,14 +6,15 @@
  *
  * @file BanknotePickupListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @test_unit BanknotePickupListener#0.5
  * @description Unit tests for BanknotePickupListener
  */
 
 package mc.owls.valley.net.feathercore.modules.economy.listeners;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static mc.owls.valley.net.feathercore.modules.common.Modules.injectAs;
+import static mc.owls.valley.net.feathercore.modules.common.Modules.withResources;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.never;
@@ -40,7 +41,7 @@ import mc.owls.valley.net.feathercore.api.common.java.Pair;
 import mc.owls.valley.net.feathercore.api.common.minecraft.NamespacedKey;
 import mc.owls.valley.net.feathercore.modules.common.ListenerTestMocker;
 import mc.owls.valley.net.feathercore.modules.common.Modules;
-import mc.owls.valley.net.feathercore.modules.common.TestUtils;
+import mc.owls.valley.net.feathercore.modules.common.Resource;
 import mc.owls.valley.net.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData;
 import mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomy;
@@ -121,13 +122,15 @@ class BanknotePickupListenerTest extends ListenerTestMocker<BanknotePickupListen
     @Test
     void testOnItemPickup_NamespacedKeyNotPresent() {
         try ( // @formatter:off
-            var languageConfigFile = Modules.LANGUAGE.makeTempConfig(LANGUAGE_CONFIG_CONTENT);
-            var enTranslationFile  = Modules.LANGUAGE.makeTempResource("en.yml", EN_LANGUAGE_FILE_CONTENT)
-        ) { // @formatter:on
-            var actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap);
-            dependenciesMap.put(ILanguage.class, actualLanguage);
-
-            assertNotNull(actualLanguage.getConfig(), "Failed to load config file");
+            var actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap,
+                injectAs(ILanguage.class), withResources(
+                    Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
+                    Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT)
+            )))
+        { // @formatter:on
+            when(mockItemMeta.getPersistentDataContainer()).thenReturn(mockPersistentDataContainer);
+            when(mockPersistentDataContainer.has(any(org.bukkit.NamespacedKey.class)))
+                    .thenReturn(false);
 
             var config = mockFeatherEconomy.getConfig();
             when(config.getString("banknote.key")).thenReturn("banknote_key");
@@ -141,13 +144,12 @@ class BanknotePickupListenerTest extends ListenerTestMocker<BanknotePickupListen
     @Test
     public void testOnItemPickup_Success() {
         try ( // @formatter:off
-            var languageConfigFile = Modules.LANGUAGE.makeTempConfig(LANGUAGE_CONFIG_CONTENT);
-            var enTranslationFile  = Modules.LANGUAGE.makeTempResource("en.yml", EN_LANGUAGE_FILE_CONTENT)
-        ) { // @formatter:on
-            var actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap);
-            dependenciesMap.put(ILanguage.class, actualLanguage);
-
-            assertNotNull(actualLanguage.getConfig(), "Failed to load config file");
+            var actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap,
+                injectAs(ILanguage.class), withResources(
+                    Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
+                    Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT)
+            )))
+        { // @formatter:on
 
             var config = mockFeatherEconomy.getConfig();
             when(config.getString("banknote.key")).thenReturn("banknote_key");
