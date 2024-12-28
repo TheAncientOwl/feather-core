@@ -6,7 +6,7 @@
  *
  * @file FeatherEconomyProvider.java
  * @author Alexandru Delegeanu
- * @version 0.7
+ * @version 0.8
  * @description Module responsible for managing vault/server Economy
  */
 
@@ -33,17 +33,23 @@ public class FeatherEconomyProvider extends FeatherModule implements IFeatherEco
 
     @Override
     protected void onModuleEnable() throws FeatherSetupException {
+        assertVault();
         provideEconomy();
         setupVault();
     }
 
-    private void provideEconomy() throws FeatherSetupException {
+    private void assertVault() throws FeatherSetupException {
         final JavaPlugin plugin = getPlugin();
         final Server server = plugin.getServer();
 
         if (server.getPluginManager().getPlugin("Vault") == null) {
             throw new FeatherSetupException("Vault dependency is not installed");
         }
+    }
+
+    private void provideEconomy() throws FeatherSetupException {
+        final JavaPlugin plugin = getPlugin();
+        final Server server = plugin.getServer();
 
         final FeatherEconomy featherEconomy =
                 new FeatherEconomy(getInterface(IPlayersData.class), getConfig());
@@ -54,10 +60,6 @@ public class FeatherEconomyProvider extends FeatherModule implements IFeatherEco
     private void setupVault() throws FeatherSetupException {
         final JavaPlugin plugin = getPlugin();
         final Server server = plugin.getServer();
-
-        if (server.getPluginManager().getPlugin("Vault") == null) {
-            throw new FeatherSetupException("Vault dependency is not installed");
-        }
 
         final RegisteredServiceProvider<Economy> rsp =
                 server.getServicesManager().getRegistration(Economy.class);

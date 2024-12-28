@@ -24,6 +24,7 @@ import mc.owls.valley.net.feathercore.api.configuration.IConfigFile;
 import mc.owls.valley.net.feathercore.api.core.FeatherModule;
 import mc.owls.valley.net.feathercore.core.configuration.bukkit.BukkitConfigFile;
 import mc.owls.valley.net.feathercore.modules.data.players.components.PlayersData;
+import mc.owls.valley.net.feathercore.modules.economy.components.FeatherEconomyProvider;
 import mc.owls.valley.net.feathercore.modules.language.components.LanguageManager;
 import mc.owls.valley.net.feathercore.modules.reload.components.ReloadModule;
 
@@ -45,6 +46,12 @@ public final class Modules {
                     PlayersData.class,
                     "PlayersData",
                     "players-data");
+
+    public static final ModuleConfig<FeatherEconomyProvider> ECONOMY =
+            new ModuleConfig<FeatherEconomyProvider>(
+                    FeatherEconomyProvider.class,
+                    "FeatherEconomy",
+                    "economy");
 
     public static final record ModuleConfig<T extends FeatherModule>(Class<T> clazz, String name,
             String relativeFolder) {
