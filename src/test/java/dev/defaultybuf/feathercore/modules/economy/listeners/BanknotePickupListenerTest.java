@@ -6,14 +6,13 @@
  *
  * @file BanknotePickupListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.7
+ * @version 0.8
  * @test_unit BanknotePickupListener#0.5
  * @description Unit tests for BanknotePickupListener
  */
 
 package dev.defaultybuf.feathercore.modules.economy.listeners;
 
-import static dev.defaultybuf.feathercore.modules.common.DependencyInjector.withResources;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.lenient;
@@ -33,13 +32,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import dev.defaultybuf.feathercore.api.common.minecraft.NamespacedKey;
-import dev.defaultybuf.feathercore.modules.common.DependencyInjector;
 import dev.defaultybuf.feathercore.modules.common.DependencyInjector.Module;
 import dev.defaultybuf.feathercore.modules.common.ListenerTestMocker;
-import dev.defaultybuf.feathercore.modules.common.Resource;
 import dev.defaultybuf.feathercore.modules.common.TempModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
+import dev.defaultybuf.feathercore.modules.common.annotations.Resource;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 import dev.defaultybuf.feathercore.modules.economy.interfaces.IFeatherEconomy;
@@ -66,18 +64,16 @@ class BanknotePickupListenerTest extends ListenerTestMocker<BanknotePickupListen
     @MockedModule(type = Module.PlayersData) IPlayersData mockPlayersData;
     @MockedModule(type = Module.Economy) IFeatherEconomy mockFeatherEconomy;
 
-    @ActualModule TempModule<LanguageManager> actualLanguage;
+    @ActualModule(
+            type = Module.Language,
+            resources = {
+                    @Resource(path = "config.yml", content = LANGUAGE_CONFIG_CONTENT),
+                    @Resource(path = "en.yml", content = EN_LANGUAGE_FILE_CONTENT)
+            }) TempModule<LanguageManager> actualLanguage;
 
     @Override
     protected Class<BanknotePickupListener> getListenerClass() {
         return BanknotePickupListener.class;
-    }
-
-    @Override
-    protected void injectActualModules() {
-        actualLanguage = DependencyInjector.Language.Actual(withResources(
-                Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
-                Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT)));
     }
 
     @Override

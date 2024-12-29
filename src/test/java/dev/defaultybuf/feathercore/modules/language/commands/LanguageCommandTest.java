@@ -6,14 +6,13 @@
  *
  * @file LanguageCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.8
+ * @version 0.9
  * @test_unit LanguageCommand#0.9
  * @description Unit tests for LanguageCommand
  */
 
 package dev.defaultybuf.feathercore.modules.language.commands;
 
-import static dev.defaultybuf.feathercore.modules.common.DependencyInjector.withResources;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -48,13 +47,12 @@ import dev.defaultybuf.feathercore.api.common.java.Pair;
 import dev.defaultybuf.feathercore.api.common.language.Message;
 import dev.defaultybuf.feathercore.api.common.minecraft.Placeholder;
 import dev.defaultybuf.feathercore.modules.common.CommandTestMocker;
-import dev.defaultybuf.feathercore.modules.common.DependencyInjector;
 import dev.defaultybuf.feathercore.modules.common.DependencyInjector.Module;
-import dev.defaultybuf.feathercore.modules.common.Resource;
 import dev.defaultybuf.feathercore.modules.common.TempModule;
 import dev.defaultybuf.feathercore.modules.common.TestUtils;
 import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
+import dev.defaultybuf.feathercore.modules.common.annotations.Resource;
 import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import dev.defaultybuf.feathercore.modules.data.players.components.PlayersData;
@@ -88,7 +86,13 @@ class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
 
     @MockedModule(type = Module.PlayersData) PlayersData mockPlayersData;
 
-    @ActualModule TempModule<LanguageManager> actualLanguage;
+    @ActualModule(
+            type = Module.Language,
+            resources = {
+                    @Resource(path = "config.yml", content = LANGUAGE_CONFIG_CONTENT),
+                    @Resource(path = "en.yml", content = EN_LANGUAGE_FILE_CONTENT),
+                    @Resource(path = "de.yml", content = DE_LANGUAGE_FILE_CONTENT),
+            }) TempModule<LanguageManager> actualLanguage;
 
     @TestField PlayerModel playerModel;
     @TestField ArgumentCaptor<String> messageCaptor;
@@ -96,14 +100,6 @@ class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
     @Override
     protected Class<LanguageCommand> getCommandClass() {
         return LanguageCommand.class;
-    }
-
-    @Override
-    protected void injectActualModules() {
-        actualLanguage = DependencyInjector.Language.Actual(withResources(
-                Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
-                Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT),
-                Resource.of("de.yml", DE_LANGUAGE_FILE_CONTENT)));
     }
 
     @Override

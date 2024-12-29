@@ -6,14 +6,13 @@
  *
  * @file BalanceCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @test_unit BalanceCommand#0.8
  * @description Unit tests for BalanceCommand
  */
 
 package dev.defaultybuf.feathercore.modules.economy.commands;
 
-import static dev.defaultybuf.feathercore.modules.common.DependencyInjector.withResources;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -36,12 +35,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import dev.defaultybuf.feathercore.modules.common.CommandTestMocker;
-import dev.defaultybuf.feathercore.modules.common.DependencyInjector;
-import dev.defaultybuf.feathercore.modules.common.Resource;
-import dev.defaultybuf.feathercore.modules.common.TempModule;
 import dev.defaultybuf.feathercore.modules.common.DependencyInjector.Module;
+import dev.defaultybuf.feathercore.modules.common.TempModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
+import dev.defaultybuf.feathercore.modules.common.annotations.Resource;
 import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
@@ -75,7 +73,12 @@ class BalanceCommandTest extends CommandTestMocker<BalanceCommand> {
     @MockedModule(type = Module.Economy) IFeatherEconomy mockFeatherEconomy;
     @MockedModule(type = Module.PlayersData) IPlayersData mockPlayersData;
 
-    @ActualModule TempModule<LanguageManager> actualLanguage;
+    @ActualModule(
+            type = Module.Language,
+            resources = {
+                    @Resource(path = "config.yml", content = LANGUAGE_CONFIG_CONTENT),
+                    @Resource(path = "en.yml", content = EN_LANGUAGE_FILE_CONTENT),
+            }) TempModule<LanguageManager> actualLanguage;
 
     @TestField PlayerModel playerModel;
 
@@ -85,21 +88,15 @@ class BalanceCommandTest extends CommandTestMocker<BalanceCommand> {
     }
 
     @Override
-    protected void injectActualModules() {
+    protected void setUp() {
         var config = mockFeatherEconomy.getConfig();
         lenient().when(config.getString("banknote.key")).thenReturn("banknote_key");
 
         lenient().when(mockFeatherEconomy.getEconomy()).thenReturn(mock(Economy.class));
 
-        actualLanguage = DependencyInjector.Language.Actual(withResources(
-                Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
-                Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT)));
-    }
-
-    @Override
-    protected void setUp() {
         lenient().when(mockSender.hasPermission("feathercore.economy.general.balance"))
                 .thenReturn(true);
+
         lenient().when(mockPlayer.hasPermission("feathercore.economy.general.balance"))
                 .thenReturn(true);
 

@@ -6,7 +6,7 @@
  *
  * @file DependencyAccessorMocker.java
  * @author Alexandru Delegeanu
- * @version 0.9
+ * @version 0.10
  * @description Utility class for developing unit tests that use modules
  */
 
@@ -31,6 +31,7 @@ import dev.defaultybuf.feathercore.core.interfaces.IEnabledModulesProvider;
 import dev.defaultybuf.feathercore.modules.common.DependencyInjector.Module;
 import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
+import dev.defaultybuf.feathercore.modules.common.annotations.Resource;
 import dev.defaultybuf.feathercore.modules.language.interfaces.ILanguage;
 
 @ExtendWith(MockitoExtension.class)
@@ -66,7 +67,7 @@ public abstract class DependencyAccessorMocker {
 
         mockLanguage = DependencyInjector.Language.Mock();
 
-        injectModuleMocks();
+        injectMockedModules();
         injectActualModules();
 
         setUp();
@@ -91,7 +92,7 @@ public abstract class DependencyAccessorMocker {
         tearDown();
     }
 
-    void injectModuleMocks() {
+    void injectMockedModules() {
         for (Field field : this.getClass().getDeclaredFields()) {
             if (field.isAnnotationPresent(MockedModule.class)) {
                 field.setAccessible(true);
@@ -105,7 +106,22 @@ public abstract class DependencyAccessorMocker {
         }
     }
 
-    protected void injectActualModules() {}
+    void injectActualModules() {
+        for (Field field : this.getClass().getDeclaredFields()) {
+            if (field.isAnnotationPresent(ActualModule.class)) {
+                field.setAccessible(true);
+                try {
+                    ActualModule annotation = field.getAnnotation(ActualModule.class);
+                    Resource[] resources = annotation.resources();
+
+                    field.set(this,
+                            DependencyInjector.getInjector(annotation.type()).Actual(resources));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
     protected void setUp() {}
 

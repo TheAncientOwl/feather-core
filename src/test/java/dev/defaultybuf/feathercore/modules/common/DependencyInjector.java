@@ -6,7 +6,7 @@
  *
  * @file DependencyInjector.java
  * @author Alexandru Delegeanu
- * @version 0.8
+ * @version 0.9
  * @description Create mocks / actual instances of all modules 
  *              and inject them into tests dependencies map
  */
@@ -21,13 +21,13 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
 
 import dev.defaultybuf.feathercore.api.configuration.IConfigFile;
 import dev.defaultybuf.feathercore.api.core.FeatherModule;
 import dev.defaultybuf.feathercore.core.configuration.bukkit.BukkitConfigFile;
+import dev.defaultybuf.feathercore.modules.common.annotations.Resource;
 import dev.defaultybuf.feathercore.modules.data.players.components.PlayersData;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 import dev.defaultybuf.feathercore.modules.economy.components.FeatherEconomyProvider;
@@ -38,14 +38,6 @@ import dev.defaultybuf.feathercore.modules.reload.components.ReloadModule;
 import dev.defaultybuf.feathercore.modules.reload.interfaces.IReloadModule;
 
 public final class DependencyInjector {
-    public static final <T> Class<T> injectAs(Class<T> clazz) {
-        return clazz;
-    }
-
-    public static final List<Resource> withResources(Resource... resources) {
-        return List.of(resources);
-    }
-
     public static enum Module {
         Language, Reload, PlayersData, Economy
     }
@@ -116,7 +108,7 @@ public final class DependencyInjector {
             return mockModule;
         }
 
-        public TempModule<T> Actual(List<Resource> resources) {
+        public TempModule<T> Actual(final Resource[] resources) {
             T moduleOut = null;
 
             var plugin = DependencyAccessorMocker.getJavaPluginMock();

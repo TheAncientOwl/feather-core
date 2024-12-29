@@ -6,7 +6,7 @@
  *
  * @file LanguageManagerTest.java
  * @author Alexandru Delegeanu
- * @version 0.7
+ * @version 0.8
  * @test_unit LanguageManager#0.8
  * @description Unit tests for LanguageManager
  */
@@ -77,9 +77,6 @@ public class LanguageManagerTest extends ModuleTestMocker<LanguageManager> {
     protected String getModuleName() {
         return DependencyInjector.Language.name();
     }
-
-    @Override
-    protected void injectActualModules() {}
 
     @Override
     protected void setUp() {
