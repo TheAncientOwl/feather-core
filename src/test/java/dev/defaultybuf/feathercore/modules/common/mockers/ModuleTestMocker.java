@@ -10,7 +10,7 @@
  * @description Utility class for developing module unit tests that use modules
  */
 
-package dev.defaultybuf.feathercore.modules.common;
+package dev.defaultybuf.feathercore.modules.common.mockers;
 
 import java.lang.reflect.InvocationTargetException;
 import org.junit.jupiter.api.BeforeEach;

@@ -9,7 +9,7 @@
  * @version 0.2
  * @description Testing utilities
  */
-package dev.defaultybuf.feathercore.modules.common;
+package dev.defaultybuf.feathercore.modules.common.utils;
 
 import java.io.File;
 import java.io.IOException;

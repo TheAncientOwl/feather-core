@@ -32,12 +32,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import dev.defaultybuf.feathercore.api.common.minecraft.NamespacedKey;
-import dev.defaultybuf.feathercore.modules.common.DependencyInjector.Module;
-import dev.defaultybuf.feathercore.modules.common.ListenerTestMocker;
-import dev.defaultybuf.feathercore.modules.common.TempModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.Resource;
+import dev.defaultybuf.feathercore.modules.common.mockers.ListenerTestMocker;
+import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
+import dev.defaultybuf.feathercore.modules.common.utils.TempModule;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 import dev.defaultybuf.feathercore.modules.economy.interfaces.IFeatherEconomy;

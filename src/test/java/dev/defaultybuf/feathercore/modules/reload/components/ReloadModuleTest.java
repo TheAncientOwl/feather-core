@@ -17,8 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import org.junit.jupiter.api.Test;
 
-import dev.defaultybuf.feathercore.modules.common.ModuleTestMocker;
-import dev.defaultybuf.feathercore.modules.common.DependencyInjector;
+import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector;
+import dev.defaultybuf.feathercore.modules.common.mockers.ModuleTestMocker;
 
 class ReloadModuleTest extends ModuleTestMocker<ReloadModule> {
 

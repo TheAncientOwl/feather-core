@@ -9,7 +9,7 @@
  * @version 0.1
  * @description Helper class to delete given file when no longer needed
  */
-package dev.defaultybuf.feathercore.modules.common;
+package dev.defaultybuf.feathercore.modules.common.utils;
 
 import java.io.File;
 import java.io.IOException;

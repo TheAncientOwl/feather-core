@@ -22,7 +22,7 @@ import org.junit.jupiter.api.Test;
 
 import dev.defaultybuf.feathercore.api.core.dummies.ThrowableDummyModule;
 import dev.defaultybuf.feathercore.api.exceptions.FeatherSetupException;
-import dev.defaultybuf.feathercore.modules.common.ModuleTestMocker;
+import dev.defaultybuf.feathercore.modules.common.mockers.ModuleTestMocker;
 
 class FeatherModuleThrowTest extends ModuleTestMocker<ThrowableDummyModule> {
     @Override

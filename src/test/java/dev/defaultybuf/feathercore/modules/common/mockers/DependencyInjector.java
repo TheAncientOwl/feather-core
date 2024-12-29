@@ -11,7 +11,7 @@
  *              and inject them into tests dependencies map
  */
 
-package dev.defaultybuf.feathercore.modules.common;
+package dev.defaultybuf.feathercore.modules.common.mockers;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.lenient;
@@ -28,6 +28,9 @@ import dev.defaultybuf.feathercore.api.configuration.IConfigFile;
 import dev.defaultybuf.feathercore.api.core.FeatherModule;
 import dev.defaultybuf.feathercore.core.configuration.bukkit.BukkitConfigFile;
 import dev.defaultybuf.feathercore.modules.common.annotations.Resource;
+import dev.defaultybuf.feathercore.modules.common.utils.TempFile;
+import dev.defaultybuf.feathercore.modules.common.utils.TempModule;
+import dev.defaultybuf.feathercore.modules.common.utils.TestUtils;
 import dev.defaultybuf.feathercore.modules.data.players.components.PlayersData;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 import dev.defaultybuf.feathercore.modules.economy.components.FeatherEconomyProvider;

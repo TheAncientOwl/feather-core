@@ -9,7 +9,7 @@
  * @version 0.1
  * @description Helper class to delete given module files when no longer needed
  */
-package dev.defaultybuf.feathercore.modules.common;
+package dev.defaultybuf.feathercore.modules.common.utils;
 
 import java.util.List;
 

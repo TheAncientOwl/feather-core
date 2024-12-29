@@ -34,8 +34,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import dev.defaultybuf.feathercore.api.exceptions.FeatherSetupException;
-import dev.defaultybuf.feathercore.modules.common.ModuleTestMocker;
-import dev.defaultybuf.feathercore.modules.common.DependencyInjector;
+import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector;
+import dev.defaultybuf.feathercore.modules.common.mockers.ModuleTestMocker;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 import net.milkbowl.vault.economy.Economy;
 

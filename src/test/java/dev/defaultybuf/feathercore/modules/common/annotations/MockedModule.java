@@ -16,7 +16,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import dev.defaultybuf.feathercore.modules.common.DependencyInjector;
+import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)

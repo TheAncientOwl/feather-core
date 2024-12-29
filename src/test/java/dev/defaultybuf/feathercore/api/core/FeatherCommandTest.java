@@ -24,7 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import dev.defaultybuf.feathercore.api.core.dummies.DummyCommand;
-import dev.defaultybuf.feathercore.modules.common.CommandTestMocker;
+import dev.defaultybuf.feathercore.modules.common.mockers.CommandTestMocker;
 
 public class FeatherCommandTest extends CommandTestMocker<DummyCommand> {
     @Mock Command mockCommand;

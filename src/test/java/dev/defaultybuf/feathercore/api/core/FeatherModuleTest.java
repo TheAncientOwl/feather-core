@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
 import org.junit.jupiter.api.Test;
 
 import dev.defaultybuf.feathercore.api.core.dummies.DummyModule;
-import dev.defaultybuf.feathercore.modules.common.ModuleTestMocker;
+import dev.defaultybuf.feathercore.modules.common.mockers.ModuleTestMocker;
 
 class FeatherModuleTest extends ModuleTestMocker<DummyModule> {
 

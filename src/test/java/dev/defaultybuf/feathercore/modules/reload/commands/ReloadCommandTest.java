@@ -34,8 +34,8 @@ import org.junit.jupiter.api.Test;
 import dev.defaultybuf.feathercore.api.common.java.Pair;
 import dev.defaultybuf.feathercore.api.common.language.Message;
 import dev.defaultybuf.feathercore.api.core.FeatherModule;
-import dev.defaultybuf.feathercore.modules.common.CommandTestMocker;
-import dev.defaultybuf.feathercore.modules.common.DependencyInjector;
+import dev.defaultybuf.feathercore.modules.common.mockers.CommandTestMocker;
+import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector;
 import dev.defaultybuf.feathercore.modules.language.components.LanguageManager;
 
 class ReloadCommandTest extends CommandTestMocker<ReloadCommand> {

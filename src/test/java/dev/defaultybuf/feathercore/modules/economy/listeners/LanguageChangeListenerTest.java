@@ -31,12 +31,12 @@ import org.bukkit.persistence.PersistentDataType;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import dev.defaultybuf.feathercore.modules.common.DependencyInjector.Module;
-import dev.defaultybuf.feathercore.modules.common.ListenerTestMocker;
-import dev.defaultybuf.feathercore.modules.common.TempModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.Resource;
+import dev.defaultybuf.feathercore.modules.common.mockers.ListenerTestMocker;
+import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
+import dev.defaultybuf.feathercore.modules.common.utils.TempModule;
 import dev.defaultybuf.feathercore.modules.economy.interfaces.IFeatherEconomy;
 import dev.defaultybuf.feathercore.modules.language.components.LanguageManager;
 import dev.defaultybuf.feathercore.modules.language.events.LanguageChangeEvent;

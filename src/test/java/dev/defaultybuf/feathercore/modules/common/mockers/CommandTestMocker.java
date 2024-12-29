@@ -4,35 +4,34 @@
  * ------------------------------------------------------------------------- *
  * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
  *
- * @file ListenerTestMocker.java
+ * @file CommandDependencyAccessorMocker.java
  * @author Alexandru Delegeanu
  * @version 0.1
- * @description Utility class for developing listeners unit tests that use modules
+ * @description Utility class for developing commands unit tests that use modules
  */
-package dev.defaultybuf.feathercore.modules.common;
+
+package dev.defaultybuf.feathercore.modules.common.mockers;
 
 import static org.mockito.Mockito.mock;
-
 import java.lang.reflect.InvocationTargetException;
-
 import org.bukkit.command.CommandSender;
 import org.junit.jupiter.api.BeforeEach;
 
-import dev.defaultybuf.feathercore.api.core.FeatherListener;
+import dev.defaultybuf.feathercore.api.core.FeatherCommand;
 
-public abstract class ListenerTestMocker<ListenerType extends FeatherListener>
+public abstract class CommandTestMocker<CommandType extends FeatherCommand<?>>
         extends DependencyAccessorMocker {
     protected CommandSender mockSender;
-    protected ListenerType listenerInstance;
+    protected CommandType commandInstance;
 
     @BeforeEach
-    void setUpListenerTest()
+    void setUpCommandTest()
             throws InstantiationException, IllegalAccessException, IllegalArgumentException,
             InvocationTargetException, NoSuchMethodException, SecurityException {
         mockSender = mock(CommandSender.class);
-        listenerInstance = getListenerClass().getConstructor(FeatherListener.InitData.class)
-                .newInstance(new FeatherListener.InitData(dependenciesMap));
+        commandInstance = getCommandClass().getConstructor(FeatherCommand.InitData.class)
+                .newInstance(new FeatherCommand.InitData(dependenciesMap));
     }
 
-    protected abstract Class<ListenerType> getListenerClass();
+    protected abstract Class<CommandType> getCommandClass();
 }

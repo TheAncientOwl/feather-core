@@ -26,9 +26,9 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import dev.defaultybuf.feathercore.modules.common.DependencyInjector.Module;
-import dev.defaultybuf.feathercore.modules.common.ListenerTestMocker;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
+import dev.defaultybuf.feathercore.modules.common.mockers.ListenerTestMocker;
+import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feathercore.modules.economy.interfaces.IFeatherEconomy;
 
 class BanknotePlaceListenerTest extends ListenerTestMocker<BanknotePlaceListener> {

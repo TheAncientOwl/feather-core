@@ -35,12 +35,12 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 
 import dev.defaultybuf.feathercore.api.common.java.Pair;
-import dev.defaultybuf.feathercore.modules.common.ModuleTestMocker;
-import dev.defaultybuf.feathercore.modules.common.DependencyInjector;
-import dev.defaultybuf.feathercore.modules.common.TestUtils;
-import dev.defaultybuf.feathercore.modules.common.DependencyInjector.Module;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
+import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector;
+import dev.defaultybuf.feathercore.modules.common.mockers.ModuleTestMocker;
+import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
+import dev.defaultybuf.feathercore.modules.common.utils.TestUtils;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import dev.defaultybuf.feathercore.modules.data.players.components.PlayersData;
 

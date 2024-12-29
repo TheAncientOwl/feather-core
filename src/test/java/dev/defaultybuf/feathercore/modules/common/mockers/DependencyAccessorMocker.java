@@ -10,7 +10,7 @@
  * @description Utility class for developing unit tests that use modules
  */
 
-package dev.defaultybuf.feathercore.modules.common;
+package dev.defaultybuf.feathercore.modules.common.mockers;
 
 import static org.mockito.Mockito.lenient;
 
@@ -28,10 +28,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import dev.defaultybuf.feathercore.api.core.IFeatherLogger;
 import dev.defaultybuf.feathercore.core.interfaces.IEnabledModulesProvider;
-import dev.defaultybuf.feathercore.modules.common.DependencyInjector.Module;
 import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.Resource;
+import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
+import dev.defaultybuf.feathercore.modules.common.utils.TestUtils;
 import dev.defaultybuf.feathercore.modules.language.interfaces.ILanguage;
 
 @ExtendWith(MockitoExtension.class)
