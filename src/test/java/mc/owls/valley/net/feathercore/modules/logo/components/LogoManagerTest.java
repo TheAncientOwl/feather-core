@@ -6,7 +6,7 @@
  *
  * @file LogoManagerTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit LogoManager#0.5
  * @description Unit tests for LogoManager
  */
@@ -21,13 +21,11 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayInputStream;
-import java.util.List;
 
 import org.bukkit.command.ConsoleCommandSender;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import mc.owls.valley.net.feathercore.api.common.java.Pair;
 import mc.owls.valley.net.feathercore.modules.common.ModuleTestMocker;
 
 class LogoManagerTest extends ModuleTestMocker<LogoManager> {
@@ -45,16 +43,6 @@ class LogoManagerTest extends ModuleTestMocker<LogoManager> {
     @Override
     protected String getModuleName() {
         return "$LogoManager";
-    }
-
-    @Override
-    protected List<Pair<Class<?>, Object>> getOtherMockDependencies() {
-        return null;
-    }
-
-    @Override
-    protected List<AutoCloseable> injectActualModules() {
-        return null;
     }
 
     @Test

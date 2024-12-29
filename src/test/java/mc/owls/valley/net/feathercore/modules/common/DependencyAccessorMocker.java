@@ -6,7 +6,7 @@
  *
  * @file DependencyAccessorMocker.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @description Utility class for developing unit tests that use modules
  */
 
@@ -80,7 +80,11 @@ public abstract class DependencyAccessorMocker {
         }
     }
 
-    protected abstract List<Pair<Class<?>, Object>> getOtherMockDependencies();
+    protected List<Pair<Class<?>, Object>> getOtherMockDependencies() {
+        return null;
+    }
 
-    protected abstract List<AutoCloseable> injectActualModules();
+    protected List<AutoCloseable> injectActualModules() {
+        return null;
+    }
 }

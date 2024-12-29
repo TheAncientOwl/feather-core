@@ -6,7 +6,7 @@
  *
  * @file FeatherModuleTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit FeatherModule#0.6
  * @description Unit tests for FeatherModule
  */
@@ -20,11 +20,8 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 
-import mc.owls.valley.net.feathercore.api.common.java.Pair;
 import mc.owls.valley.net.feathercore.api.core.dummies.DummyModule;
 import mc.owls.valley.net.feathercore.modules.common.ModuleTestMocker;
 
@@ -38,16 +35,6 @@ class FeatherModuleTest extends ModuleTestMocker<DummyModule> {
     @Override
     protected String getModuleName() {
         return "DummyModule";
-    }
-
-    @Override
-    protected List<Pair<Class<?>, Object>> getOtherMockDependencies() {
-        return null;
-    }
-
-    @Override
-    protected List<AutoCloseable> injectActualModules() {
-        return null;
     }
 
     @Test

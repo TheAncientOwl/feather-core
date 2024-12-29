@@ -6,7 +6,7 @@
  *
  * @file ReloadCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @test_unit ReloadCommand#0.7
  * @description Unit tests for ReloadCommand
  */
@@ -37,154 +37,144 @@ import mc.owls.valley.net.feathercore.modules.language.components.LanguageManage
 
 class ReloadCommandTest extends CommandTestMocker<ReloadCommand> {
 
-    @Override
-    protected Class<ReloadCommand> getCommandClass() {
-        return ReloadCommand.class;
-    }
+        @Override
+        protected Class<ReloadCommand> getCommandClass() {
+                return ReloadCommand.class;
+        }
 
-    @Override
-    protected List<Pair<Class<?>, Object>> getOtherMockDependencies() {
-        return null;
-    }
+        @Test
+        void testHasPermission_WithPermission() {
+                when(mockSender.hasPermission("feathercore.reload")).thenReturn(true);
 
-    @Override
-    protected List<AutoCloseable> injectActualModules() {
-        return null;
-    }
+                var commandData = new ReloadCommand.CommandData(new ArrayList<>());
+                assertTrue(commandInstance.hasPermission(mockSender, commandData));
 
-    @Test
-    void testHasPermission_WithPermission() {
-        when(mockSender.hasPermission("feathercore.reload")).thenReturn(true);
+                verify(mockSender, times(1)).hasPermission("feathercore.reload");
+                verifyNoInteractions(mockLanguage); // Ensure no error message is sent
+        }
 
-        var commandData = new ReloadCommand.CommandData(new ArrayList<>());
-        assertTrue(commandInstance.hasPermission(mockSender, commandData));
+        @Test
+        void testHasPermission_WithoutPermission() {
+                when(mockSender.hasPermission("feathercore.reload")).thenReturn(false);
 
-        verify(mockSender, times(1)).hasPermission("feathercore.reload");
-        verifyNoInteractions(mockLanguage); // Ensure no error message is sent
-    }
+                var commandData = new ReloadCommand.CommandData(new ArrayList<>());
+                assertFalse(commandInstance.hasPermission(mockSender, commandData));
 
-    @Test
-    void testHasPermission_WithoutPermission() {
-        when(mockSender.hasPermission("feathercore.reload")).thenReturn(false);
+                verify(mockSender, times(1)).hasPermission("feathercore.reload");
+                verify(mockLanguage, times(1))
+                                .message(mockSender, Message.General.PERMISSION_DENIED);
+        }
 
-        var commandData = new ReloadCommand.CommandData(new ArrayList<>());
-        assertFalse(commandInstance.hasPermission(mockSender, commandData));
+        @Test
+        void testExecute_ReloadsConfigsAndTranslations() {
+                final List<FeatherModule> enabledModules =
+                                List.of(Modules.RELOAD.Mock(), mock(LanguageManager.class));
 
-        verify(mockSender, times(1)).hasPermission("feathercore.reload");
-        verify(mockLanguage, times(1))
-                .message(mockSender, Message.General.PERMISSION_DENIED);
-    }
+                var commandData = new ReloadCommand.CommandData(enabledModules);
+                commandInstance.execute(mockSender, commandData);
 
-    @Test
-    void testExecute_ReloadsConfigsAndTranslations() {
-        final List<FeatherModule> enabledModules =
-                List.of(Modules.RELOAD.Mock(), mock(LanguageManager.class));
+                verify(enabledModules.get(0).getConfig(), times(1)).reloadConfig();
+                verify((LanguageManager) enabledModules.get(1), times(1)).reloadTranslations();
+                verify(mockLanguage, times(1)).message(mockSender, Message.Reload.CONFIGS_RELOADED);
+        }
 
-        var commandData = new ReloadCommand.CommandData(enabledModules);
-        commandInstance.execute(mockSender, commandData);
+        @Test
+        void testParse_ValidAllArgument() {
+                final List<FeatherModule> enabledModules = List.of(Modules.RELOAD.Mock(),
+                                Modules.LANGUAGE.Mock(), Modules.PLAYERS_DATA.Mock());
+                when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
 
-        verify(enabledModules.get(0).getConfig(), times(1)).reloadConfig();
-        verify((LanguageManager) enabledModules.get(1), times(1)).reloadTranslations();
-        verify(mockLanguage, times(1)).message(mockSender, Message.Reload.CONFIGS_RELOADED);
-    }
+                var args = new String[] {Modules.RELOAD.name()};
+                var result = commandInstance.parse(mockSender, args);
 
-    @Test
-    void testParse_ValidAllArgument() {
-        final List<FeatherModule> enabledModules = List.of(Modules.RELOAD.Mock(),
-                Modules.LANGUAGE.Mock(), Modules.PLAYERS_DATA.Mock());
-        when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
+                assertNotNull(result);
+                assertEquals(1, result.modules().size());
+                assertEquals(enabledModules.get(0), result.modules().get(0));
+        }
 
-        var args = new String[] {Modules.RELOAD.name()};
-        var result = commandInstance.parse(mockSender, args);
+        @Test
+        void testParse_ValidArgument() {
+                final List<FeatherModule> enabledModules = List.of(Modules.RELOAD.Mock(),
+                                Modules.LANGUAGE.Mock(), Modules.PLAYERS_DATA.Mock());
+                when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
 
-        assertNotNull(result);
-        assertEquals(1, result.modules().size());
-        assertEquals(enabledModules.get(0), result.modules().get(0));
-    }
+                var args = new String[] {"all"};
+                var result = commandInstance.parse(mockSender, args);
 
-    @Test
-    void testParse_ValidArgument() {
-        final List<FeatherModule> enabledModules = List.of(Modules.RELOAD.Mock(),
-                Modules.LANGUAGE.Mock(), Modules.PLAYERS_DATA.Mock());
-        when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
+                assertNotNull(result);
+                assertEquals(3, result.modules().size());
+                assertEquals(enabledModules.get(0), result.modules().get(0));
+                assertEquals(enabledModules.get(1), result.modules().get(1));
+                assertEquals(enabledModules.get(2), result.modules().get(2));
+        }
 
-        var args = new String[] {"all"};
-        var result = commandInstance.parse(mockSender, args);
+        @Test
+        @SuppressWarnings("unchecked")
+        void testParse_InvalidArgument() {
+                when(commandInstance.getEnabledModules()).thenReturn(List.of());
 
-        assertNotNull(result);
-        assertEquals(3, result.modules().size());
-        assertEquals(enabledModules.get(0), result.modules().get(0));
-        assertEquals(enabledModules.get(1), result.modules().get(1));
-        assertEquals(enabledModules.get(2), result.modules().get(2));
-    }
+                var args = new String[] {"nonexistent-module"};
+                var result = commandInstance.parse(mockSender, args);
 
-    @Test
-    @SuppressWarnings("unchecked")
-    void testParse_InvalidArgument() {
-        when(commandInstance.getEnabledModules()).thenReturn(List.of());
+                assertNull(result);
+                verify(mockLanguage, times(1))
+                                .message(eq(mockSender), eq(Message.Reload.USAGE), any(Pair.class));
+        }
 
-        var args = new String[] {"nonexistent-module"};
-        var result = commandInstance.parse(mockSender, args);
+        @Test
+        @SuppressWarnings("unchecked")
+        void testParse_EmptyArgument() {
+                var args = new String[] {};
+                var result = commandInstance.parse(mockSender, args);
 
-        assertNull(result);
-        verify(mockLanguage, times(1))
-                .message(eq(mockSender), eq(Message.Reload.USAGE), any(Pair.class));
-    }
+                assertNull(result);
+                verify(mockLanguage, times(1))
+                                .message(eq(mockSender), eq(Message.Reload.USAGE), any(Pair.class));
+        }
 
-    @Test
-    @SuppressWarnings("unchecked")
-    void testParse_EmptyArgument() {
-        var args = new String[] {};
-        var result = commandInstance.parse(mockSender, args);
+        @Test
+        void testOnTabComplete_NoArgument() {
+                final List<FeatherModule> enabledModules = List.of(Modules.RELOAD.Mock(),
+                                Modules.LANGUAGE.Mock(), Modules.PLAYERS_DATA.Mock());
+                when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
 
-        assertNull(result);
-        verify(mockLanguage, times(1))
-                .message(eq(mockSender), eq(Message.Reload.USAGE), any(Pair.class));
-    }
+                var args = new String[] {};
+                var completions = commandInstance.onTabComplete(args);
 
-    @Test
-    void testOnTabComplete_NoArgument() {
-        final List<FeatherModule> enabledModules = List.of(Modules.RELOAD.Mock(),
-                Modules.LANGUAGE.Mock(), Modules.PLAYERS_DATA.Mock());
-        when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
+                assertEquals(4, completions.size());
+                assertEquals("all", completions.get(0), "1st completion should be 'all'");
+                assertEquals(Modules.RELOAD.name(), completions.get(1),
+                                "2nd completion should be '" + Modules.RELOAD.name() + "'");
+                assertEquals(Modules.LANGUAGE.name(), completions.get(2),
+                                "3rd completion should be '" + Modules.LANGUAGE.name() + "'");
+                assertEquals(Modules.PLAYERS_DATA.name(), completions.get(3),
+                                "4th completion should be '" + Modules.PLAYERS_DATA.name() + "'");
+        }
 
-        var args = new String[] {};
-        var completions = commandInstance.onTabComplete(args);
+        @Test
+        void testOnTabComplete_SingleArgument() {
+                final List<FeatherModule> enabledModules = List.of(Modules.RELOAD.Mock(),
+                                Modules.LANGUAGE.Mock(), Modules.PLAYERS_DATA.Mock());
+                when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
 
-        assertEquals(4, completions.size());
-        assertEquals("all", completions.get(0), "1st completion should be 'all'");
-        assertEquals(Modules.RELOAD.name(), completions.get(1),
-                "2nd completion should be '" + Modules.RELOAD.name() + "'");
-        assertEquals(Modules.LANGUAGE.name(), completions.get(2),
-                "3rd completion should be '" + Modules.LANGUAGE.name() + "'");
-        assertEquals(Modules.PLAYERS_DATA.name(), completions.get(3),
-                "4th completion should be '" + Modules.PLAYERS_DATA.name() + "'");
-    }
+                var args = new String[] {"re"};
+                var completions = commandInstance.onTabComplete(args);
 
-    @Test
-    void testOnTabComplete_SingleArgument() {
-        final List<FeatherModule> enabledModules = List.of(Modules.RELOAD.Mock(),
-                Modules.LANGUAGE.Mock(), Modules.PLAYERS_DATA.Mock());
-        when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
+                assertEquals(1, completions.size());
+                assertEquals(Modules.RELOAD.name(), completions.get(0),
+                                "1st completion should be '" + Modules.RELOAD.name() + "'");
+        }
 
-        var args = new String[] {"re"};
-        var completions = commandInstance.onTabComplete(args);
+        @Test
+        void testOnTabComplete_NoMatchingArgument() {
+                final List<FeatherModule> enabledModules = List.of(Modules.RELOAD.Mock(),
+                                Modules.LANGUAGE.Mock(), Modules.PLAYERS_DATA.Mock());
+                when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
 
-        assertEquals(1, completions.size());
-        assertEquals(Modules.RELOAD.name(), completions.get(0),
-                "1st completion should be '" + Modules.RELOAD.name() + "'");
-    }
+                var args = new String[] {"unknown"};
+                var completions = commandInstance.onTabComplete(args);
 
-    @Test
-    void testOnTabComplete_NoMatchingArgument() {
-        final List<FeatherModule> enabledModules = List.of(Modules.RELOAD.Mock(),
-                Modules.LANGUAGE.Mock(), Modules.PLAYERS_DATA.Mock());
-        when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
-
-        var args = new String[] {"unknown"};
-        var completions = commandInstance.onTabComplete(args);
-
-        assertTrue(completions.isEmpty());
-    }
+                assertTrue(completions.isEmpty());
+        }
 
 }

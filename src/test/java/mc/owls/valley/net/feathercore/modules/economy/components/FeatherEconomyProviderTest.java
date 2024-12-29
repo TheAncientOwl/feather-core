@@ -6,7 +6,7 @@
  *
  * @file FeatherEconomyProviderTest.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @test_unit FeatherEconomyProvider#0.8
  * @description Unit tests for FeatherEconomyProvider
  */
@@ -24,8 +24,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.List;
-
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
@@ -36,7 +34,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 
-import mc.owls.valley.net.feathercore.api.common.java.Pair;
 import mc.owls.valley.net.feathercore.api.exceptions.FeatherSetupException;
 import mc.owls.valley.net.feathercore.modules.common.ModuleTestMocker;
 import mc.owls.valley.net.feathercore.modules.common.Modules;
@@ -57,16 +54,6 @@ class FeatherEconomyProviderTest extends ModuleTestMocker<FeatherEconomyProvider
     @Override
     protected String getModuleName() {
         return Modules.ECONOMY.name();
-    }
-
-    @Override
-    protected List<Pair<Class<?>, Object>> getOtherMockDependencies() {
-        return List.of(Pair.of(IPlayersData.class, mockPlayersData));
-    }
-
-    @Override
-    protected List<AutoCloseable> injectActualModules() {
-        return null;
     }
 
     @BeforeEach
