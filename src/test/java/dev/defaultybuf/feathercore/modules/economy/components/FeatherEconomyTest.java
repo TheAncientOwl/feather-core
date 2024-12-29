@@ -6,7 +6,7 @@
  *
  * @file FeatherEconomyTest.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @test_unit FeatherEconomy#0.2
  * @description Unit tests for FeatherEconomy
  */
@@ -45,34 +45,34 @@ class FeatherEconomyTest {
     FeatherEconomy featherEconomy;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         featherEconomy = new FeatherEconomy(mockPlayersData, mockConfig);
     }
 
     @Test
-    public void testIsEnabled() {
+    void testIsEnabled() {
         assertTrue(featherEconomy.isEnabled());
     }
 
     @Test
-    public void testGetName() {
+    void testGetName() {
         assertEquals("FeatherEconomy", featherEconomy.getName());
     }
 
     @Test
-    public void testCurrencyNamePlural() {
+    void testCurrencyNamePlural() {
         when(mockConfig.getString("currency.name.plural")).thenReturn("Dollars");
         assertEquals("Dollars", featherEconomy.currencyNamePlural());
     }
 
     @Test
-    public void testCurrencyNameSingular() {
+    void testCurrencyNameSingular() {
         when(mockConfig.getString("currency.name.singular")).thenReturn("Dollar");
         assertEquals("Dollar", featherEconomy.currencyNameSingular());
     }
 
     @Test
-    public void testFormat() {
+    void testFormat() {
         when(mockConfig.getString("currency-format")).thenReturn("#,###.00");
         when(mockConfig.getString("currency.name.plural")).thenReturn("Dollars");
         when(mockConfig.getString("currency.name.singular")).thenReturn("Dollar");
@@ -81,7 +81,7 @@ class FeatherEconomyTest {
     }
 
     @Test
-    public void testDepositPlayer_StringWorldName() {
+    void testDepositPlayer_StringWorldName() {
         when(mockPlayersData.getPlayerModel("player1")).thenReturn(mockPlayerModel);
         mockPlayerModel.balance = 100.0;
 
@@ -91,7 +91,7 @@ class FeatherEconomyTest {
     }
 
     @Test
-    public void testDepositPlayer_OfflinePlayerWorldName() {
+    void testDepositPlayer_OfflinePlayerWorldName() {
         when(mockPlayersData.getPlayerModel(mockPlayer)).thenReturn(mockPlayerModel);
         mockPlayerModel.balance = 100.0;
 
@@ -101,91 +101,91 @@ class FeatherEconomyTest {
     }
 
     @Test
-    public void testGetBalance_PlayerModel() {
+    void testGetBalance_PlayerModel() {
         mockPlayerModel.balance = 100.0;
         assertEquals(100.0, featherEconomy.getBalance(mockPlayerModel));
     }
 
     @Test
-    public void testGetBalance_NullPlayerModel() {
+    void testGetBalance_NullPlayerModel() {
         PlayerModel nullPlayerModel = null;
         assertEquals(-1, featherEconomy.getBalance(nullPlayerModel));
     }
 
     @Test
-    public void testGetBalance_String() {
+    void testGetBalance_String() {
         when(mockPlayersData.getPlayerModel("player1")).thenReturn(mockPlayerModel);
         mockPlayerModel.balance = 100.0;
         assertEquals(100.0, featherEconomy.getBalance("player1"));
     }
 
     @Test
-    public void testGetBalance_OfflinePlayer() {
+    void testGetBalance_OfflinePlayer() {
         when(mockPlayersData.getPlayerModel(mockPlayer)).thenReturn(mockPlayerModel);
         mockPlayerModel.balance = 100.0;
         assertEquals(100.0, featherEconomy.getBalance(mockPlayer));
     }
 
     @Test
-    public void testHas_StringDouble() {
+    void testHas_StringDouble() {
         when(mockPlayersData.getPlayerModel("player1")).thenReturn(mockPlayerModel);
         mockPlayerModel.balance = 100.0;
         assertTrue(featherEconomy.has("player1", 50.0));
     }
 
     @Test
-    public void testHas_OfflinePlayerDouble() {
+    void testHas_OfflinePlayerDouble() {
         when(mockPlayersData.getPlayerModel(mockPlayer)).thenReturn(mockPlayerModel);
         mockPlayerModel.balance = 100.0;
         assertTrue(featherEconomy.has(mockPlayer, 50.0));
     }
 
     @Test
-    public void testHas_NullPlayerModel() {
+    void testHas_NullPlayerModel() {
         PlayerModel nullPlayerModel = null;
         assertFalse(featherEconomy.has(nullPlayerModel, 50.0));
     }
 
     @Test
-    public void testHas_StringWorldNameDouble() {
+    void testHas_StringWorldNameDouble() {
         when(mockPlayersData.getPlayerModel("player1")).thenReturn(mockPlayerModel);
         mockPlayerModel.balance = 100.0;
         assertTrue(featherEconomy.has("player1", "world", 50.0));
     }
 
     @Test
-    public void testHas_PlayerModel_Null() {
+    void testHas_PlayerModel_Null() {
         PlayerModel nullPlayerModel = null;
         assertFalse(featherEconomy.has(nullPlayerModel, 50.0));
     }
 
     @Test
-    public void testHas_PlayerModel_BalanceGreaterThanAmount() {
+    void testHas_PlayerModel_BalanceGreaterThanAmount() {
         mockPlayerModel.balance = 100.0;
         assertTrue(featherEconomy.has(mockPlayerModel, 50.0));
     }
 
     @Test
-    public void testHas_PlayerModel_BalanceEqualToAmount() {
+    void testHas_PlayerModel_BalanceEqualToAmount() {
         mockPlayerModel.balance = 50.0;
         assertTrue(featherEconomy.has(mockPlayerModel, 50.0));
     }
 
     @Test
-    public void testHas_PlayerModel_BalanceLessThanAmount() {
+    void testHas_PlayerModel_BalanceLessThanAmount() {
         mockPlayerModel.balance = 30.0;
         assertFalse(featherEconomy.has(mockPlayerModel, 50.0));
     }
 
     @Test
-    public void testHas_OfflinePlayerWorldNameDouble() {
+    void testHas_OfflinePlayerWorldNameDouble() {
         when(mockPlayersData.getPlayerModel(mockPlayer)).thenReturn(mockPlayerModel);
         mockPlayerModel.balance = 100.0;
         assertTrue(featherEconomy.has(mockPlayer, "world", 50.0));
     }
 
     @Test
-    public void testWithdrawPlayer_StringWorldName() {
+    void testWithdrawPlayer_StringWorldName() {
         when(mockPlayersData.getPlayerModel("player1")).thenReturn(mockPlayerModel);
         mockPlayerModel.balance = 100.0;
 
@@ -195,7 +195,7 @@ class FeatherEconomyTest {
     }
 
     @Test
-    public void testWithdrawPlayer_OfflinePlayerWorldName() {
+    void testWithdrawPlayer_OfflinePlayerWorldName() {
         when(mockPlayersData.getPlayerModel(mockPlayer)).thenReturn(mockPlayerModel);
         mockPlayerModel.balance = 100.0;
 
@@ -205,7 +205,7 @@ class FeatherEconomyTest {
     }
 
     @Test
-    public void testWithdrawPlayer_String() {
+    void testWithdrawPlayer_String() {
         when(mockPlayersData.getPlayerModel("player1")).thenReturn(mockPlayerModel);
         mockPlayerModel.balance = 100.0;
 
@@ -215,7 +215,7 @@ class FeatherEconomyTest {
     }
 
     @Test
-    public void testWithdrawPlayer_OfflinePlayer() {
+    void testWithdrawPlayer_OfflinePlayer() {
         when(mockPlayersData.getPlayerModel(mockPlayer)).thenReturn(mockPlayerModel);
         mockPlayerModel.balance = 100.0;
 
@@ -225,7 +225,7 @@ class FeatherEconomyTest {
     }
 
     @Test
-    public void testDepositPlayer_String() {
+    void testDepositPlayer_String() {
         when(mockPlayersData.getPlayerModel("player1")).thenReturn(mockPlayerModel);
         mockPlayerModel.balance = 100.0;
 
@@ -235,7 +235,7 @@ class FeatherEconomyTest {
     }
 
     @Test
-    public void testDepositPlayer_OfflinePlayer() {
+    void testDepositPlayer_OfflinePlayer() {
         when(mockPlayersData.getPlayerModel(mockPlayer)).thenReturn(mockPlayerModel);
         mockPlayerModel.balance = 100.0;
 
@@ -245,7 +245,7 @@ class FeatherEconomyTest {
     }
 
     @Test
-    public void testDepositPlayer_NullPlayerModel() {
+    void testDepositPlayer_NullPlayerModel() {
         when(mockPlayersData.getPlayerModel(mockPlayer)).thenReturn(null);
 
         EconomyResponse response = featherEconomy.depositPlayer(mockPlayer, 50.0);
@@ -254,119 +254,119 @@ class FeatherEconomyTest {
     }
 
     @Test
-    public void testCreateBank_StringString() {
+    void testCreateBank_StringString() {
         EconomyResponse response = featherEconomy.createBank("bank1", "player1");
         assertEquals(ResponseType.NOT_IMPLEMENTED, response.type);
     }
 
     @Test
-    public void testCreateBank_StringOfflinePlayer() {
+    void testCreateBank_StringOfflinePlayer() {
         EconomyResponse response = featherEconomy.createBank("bank1", mockPlayer);
         assertEquals(ResponseType.NOT_IMPLEMENTED, response.type);
     }
 
     @Test
-    public void testDeleteBank() {
+    void testDeleteBank() {
         EconomyResponse response = featherEconomy.deleteBank("bank1");
         assertEquals(ResponseType.NOT_IMPLEMENTED, response.type);
     }
 
     @Test
-    public void testBankBalance() {
+    void testBankBalance() {
         EconomyResponse response = featherEconomy.bankBalance("bank1");
         assertEquals(ResponseType.NOT_IMPLEMENTED, response.type);
     }
 
     @Test
-    public void testBankHas() {
+    void testBankHas() {
         EconomyResponse response = featherEconomy.bankHas("bank1", 100.0);
         assertEquals(ResponseType.NOT_IMPLEMENTED, response.type);
     }
 
     @Test
-    public void testBankWithdraw() {
+    void testBankWithdraw() {
         EconomyResponse response = featherEconomy.bankWithdraw("bank1", 100.0);
         assertEquals(ResponseType.NOT_IMPLEMENTED, response.type);
     }
 
     @Test
-    public void testBankDeposit() {
+    void testBankDeposit() {
         EconomyResponse response = featherEconomy.bankDeposit("bank1", 100.0);
         assertEquals(ResponseType.NOT_IMPLEMENTED, response.type);
     }
 
     @Test
-    public void testIsBankOwner_StringString() {
+    void testIsBankOwner_StringString() {
         EconomyResponse response = featherEconomy.isBankOwner("bank1", "player1");
         assertEquals(ResponseType.NOT_IMPLEMENTED, response.type);
     }
 
     @Test
-    public void testIsBankOwner_StringOfflinePlayer() {
+    void testIsBankOwner_StringOfflinePlayer() {
         EconomyResponse response = featherEconomy.isBankOwner("bank1", mockPlayer);
         assertEquals(ResponseType.NOT_IMPLEMENTED, response.type);
     }
 
     @Test
-    public void testIsBankMember_StringString() {
+    void testIsBankMember_StringString() {
         EconomyResponse response = featherEconomy.isBankMember("bank1", "player1");
         assertEquals(ResponseType.NOT_IMPLEMENTED, response.type);
     }
 
     @Test
-    public void testIsBankMember_StringOfflinePlayer() {
+    void testIsBankMember_StringOfflinePlayer() {
         EconomyResponse response = featherEconomy.isBankMember("bank1", mockPlayer);
         assertEquals(ResponseType.NOT_IMPLEMENTED, response.type);
     }
 
     @Test
-    public void testGetBanks() {
+    void testGetBanks() {
         List<String> banks = featherEconomy.getBanks();
         assertNotNull(banks);
     }
 
     @Test
-    public void testCreatePlayerAccount_OfflinePlayer() {
+    void testCreatePlayerAccount_OfflinePlayer() {
         assertFalse(featherEconomy.createPlayerAccount(mockPlayer));
     }
 
     @Test
-    public void testCreatePlayerAccount_String() {
+    void testCreatePlayerAccount_String() {
         assertFalse(featherEconomy.createPlayerAccount("player1"));
     }
 
     @Test
-    public void testCreatePlayerAccount_OfflinePlayerWorldName() {
+    void testCreatePlayerAccount_OfflinePlayerWorldName() {
         assertFalse(featherEconomy.createPlayerAccount(mockPlayer, "world"));
     }
 
     @Test
-    public void testCreatePlayerAccount_StringWorldName() {
+    void testCreatePlayerAccount_StringWorldName() {
         assertFalse(featherEconomy.createPlayerAccount("player1", "world"));
     }
 
     @Test
-    public void testFractionalDigits() {
+    void testFractionalDigits() {
         when(mockConfig.getInt("fractional-digits")).thenReturn(2);
         assertEquals(2, featherEconomy.fractionalDigits());
     }
 
     @Test
-    public void testGetBalance_StringWorld() {
+    void testGetBalance_StringWorld() {
         when(mockPlayersData.getPlayerModel("player1")).thenReturn(mockPlayerModel);
         mockPlayerModel.balance = 100.0;
         assertEquals(100.0, featherEconomy.getBalance("player1", "world"));
     }
 
     @Test
-    public void testGetBalance_OfflinePlayerWorld() {
+    void testGetBalance_OfflinePlayerWorld() {
         when(mockPlayersData.getPlayerModel(mockPlayer)).thenReturn(mockPlayerModel);
         mockPlayerModel.balance = 100.0;
         assertEquals(100.0, featherEconomy.getBalance(mockPlayer, "world"));
     }
 
     @Test
-    public void testWithdrawPlayer_PlayerModel_Success() {
+    void testWithdrawPlayer_PlayerModel_Success() {
         mockPlayerModel.balance = 100.0;
         EconomyResponse response = featherEconomy.withdrawPlayer(mockPlayerModel, 50.0);
         assertEquals(ResponseType.SUCCESS, response.type);
@@ -374,85 +374,85 @@ class FeatherEconomyTest {
     }
 
     @Test
-    public void testWithdrawPlayer_PlayerModel_Failure() {
+    void testWithdrawPlayer_PlayerModel_Failure() {
         EconomyResponse response = featherEconomy.withdrawPlayer((PlayerModel) null, 50.0);
         assertEquals(ResponseType.FAILURE, response.type);
         assertEquals(0, response.balance);
     }
 
     @Test
-    public void testHasAccount_String() {
+    void testHasAccount_String() {
         when(mockPlayersData.getPlayerModel("player1")).thenReturn(mockPlayerModel);
         assertTrue(featherEconomy.hasAccount("player1"));
     }
 
     @Test
-    public void testHasAccount_OfflinePlayer() {
+    void testHasAccount_OfflinePlayer() {
         when(mockPlayersData.getPlayerModel(mockPlayer)).thenReturn(mockPlayerModel);
         assertTrue(featherEconomy.hasAccount(mockPlayer));
     }
 
     @Test
-    public void testHasAccount_StringWorld() {
+    void testHasAccount_StringWorld() {
         when(mockPlayersData.getPlayerModel("player1")).thenReturn(mockPlayerModel);
         assertTrue(featherEconomy.hasAccount("player1", "world"));
     }
 
     @Test
-    public void testHasAccount_OfflinePlayerWorld() {
+    void testHasAccount_OfflinePlayerWorld() {
         when(mockPlayersData.getPlayerModel(mockPlayer)).thenReturn(mockPlayerModel);
         assertTrue(featherEconomy.hasAccount(mockPlayer, "world"));
     }
 
     @Test
-    public void testHasBankSupport() {
+    void testHasBankSupport() {
         assertFalse(featherEconomy.hasBankSupport());
     }
 
     @Test
-    public void testCreatePlayerAccount_PlayerExists() {
+    void testCreatePlayerAccount_PlayerExists() {
         when(mockPlayersData.getPlayerModel("player1")).thenReturn(mockPlayerModel);
         assertTrue(featherEconomy.createPlayerAccount("player1"));
     }
 
     @Test
-    public void testCreatePlayerAccount_PlayerDoesNotExist() {
+    void testCreatePlayerAccount_PlayerDoesNotExist() {
         when(mockPlayersData.getPlayerModel("player1")).thenReturn(null);
         assertFalse(featherEconomy.createPlayerAccount("player1"));
     }
 
     @Test
-    public void testCreatePlayerAccount_OfflinePlayerExists() {
+    void testCreatePlayerAccount_OfflinePlayerExists() {
         when(mockPlayersData.getPlayerModel(mockPlayer)).thenReturn(mockPlayerModel);
         assertTrue(featherEconomy.createPlayerAccount(mockPlayer));
     }
 
     @Test
-    public void testCreatePlayerAccount_OfflinePlayerDoesNotExist() {
+    void testCreatePlayerAccount_OfflinePlayerDoesNotExist() {
         when(mockPlayersData.getPlayerModel(mockPlayer)).thenReturn(null);
         assertFalse(featherEconomy.createPlayerAccount(mockPlayer));
     }
 
     @Test
-    public void testHasAccount_PlayerExists() {
+    void testHasAccount_PlayerExists() {
         when(mockPlayersData.getPlayerModel("player1")).thenReturn(mockPlayerModel);
         assertTrue(featherEconomy.hasAccount("player1"));
     }
 
     @Test
-    public void testHasAccount_PlayerDoesNotExist() {
+    void testHasAccount_PlayerDoesNotExist() {
         when(mockPlayersData.getPlayerModel("player1")).thenReturn(null);
         assertFalse(featherEconomy.hasAccount("player1"));
     }
 
     @Test
-    public void testHasAccount_OfflinePlayerExists() {
+    void testHasAccount_OfflinePlayerExists() {
         when(mockPlayersData.getPlayerModel(mockPlayer)).thenReturn(mockPlayerModel);
         assertTrue(featherEconomy.hasAccount(mockPlayer));
     }
 
     @Test
-    public void testHasAccount_OfflinePlayerDoesNotExist() {
+    void testHasAccount_OfflinePlayerDoesNotExist() {
         when(mockPlayersData.getPlayerModel(mockPlayer)).thenReturn(null);
         assertFalse(featherEconomy.hasAccount(mockPlayer));
     }

@@ -6,7 +6,7 @@
  *
  * @file FeatherEconomyProviderTest.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @test_unit FeatherEconomyProvider#0.8
  * @description Unit tests for FeatherEconomyProvider
  */
@@ -57,13 +57,13 @@ class FeatherEconomyProviderTest extends ModuleTestMocker<FeatherEconomyProvider
     }
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         Mockito.lenient().when(mockServer.getPluginManager()).thenReturn(mockPluginManager);
         Mockito.lenient().when(mockServer.getServicesManager()).thenReturn(mockServicesManager);
     }
 
     @Test
-    public void testOnModuleEnable_VaultNotInstalled() {
+    void testOnModuleEnable_VaultNotInstalled() {
         when(mockPluginManager.getPlugin("Vault")).thenReturn(null);
 
         var exception = assertThrows(FeatherSetupException.class, () -> {
@@ -74,7 +74,7 @@ class FeatherEconomyProviderTest extends ModuleTestMocker<FeatherEconomyProvider
     }
 
     @Test
-    public void testOnModuleEnable_NotNullRSP() throws FeatherSetupException {
+    void testOnModuleEnable_NotNullRSP() throws FeatherSetupException {
         when(mockPluginManager.getPlugin("Vault")).thenReturn(mock(JavaPlugin.class));
         when(mockServicesManager.getRegistration(Economy.class))
                 .thenReturn(mockRegisteredServiceProvider);
@@ -88,7 +88,7 @@ class FeatherEconomyProviderTest extends ModuleTestMocker<FeatherEconomyProvider
     }
 
     @Test
-    public void testOnModuleEnable_NULL_RSP() throws FeatherSetupException {
+    void testOnModuleEnable_NULL_RSP() throws FeatherSetupException {
         when(mockPluginManager.getPlugin("Vault")).thenReturn(mock(JavaPlugin.class));
         when(mockServicesManager.getRegistration(Economy.class)).thenReturn(null);
 
@@ -104,7 +104,7 @@ class FeatherEconomyProviderTest extends ModuleTestMocker<FeatherEconomyProvider
     }
 
     @Test
-    public void testOnModuleDisable() {
+    void testOnModuleDisable() {
         assertDoesNotThrow(() -> moduleInstance.onModuleDisable());
     }
 }
