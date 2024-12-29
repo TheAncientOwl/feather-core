@@ -6,7 +6,7 @@
  *
  * @file ReloadCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.7
+ * @version 0.8
  * @test_unit ReloadCommand#0.7
  * @description Unit tests for ReloadCommand
  */
@@ -53,7 +53,7 @@ class ReloadCommandTest extends CommandTestMocker<ReloadCommand> {
                 assertTrue(commandInstance.hasPermission(mockSender, commandData));
 
                 verify(mockSender, times(1)).hasPermission("feathercore.reload");
-                verifyNoInteractions(mockLanguage); // Ensure no error message is sent
+                verifyNoInteractions(mockLanguage);
         }
 
         @Test

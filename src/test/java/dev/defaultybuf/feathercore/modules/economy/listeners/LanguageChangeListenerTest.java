@@ -6,7 +6,7 @@
  *
  * @file LanguageChangeListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @test_unit LanguageChangeListener#0.5
  * @description Unit tests for LanguageChangeListener
  */
@@ -36,6 +36,7 @@ import dev.defaultybuf.feathercore.modules.common.DependencyInjector;
 import dev.defaultybuf.feathercore.modules.common.ListenerTestMocker;
 import dev.defaultybuf.feathercore.modules.common.Resource;
 import dev.defaultybuf.feathercore.modules.common.TempModule;
+import dev.defaultybuf.feathercore.modules.common.DependencyInjector.Module;
 import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
 import dev.defaultybuf.feathercore.modules.economy.interfaces.IFeatherEconomy;
@@ -58,7 +59,7 @@ class LanguageChangeListenerTest extends ListenerTestMocker<LanguageChangeListen
     @Mock PlayerInventory mockPlayerInventory;
     @Mock PersistentDataContainer mockPersistentDataContainer;
 
-    @MockedModule IFeatherEconomy mockFeatherEconomy;
+    @MockedModule(type = Module.Economy) IFeatherEconomy mockFeatherEconomy;
 
     @ActualModule TempModule<LanguageManager> actualLanguage;
 
@@ -68,9 +69,7 @@ class LanguageChangeListenerTest extends ListenerTestMocker<LanguageChangeListen
     }
 
     @Override
-    protected void injectDependencies() {
-        mockFeatherEconomy = DependencyInjector.Economy.Mock();
-
+    protected void injectActualModules() {
         var config = mockFeatherEconomy.getConfig();
         lenient().when(config.getString("banknote.key")).thenReturn("banknote_key");
 

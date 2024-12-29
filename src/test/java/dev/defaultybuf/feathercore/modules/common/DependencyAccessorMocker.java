@@ -6,7 +6,7 @@
  *
  * @file DependencyAccessorMocker.java
  * @author Alexandru Delegeanu
- * @version 0.8
+ * @version 0.9
  * @description Utility class for developing unit tests that use modules
  */
 
@@ -28,6 +28,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import dev.defaultybuf.feathercore.api.core.IFeatherLogger;
 import dev.defaultybuf.feathercore.core.interfaces.IEnabledModulesProvider;
+import dev.defaultybuf.feathercore.modules.common.DependencyInjector.Module;
 import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
 import dev.defaultybuf.feathercore.modules.language.interfaces.ILanguage;
@@ -41,7 +42,7 @@ public abstract class DependencyAccessorMocker {
     @Mock protected IEnabledModulesProvider mockEnabledModulesProvider;
     @Mock protected Server mockServer;
 
-    @MockedModule protected ILanguage mockLanguage;
+    @MockedModule(type = Module.Language) protected ILanguage mockLanguage;
 
     public static JavaPlugin getJavaPluginMock() {
         return mockJavaPlugin;
@@ -65,7 +66,8 @@ public abstract class DependencyAccessorMocker {
 
         mockLanguage = DependencyInjector.Language.Mock();
 
-        injectDependencies();
+        injectModuleMocks();
+        injectActualModules();
 
         setUp();
     }
@@ -89,7 +91,21 @@ public abstract class DependencyAccessorMocker {
         tearDown();
     }
 
-    protected void injectDependencies() {}
+    void injectModuleMocks() {
+        for (Field field : this.getClass().getDeclaredFields()) {
+            if (field.isAnnotationPresent(MockedModule.class)) {
+                field.setAccessible(true);
+                try {
+                    MockedModule annotation = field.getAnnotation(MockedModule.class);
+                    field.set(this, DependencyInjector.getInjector(annotation.type()).Mock());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    protected void injectActualModules() {}
 
     protected void setUp() {}
 

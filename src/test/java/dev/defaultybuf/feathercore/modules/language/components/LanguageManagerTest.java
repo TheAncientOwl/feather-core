@@ -6,7 +6,7 @@
  *
  * @file LanguageManagerTest.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @test_unit LanguageManager#0.8
  * @description Unit tests for LanguageManager
  */
@@ -38,6 +38,7 @@ import dev.defaultybuf.feathercore.api.common.java.Pair;
 import dev.defaultybuf.feathercore.modules.common.ModuleTestMocker;
 import dev.defaultybuf.feathercore.modules.common.DependencyInjector;
 import dev.defaultybuf.feathercore.modules.common.TestUtils;
+import dev.defaultybuf.feathercore.modules.common.DependencyInjector.Module;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
@@ -63,7 +64,7 @@ public class LanguageManagerTest extends ModuleTestMocker<LanguageManager> {
     @Mock ConsoleCommandSender mockConsole;
     @Mock YamlConfiguration mockLanguageConfig;
 
-    @MockedModule PlayersData mockPlayersData;
+    @MockedModule(type = Module.PlayersData) PlayersData mockPlayersData;
 
     @TestField PlayerModel playerModel;
 
@@ -78,9 +79,7 @@ public class LanguageManagerTest extends ModuleTestMocker<LanguageManager> {
     }
 
     @Override
-    protected void injectDependencies() {
-        mockPlayersData = DependencyInjector.PlayersData.Mock();
-    }
+    protected void injectActualModules() {}
 
     @Override
     protected void setUp() {

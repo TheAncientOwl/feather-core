@@ -6,7 +6,7 @@
  *
  * @file DependencyInjector.java
  * @author Alexandru Delegeanu
- * @version 0.7
+ * @version 0.8
  * @description Create mocks / actual instances of all modules 
  *              and inject them into tests dependencies map
  */
@@ -22,6 +22,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Supplier;
 
 import dev.defaultybuf.feathercore.api.configuration.IConfigFile;
@@ -43,6 +44,15 @@ public final class DependencyInjector {
 
     public static final List<Resource> withResources(Resource... resources) {
         return List.of(resources);
+    }
+
+    public static enum Module {
+        Language, Reload, PlayersData, Economy
+    }
+
+    @SuppressWarnings("unchecked")
+    public static final <T extends FeatherModule> ModuleInjector<T> getInjector(Module module) {
+        return (ModuleInjector<T>) moduleInjectors.get(module);
     }
 
     public static final ModuleInjector<LanguageManager> Language =
@@ -96,10 +106,10 @@ public final class DependencyInjector {
 
         public T Mock() {
             var mockModule = mock(moduleClass);
-            var configMock = mock(IConfigFile.class);
+            var mockConfig = mock(IConfigFile.class);
 
             lenient().when(mockModule.getModuleName()).thenReturn(name);
-            lenient().when(mockModule.getConfig()).thenReturn(configMock);
+            lenient().when(mockModule.getConfig()).thenReturn(mockConfig);
 
             DependencyAccessorMocker.getDependenciesMap().put(interfaceClass, mockModule);
 
@@ -151,5 +161,11 @@ public final class DependencyInjector {
             return tempModule;
         }
     }
+
+    private static final Map<Module, ModuleInjector<?>> moduleInjectors = Map.of(
+            Module.Language, Language,
+            Module.Reload, Reload,
+            Module.PlayersData, PlayersData,
+            Module.Economy, Economy);
 
 }

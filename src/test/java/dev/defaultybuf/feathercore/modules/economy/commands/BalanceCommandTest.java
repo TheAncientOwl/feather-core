@@ -6,7 +6,7 @@
  *
  * @file BalanceCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @test_unit BalanceCommand#0.8
  * @description Unit tests for BalanceCommand
  */
@@ -39,6 +39,7 @@ import dev.defaultybuf.feathercore.modules.common.CommandTestMocker;
 import dev.defaultybuf.feathercore.modules.common.DependencyInjector;
 import dev.defaultybuf.feathercore.modules.common.Resource;
 import dev.defaultybuf.feathercore.modules.common.TempModule;
+import dev.defaultybuf.feathercore.modules.common.DependencyInjector.Module;
 import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
@@ -71,8 +72,8 @@ class BalanceCommandTest extends CommandTestMocker<BalanceCommand> {
     @Mock CommandSender mockSender;
     @Mock OfflinePlayer mockOfflinePlayer;
 
-    @MockedModule IPlayersData mockPlayersData;
-    @MockedModule IFeatherEconomy mockFeatherEconomy;
+    @MockedModule(type = Module.Economy) IFeatherEconomy mockFeatherEconomy;
+    @MockedModule(type = Module.PlayersData) IPlayersData mockPlayersData;
 
     @ActualModule TempModule<LanguageManager> actualLanguage;
 
@@ -84,15 +85,11 @@ class BalanceCommandTest extends CommandTestMocker<BalanceCommand> {
     }
 
     @Override
-    protected void injectDependencies() {
-        mockFeatherEconomy = DependencyInjector.Economy.Mock();
-
+    protected void injectActualModules() {
         var config = mockFeatherEconomy.getConfig();
         lenient().when(config.getString("banknote.key")).thenReturn("banknote_key");
 
         lenient().when(mockFeatherEconomy.getEconomy()).thenReturn(mock(Economy.class));
-
-        mockPlayersData = DependencyInjector.PlayersData.Mock();
 
         actualLanguage = DependencyInjector.Language.Actual(withResources(
                 Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),

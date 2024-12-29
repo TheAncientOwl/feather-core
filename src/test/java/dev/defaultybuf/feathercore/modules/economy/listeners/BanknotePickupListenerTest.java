@@ -6,7 +6,7 @@
  *
  * @file BanknotePickupListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @test_unit BanknotePickupListener#0.5
  * @description Unit tests for BanknotePickupListener
  */
@@ -34,6 +34,7 @@ import org.mockito.Mock;
 
 import dev.defaultybuf.feathercore.api.common.minecraft.NamespacedKey;
 import dev.defaultybuf.feathercore.modules.common.DependencyInjector;
+import dev.defaultybuf.feathercore.modules.common.DependencyInjector.Module;
 import dev.defaultybuf.feathercore.modules.common.ListenerTestMocker;
 import dev.defaultybuf.feathercore.modules.common.Resource;
 import dev.defaultybuf.feathercore.modules.common.TempModule;
@@ -62,8 +63,8 @@ class BanknotePickupListenerTest extends ListenerTestMocker<BanknotePickupListen
     @Mock EntityPickupItemEvent mockEvent;
     @Mock PersistentDataContainer mockPersistentDataContainer;
 
-    @MockedModule IPlayersData mockPlayersData;
-    @MockedModule IFeatherEconomy mockFeatherEconomy;
+    @MockedModule(type = Module.PlayersData) IPlayersData mockPlayersData;
+    @MockedModule(type = Module.Economy) IFeatherEconomy mockFeatherEconomy;
 
     @ActualModule TempModule<LanguageManager> actualLanguage;
 
@@ -73,10 +74,7 @@ class BanknotePickupListenerTest extends ListenerTestMocker<BanknotePickupListen
     }
 
     @Override
-    protected void injectDependencies() {
-        mockFeatherEconomy = DependencyInjector.Economy.Mock();
-        mockPlayersData = DependencyInjector.PlayersData.Mock();
-
+    protected void injectActualModules() {
         actualLanguage = DependencyInjector.Language.Actual(withResources(
                 Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
                 Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT)));

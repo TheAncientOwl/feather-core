@@ -6,7 +6,7 @@
  *
  * @file LanguageCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.7
+ * @version 0.8
  * @test_unit LanguageCommand#0.9
  * @description Unit tests for LanguageCommand
  */
@@ -47,10 +47,9 @@ import org.mockito.Mock;
 import dev.defaultybuf.feathercore.api.common.java.Pair;
 import dev.defaultybuf.feathercore.api.common.language.Message;
 import dev.defaultybuf.feathercore.api.common.minecraft.Placeholder;
-import dev.defaultybuf.feathercore.api.configuration.IConfigFile;
-import dev.defaultybuf.feathercore.api.configuration.IConfigSection;
 import dev.defaultybuf.feathercore.modules.common.CommandTestMocker;
 import dev.defaultybuf.feathercore.modules.common.DependencyInjector;
+import dev.defaultybuf.feathercore.modules.common.DependencyInjector.Module;
 import dev.defaultybuf.feathercore.modules.common.Resource;
 import dev.defaultybuf.feathercore.modules.common.TempModule;
 import dev.defaultybuf.feathercore.modules.common.TestUtils;
@@ -67,6 +66,7 @@ import dev.defaultybuf.feathercore.modules.language.events.LanguageChangeEvent;
 class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
     private static final String EN_LANGUAGE_FILE_CONTENT =
             "language:\n" +
+
                     "  usage: '&8[&6Usage&8] &e/language info/list/[language]'\n" +
                     "  change-success: '&8[&6Language&8] &eChanged successfully&8!'\n" +
                     "  unknown: '&8[&4Language&8] &cInvalid value&8!'\n" +
@@ -85,10 +85,8 @@ class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
 
     @Mock World mockWorld;
     @Mock Player mockPlayer;
-    @Mock IConfigFile mockLanguageConfig;
-    @Mock IConfigSection mockLanguagesConfigSection;
 
-    @MockedModule PlayersData mockPlayersData;
+    @MockedModule(type = Module.PlayersData) PlayersData mockPlayersData;
 
     @ActualModule TempModule<LanguageManager> actualLanguage;
 
@@ -101,9 +99,7 @@ class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
     }
 
     @Override
-    protected void injectDependencies() {
-        mockPlayersData = DependencyInjector.PlayersData.Mock();
-
+    protected void injectActualModules() {
         actualLanguage = DependencyInjector.Language.Actual(withResources(
                 Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
                 Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT),
@@ -122,10 +118,6 @@ class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
         lenient().when(mockPlayersData.getPlayerModel((OfflinePlayer) mockPlayer))
                 .thenReturn(playerModel);
 
-        lenient().when(mockLanguage.getConfig()).thenReturn(mockLanguageConfig);
-        lenient().when(mockLanguageConfig.getConfigurationSection("languages"))
-                .thenReturn(mockLanguagesConfigSection);
-
         messageCaptor = ArgumentCaptor.forClass(String.class);
     }
 
@@ -137,7 +129,6 @@ class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
         assertTrue(commandInstance.hasPermission(mockSender, commandData));
 
         verifyNoInteractions(mockSender);
-        verifyNoInteractions(mockLanguage);
     }
 
     @Test
@@ -148,7 +139,6 @@ class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
         assertTrue(commandInstance.hasPermission(mockSender, commandData));
 
         verifyNoInteractions(mockSender);
-        verifyNoInteractions(mockLanguage);
     }
 
     @Test
@@ -159,7 +149,6 @@ class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
         assertTrue(commandInstance.hasPermission(mockSender, commandData));
 
         verifyNoInteractions(mockSender);
-        verifyNoInteractions(mockLanguage);
     }
 
     @Test
