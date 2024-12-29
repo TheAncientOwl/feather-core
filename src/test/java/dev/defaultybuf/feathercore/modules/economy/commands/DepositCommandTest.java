@@ -6,7 +6,7 @@
  *
  * @file DepositCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @test_unit DepositCommand#0.10
  * @description Unit tests for DepositCommand
  */
@@ -77,11 +77,11 @@ class DepositCommandTest extends CommandTestMocker<DepositCommand> {
     @Mock PlayerInventory mockPlayerInventory;
     @Mock PersistentDataContainer mockPersistentDataContainer;
 
-    @MockedModule(type = Module.PlayersData) IPlayersData mockPlayersData;
-    @MockedModule(type = Module.Economy) IFeatherEconomy mockFeatherEconomy;
+    @MockedModule(of = Module.PlayersData) IPlayersData mockPlayersData;
+    @MockedModule(of = Module.Economy) IFeatherEconomy mockFeatherEconomy;
 
     @ActualModule(
-            type = Module.Language,
+            of = Module.Language,
             resources = {
                     @Resource(path = "config.yml", content = LANGUAGE_CONFIG_CONTENT),
                     @Resource(path = "en.yml", content = EN_LANGUAGE_FILE_CONTENT)

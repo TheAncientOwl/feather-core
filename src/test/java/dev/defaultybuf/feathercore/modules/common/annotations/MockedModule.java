@@ -6,7 +6,7 @@
  *
  * @file MockedModule.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Marker annotation for mocked modules, used for testing
  */
 package dev.defaultybuf.feathercore.modules.common.annotations;
@@ -21,5 +21,5 @@ import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface MockedModule {
-    DependencyInjector.Module type();
+    DependencyInjector.Module of();
 }

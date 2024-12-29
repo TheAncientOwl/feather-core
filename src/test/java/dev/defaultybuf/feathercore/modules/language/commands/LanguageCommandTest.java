@@ -6,7 +6,7 @@
  *
  * @file LanguageCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.9
+ * @version 0.10
  * @test_unit LanguageCommand#0.9
  * @description Unit tests for LanguageCommand
  */
@@ -84,10 +84,10 @@ class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
     @Mock World mockWorld;
     @Mock Player mockPlayer;
 
-    @MockedModule(type = Module.PlayersData) PlayersData mockPlayersData;
+    @MockedModule(of = Module.PlayersData) PlayersData mockPlayersData;
 
     @ActualModule(
-            type = Module.Language,
+            of = Module.Language,
             resources = {
                     @Resource(path = "config.yml", content = LANGUAGE_CONFIG_CONTENT),
                     @Resource(path = "en.yml", content = EN_LANGUAGE_FILE_CONTENT),

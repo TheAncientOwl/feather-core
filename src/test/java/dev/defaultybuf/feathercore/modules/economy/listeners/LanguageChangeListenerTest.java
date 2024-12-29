@@ -6,7 +6,7 @@
  *
  * @file LanguageChangeListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @test_unit LanguageChangeListener#0.5
  * @description Unit tests for LanguageChangeListener
  */
@@ -57,10 +57,10 @@ class LanguageChangeListenerTest extends ListenerTestMocker<LanguageChangeListen
         @Mock PlayerInventory mockPlayerInventory;
         @Mock PersistentDataContainer mockPersistentDataContainer;
 
-        @MockedModule(type = Module.Economy) IFeatherEconomy mockFeatherEconomy;
+        @MockedModule(of = Module.Economy) IFeatherEconomy mockFeatherEconomy;
 
         @ActualModule(
-                        type = Module.Language,
+                        of = Module.Language,
                         resources = {
                                         @Resource(path = "config.yml",
                                                         content = LANGUAGE_CONFIG_CONTENT),

@@ -6,7 +6,7 @@
  *
  * @file BalanceCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @test_unit BalanceCommand#0.8
  * @description Unit tests for BalanceCommand
  */
@@ -70,11 +70,11 @@ class BalanceCommandTest extends CommandTestMocker<BalanceCommand> {
     @Mock CommandSender mockSender;
     @Mock OfflinePlayer mockOfflinePlayer;
 
-    @MockedModule(type = Module.Economy) IFeatherEconomy mockFeatherEconomy;
-    @MockedModule(type = Module.PlayersData) IPlayersData mockPlayersData;
+    @MockedModule(of = Module.Economy) IFeatherEconomy mockFeatherEconomy;
+    @MockedModule(of = Module.PlayersData) IPlayersData mockPlayersData;
 
     @ActualModule(
-            type = Module.Language,
+            of = Module.Language,
             resources = {
                     @Resource(path = "config.yml", content = LANGUAGE_CONFIG_CONTENT),
                     @Resource(path = "en.yml", content = EN_LANGUAGE_FILE_CONTENT),

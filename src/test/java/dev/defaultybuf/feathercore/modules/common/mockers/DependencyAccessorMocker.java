@@ -6,7 +6,7 @@
  *
  * @file DependencyAccessorMocker.java
  * @author Alexandru Delegeanu
- * @version 0.11
+ * @version 0.12
  * @description Utility class for developing unit tests that use modules
  */
 
@@ -44,7 +44,7 @@ public abstract class DependencyAccessorMocker {
     @Mock protected IEnabledModulesProvider mockEnabledModulesProvider;
     @Mock protected Server mockServer;
 
-    @MockedModule(type = Module.Language) protected ILanguage mockLanguage;
+    @MockedModule(of = Module.Language) protected ILanguage mockLanguage;
 
     public static JavaPlugin getJavaPluginMock() {
         return mockJavaPlugin;
@@ -119,7 +119,7 @@ public abstract class DependencyAccessorMocker {
         field.setAccessible(true);
         try {
             MockedModule annotation = field.getAnnotation(MockedModule.class);
-            field.set(this, DependencyInjector.getInjector(annotation.type()).Mock());
+            field.set(this, DependencyInjector.getInjector(annotation.of()).Mock());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -132,7 +132,7 @@ public abstract class DependencyAccessorMocker {
             Resource[] resources = annotation.resources();
 
             field.set(this,
-                    DependencyInjector.getInjector(annotation.type()).Actual(resources));
+                    DependencyInjector.getInjector(annotation.of()).Actual(resources));
         } catch (Exception e) {
             e.printStackTrace();
         }

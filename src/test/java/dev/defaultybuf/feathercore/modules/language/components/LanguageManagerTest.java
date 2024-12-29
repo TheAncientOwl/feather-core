@@ -6,7 +6,7 @@
  *
  * @file LanguageManagerTest.java
  * @author Alexandru Delegeanu
- * @version 0.8
+ * @version 0.9
  * @test_unit LanguageManager#0.8
  * @description Unit tests for LanguageManager
  */
@@ -64,7 +64,7 @@ public class LanguageManagerTest extends ModuleTestMocker<LanguageManager> {
     @Mock ConsoleCommandSender mockConsole;
     @Mock YamlConfiguration mockLanguageConfig;
 
-    @MockedModule(type = Module.PlayersData) PlayersData mockPlayersData;
+    @MockedModule(of = Module.PlayersData) PlayersData mockPlayersData;
 
     @TestField PlayerModel playerModel;
 
