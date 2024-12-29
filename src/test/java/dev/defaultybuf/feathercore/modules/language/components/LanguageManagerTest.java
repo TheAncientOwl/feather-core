@@ -6,7 +6,7 @@
  *
  * @file LanguageManagerTest.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @test_unit LanguageManager#0.8
  * @description Unit tests for LanguageManager
  */
@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
 
 import java.nio.file.Files;
@@ -30,19 +30,16 @@ import org.bukkit.World;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 
 import dev.defaultybuf.feathercore.api.common.java.Pair;
 import dev.defaultybuf.feathercore.modules.common.ModuleTestMocker;
-import dev.defaultybuf.feathercore.modules.common.Modules;
+import dev.defaultybuf.feathercore.modules.common.DependencyInjector;
 import dev.defaultybuf.feathercore.modules.common.TestUtils;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import dev.defaultybuf.feathercore.modules.data.players.components.PlayersData;
-import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 
 public class LanguageManagerTest extends ModuleTestMocker<LanguageManager> {
     public static final record TranslationTestConfig(String shortName, Path actualPath,
@@ -59,13 +56,13 @@ public class LanguageManagerTest extends ModuleTestMocker<LanguageManager> {
             Paths.get("language", "fr.yml"), "test-key: 'test-string-fr'", "test-key",
             "test-string-fr");
 
-    PlayersData mockPlayersData;
-    Player mockPlayer;
     PlayerModel playerModel;
-    World mockWorld;
-
+    @Mock Player mockPlayer;
+    @Mock World mockWorld;
     @Mock ConsoleCommandSender mockConsole;
     @Mock YamlConfiguration mockLanguageConfig;
+
+    PlayersData mockPlayersData;
 
     @Override
     protected Class<LanguageManager> getModuleClass() {
@@ -74,26 +71,22 @@ public class LanguageManagerTest extends ModuleTestMocker<LanguageManager> {
 
     @Override
     protected String getModuleName() {
-        return Modules.LANGUAGE.name();
+        return DependencyInjector.Language.name();
     }
 
     @Override
-    protected List<Pair<Class<?>, Object>> getOtherMockDependencies() {
-        mockPlayersData = Modules.PLAYERS_DATA.Mock();
+    protected List<AutoCloseable> injectDependencies() {
+        mockPlayersData = DependencyInjector.PlayersData.Mock();
 
-        return List.of(Pair.of(IPlayersData.class, mockPlayersData));
+        return null;
     }
 
-    @BeforeEach
-    void setUpPlayerMock() {
-        mockWorld = mock(World.class);
-        mockPlayer = mock(Player.class);
-
-        Mockito.lenient().when(mockPlayer.getLocation())
-                .thenReturn(new Location(mockWorld, 0, 0, 0));
+    @Override
+    protected void setUp() {
+        lenient().when(mockPlayer.getLocation()).thenReturn(new Location(mockWorld, 0, 0, 0));
 
         playerModel = new PlayerModel(mockPlayer, 0, EN.shortName);
-        Mockito.lenient().when(mockPlayersData.getPlayerModel(mockPlayer)).thenReturn(playerModel);
+        lenient().when(mockPlayersData.getPlayerModel(mockPlayer)).thenReturn(playerModel);
     }
 
     @Test

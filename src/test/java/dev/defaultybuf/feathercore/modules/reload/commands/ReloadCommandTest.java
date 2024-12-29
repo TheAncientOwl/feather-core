@@ -6,7 +6,7 @@
  *
  * @file ReloadCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @test_unit ReloadCommand#0.7
  * @description Unit tests for ReloadCommand
  */
@@ -35,7 +35,7 @@ import dev.defaultybuf.feathercore.api.common.java.Pair;
 import dev.defaultybuf.feathercore.api.common.language.Message;
 import dev.defaultybuf.feathercore.api.core.FeatherModule;
 import dev.defaultybuf.feathercore.modules.common.CommandTestMocker;
-import dev.defaultybuf.feathercore.modules.common.Modules;
+import dev.defaultybuf.feathercore.modules.common.DependencyInjector;
 import dev.defaultybuf.feathercore.modules.language.components.LanguageManager;
 
 class ReloadCommandTest extends CommandTestMocker<ReloadCommand> {
@@ -70,8 +70,9 @@ class ReloadCommandTest extends CommandTestMocker<ReloadCommand> {
 
         @Test
         void testExecute_ReloadsConfigsAndTranslations() {
-                final List<FeatherModule> enabledModules =
-                                List.of(Modules.RELOAD.Mock(), mock(LanguageManager.class));
+                final List<FeatherModule> enabledModules = List.of(
+                                DependencyInjector.Reload.Mock(),
+                                mock(LanguageManager.class));
 
                 var commandData = new ReloadCommand.CommandData(enabledModules);
                 commandInstance.execute(mockSender, commandData);
@@ -83,11 +84,13 @@ class ReloadCommandTest extends CommandTestMocker<ReloadCommand> {
 
         @Test
         void testParse_ValidAllArgument() {
-                final List<FeatherModule> enabledModules = List.of(Modules.RELOAD.Mock(),
-                                Modules.LANGUAGE.Mock(), Modules.PLAYERS_DATA.Mock());
+                final List<FeatherModule> enabledModules = List.of(
+                                DependencyInjector.Reload.Mock(),
+                                DependencyInjector.Language.Mock(),
+                                DependencyInjector.PlayersData.Mock());
                 when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
 
-                var args = new String[] {Modules.RELOAD.name()};
+                var args = new String[] {DependencyInjector.Reload.name()};
                 var result = commandInstance.parse(mockSender, args);
 
                 assertNotNull(result);
@@ -97,8 +100,10 @@ class ReloadCommandTest extends CommandTestMocker<ReloadCommand> {
 
         @Test
         void testParse_ValidArgument() {
-                final List<FeatherModule> enabledModules = List.of(Modules.RELOAD.Mock(),
-                                Modules.LANGUAGE.Mock(), Modules.PLAYERS_DATA.Mock());
+                final List<FeatherModule> enabledModules = List.of(
+                                DependencyInjector.Reload.Mock(),
+                                DependencyInjector.Language.Mock(),
+                                DependencyInjector.PlayersData.Mock());
                 when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
 
                 var args = new String[] {"all"};
@@ -137,8 +142,10 @@ class ReloadCommandTest extends CommandTestMocker<ReloadCommand> {
 
         @Test
         void testOnTabComplete_NoArgument() {
-                final List<FeatherModule> enabledModules = List.of(Modules.RELOAD.Mock(),
-                                Modules.LANGUAGE.Mock(), Modules.PLAYERS_DATA.Mock());
+                final List<FeatherModule> enabledModules = List.of(
+                                DependencyInjector.Reload.Mock(),
+                                DependencyInjector.Language.Mock(),
+                                DependencyInjector.PlayersData.Mock());
                 when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
 
                 var args = new String[] {};
@@ -146,32 +153,40 @@ class ReloadCommandTest extends CommandTestMocker<ReloadCommand> {
 
                 assertEquals(4, completions.size());
                 assertEquals("all", completions.get(0), "1st completion should be 'all'");
-                assertEquals(Modules.RELOAD.name(), completions.get(1),
-                                "2nd completion should be '" + Modules.RELOAD.name() + "'");
-                assertEquals(Modules.LANGUAGE.name(), completions.get(2),
-                                "3rd completion should be '" + Modules.LANGUAGE.name() + "'");
-                assertEquals(Modules.PLAYERS_DATA.name(), completions.get(3),
-                                "4th completion should be '" + Modules.PLAYERS_DATA.name() + "'");
+                assertEquals(DependencyInjector.Reload.name(), completions.get(1),
+                                "2nd completion should be '" + DependencyInjector.Reload.name()
+                                                + "'");
+                assertEquals(DependencyInjector.Language.name(), completions.get(2),
+                                "3rd completion should be '" + DependencyInjector.Language.name()
+                                                + "'");
+                assertEquals(DependencyInjector.PlayersData.name(), completions.get(3),
+                                "4th completion should be '"
+                                                + DependencyInjector.PlayersData.name() + "'");
         }
 
         @Test
         void testOnTabComplete_SingleArgument() {
-                final List<FeatherModule> enabledModules = List.of(Modules.RELOAD.Mock(),
-                                Modules.LANGUAGE.Mock(), Modules.PLAYERS_DATA.Mock());
+                final List<FeatherModule> enabledModules = List.of(
+                                DependencyInjector.Reload.Mock(),
+                                DependencyInjector.Language.Mock(),
+                                DependencyInjector.PlayersData.Mock());
                 when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
 
                 var args = new String[] {"re"};
                 var completions = commandInstance.onTabComplete(args);
 
                 assertEquals(1, completions.size());
-                assertEquals(Modules.RELOAD.name(), completions.get(0),
-                                "1st completion should be '" + Modules.RELOAD.name() + "'");
+                assertEquals(DependencyInjector.Reload.name(), completions.get(0),
+                                "1st completion should be '" + DependencyInjector.Reload.name()
+                                                + "'");
         }
 
         @Test
         void testOnTabComplete_NoMatchingArgument() {
-                final List<FeatherModule> enabledModules = List.of(Modules.RELOAD.Mock(),
-                                Modules.LANGUAGE.Mock(), Modules.PLAYERS_DATA.Mock());
+                final List<FeatherModule> enabledModules = List.of(
+                                DependencyInjector.Reload.Mock(),
+                                DependencyInjector.Language.Mock(),
+                                DependencyInjector.PlayersData.Mock());
                 when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
 
                 var args = new String[] {"unknown"};

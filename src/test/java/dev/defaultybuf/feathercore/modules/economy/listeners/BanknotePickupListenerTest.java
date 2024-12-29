@@ -6,17 +6,17 @@
  *
  * @file BanknotePickupListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @test_unit BanknotePickupListener#0.5
  * @description Unit tests for BanknotePickupListener
  */
 
 package dev.defaultybuf.feathercore.modules.economy.listeners;
 
-import static dev.defaultybuf.feathercore.modules.common.Modules.injectAs;
-import static dev.defaultybuf.feathercore.modules.common.Modules.withResources;
+import static dev.defaultybuf.feathercore.modules.common.DependencyInjector.withResources;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -31,22 +31,18 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 
-import dev.defaultybuf.feathercore.api.common.java.Pair;
 import dev.defaultybuf.feathercore.api.common.minecraft.NamespacedKey;
 import dev.defaultybuf.feathercore.modules.common.ListenerTestMocker;
-import dev.defaultybuf.feathercore.modules.common.Modules;
+import dev.defaultybuf.feathercore.modules.common.DependencyInjector;
 import dev.defaultybuf.feathercore.modules.common.Resource;
 import dev.defaultybuf.feathercore.modules.common.TempModule;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 import dev.defaultybuf.feathercore.modules.economy.interfaces.IFeatherEconomy;
 import dev.defaultybuf.feathercore.modules.language.components.LanguageManager;
-import dev.defaultybuf.feathercore.modules.language.interfaces.ILanguage;
 
 class BanknotePickupListenerTest extends ListenerTestMocker<BanknotePickupListener> {
     private static final String LANGUAGE_CONFIG_CONTENT = "languages:\n en: English";
@@ -77,31 +73,24 @@ class BanknotePickupListenerTest extends ListenerTestMocker<BanknotePickupListen
     }
 
     @Override
-    protected List<Pair<Class<?>, Object>> getOtherMockDependencies() {
-        mockFeatherEconomy = Modules.ECONOMY.Mock();
-        mockPlayersData = Modules.PLAYERS_DATA.Mock();
-        return List.of(
-                Pair.of(IFeatherEconomy.class, mockFeatherEconomy),
-                Pair.of(IPlayersData.class, mockPlayersData));
-    }
+    protected List<AutoCloseable> injectDependencies() {
+        mockFeatherEconomy = DependencyInjector.Economy.Mock();
+        mockPlayersData = DependencyInjector.PlayersData.Mock();
 
-    @Override
-    protected List<AutoCloseable> injectActualModules() {
-        actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap,
-                injectAs(ILanguage.class), withResources(
-                        Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
-                        Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT)));
+        actualLanguage = DependencyInjector.Language.Actual(withResources(
+                Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
+                Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT)));
 
         return List.of(actualLanguage);
     }
 
-    @BeforeEach
-    void setUp() {
-        Mockito.lenient().when(mockEvent.getEntity()).thenReturn(mockPlayer);
-        Mockito.lenient().when(mockEvent.getEntityType()).thenReturn(EntityType.PLAYER);
-        Mockito.lenient().when(mockEvent.getItem()).thenReturn(mockItem);
-        Mockito.lenient().when(mockItem.getItemStack()).thenReturn(mockItemStack);
-        Mockito.lenient().when(mockItemStack.getItemMeta()).thenReturn(mockItemMeta);
+    @Override
+    protected void setUp() {
+        lenient().when(mockEvent.getEntity()).thenReturn(mockPlayer);
+        lenient().when(mockEvent.getEntityType()).thenReturn(EntityType.PLAYER);
+        lenient().when(mockEvent.getItem()).thenReturn(mockItem);
+        lenient().when(mockItem.getItemStack()).thenReturn(mockItemStack);
+        lenient().when(mockItemStack.getItemMeta()).thenReturn(mockItemMeta);
 
     }
 

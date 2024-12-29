@@ -6,11 +6,13 @@
  *
  * @file DependencyAccessorMocker.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @description Utility class for developing unit tests that use modules
  */
 
 package dev.defaultybuf.feathercore.modules.common;
+
+import static org.mockito.Mockito.lenient;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,55 +24,56 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import dev.defaultybuf.feathercore.api.common.java.Pair;
 import dev.defaultybuf.feathercore.api.core.IFeatherLogger;
 import dev.defaultybuf.feathercore.core.interfaces.IEnabledModulesProvider;
 import dev.defaultybuf.feathercore.modules.language.interfaces.ILanguage;
 
 @ExtendWith(MockitoExtension.class)
 public abstract class DependencyAccessorMocker {
-    protected Map<Class<?>, Object> dependenciesMap;
+    private List<AutoCloseable> injectedDependencies = null;
 
-    protected ILanguage mockLanguage;
-    @Mock protected JavaPlugin mockJavaPlugin;
+    protected static Map<Class<?>, Object> dependenciesMap;
+    @Mock static protected JavaPlugin mockJavaPlugin;
+
     @Mock protected IFeatherLogger mockFeatherLogger;
     @Mock protected IEnabledModulesProvider mockEnabledModulesProvider;
     @Mock protected Server mockServer;
 
-    private List<AutoCloseable> actualModules = null;
+    protected ILanguage mockLanguage;
+
+    public static JavaPlugin getJavaPluginMock() {
+        return mockJavaPlugin;
+    }
+
+    public static Map<Class<?>, Object> getDependenciesMap() {
+        return dependenciesMap;
+    }
 
     @BeforeEach
-    void setUpDependencies() {
-        mockLanguage = Modules.LANGUAGE.Mock();
+    void setUpTest() {
+        lenient().when(mockJavaPlugin.getName()).thenReturn("FeatherCore");
+        lenient().when(mockJavaPlugin.getServer()).thenReturn(mockServer);
+        lenient().when(mockJavaPlugin.getDataFolder()).thenReturn(TestUtils.getTestDataFolder());
 
         dependenciesMap = new HashMap<>();
-        dependenciesMap.put(ILanguage.class, mockLanguage);
+
         dependenciesMap.put(JavaPlugin.class, mockJavaPlugin);
         dependenciesMap.put(IFeatherLogger.class, mockFeatherLogger);
         dependenciesMap.put(IEnabledModulesProvider.class, mockEnabledModulesProvider);
 
-        final var otherMockDependencies = getOtherMockDependencies();
-        if (otherMockDependencies != null) {
-            for (final var dependency : otherMockDependencies) {
-                dependenciesMap.put(dependency.first, dependency.second);
-            }
-        }
+        mockLanguage = DependencyInjector.Language.Mock();
 
-        actualModules = injectActualModules();
+        injectedDependencies = injectDependencies();
 
-        Mockito.lenient().when(mockJavaPlugin.getName()).thenReturn("FeatherCore");
-        Mockito.lenient().when(mockJavaPlugin.getServer()).thenReturn(mockServer);
-        Mockito.lenient()
-                .when(mockJavaPlugin.getDataFolder()).thenReturn(TestUtils.getTestDataFolder());
+        setUp();
     }
 
     @AfterEach
-    void tearDownActualModules() {
-        if (actualModules != null) {
-            for (final var module : actualModules) {
+    void tearDownTest() {
+        if (injectedDependencies != null) {
+            for (final var module : injectedDependencies) {
                 try {
                     module.close();
                 } catch (final Exception e) {
@@ -78,14 +81,15 @@ public abstract class DependencyAccessorMocker {
                 }
             }
         }
+
+        tearDown();
     }
 
-    // TODO: Refactor to void injectMockModules()
-    protected List<Pair<Class<?>, Object>> getOtherMockDependencies() {
+    protected List<AutoCloseable> injectDependencies() {
         return null;
     }
 
-    protected List<AutoCloseable> injectActualModules() {
-        return null;
-    }
+    protected void setUp() {}
+
+    protected void tearDown() {}
 }

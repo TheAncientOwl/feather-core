@@ -4,15 +4,17 @@
  * ------------------------------------------------------------------------- *
  * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
  *
- * @file Modules.java
+ * @file DependencyInjector.java
  * @author Alexandru Delegeanu
- * @version 0.6
- * @description Create mocks / actual instances of all modules
+ * @version 0.7
+ * @description Create mocks / actual instances of all modules 
+ *              and inject them into tests dependencies map
  */
 
 package dev.defaultybuf.feathercore.modules.common;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
 
 import java.io.IOException;
@@ -20,21 +22,21 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.function.Supplier;
-
-import org.bukkit.plugin.java.JavaPlugin;
-import org.mockito.Mockito;
 
 import dev.defaultybuf.feathercore.api.configuration.IConfigFile;
 import dev.defaultybuf.feathercore.api.core.FeatherModule;
 import dev.defaultybuf.feathercore.core.configuration.bukkit.BukkitConfigFile;
 import dev.defaultybuf.feathercore.modules.data.players.components.PlayersData;
+import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 import dev.defaultybuf.feathercore.modules.economy.components.FeatherEconomyProvider;
+import dev.defaultybuf.feathercore.modules.economy.interfaces.IFeatherEconomy;
 import dev.defaultybuf.feathercore.modules.language.components.LanguageManager;
+import dev.defaultybuf.feathercore.modules.language.interfaces.ILanguage;
 import dev.defaultybuf.feathercore.modules.reload.components.ReloadModule;
+import dev.defaultybuf.feathercore.modules.reload.interfaces.IReloadModule;
 
-public final class Modules {
+public final class DependencyInjector {
     public static final <T> Class<T> injectAs(Class<T> clazz) {
         return clazz;
     }
@@ -43,31 +45,37 @@ public final class Modules {
         return List.of(resources);
     }
 
-    public static final ModuleConfig<LanguageManager> LANGUAGE =
-            new ModuleConfig<LanguageManager>(
+    public static final ModuleInjector<LanguageManager> Language =
+            new ModuleInjector<LanguageManager>(
                     LanguageManager.class,
+                    ILanguage.class,
                     "LanguageManager",
                     "language");
 
-    public static final ModuleConfig<ReloadModule> RELOAD =
-            new ModuleConfig<ReloadModule>(
+    public static final ModuleInjector<ReloadModule> Reload =
+            new ModuleInjector<ReloadModule>(
                     ReloadModule.class,
+                    IReloadModule.class,
                     "ReloadModule",
                     "reload");
 
-    public static final ModuleConfig<PlayersData> PLAYERS_DATA =
-            new ModuleConfig<PlayersData>(
+    public static final ModuleInjector<PlayersData> PlayersData =
+            new ModuleInjector<PlayersData>(
                     PlayersData.class,
+                    IPlayersData.class,
                     "PlayersData",
                     "players-data");
 
-    public static final ModuleConfig<FeatherEconomyProvider> ECONOMY =
-            new ModuleConfig<FeatherEconomyProvider>(
+    public static final ModuleInjector<FeatherEconomyProvider> Economy =
+            new ModuleInjector<FeatherEconomyProvider>(
                     FeatherEconomyProvider.class,
+                    IFeatherEconomy.class,
                     "FeatherEconomy",
                     "economy");
 
-    public static final record ModuleConfig<T extends FeatherModule>(Class<T> clazz, String name,
+    public static final record ModuleInjector<T extends FeatherModule>(Class<T> moduleClass,
+            Class<?> interfaceClass,
+            String name,
             String relativeFolder) {
         public Path relativeConfig() {
             return relativeResource("config.yml");
@@ -87,20 +95,24 @@ public final class Modules {
         }
 
         public T Mock() {
-            var mockModule = mock(clazz);
+            var mockModule = mock(moduleClass);
             var configMock = mock(IConfigFile.class);
 
-            Mockito.lenient().when(mockModule.getModuleName()).thenReturn(name);
-            Mockito.lenient().when(mockModule.getConfig()).thenReturn(configMock);
+            lenient().when(mockModule.getModuleName()).thenReturn(name);
+            lenient().when(mockModule.getConfig()).thenReturn(configMock);
+
+            DependencyAccessorMocker.getDependenciesMap().put(interfaceClass, mockModule);
 
             return mockModule;
         }
 
-        public TempModule<T> Actual(JavaPlugin plugin, Map<Class<?>, Object> dependencies,
-                Class<?> injectAs, List<Resource> resources) {
+        public TempModule<T> Actual(List<Resource> resources) {
             T moduleOut = null;
 
-            Mockito.lenient().when(plugin.getDataFolder())
+            var plugin = DependencyAccessorMocker.getJavaPluginMock();
+            var dependencies = DependencyAccessorMocker.getDependenciesMap();
+
+            lenient().when(plugin.getDataFolder())
                     .thenReturn(TestUtils.getTestDataFolder());
 
             final var resourcesTempFiles = new ArrayList<TempFile>();
@@ -110,7 +122,7 @@ public final class Modules {
             }
 
             try {
-                moduleOut = (T) clazz.getConstructor(FeatherModule.InitData.class)
+                moduleOut = (T) moduleClass.getConstructor(FeatherModule.InitData.class)
                         .newInstance(new FeatherModule.InitData(
                                 name,
                                 (Supplier<IConfigFile>) () -> {
@@ -134,7 +146,7 @@ public final class Modules {
                     "Failed to load config file for " + name + " module, '" + relativeConfig()
                             + "'");
 
-            dependencies.put(injectAs, tempModule.module());
+            dependencies.put(interfaceClass, tempModule.module());
 
             return tempModule;
         }

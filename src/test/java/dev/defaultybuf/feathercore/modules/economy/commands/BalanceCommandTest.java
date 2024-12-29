@@ -6,20 +6,20 @@
  *
  * @file BalanceCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @test_unit BalanceCommand#0.8
  * @description Unit tests for BalanceCommand
  */
 
 package dev.defaultybuf.feathercore.modules.economy.commands;
 
-import static dev.defaultybuf.feathercore.modules.common.Modules.injectAs;
-import static dev.defaultybuf.feathercore.modules.common.Modules.withResources;
+import static dev.defaultybuf.feathercore.modules.common.DependencyInjector.withResources;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.verify;
@@ -32,21 +32,17 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 
-import dev.defaultybuf.feathercore.api.common.java.Pair;
 import dev.defaultybuf.feathercore.modules.common.CommandTestMocker;
-import dev.defaultybuf.feathercore.modules.common.Modules;
+import dev.defaultybuf.feathercore.modules.common.DependencyInjector;
 import dev.defaultybuf.feathercore.modules.common.Resource;
 import dev.defaultybuf.feathercore.modules.common.TempModule;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 import dev.defaultybuf.feathercore.modules.economy.interfaces.IFeatherEconomy;
 import dev.defaultybuf.feathercore.modules.language.components.LanguageManager;
-import dev.defaultybuf.feathercore.modules.language.interfaces.ILanguage;
 import net.milkbowl.vault.economy.Economy;
 
 class BalanceCommandTest extends CommandTestMocker<BalanceCommand> {
@@ -84,35 +80,28 @@ class BalanceCommandTest extends CommandTestMocker<BalanceCommand> {
     }
 
     @Override
-    protected List<Pair<Class<?>, Object>> getOtherMockDependencies() {
-        mockFeatherEconomy = Modules.ECONOMY.Mock();
+    protected List<AutoCloseable> injectDependencies() {
+        mockFeatherEconomy = DependencyInjector.Economy.Mock();
 
         var config = mockFeatherEconomy.getConfig();
-        Mockito.lenient().when(config.getString("banknote.key")).thenReturn("banknote_key");
+        lenient().when(config.getString("banknote.key")).thenReturn("banknote_key");
 
-        Mockito.lenient().when(mockFeatherEconomy.getEconomy()).thenReturn(mock(Economy.class));
+        lenient().when(mockFeatherEconomy.getEconomy()).thenReturn(mock(Economy.class));
 
-        mockPlayersData = Modules.PLAYERS_DATA.Mock();
+        mockPlayersData = DependencyInjector.PlayersData.Mock();
 
-        return List.of(Pair.of(IFeatherEconomy.class, mockFeatherEconomy),
-                Pair.of(IPlayersData.class, mockPlayersData));
-    }
-
-    @Override
-    protected List<AutoCloseable> injectActualModules() {
-        actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap,
-                injectAs(ILanguage.class), withResources(
-                        Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
-                        Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT)));
+        actualLanguage = DependencyInjector.Language.Actual(withResources(
+                Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
+                Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT)));
 
         return List.of(actualLanguage);
     }
 
-    @BeforeEach
-    void setUp() {
-        Mockito.lenient().when(mockSender.hasPermission("feathercore.economy.general.balance"))
+    @Override
+    protected void setUp() {
+        lenient().when(mockSender.hasPermission("feathercore.economy.general.balance"))
                 .thenReturn(true);
-        Mockito.lenient().when(mockPlayer.hasPermission("feathercore.economy.general.balance"))
+        lenient().when(mockPlayer.hasPermission("feathercore.economy.general.balance"))
                 .thenReturn(true);
 
         playerModel = new PlayerModel();
