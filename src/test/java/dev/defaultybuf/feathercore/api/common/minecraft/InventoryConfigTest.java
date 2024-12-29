@@ -6,7 +6,7 @@
  *
  * @file InventoryConfigTest.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @test_unit InventoryConfig#0.1
  * @description Unit tests for InventoryConfig
  */
@@ -34,9 +34,10 @@ import org.mockbukkit.mockbukkit.ServerMock;
 
 import dev.defaultybuf.feathercore.api.configuration.IConfigSection;
 import dev.defaultybuf.feathercore.api.configuration.IPropertyAccessor;
+import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
 
 class InventoryConfigTest {
-    @SuppressWarnings("unused") private ServerMock server = null;
+    @TestField private ServerMock server = null;
 
     @BeforeEach
     void setUp() {

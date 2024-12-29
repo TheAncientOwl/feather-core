@@ -6,7 +6,7 @@
  *
  * @file DependencyAccessorMocker.java
  * @author Alexandru Delegeanu
- * @version 0.7
+ * @version 0.8
  * @description Utility class for developing unit tests that use modules
  */
 
@@ -14,8 +14,8 @@ package dev.defaultybuf.feathercore.modules.common;
 
 import static org.mockito.Mockito.lenient;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Server;
@@ -28,12 +28,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import dev.defaultybuf.feathercore.api.core.IFeatherLogger;
 import dev.defaultybuf.feathercore.core.interfaces.IEnabledModulesProvider;
+import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
+import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
 import dev.defaultybuf.feathercore.modules.language.interfaces.ILanguage;
 
 @ExtendWith(MockitoExtension.class)
 public abstract class DependencyAccessorMocker {
-    private List<AutoCloseable> injectedDependencies = null;
-
     protected static Map<Class<?>, Object> dependenciesMap;
     @Mock static protected JavaPlugin mockJavaPlugin;
 
@@ -41,7 +41,7 @@ public abstract class DependencyAccessorMocker {
     @Mock protected IEnabledModulesProvider mockEnabledModulesProvider;
     @Mock protected Server mockServer;
 
-    protected ILanguage mockLanguage;
+    @MockedModule protected ILanguage mockLanguage;
 
     public static JavaPlugin getJavaPluginMock() {
         return mockJavaPlugin;
@@ -65,18 +65,22 @@ public abstract class DependencyAccessorMocker {
 
         mockLanguage = DependencyInjector.Language.Mock();
 
-        injectedDependencies = injectDependencies();
+        injectDependencies();
 
         setUp();
     }
 
     @AfterEach
     void tearDownTest() {
-        if (injectedDependencies != null) {
-            for (final var module : injectedDependencies) {
+        for (Field field : this.getClass().getDeclaredFields()) {
+            if (field.isAnnotationPresent(ActualModule.class)) {
+                field.setAccessible(true);
                 try {
-                    module.close();
-                } catch (final Exception e) {
+                    Object fieldValue = field.get(this);
+                    if (fieldValue instanceof AutoCloseable) {
+                        ((AutoCloseable) fieldValue).close();
+                    }
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -85,9 +89,7 @@ public abstract class DependencyAccessorMocker {
         tearDown();
     }
 
-    protected List<AutoCloseable> injectDependencies() {
-        return null;
-    }
+    protected void injectDependencies() {}
 
     protected void setUp() {}
 

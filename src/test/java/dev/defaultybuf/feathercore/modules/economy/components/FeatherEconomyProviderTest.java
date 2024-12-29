@@ -6,7 +6,7 @@
  *
  * @file FeatherEconomyProviderTest.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @test_unit FeatherEconomyProvider#0.8
  * @description Unit tests for FeatherEconomyProvider
  */
@@ -40,10 +40,10 @@ import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 import net.milkbowl.vault.economy.Economy;
 
 class FeatherEconomyProviderTest extends ModuleTestMocker<FeatherEconomyProvider> {
+    @Mock IPlayersData mockPlayersData;
     @Mock PluginManager mockPluginManager;
     @Mock ServicesManager mockServicesManager;
     @Mock RegisteredServiceProvider<Economy> mockRegisteredServiceProvider;
-    @Mock IPlayersData mockPlayersData;
 
     @Override
     protected Class<FeatherEconomyProvider> getModuleClass() {

@@ -6,7 +6,7 @@
  *
  * @file BalanceCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit BalanceCommand#0.8
  * @description Unit tests for BalanceCommand
  */
@@ -39,6 +39,9 @@ import dev.defaultybuf.feathercore.modules.common.CommandTestMocker;
 import dev.defaultybuf.feathercore.modules.common.DependencyInjector;
 import dev.defaultybuf.feathercore.modules.common.Resource;
 import dev.defaultybuf.feathercore.modules.common.TempModule;
+import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
+import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
+import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 import dev.defaultybuf.feathercore.modules.economy.interfaces.IFeatherEconomy;
@@ -64,15 +67,16 @@ class BalanceCommandTest extends CommandTestMocker<BalanceCommand> {
                     "    lore:\n" +
                     "      - '&7Banknote value: &e{0}'";
 
-    @Mock CommandSender mockSender;
     @Mock Player mockPlayer;
+    @Mock CommandSender mockSender;
     @Mock OfflinePlayer mockOfflinePlayer;
 
-    PlayerModel playerModel;
-    IFeatherEconomy mockFeatherEconomy;
-    IPlayersData mockPlayersData;
+    @MockedModule IPlayersData mockPlayersData;
+    @MockedModule IFeatherEconomy mockFeatherEconomy;
 
-    TempModule<LanguageManager> actualLanguage;
+    @ActualModule TempModule<LanguageManager> actualLanguage;
+
+    @TestField PlayerModel playerModel;
 
     @Override
     protected Class<BalanceCommand> getCommandClass() {
@@ -80,7 +84,7 @@ class BalanceCommandTest extends CommandTestMocker<BalanceCommand> {
     }
 
     @Override
-    protected List<AutoCloseable> injectDependencies() {
+    protected void injectDependencies() {
         mockFeatherEconomy = DependencyInjector.Economy.Mock();
 
         var config = mockFeatherEconomy.getConfig();
@@ -93,8 +97,6 @@ class BalanceCommandTest extends CommandTestMocker<BalanceCommand> {
         actualLanguage = DependencyInjector.Language.Actual(withResources(
                 Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
                 Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT)));
-
-        return List.of(actualLanguage);
     }
 
     @Override

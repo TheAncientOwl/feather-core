@@ -6,7 +6,7 @@
  *
  * @file DepositCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit DepositCommand#0.10
  * @description Unit tests for DepositCommand
  */
@@ -27,8 +27,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.List;
-
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -43,6 +41,9 @@ import dev.defaultybuf.feathercore.modules.common.CommandTestMocker;
 import dev.defaultybuf.feathercore.modules.common.DependencyInjector;
 import dev.defaultybuf.feathercore.modules.common.Resource;
 import dev.defaultybuf.feathercore.modules.common.TempModule;
+import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
+import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
+import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 import dev.defaultybuf.feathercore.modules.economy.interfaces.IFeatherEconomy;
@@ -70,18 +71,19 @@ class DepositCommandTest extends CommandTestMocker<DepositCommand> {
                     "      negative-amount: '&cYou cannot deposit negative amounts.'\n" +
                     "    success: 'Deposit successful'";
 
-    @Mock CommandSender mockSender;
     @Mock Player mockPlayer;
-    @Mock PlayerInventory mockPlayerInventory;
-    @Mock ItemStack mockItemStack;
     @Mock ItemMeta mockItemMeta;
+    @Mock ItemStack mockItemStack;
+    @Mock CommandSender mockSender;
+    @Mock PlayerInventory mockPlayerInventory;
     @Mock PersistentDataContainer mockPersistentDataContainer;
 
-    PlayerModel playerModel;
-    IFeatherEconomy mockFeatherEconomy;
-    IPlayersData mockPlayersData;
+    @MockedModule IPlayersData mockPlayersData;
+    @MockedModule IFeatherEconomy mockFeatherEconomy;
 
-    TempModule<LanguageManager> actualLanguage;
+    @ActualModule TempModule<LanguageManager> actualLanguage;
+
+    @TestField PlayerModel playerModel;
 
     @Override
     protected Class<DepositCommand> getCommandClass() {
@@ -89,7 +91,7 @@ class DepositCommandTest extends CommandTestMocker<DepositCommand> {
     }
 
     @Override
-    protected List<AutoCloseable> injectDependencies() {
+    protected void injectDependencies() {
         mockFeatherEconomy = DependencyInjector.Economy.Mock();
 
         var config = mockFeatherEconomy.getConfig();
@@ -102,8 +104,6 @@ class DepositCommandTest extends CommandTestMocker<DepositCommand> {
         actualLanguage = DependencyInjector.Language.Actual(withResources(
                 Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
                 Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT)));
-
-        return List.of(actualLanguage);
     }
 
     @Override

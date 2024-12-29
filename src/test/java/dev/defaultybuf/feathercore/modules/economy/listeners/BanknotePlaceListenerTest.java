@@ -6,7 +6,7 @@
  *
  * @file BanknotePlaceListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit BanknotePlaceListener#0.6
  * @description Unit tests for BanknotePlaceListener
  */
@@ -19,8 +19,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.List;
-
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -28,18 +26,18 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import dev.defaultybuf.feathercore.modules.common.ListenerTestMocker;
 import dev.defaultybuf.feathercore.modules.common.DependencyInjector;
+import dev.defaultybuf.feathercore.modules.common.ListenerTestMocker;
+import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
 import dev.defaultybuf.feathercore.modules.economy.interfaces.IFeatherEconomy;
 
 class BanknotePlaceListenerTest extends ListenerTestMocker<BanknotePlaceListener> {
-
     @Mock BlockPlaceEvent mockEvent;
     @Mock ItemStack mockItemStack;
     @Mock ItemMeta mockItemMeta;
     @Mock PersistentDataContainer mockPersistentDataContainer;
 
-    IFeatherEconomy mockFeatherEconomy;
+    @MockedModule IFeatherEconomy mockFeatherEconomy;
 
     @Override
     protected Class<BanknotePlaceListener> getListenerClass() {
@@ -47,13 +45,11 @@ class BanknotePlaceListenerTest extends ListenerTestMocker<BanknotePlaceListener
     }
 
     @Override
-    protected List<AutoCloseable> injectDependencies() {
+    protected void injectDependencies() {
         mockFeatherEconomy = DependencyInjector.Economy.Mock();
 
         var config = mockFeatherEconomy.getConfig();
         lenient().when(config.getString("banknote.key")).thenReturn("banknote_key");
-
-        return null;
     }
 
     @Override

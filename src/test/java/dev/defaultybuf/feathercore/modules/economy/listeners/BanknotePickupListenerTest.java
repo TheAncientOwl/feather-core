@@ -6,7 +6,7 @@
  *
  * @file BanknotePickupListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @test_unit BanknotePickupListener#0.5
  * @description Unit tests for BanknotePickupListener
  */
@@ -21,8 +21,6 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import java.util.List;
-
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
@@ -35,10 +33,12 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import dev.defaultybuf.feathercore.api.common.minecraft.NamespacedKey;
-import dev.defaultybuf.feathercore.modules.common.ListenerTestMocker;
 import dev.defaultybuf.feathercore.modules.common.DependencyInjector;
+import dev.defaultybuf.feathercore.modules.common.ListenerTestMocker;
 import dev.defaultybuf.feathercore.modules.common.Resource;
 import dev.defaultybuf.feathercore.modules.common.TempModule;
+import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
+import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 import dev.defaultybuf.feathercore.modules.economy.interfaces.IFeatherEconomy;
@@ -54,18 +54,18 @@ class BanknotePickupListenerTest extends ListenerTestMocker<BanknotePickupListen
                     "    lore:\n" +
                     "      - '&7Banknote value: &e{0}'";
 
-    @Mock EntityPickupItemEvent mockEvent;
-    @Mock Player mockPlayer;
     @Mock Item mockItem;
-    @Mock ItemStack mockItemStack;
+    @Mock Player mockPlayer;
     @Mock ItemMeta mockItemMeta;
+    @Mock ItemStack mockItemStack;
     @Mock NamespacedKey mockNamespacedKey;
+    @Mock EntityPickupItemEvent mockEvent;
     @Mock PersistentDataContainer mockPersistentDataContainer;
 
-    IFeatherEconomy mockFeatherEconomy;
-    IPlayersData mockPlayersData;
+    @MockedModule IPlayersData mockPlayersData;
+    @MockedModule IFeatherEconomy mockFeatherEconomy;
 
-    TempModule<LanguageManager> actualLanguage;
+    @ActualModule TempModule<LanguageManager> actualLanguage;
 
     @Override
     protected Class<BanknotePickupListener> getListenerClass() {
@@ -73,15 +73,13 @@ class BanknotePickupListenerTest extends ListenerTestMocker<BanknotePickupListen
     }
 
     @Override
-    protected List<AutoCloseable> injectDependencies() {
+    protected void injectDependencies() {
         mockFeatherEconomy = DependencyInjector.Economy.Mock();
         mockPlayersData = DependencyInjector.PlayersData.Mock();
 
         actualLanguage = DependencyInjector.Language.Actual(withResources(
                 Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
                 Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT)));
-
-        return List.of(actualLanguage);
     }
 
     @Override

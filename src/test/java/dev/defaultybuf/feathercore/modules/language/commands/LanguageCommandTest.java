@@ -6,7 +6,7 @@
  *
  * @file LanguageCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @test_unit LanguageCommand#0.9
  * @description Unit tests for LanguageCommand
  */
@@ -29,7 +29,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.when;
 
-import java.util.List;
 import java.util.stream.Stream;
 
 import org.bukkit.Location;
@@ -55,6 +54,9 @@ import dev.defaultybuf.feathercore.modules.common.DependencyInjector;
 import dev.defaultybuf.feathercore.modules.common.Resource;
 import dev.defaultybuf.feathercore.modules.common.TempModule;
 import dev.defaultybuf.feathercore.modules.common.TestUtils;
+import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
+import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
+import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import dev.defaultybuf.feathercore.modules.data.players.components.PlayersData;
 import dev.defaultybuf.feathercore.modules.language.commands.LanguageCommand.CommandType;
@@ -81,16 +83,17 @@ class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
 
     private static final String LANGUAGE_CONFIG_CONTENT = "languages:\n en: English\n de: Deutsch";
 
-    PlayerModel playerModel;
-    @Mock Player mockPlayer;
     @Mock World mockWorld;
+    @Mock Player mockPlayer;
     @Mock IConfigFile mockLanguageConfig;
     @Mock IConfigSection mockLanguagesConfigSection;
 
-    PlayersData mockPlayersData;
-    TempModule<LanguageManager> actualLanguage;
+    @MockedModule PlayersData mockPlayersData;
 
-    ArgumentCaptor<String> messageCaptor;
+    @ActualModule TempModule<LanguageManager> actualLanguage;
+
+    @TestField PlayerModel playerModel;
+    @TestField ArgumentCaptor<String> messageCaptor;
 
     @Override
     protected Class<LanguageCommand> getCommandClass() {
@@ -98,15 +101,13 @@ class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
     }
 
     @Override
-    protected List<AutoCloseable> injectDependencies() {
+    protected void injectDependencies() {
         mockPlayersData = DependencyInjector.PlayersData.Mock();
 
         actualLanguage = DependencyInjector.Language.Actual(withResources(
                 Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
                 Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT),
                 Resource.of("de.yml", DE_LANGUAGE_FILE_CONTENT)));
-
-        return List.of(actualLanguage);
     }
 
     @Override

@@ -6,7 +6,7 @@
  *
  * @file LanguageChangeEventTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit LanguageChangeEvent#0.3
  * @description Unit tests for LanguageChangeEvent
  */
@@ -18,6 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertSame;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -25,18 +26,22 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import dev.defaultybuf.feathercore.api.configuration.IConfigFile;
+import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
 
+@ExtendWith(MockitoExtension.class)
 class LanguageChangeEventTest {
-    Player mockPlayer = null;
-    IConfigFile mockTranslation = null;
-    LanguageChangeEvent event = null;
+    @Mock Player mockPlayer = null;
+    @Mock IConfigFile mockTranslation = null;
+
+    @TestField LanguageChangeEvent event = null;
 
     @BeforeEach
     void setUp() {
-        mockPlayer = mock(Player.class);
-        mockTranslation = mock(IConfigFile.class);
         event = new LanguageChangeEvent(mockPlayer, "en", mockTranslation);
     }
 
@@ -94,8 +99,8 @@ class LanguageChangeEventTest {
         assertFalse(event1.equals(event3),
                 "Events with different players or languages should not be equal");
 
-        when(mockPlayer1.getName()).thenReturn("Player");
-        when(mockPlayer2.getName()).thenReturn("Player");
+        lenient().when(mockPlayer1.getName()).thenReturn("Player");
+        lenient().when(mockPlayer2.getName()).thenReturn("Player");
 
         assertFalse(event1.equals(event4),
                 "Events with same player, different language should not be equal");

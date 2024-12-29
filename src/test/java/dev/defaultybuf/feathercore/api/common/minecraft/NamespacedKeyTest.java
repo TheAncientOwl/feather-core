@@ -6,7 +6,7 @@
  *
  * @file NamespacedKeyTest.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @test_unit NamespacedKey#0.2
  * @description Unit tests for NamespacedKey
  */
@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -28,22 +28,23 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
+
+@ExtendWith(MockitoExtension.class)
 class NamespacedKeyTest {
-    JavaPlugin mockPlugin;
-    ItemMeta mockItemMeta;
-    PersistentDataContainer mockDataContainer;
-    PersistentDataType<String, Integer> mockDataType;
-    NamespacedKey namespacedKey;
+    @Mock JavaPlugin mockPlugin;
+    @Mock ItemMeta mockItemMeta;
+    @Mock PersistentDataContainer mockDataContainer;
+    @Mock PersistentDataType<String, Integer> mockDataType;
+
+    @TestField NamespacedKey namespacedKey;
 
     @BeforeEach
-    @SuppressWarnings("unchecked")
     void setUp() {
-        mockPlugin = mock(JavaPlugin.class);
-        mockItemMeta = mock(ItemMeta.class);
-        mockDataContainer = mock(PersistentDataContainer.class);
-        mockDataType = mock(PersistentDataType.class);
-
         when(mockPlugin.getName()).thenReturn("TestPlugin");
         when(mockItemMeta.getPersistentDataContainer()).thenReturn(mockDataContainer);
 
@@ -53,7 +54,7 @@ class NamespacedKeyTest {
     @Test
     void testIsPresent_WhenContainerIsNull() {
         // Simulate container being null
-        when(mockItemMeta.getPersistentDataContainer()).thenReturn(null);
+        lenient().when(mockItemMeta.getPersistentDataContainer()).thenReturn(null);
 
         assertFalse(namespacedKey.isPresent()); // Expecting false because container is null
     }

@@ -6,7 +6,7 @@
  *
  * @file DependencyMapBuilderTest.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @test_unit DependencyMapBuilder#0.2
  * @description Unit tests for DependencyMapBuilder
  */
@@ -26,9 +26,10 @@ import org.junit.jupiter.api.Test;
 
 import dev.defaultybuf.feathercore.api.core.dummies.Dummy1;
 import dev.defaultybuf.feathercore.api.core.dummies.Dummy2;
+import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
 
 class DependencyMapBuilderTest {
-    DependencyAccessor.DependencyMapBuilder builder;
+    @TestField DependencyAccessor.DependencyMapBuilder builder;
 
     @BeforeEach
     void setUp() {

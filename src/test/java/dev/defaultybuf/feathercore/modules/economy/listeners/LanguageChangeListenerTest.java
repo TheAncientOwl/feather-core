@@ -6,7 +6,7 @@
  *
  * @file LanguageChangeListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit LanguageChangeListener#0.5
  * @description Unit tests for LanguageChangeListener
  */
@@ -22,7 +22,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
-import java.util.List;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -33,10 +32,12 @@ import org.bukkit.persistence.PersistentDataType;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import dev.defaultybuf.feathercore.modules.common.ListenerTestMocker;
 import dev.defaultybuf.feathercore.modules.common.DependencyInjector;
+import dev.defaultybuf.feathercore.modules.common.ListenerTestMocker;
 import dev.defaultybuf.feathercore.modules.common.Resource;
 import dev.defaultybuf.feathercore.modules.common.TempModule;
+import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
+import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
 import dev.defaultybuf.feathercore.modules.economy.interfaces.IFeatherEconomy;
 import dev.defaultybuf.feathercore.modules.language.components.LanguageManager;
 import dev.defaultybuf.feathercore.modules.language.events.LanguageChangeEvent;
@@ -50,16 +51,16 @@ class LanguageChangeListenerTest extends ListenerTestMocker<LanguageChangeListen
                     "    lore:\n" +
                     "      - '&7Banknote value: &e{0}'";
 
-    @Mock LanguageChangeEvent mockEvent;
     @Mock Player mockPlayer;
-    @Mock PlayerInventory mockPlayerInventory;
-    @Mock ItemStack mockItemStack;
     @Mock ItemMeta mockItemMeta;
+    @Mock ItemStack mockItemStack;
+    @Mock LanguageChangeEvent mockEvent;
+    @Mock PlayerInventory mockPlayerInventory;
     @Mock PersistentDataContainer mockPersistentDataContainer;
 
-    IFeatherEconomy mockFeatherEconomy;
+    @MockedModule IFeatherEconomy mockFeatherEconomy;
 
-    TempModule<LanguageManager> actualLanguage;
+    @ActualModule TempModule<LanguageManager> actualLanguage;
 
     @Override
     protected Class<LanguageChangeListener> getListenerClass() {
@@ -67,7 +68,7 @@ class LanguageChangeListenerTest extends ListenerTestMocker<LanguageChangeListen
     }
 
     @Override
-    protected List<AutoCloseable> injectDependencies() {
+    protected void injectDependencies() {
         mockFeatherEconomy = DependencyInjector.Economy.Mock();
 
         var config = mockFeatherEconomy.getConfig();
@@ -76,8 +77,6 @@ class LanguageChangeListenerTest extends ListenerTestMocker<LanguageChangeListen
         actualLanguage = DependencyInjector.Language.Actual(withResources(
                 Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
                 Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT)));
-
-        return List.of(actualLanguage);
     }
 
     @Override

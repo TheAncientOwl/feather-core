@@ -6,7 +6,7 @@
  *
  * @file BroadcastTest.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @test_unit Broadcast#0.4
  * @description Unit tests for Broadcast
  */
@@ -27,30 +27,27 @@ import org.bukkit.entity.Player;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.MockedStatic;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import dev.defaultybuf.feathercore.api.common.java.Pair;
 import dev.defaultybuf.feathercore.api.common.util.StringUtils;
 import dev.defaultybuf.feathercore.api.configuration.IPropertyAccessor;
+import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
 
+@ExtendWith(MockitoExtension.class)
 class BroadcastTest {
-    IPropertyAccessor mockPropertyAccessor = null;
-    Player mockPlayer1 = null;
-    Player mockPlayer2 = null;
-    MockedStatic<Bukkit> mockedBukkit = null;
+    @Mock IPropertyAccessor mockPropertyAccessor = null;
+    @Mock Player mockPlayer1 = null;
+    @Mock Player mockPlayer2 = null;
+
+    @TestField MockedStatic<Bukkit> mockedBukkit = null;
 
     @BeforeEach
     void setUp() {
-        // Mock Bukkit's online players
-        mockPlayer1 = mock(Player.class);
-        mockPlayer2 = mock(Player.class);
-
-        // Mock the property accessor
-        mockPropertyAccessor = mock(IPropertyAccessor.class);
-
         mockedBukkit = mockStatic(Bukkit.class);
-
-        // Mock the Bukkit server's online players
         mockedBukkit.when(Bukkit::getOnlinePlayers).thenReturn(List.of(mockPlayer1, mockPlayer2));
     }
 
