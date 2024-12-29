@@ -124,9 +124,7 @@ public class DepositCommand extends FeatherCommand<DepositCommand.CommandData> {
     public List<String> onTabComplete(final String[] args) {
         List<String> completions = new ArrayList<>();
 
-        if (args.length == 1) {
-            completions.add("amount");
-        }
+        completions.add("amount");
 
         return completions;
     }

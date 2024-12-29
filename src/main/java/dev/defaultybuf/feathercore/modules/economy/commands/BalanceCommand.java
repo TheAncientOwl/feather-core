@@ -6,7 +6,7 @@
  *
  * @file BalanceCommand.java
  * @author Alexandru Delegeanu
- * @version 0.7
+ * @version 0.8
  * @description Check player's balance
  */
 
@@ -32,7 +32,7 @@ public class BalanceCommand extends FeatherCommand<BalanceCommand.CommandData> {
         super(data);
     }
 
-    private static enum CommandType {
+    public static enum CommandType {
         SELF, OTHER
     }
 
@@ -103,14 +103,11 @@ public class BalanceCommand extends FeatherCommand<BalanceCommand.CommandData> {
             final var arg = args[0];
             final List<String> onlinePlayers = StringUtils.getOnlinePlayers();
 
-            if (arg.isEmpty()) {
-                completions = onlinePlayers;
-            } else {
-                completions = StringUtils.filterStartingWith(onlinePlayers, arg);
-            }
+            completions = StringUtils.filterStartingWith(onlinePlayers, arg);
+        } else {
+            completions = StringUtils.getOnlinePlayers();
         }
 
         return completions;
     }
-
 }
