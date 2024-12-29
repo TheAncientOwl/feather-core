@@ -6,7 +6,7 @@
  *
  * @file DependencyAccessorMocker.java
  * @author Alexandru Delegeanu
- * @version 0.10
+ * @version 0.11
  * @description Utility class for developing unit tests that use modules
  */
 
@@ -53,28 +53,24 @@ public abstract class DependencyAccessorMocker {
         return dependenciesMap;
     }
 
+    protected void setUp() {}
+
+    protected void tearDown() {}
+
     @BeforeEach
     void setUpTest() {
-        lenient().when(mockJavaPlugin.getName()).thenReturn("FeatherCore");
-        lenient().when(mockJavaPlugin.getServer()).thenReturn(mockServer);
-        lenient().when(mockJavaPlugin.getDataFolder()).thenReturn(TestUtils.getTestDataFolder());
-
-        dependenciesMap = new HashMap<>();
-
-        dependenciesMap.put(JavaPlugin.class, mockJavaPlugin);
-        dependenciesMap.put(IFeatherLogger.class, mockFeatherLogger);
-        dependenciesMap.put(IEnabledModulesProvider.class, mockEnabledModulesProvider);
-
-        mockLanguage = DependencyInjector.Language.Mock();
-
-        injectMockedModules();
-        injectActualModules();
-
+        lenientCommons();
+        initDependencies();
         setUp();
     }
 
     @AfterEach
     void tearDownTest() {
+        closeResources();
+        tearDown();
+    }
+
+    void closeResources() {
         for (Field field : this.getClass().getDeclaredFields()) {
             if (field.isAnnotationPresent(ActualModule.class)) {
                 field.setAccessible(true);
@@ -88,42 +84,56 @@ public abstract class DependencyAccessorMocker {
                 }
             }
         }
-
-        tearDown();
     }
 
-    void injectMockedModules() {
+    void lenientCommons() {
+        lenient().when(mockJavaPlugin.getName()).thenReturn("FeatherCore");
+        lenient().when(mockJavaPlugin.getServer()).thenReturn(mockServer);
+        lenient().when(mockJavaPlugin.getDataFolder()).thenReturn(TestUtils.getTestDataFolder());
+    }
+
+    void initDependencies() {
+        dependenciesMap = new HashMap<>();
+
+        dependenciesMap.put(JavaPlugin.class, mockJavaPlugin);
+        dependenciesMap.put(IFeatherLogger.class, mockFeatherLogger);
+        dependenciesMap.put(IEnabledModulesProvider.class, mockEnabledModulesProvider);
+
+        mockLanguage = DependencyInjector.Language.Mock();
+
+        injectModules();
+    }
+
+    void injectModules() {
         for (Field field : this.getClass().getDeclaredFields()) {
             if (field.isAnnotationPresent(MockedModule.class)) {
-                field.setAccessible(true);
-                try {
-                    MockedModule annotation = field.getAnnotation(MockedModule.class);
-                    field.set(this, DependencyInjector.getInjector(annotation.type()).Mock());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                injectMockedModule(field);
+            } else if (field.isAnnotationPresent(ActualModule.class)) {
+                injectActualModule(field);
             }
         }
     }
 
-    void injectActualModules() {
-        for (Field field : this.getClass().getDeclaredFields()) {
-            if (field.isAnnotationPresent(ActualModule.class)) {
-                field.setAccessible(true);
-                try {
-                    ActualModule annotation = field.getAnnotation(ActualModule.class);
-                    Resource[] resources = annotation.resources();
-
-                    field.set(this,
-                            DependencyInjector.getInjector(annotation.type()).Actual(resources));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
+    void injectMockedModule(final Field field) {
+        field.setAccessible(true);
+        try {
+            MockedModule annotation = field.getAnnotation(MockedModule.class);
+            field.set(this, DependencyInjector.getInjector(annotation.type()).Mock());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
-    protected void setUp() {}
+    void injectActualModule(final Field field) {
+        field.setAccessible(true);
+        try {
+            ActualModule annotation = field.getAnnotation(ActualModule.class);
+            Resource[] resources = annotation.resources();
 
-    protected void tearDown() {}
+            field.set(this,
+                    DependencyInjector.getInjector(annotation.type()).Actual(resources));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
