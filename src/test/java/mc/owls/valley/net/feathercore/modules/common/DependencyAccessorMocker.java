@@ -6,7 +6,7 @@
  *
  * @file DependencyAccessorMocker.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @description Utility class for developing unit tests that use modules
  */
 
@@ -18,6 +18,7 @@ import java.util.Map;
 
 import org.bukkit.Server;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -39,6 +40,8 @@ public abstract class DependencyAccessorMocker {
     @Mock protected IEnabledModulesProvider mockEnabledModulesProvider;
     @Mock protected Server mockServer;
 
+    private List<AutoCloseable> actualModules = null;
+
     @BeforeEach
     void setUpDependencies() {
         mockLanguage = Modules.LANGUAGE.Mock();
@@ -56,11 +59,28 @@ public abstract class DependencyAccessorMocker {
             }
         }
 
+        actualModules = injectActualModules();
+
         Mockito.lenient().when(mockJavaPlugin.getName()).thenReturn("FeatherCore");
         Mockito.lenient().when(mockJavaPlugin.getServer()).thenReturn(mockServer);
         Mockito.lenient()
                 .when(mockJavaPlugin.getDataFolder()).thenReturn(TestUtils.getTestDataFolder());
     }
 
+    @AfterEach
+    void tearDownActualModules() {
+        if (actualModules != null) {
+            for (final var module : actualModules) {
+                try {
+                    module.close();
+                } catch (final Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     protected abstract List<Pair<Class<?>, Object>> getOtherMockDependencies();
+
+    protected abstract List<AutoCloseable> injectActualModules();
 }

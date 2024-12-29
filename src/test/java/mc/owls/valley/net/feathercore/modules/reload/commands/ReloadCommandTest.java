@@ -6,7 +6,7 @@
  *
  * @file ReloadCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @test_unit ReloadCommand#0.7
  * @description Unit tests for ReloadCommand
  */
@@ -44,6 +44,11 @@ class ReloadCommandTest extends CommandTestMocker<ReloadCommand> {
 
     @Override
     protected List<Pair<Class<?>, Object>> getOtherMockDependencies() {
+        return null;
+    }
+
+    @Override
+    protected List<AutoCloseable> injectActualModules() {
         return null;
     }
 

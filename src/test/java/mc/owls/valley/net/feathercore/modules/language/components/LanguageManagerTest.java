@@ -6,7 +6,7 @@
  *
  * @file LanguageManagerTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit LanguageManager#0.8
  * @description Unit tests for LanguageManager
  */
@@ -79,6 +79,11 @@ public class LanguageManagerTest extends ModuleTestMocker<LanguageManager> {
         mockPlayersData = Modules.PLAYERS_DATA.Mock();
 
         return List.of(Pair.of(IPlayersData.class, mockPlayersData));
+    }
+
+    @Override
+    protected List<AutoCloseable> injectActualModules() {
+        return null;
     }
 
     @BeforeEach

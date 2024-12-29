@@ -6,7 +6,7 @@
  *
  * @file ReloadModuleTest.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @test_unit ReloadModule#0.4
  * @description Unit tests for ReloadModule
  */
@@ -34,6 +34,11 @@ class ReloadModuleTest extends ModuleTestMocker<ReloadModule> {
 
     @Override
     protected List<Pair<Class<?>, Object>> getOtherMockDependencies() {
+        return null;
+    }
+
+    @Override
+    protected List<AutoCloseable> injectActualModules() {
         return null;
     }
 

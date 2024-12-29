@@ -6,7 +6,7 @@
  *
  * @file FeatherCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @test_unit FeatherCommand#0.4
  * @description Unit tests for FeatherCommand
  */
@@ -38,6 +38,11 @@ public class FeatherCommandTest extends CommandTestMocker<DummyCommand> {
 
     @Override
     protected List<Pair<Class<?>, Object>> getOtherMockDependencies() {
+        return null;
+    }
+
+    @Override
+    protected List<AutoCloseable> injectActualModules() {
         return null;
     }
 

@@ -6,7 +6,7 @@
  *
  * @file LanguageCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @test_unit LanguageCommand#0.9
  * @description Unit tests for LanguageCommand
  */
@@ -38,7 +38,6 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -111,6 +110,17 @@ class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
         return List.of(Pair.of(IPlayersData.class, mockPlayersData));
     }
 
+    @Override
+    protected List<AutoCloseable> injectActualModules() {
+        actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap,
+                injectAs(ILanguage.class), withResources(
+                        Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
+                        Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT),
+                        Resource.of("de.yml", DE_LANGUAGE_FILE_CONTENT)));
+
+        return List.of(actualLanguage);
+    }
+
     @BeforeEach
     void setUp() throws InstantiationException, IllegalAccessException, IllegalArgumentException,
             InvocationTargetException, NoSuchMethodException, SecurityException {
@@ -133,17 +143,6 @@ class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
                 .thenReturn(mockLanguagesConfigSection);
 
         messageCaptor = ArgumentCaptor.forClass(String.class);
-
-        actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap,
-                injectAs(ILanguage.class), withResources(
-                        Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
-                        Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT),
-                        Resource.of("de.yml", DE_LANGUAGE_FILE_CONTENT)));
-    }
-
-    @AfterEach
-    void tearDown() {
-        actualLanguage.close();
     }
 
     @Test

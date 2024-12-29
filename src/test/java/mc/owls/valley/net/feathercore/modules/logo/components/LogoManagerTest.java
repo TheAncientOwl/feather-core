@@ -6,7 +6,7 @@
  *
  * @file LogoManagerTest.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @test_unit LogoManager#0.5
  * @description Unit tests for LogoManager
  */
@@ -49,6 +49,11 @@ class LogoManagerTest extends ModuleTestMocker<LogoManager> {
 
     @Override
     protected List<Pair<Class<?>, Object>> getOtherMockDependencies() {
+        return null;
+    }
+
+    @Override
+    protected List<AutoCloseable> injectActualModules() {
         return null;
     }
 

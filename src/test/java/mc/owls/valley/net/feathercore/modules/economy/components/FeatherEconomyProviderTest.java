@@ -6,7 +6,7 @@
  *
  * @file FeatherEconomyProviderTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit FeatherEconomyProvider#0.8
  * @description Unit tests for FeatherEconomyProvider
  */
@@ -62,6 +62,11 @@ class FeatherEconomyProviderTest extends ModuleTestMocker<FeatherEconomyProvider
     @Override
     protected List<Pair<Class<?>, Object>> getOtherMockDependencies() {
         return List.of(Pair.of(IPlayersData.class, mockPlayersData));
+    }
+
+    @Override
+    protected List<AutoCloseable> injectActualModules() {
+        return null;
     }
 
     @BeforeEach

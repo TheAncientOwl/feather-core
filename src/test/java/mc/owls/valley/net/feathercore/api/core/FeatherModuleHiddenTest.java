@@ -6,7 +6,7 @@
  *
  * @file FeatherModuleHiddenTest.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @test_unit FeatherModuleHidden#0.6
  * @description Unit tests for FeatherModuleHidden
  */
@@ -40,6 +40,11 @@ class FeatherModuleHiddenTest extends ModuleTestMocker<DummyModule> {
 
     @Override
     protected List<Pair<Class<?>, Object>> getOtherMockDependencies() {
+        return null;
+    }
+
+    @Override
+    protected List<AutoCloseable> injectActualModules() {
         return null;
     }
 

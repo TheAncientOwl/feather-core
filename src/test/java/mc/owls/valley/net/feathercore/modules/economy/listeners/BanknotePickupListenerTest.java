@@ -6,7 +6,7 @@
  *
  * @file BanknotePickupListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @test_unit BanknotePickupListener#0.5
  * @description Unit tests for BanknotePickupListener
  */
@@ -31,7 +31,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -86,6 +85,16 @@ class BanknotePickupListenerTest extends ListenerTestMocker<BanknotePickupListen
                 Pair.of(IPlayersData.class, mockPlayersData));
     }
 
+    @Override
+    protected List<AutoCloseable> injectActualModules() {
+        actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap,
+                injectAs(ILanguage.class), withResources(
+                        Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
+                        Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT)));
+
+        return List.of(actualLanguage);
+    }
+
     @BeforeEach
     void setUp() {
         Mockito.lenient().when(mockEvent.getEntity()).thenReturn(mockPlayer);
@@ -94,15 +103,6 @@ class BanknotePickupListenerTest extends ListenerTestMocker<BanknotePickupListen
         Mockito.lenient().when(mockItem.getItemStack()).thenReturn(mockItemStack);
         Mockito.lenient().when(mockItemStack.getItemMeta()).thenReturn(mockItemMeta);
 
-        actualLanguage = Modules.LANGUAGE.Actual(mockJavaPlugin, dependenciesMap,
-                injectAs(ILanguage.class), withResources(
-                        Resource.of("config.yml", LANGUAGE_CONFIG_CONTENT),
-                        Resource.of("en.yml", EN_LANGUAGE_FILE_CONTENT)));
-    }
-
-    @AfterEach
-    void tearDown() {
-        actualLanguage.close();
     }
 
     @Test
