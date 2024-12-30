@@ -6,7 +6,7 @@
  *
  * @file LanguageManager.java
  * @author Alexandru Delegeanu
- * @version 0.8
+ * @version 0.9
  * @description Module responsible for managing plugin messages translations
  */
 
@@ -112,6 +112,7 @@ public class LanguageManager extends FeatherModule implements ILanguage {
     @Override
     public void message(final CommandSender receiver, final String key,
             Pair<String, Object> placeholder) {
+        assert placeholder.second != null : "Null placeholder value for key: " + placeholder.first;
         receiver
                 .sendMessage(StringUtils
                         .translateColors(

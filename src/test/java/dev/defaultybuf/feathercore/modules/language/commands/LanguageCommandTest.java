@@ -64,7 +64,6 @@ import dev.defaultybuf.feathercore.modules.language.events.LanguageChangeEvent;
 class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
     private static final String EN_LANGUAGE_FILE_CONTENT =
             "language:\n" +
-
                     "  usage: '&8[&6Usage&8] &e/language info/list/[language]'\n" +
                     "  change-success: '&8[&6Language&8] &eChanged successfully&8!'\n" +
                     "  unknown: '&8[&4Language&8] &cInvalid value&8!'\n" +

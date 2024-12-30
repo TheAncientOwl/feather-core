@@ -6,7 +6,7 @@
  *
  * @file StringUtils.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @description Utility class
  */
 
@@ -36,6 +36,7 @@ public class StringUtils {
     public static String replacePlaceholders(String message,
             final List<Pair<String, Object>> replacements) {
         for (final var replacement : replacements) {
+            assert replacement.second != null : "Null replacement value for " + replacement.first;
             message = message.replace(replacement.first, replacement.second.toString());
         }
         return message;

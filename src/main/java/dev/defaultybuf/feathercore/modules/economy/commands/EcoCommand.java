@@ -6,7 +6,7 @@
  *
  * @file EcoCommand.java
  * @author Alexandru Delegeanu
- * @version 0.9
+ * @version 0.10
  * @description Manage server economy
  */
 
@@ -31,7 +31,7 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
         super(data);
     }
 
-    private static enum CommandType {
+    public static enum CommandType {
         SET, GIVE, TAKE,
     }
 
@@ -190,6 +190,10 @@ public class EcoCommand extends FeatherCommand<EcoCommand.CommandData> {
 
         } else if (args.length == 3) {
             completions.add("amount");
+        } else {
+            completions.add("set");
+            completions.add("give");
+            completions.add("take");
         }
 
         return completions;
