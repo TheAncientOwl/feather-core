@@ -6,7 +6,7 @@
  *
  * @file DependencyAccessorTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit DependencyAccessor#0.2
  * @description Unit tests for DependencyAccessor
  */
@@ -78,7 +78,7 @@ class DependencyAccessorTest {
     @Test
     void getPlugin_missingDependency() {
         dependencyMap.remove(JavaPlugin.class);
-        assertThrows(IllegalStateException.class, () -> dependencyAccessor.getPlugin());
+        assertThrows(AssertionError.class, () -> dependencyAccessor.getPlugin());
     }
 
     @Test
@@ -91,7 +91,7 @@ class DependencyAccessorTest {
     @Test
     void getLogger_missingDependency() {
         dependencyMap.remove(IFeatherLogger.class);
-        assertThrows(IllegalStateException.class, () -> dependencyAccessor.getLogger());
+        assertThrows(AssertionError.class, () -> dependencyAccessor.getLogger());
     }
 
     @Test
@@ -107,7 +107,7 @@ class DependencyAccessorTest {
     @Test
     void getEnabledModules_missingDependency() {
         dependencyMap.remove(IEnabledModulesProvider.class);
-        assertThrows(IllegalStateException.class, () -> dependencyAccessor.getEnabledModules());
+        assertThrows(AssertionError.class, () -> dependencyAccessor.getEnabledModules());
     }
 
     @Test
@@ -120,6 +120,6 @@ class DependencyAccessorTest {
     @Test
     void getLanguage_missingDependency() {
         dependencyMap.remove(ILanguage.class);
-        assertThrows(IllegalStateException.class, () -> dependencyAccessor.getLanguage());
+        assertThrows(AssertionError.class, () -> dependencyAccessor.getLanguage());
     }
 }

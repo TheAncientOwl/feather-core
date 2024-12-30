@@ -6,7 +6,7 @@
  *
  * @file StringUtils.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @description Utility class
  */
 
@@ -36,7 +36,9 @@ public class StringUtils {
     public static String replacePlaceholders(String message,
             final List<Pair<String, Object>> replacements) {
         for (final var replacement : replacements) {
-            assert replacement.second != null : "Null replacement value for " + replacement.first;
+            assert replacement.second != null : "StringUtils.replacePlaceholders(string, list<pair<string, obj>>): Null replacement value for "
+                    + replacement.first;
+
             message = message.replace(replacement.first, replacement.second.toString());
         }
         return message;
@@ -44,6 +46,9 @@ public class StringUtils {
 
     public static String replacePlaceholders(String message,
             final Pair<String, Object> replacement) {
+        assert replacement.second != null : "StringUtils.replacePlaceholders(string, pair<string, obj>): Null replacement value for "
+                + replacement.first;
+
         return message.replace(replacement.first, replacement.second.toString());
     }
 
@@ -74,6 +79,8 @@ public class StringUtils {
     }
 
     public static String translateColors(final String message) {
+        assert message != null : "StringUtils.translateColors(string): Null message";
+
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 

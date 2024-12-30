@@ -6,7 +6,7 @@
  *
  * @file ModuleTestMocker.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Utility class for developing module unit tests that use modules
  */
 
@@ -21,7 +21,7 @@ import dev.defaultybuf.feathercore.api.core.FeatherModule;
 
 public abstract class ModuleTestMocker<ModuleType extends FeatherModule>
         extends DependencyAccessorMocker {
-    @Mock protected IConfigFile mockConfig;
+    @Mock protected IConfigFile mockModuleConfig;
     protected ModuleType moduleInstance;
 
     @BeforeEach
@@ -29,7 +29,8 @@ public abstract class ModuleTestMocker<ModuleType extends FeatherModule>
             throws InstantiationException, IllegalAccessException, IllegalArgumentException,
             InvocationTargetException, NoSuchMethodException, SecurityException {
         moduleInstance = getModuleClass().getConstructor(FeatherModule.InitData.class).newInstance(
-                new FeatherModule.InitData(getModuleName(), () -> mockConfig, dependenciesMap));
+                new FeatherModule.InitData(getModuleName(), () -> mockModuleConfig,
+                        dependenciesMap));
 
         dependenciesMap.put(getModuleClass(), moduleInstance);
     }

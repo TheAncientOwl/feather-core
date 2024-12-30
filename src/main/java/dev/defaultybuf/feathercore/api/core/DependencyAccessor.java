@@ -6,7 +6,7 @@
  *
  * @file DependencyAccessor.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Provide access to all dependencies based on their class
  */
 
@@ -51,38 +51,34 @@ public class DependencyAccessor implements IGeneralDependencyAccessor {
 
     @Override
     public JavaPlugin getPlugin() throws IllegalStateException {
-        Object instance = getInterface(JavaPlugin.class);
-        if (instance instanceof JavaPlugin) {
-            return (JavaPlugin) instance;
-        }
-        throw new IllegalStateException("JavaPlugin instance not found in dependencies.");
+        assert getInterface(
+                JavaPlugin.class) != null : "JavaPlugin instance not found in dependencies.";
+
+        return getInterface(JavaPlugin.class);
     }
 
     @Override
     public IFeatherLogger getLogger() throws IllegalStateException {
-        final var instance = getInterface(IFeatherLogger.class);
-        if (instance != null) {
-            return instance;
-        }
-        throw new IllegalStateException("IFeatherLogger instance not found in dependencies.");
+        assert getInterface(
+                IFeatherLogger.class) != null : "IFeatherLogger instance not found in dependencies.";
+
+        return getInterface(IFeatherLogger.class);
     }
 
     @Override
     public List<FeatherModule> getEnabledModules() throws IllegalStateException {
         final var instance = getInterface(IEnabledModulesProvider.class);
-        if (instance != null) {
-            return instance.getEnabledModules();
-        }
-        throw new IllegalStateException(
-                "IEnabledModulesProvider instance not found in dependencies.");
+
+        assert instance != null : "IEnabledModulesProvider instance not found in dependencies.";
+
+        return instance.getEnabledModules();
     }
 
     @Override
     public ILanguage getLanguage() throws IllegalStateException {
-        final var instance = getInterface(ILanguage.class);
-        if (instance != null) {
-            return instance;
-        }
-        throw new IllegalStateException("ILanguage instance not found in dependencies.");
+        assert getInterface(
+                ILanguage.class) != null : "ILanguage instance not found in dependencies.";
+
+        return getInterface(ILanguage.class);
     }
 }

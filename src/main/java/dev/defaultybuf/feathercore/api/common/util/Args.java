@@ -6,7 +6,7 @@
  *
  * @file Args.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @description Utility for parsing objects from command string args
  */
 
@@ -28,26 +28,49 @@ public class Args {
         }
 
         public String getString(int index) {
+            assert args[index] instanceof String : "Args.ParseResult.getString(): Argument at index "
+                    + index
+                    + " is not a string";
+
             return (String) args[index];
         }
 
         public double getDouble(int index) {
+            assert args[index] instanceof Double : "Args.ParseResult.getString(): Argument at index "
+                    + index
+                    + " is not a double";
+
             return (double) args[index];
         }
 
         public int getInt(int index) {
+            assert args[index] instanceof Integer : "Args.ParseResult.getString(): Argument at index "
+                    + index
+                    + " is not an integer";
+
             return (int) args[index];
         }
 
         public Player getPlayer(int index) {
+            assert args[index] instanceof Player : "Args.ParseResult.getString(): Argument at index "
+                    + index
+                    + " is not a player";
+
             return (Player) args[index];
         }
 
         public OfflinePlayer getOfflinePlayer(int index) {
+            assert args[index] instanceof OfflinePlayer : "Args.ParseResult.getString(): Argument at index "
+                    + index
+                    + " is not an offline player";
+
             return (OfflinePlayer) args[index];
         }
 
         public World getWorld(int index) {
+            assert args[index] instanceof World : "Args.ParseResult.getString(): Argument at index "
+                    + index + " is not a world";
+
             return (World) args[index];
         }
     }

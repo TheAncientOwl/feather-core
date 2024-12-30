@@ -6,7 +6,7 @@
  *
  * @file DependencyInjector.java
  * @author Alexandru Delegeanu
- * @version 0.9
+ * @version 0.10
  * @description Create mocks / actual instances of all modules 
  *              and inject them into tests dependencies map
  */
@@ -47,6 +47,10 @@ public final class DependencyInjector {
 
     @SuppressWarnings("unchecked")
     public static final <T extends FeatherModule> ModuleInjector<T> getInjector(Module module) {
+        assert moduleInjectors.containsKey(
+                module) : "DependencyInjector.getInjector(Module): Module injector not found for "
+                        + module;
+
         return (ModuleInjector<T>) moduleInjectors.get(module);
     }
 
