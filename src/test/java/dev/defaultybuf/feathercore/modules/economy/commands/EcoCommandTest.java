@@ -6,7 +6,7 @@
  *
  * @file EcoCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @test_unit EcoCommand#0.10
  * @description Unit tests for EcoCommand
  */
@@ -43,11 +43,9 @@ import dev.defaultybuf.feathercore.api.common.util.StringUtils;
 import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.Resource;
-import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
 import dev.defaultybuf.feathercore.modules.common.mockers.CommandTestMocker;
 import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feathercore.modules.common.utils.TempModule;
-import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import dev.defaultybuf.feathercore.modules.economy.interfaces.IFeatherEconomy;
 import dev.defaultybuf.feathercore.modules.language.components.LanguageManager;
 import net.milkbowl.vault.economy.Economy;
@@ -86,8 +84,6 @@ class EcoCommandTest extends CommandTestMocker<EcoCommand> {
                     @Resource(path = "config.yml", content = LANGUAGE_CONFIG_CONTENT),
                     @Resource(path = "en.yml", content = EN_LANGUAGE_FILE_CONTENT)
             }) TempModule<LanguageManager> actualLanguage;
-
-    @TestField PlayerModel playerModel;
 
     @Override
     protected Class<EcoCommand> getCommandClass() {
