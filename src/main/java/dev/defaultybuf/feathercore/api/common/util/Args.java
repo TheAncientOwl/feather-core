@@ -6,7 +6,7 @@
  *
  * @file Args.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @description Utility for parsing objects from command string args
  */
 
@@ -28,7 +28,7 @@ public class Args {
         }
 
         public String getString(int index) {
-            assert args[index] instanceof String : "Args.ParseResult.getString(): Argument at index "
+            assert args[index] instanceof String : "[api.common.util]@Args.ParseResult.getString(): Argument at index "
                     + index
                     + " is not a string";
 
@@ -36,7 +36,7 @@ public class Args {
         }
 
         public double getDouble(int index) {
-            assert args[index] instanceof Double : "Args.ParseResult.getString(): Argument at index "
+            assert args[index] instanceof Double : "[api.common.util]@Args.ParseResult.getString(): Argument at index "
                     + index
                     + " is not a double";
 
@@ -44,7 +44,7 @@ public class Args {
         }
 
         public int getInt(int index) {
-            assert args[index] instanceof Integer : "Args.ParseResult.getString(): Argument at index "
+            assert args[index] instanceof Integer : "[api.common.util]@Args.ParseResult.getString(): Argument at index "
                     + index
                     + " is not an integer";
 
@@ -52,7 +52,7 @@ public class Args {
         }
 
         public Player getPlayer(int index) {
-            assert args[index] instanceof Player : "Args.ParseResult.getString(): Argument at index "
+            assert args[index] instanceof Player : "[api.common.util]@Args.ParseResult.getString(): Argument at index "
                     + index
                     + " is not a player";
 
@@ -60,7 +60,7 @@ public class Args {
         }
 
         public OfflinePlayer getOfflinePlayer(int index) {
-            assert args[index] instanceof OfflinePlayer : "Args.ParseResult.getString(): Argument at index "
+            assert args[index] instanceof OfflinePlayer : "[api.common.util]@Args.ParseResult.getString(): Argument at index "
                     + index
                     + " is not an offline player";
 
@@ -68,7 +68,7 @@ public class Args {
         }
 
         public World getWorld(int index) {
-            assert args[index] instanceof World : "Args.ParseResult.getString(): Argument at index "
+            assert args[index] instanceof World : "[api.common.util]@Args.ParseResult.getString(): Argument at index "
                     + index + " is not a world";
 
             return (World) args[index];

@@ -6,7 +6,7 @@
  *
  * @file DepositCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @test_unit DepositCommand#0.10
  * @description Unit tests for DepositCommand
  */
@@ -65,6 +65,7 @@ class DepositCommandTest extends CommandTestMocker<DepositCommand> {
                     "      invalid: '&cInvalid banknote.'\n" +
                     "  deposit:\n" +
                     "    error:\n" +
+                    "      usage: 'Usage'\n" +
                     "      invalid-amount: '&cInvalid amount.'\n" +
                     "      balance-exceeds: '&cYou cannot deposit more than {0}.'\n" +
                     "      negative-amount: '&cYou cannot deposit negative amounts.'\n" +

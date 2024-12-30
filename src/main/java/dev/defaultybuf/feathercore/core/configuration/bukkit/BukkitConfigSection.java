@@ -6,7 +6,7 @@
  *
  * @file BukkitConfigSection.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Bukkit implementation of @see IConfigSection
  */
 
@@ -189,6 +189,11 @@ public class BukkitConfigSection implements IConfigSection {
     @Override
     public void setTicks(final String path, final long ticks) {
         setString(path, String.valueOf(ticks / 20) + "ms");
+    }
+
+    @Override
+    public void setStringList(final String path, final List<String> values) {
+        this.configSection.set(path, values);
     }
 
 }

@@ -6,7 +6,7 @@
  *
  * @file LanguageManager.java
  * @author Alexandru Delegeanu
- * @version 0.9
+ * @version 0.10
  * @description Module responsible for managing plugin messages translations
  */
 
@@ -89,6 +89,10 @@ public class LanguageManager extends FeatherModule implements ILanguage {
 
     @Override
     public void message(final CommandSender receiver, final String key) {
+        assert getTranslation(receiver).getString(
+                key) != null : "[modules.language.components]@LanguageManager.message(CommandSender, String): Null entry for key: "
+                        + key;
+
         receiver.sendMessage(StringUtils.translateColors(getTranslation(receiver).getString(key)));
     }
 
@@ -99,6 +103,10 @@ public class LanguageManager extends FeatherModule implements ILanguage {
         final var translation = getTranslation(receiver);
 
         for (final var key : keys) {
+            assert translation.getString(
+                    key) != null : "[modules.language.components]@LanguageManager.message(CommandSender, String...): Null entry for key: "
+                            + key;
+
             sb.append(translation.getString(key)).append('\n');
         }
 
@@ -112,7 +120,13 @@ public class LanguageManager extends FeatherModule implements ILanguage {
     @Override
     public void message(final CommandSender receiver, final String key,
             Pair<String, Object> placeholder) {
-        assert placeholder.second != null : "Null placeholder value for key: " + placeholder.first;
+        assert placeholder.second != null : "[modules.language.components]@LanguageManager.message(CommandSender, String, Pair<String, Object>): Null placeholder value for key: "
+                + placeholder.first;
+
+        assert getTranslation(receiver).getString(
+                key) != null : "[modules.language.components]@LanguageManager.message(CommandSender, String, Pair<String, Object>): Null translation entry for key "
+                        + key;
+
         receiver
                 .sendMessage(StringUtils
                         .translateColors(

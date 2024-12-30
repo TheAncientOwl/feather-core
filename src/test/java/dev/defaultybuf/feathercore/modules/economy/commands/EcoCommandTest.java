@@ -6,7 +6,7 @@
  *
  * @file EcoCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit EcoCommand#0.10
  * @description Unit tests for EcoCommand
  */
@@ -62,6 +62,7 @@ class EcoCommandTest extends CommandTestMocker<EcoCommand> {
                     "  not-valid-number: '&cNot valid number'\n" +
                     "economy:\n" +
                     "  eco:\n" +
+                    "    usage: 'Usage'\n" +
                     "    error:\n" +
                     "      no-negative-amount: '&cYou cannot use negative amounts for {0}.'\n" +
                     "      bounds-max: '&cYou cannot exceed the maximum balance of {0}.'\n" +

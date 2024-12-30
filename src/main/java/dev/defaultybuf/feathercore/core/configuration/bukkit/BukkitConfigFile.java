@@ -6,7 +6,7 @@
  *
  * @file BukkitConfigFile.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @description Bukkit implementation of @see IConfigFile
  */
 
@@ -234,6 +234,11 @@ public class BukkitConfigFile implements IConfigFile {
     @Override
     public void setTicks(final String path, final long ticks) {
         setString(path, String.valueOf(ticks / 20) + "ms");
+    }
+
+    @Override
+    public void setStringList(final String path, final List<String> values) {
+        this.fileConfiguration.set(path, values);
     }
 
 }

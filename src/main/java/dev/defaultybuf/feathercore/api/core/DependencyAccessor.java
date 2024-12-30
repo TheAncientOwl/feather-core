@@ -6,7 +6,7 @@
  *
  * @file DependencyAccessor.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @description Provide access to all dependencies based on their class
  */
 
@@ -52,7 +52,7 @@ public class DependencyAccessor implements IGeneralDependencyAccessor {
     @Override
     public JavaPlugin getPlugin() throws IllegalStateException {
         assert getInterface(
-                JavaPlugin.class) != null : "JavaPlugin instance not found in dependencies.";
+                JavaPlugin.class) != null : "[api.core]@DependencyAccessor.getPlugin(): JavaPlugin instance not found in dependencies.";
 
         return getInterface(JavaPlugin.class);
     }
@@ -60,7 +60,7 @@ public class DependencyAccessor implements IGeneralDependencyAccessor {
     @Override
     public IFeatherLogger getLogger() throws IllegalStateException {
         assert getInterface(
-                IFeatherLogger.class) != null : "IFeatherLogger instance not found in dependencies.";
+                IFeatherLogger.class) != null : "[api.core]@DependencyAccessor.getLogger(): IFeatherLogger instance not found in dependencies.";
 
         return getInterface(IFeatherLogger.class);
     }
@@ -69,7 +69,7 @@ public class DependencyAccessor implements IGeneralDependencyAccessor {
     public List<FeatherModule> getEnabledModules() throws IllegalStateException {
         final var instance = getInterface(IEnabledModulesProvider.class);
 
-        assert instance != null : "IEnabledModulesProvider instance not found in dependencies.";
+        assert instance != null : "[api.core]@DependencyAccessor.getEnabledModules(): IEnabledModulesProvider instance not found in dependencies.";
 
         return instance.getEnabledModules();
     }
@@ -77,7 +77,7 @@ public class DependencyAccessor implements IGeneralDependencyAccessor {
     @Override
     public ILanguage getLanguage() throws IllegalStateException {
         assert getInterface(
-                ILanguage.class) != null : "ILanguage instance not found in dependencies.";
+                ILanguage.class) != null : "[api.core]@DependencyAccessor.getLanguage(): ILanguage instance not found in dependencies.";
 
         return getInterface(ILanguage.class);
     }

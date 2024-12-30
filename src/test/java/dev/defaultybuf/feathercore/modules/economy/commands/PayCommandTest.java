@@ -6,7 +6,7 @@
  *
  * @file PayCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @test_unit PayCommand#0.10
  * @description Unit tests for PayCommand
  */
@@ -36,7 +36,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.codehaus.plexus.util.cli.Commandline.Argument;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -75,6 +74,7 @@ class PayCommandTest extends CommandTestMocker<PayCommand> {
                     "      does-not-accept: '&c{player} does not accept payments.'\n" +
                     "  pay:\n" +
                     "    error:\n" +
+                    "      usage: 'Usage'\n" +
                     "      min-amount: 'You have to pay at least {0}$'\n" +
                     "      not-enough-funds: '&cYou do not have enough funds to send {0}.'\n" +
                     "      balance-exceeds: 'The balance would exced max {0}'\n" +

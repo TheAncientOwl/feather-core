@@ -6,7 +6,7 @@
  *
  * @file IPropertyAccessor.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Config property accessor interface
  */
 
@@ -42,6 +42,8 @@ public interface IPropertyAccessor {
     public double getDouble(final String path);
 
     public IConfigSection getConfigurationSection(final String path);
+
+    public void setStringList(final String path, final List<String> values);
 
     public List<String> getStringList(final String path);
 
