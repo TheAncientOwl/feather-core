@@ -6,7 +6,7 @@
  *
  * @file DependencyInjector.java
  * @author Alexandru Delegeanu
- * @version 0.12
+ * @version 0.13
  * @description Create mocks / actual instances of all modules 
  *              and inject them into tests dependencies map
  */
@@ -41,12 +41,14 @@ import dev.defaultybuf.feathercore.modules.language.components.LanguageManager;
 import dev.defaultybuf.feathercore.modules.language.interfaces.ILanguage;
 import dev.defaultybuf.feathercore.modules.loot.chests.components.LootChests;
 import dev.defaultybuf.feathercore.modules.loot.chests.interfaces.ILootChests;
+import dev.defaultybuf.feathercore.modules.pvp.manager.components.PvPManager;
+import dev.defaultybuf.feathercore.modules.pvp.manager.interfaces.IPvPManager;
 import dev.defaultybuf.feathercore.modules.reload.components.ReloadModule;
 import dev.defaultybuf.feathercore.modules.reload.interfaces.IReloadModule;
 
 public final class DependencyInjector {
     public static enum Module {
-        Language, Reload, PlayersData, Economy, LootChests, MongoDB
+        Language, Reload, PlayersData, Economy, LootChests, MongoDB, PvPManager
     }
 
     @SuppressWarnings("unchecked")
@@ -99,6 +101,13 @@ public final class DependencyInjector {
                     IMongoDB.class,
                     "MongoManager",
                     "mongodb");
+
+    public static final ModuleInjector<PvPManager> PvPManager =
+            new ModuleInjector<PvPManager>(
+                    PvPManager.class,
+                    IPvPManager.class,
+                    "PvPManager",
+                    "pvpmanager");
 
     public static final record ModuleInjector<T extends FeatherModule>(Class<T> moduleClass,
             Class<?> interfaceClass,
@@ -185,6 +194,7 @@ public final class DependencyInjector {
             Module.PlayersData, PlayersData,
             Module.Economy, Economy,
             Module.LootChests, LootChests,
-            Module.MongoDB, MongoDB);
+            Module.MongoDB, MongoDB,
+            Module.PvPManager, PvPManager);
 
 }
