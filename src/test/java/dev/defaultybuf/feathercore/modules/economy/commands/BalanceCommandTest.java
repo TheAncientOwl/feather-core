@@ -6,7 +6,7 @@
  *
  * @file BalanceCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @test_unit BalanceCommand#0.8
  * @description Unit tests for BalanceCommand
  */
@@ -165,7 +165,7 @@ class BalanceCommandTest extends CommandTestMocker<BalanceCommand> {
     void testParse_SelfConsole() {
         var args = new String[] {};
 
-        ConsoleCommandSender mockConsole = mock(ConsoleCommandSender.class);
+        var mockConsole = mock(ConsoleCommandSender.class);
 
         var commandData = commandInstance.parse(mockConsole, args);
 
@@ -242,7 +242,7 @@ class BalanceCommandTest extends CommandTestMocker<BalanceCommand> {
     void testOnTabComplete_NoArgs() {
         var args = new String[] {};
         try (var mockedBukkit = mockStatic(Bukkit.class)) {
-            Player mockPlayer2 = mock(Player.class);
+            var mockPlayer2 = mock(Player.class);
 
             when(mockPlayer.getName()).thenReturn("otherPlayer1");
             when(mockPlayer2.getName()).thenReturn("otherPlayer2");

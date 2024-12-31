@@ -6,7 +6,7 @@
  *
  * @file FeatherEconomyTest.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @test_unit FeatherEconomy#0.2
  * @description Unit tests for FeatherEconomy
  */
@@ -19,8 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
-import java.util.List;
-
 import org.bukkit.OfflinePlayer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,7 +30,6 @@ import dev.defaultybuf.feathercore.api.configuration.IConfigFile;
 import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
-import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 
 @ExtendWith(MockitoExtension.class)
@@ -86,7 +83,7 @@ class FeatherEconomyTest {
         when(mockPlayersData.getPlayerModel("player1")).thenReturn(mockPlayerModel);
         mockPlayerModel.balance = 100.0;
 
-        EconomyResponse response = featherEconomy.depositPlayer("player1", "world", 50.0);
+        var response = featherEconomy.depositPlayer("player1", "world", 50.0);
         assertEquals(ResponseType.SUCCESS, response.type);
         assertEquals(150.0, response.balance);
     }
@@ -96,7 +93,7 @@ class FeatherEconomyTest {
         when(mockPlayersData.getPlayerModel(mockPlayer)).thenReturn(mockPlayerModel);
         mockPlayerModel.balance = 100.0;
 
-        EconomyResponse response = featherEconomy.depositPlayer(mockPlayer, "world", 50.0);
+        var response = featherEconomy.depositPlayer(mockPlayer, "world", 50.0);
         assertEquals(ResponseType.SUCCESS, response.type);
         assertEquals(150.0, response.balance);
     }
@@ -190,7 +187,7 @@ class FeatherEconomyTest {
         when(mockPlayersData.getPlayerModel("player1")).thenReturn(mockPlayerModel);
         mockPlayerModel.balance = 100.0;
 
-        EconomyResponse response = featherEconomy.withdrawPlayer("player1", "world", 50.0);
+        var response = featherEconomy.withdrawPlayer("player1", "world", 50.0);
         assertEquals(ResponseType.SUCCESS, response.type);
         assertEquals(50.0, response.balance);
     }
@@ -200,7 +197,7 @@ class FeatherEconomyTest {
         when(mockPlayersData.getPlayerModel(mockPlayer)).thenReturn(mockPlayerModel);
         mockPlayerModel.balance = 100.0;
 
-        EconomyResponse response = featherEconomy.withdrawPlayer(mockPlayer, "world", 50.0);
+        var response = featherEconomy.withdrawPlayer(mockPlayer, "world", 50.0);
         assertEquals(ResponseType.SUCCESS, response.type);
         assertEquals(50.0, response.balance);
     }
@@ -210,7 +207,7 @@ class FeatherEconomyTest {
         when(mockPlayersData.getPlayerModel("player1")).thenReturn(mockPlayerModel);
         mockPlayerModel.balance = 100.0;
 
-        EconomyResponse response = featherEconomy.withdrawPlayer("player1", 50.0);
+        var response = featherEconomy.withdrawPlayer("player1", 50.0);
         assertEquals(ResponseType.SUCCESS, response.type);
         assertEquals(50.0, response.balance);
     }
@@ -220,7 +217,7 @@ class FeatherEconomyTest {
         when(mockPlayersData.getPlayerModel(mockPlayer)).thenReturn(mockPlayerModel);
         mockPlayerModel.balance = 100.0;
 
-        EconomyResponse response = featherEconomy.withdrawPlayer(mockPlayer, 50.0);
+        var response = featherEconomy.withdrawPlayer(mockPlayer, 50.0);
         assertEquals(ResponseType.SUCCESS, response.type);
         assertEquals(50.0, response.balance);
     }
@@ -230,7 +227,7 @@ class FeatherEconomyTest {
         when(mockPlayersData.getPlayerModel("player1")).thenReturn(mockPlayerModel);
         mockPlayerModel.balance = 100.0;
 
-        EconomyResponse response = featherEconomy.depositPlayer("player1", 50.0);
+        var response = featherEconomy.depositPlayer("player1", 50.0);
         assertEquals(ResponseType.SUCCESS, response.type);
         assertEquals(150.0, response.balance);
     }
@@ -240,7 +237,7 @@ class FeatherEconomyTest {
         when(mockPlayersData.getPlayerModel(mockPlayer)).thenReturn(mockPlayerModel);
         mockPlayerModel.balance = 100.0;
 
-        EconomyResponse response = featherEconomy.depositPlayer(mockPlayer, 50.0);
+        var response = featherEconomy.depositPlayer(mockPlayer, 50.0);
         assertEquals(ResponseType.SUCCESS, response.type);
         assertEquals(150.0, response.balance);
     }
@@ -249,80 +246,80 @@ class FeatherEconomyTest {
     void testDepositPlayer_NullPlayerModel() {
         when(mockPlayersData.getPlayerModel(mockPlayer)).thenReturn(null);
 
-        EconomyResponse response = featherEconomy.depositPlayer(mockPlayer, 50.0);
+        var response = featherEconomy.depositPlayer(mockPlayer, 50.0);
         assertEquals(ResponseType.FAILURE, response.type);
         assertEquals(0, response.balance);
     }
 
     @Test
     void testCreateBank_StringString() {
-        EconomyResponse response = featherEconomy.createBank("bank1", "player1");
+        var response = featherEconomy.createBank("bank1", "player1");
         assertEquals(ResponseType.NOT_IMPLEMENTED, response.type);
     }
 
     @Test
     void testCreateBank_StringOfflinePlayer() {
-        EconomyResponse response = featherEconomy.createBank("bank1", mockPlayer);
+        var response = featherEconomy.createBank("bank1", mockPlayer);
         assertEquals(ResponseType.NOT_IMPLEMENTED, response.type);
     }
 
     @Test
     void testDeleteBank() {
-        EconomyResponse response = featherEconomy.deleteBank("bank1");
+        var response = featherEconomy.deleteBank("bank1");
         assertEquals(ResponseType.NOT_IMPLEMENTED, response.type);
     }
 
     @Test
     void testBankBalance() {
-        EconomyResponse response = featherEconomy.bankBalance("bank1");
+        var response = featherEconomy.bankBalance("bank1");
         assertEquals(ResponseType.NOT_IMPLEMENTED, response.type);
     }
 
     @Test
     void testBankHas() {
-        EconomyResponse response = featherEconomy.bankHas("bank1", 100.0);
+        var response = featherEconomy.bankHas("bank1", 100.0);
         assertEquals(ResponseType.NOT_IMPLEMENTED, response.type);
     }
 
     @Test
     void testBankWithdraw() {
-        EconomyResponse response = featherEconomy.bankWithdraw("bank1", 100.0);
+        var response = featherEconomy.bankWithdraw("bank1", 100.0);
         assertEquals(ResponseType.NOT_IMPLEMENTED, response.type);
     }
 
     @Test
     void testBankDeposit() {
-        EconomyResponse response = featherEconomy.bankDeposit("bank1", 100.0);
+        var response = featherEconomy.bankDeposit("bank1", 100.0);
         assertEquals(ResponseType.NOT_IMPLEMENTED, response.type);
     }
 
     @Test
     void testIsBankOwner_StringString() {
-        EconomyResponse response = featherEconomy.isBankOwner("bank1", "player1");
+        var response = featherEconomy.isBankOwner("bank1", "player1");
         assertEquals(ResponseType.NOT_IMPLEMENTED, response.type);
     }
 
     @Test
     void testIsBankOwner_StringOfflinePlayer() {
-        EconomyResponse response = featherEconomy.isBankOwner("bank1", mockPlayer);
+        var response = featherEconomy.isBankOwner("bank1", mockPlayer);
         assertEquals(ResponseType.NOT_IMPLEMENTED, response.type);
     }
 
     @Test
     void testIsBankMember_StringString() {
-        EconomyResponse response = featherEconomy.isBankMember("bank1", "player1");
+        var response = featherEconomy.isBankMember("bank1", "player1");
         assertEquals(ResponseType.NOT_IMPLEMENTED, response.type);
     }
 
     @Test
     void testIsBankMember_StringOfflinePlayer() {
-        EconomyResponse response = featherEconomy.isBankMember("bank1", mockPlayer);
+        var response = featherEconomy.isBankMember("bank1", mockPlayer);
         assertEquals(ResponseType.NOT_IMPLEMENTED, response.type);
     }
 
     @Test
     void testGetBanks() {
-        List<String> banks = featherEconomy.getBanks();
+        var banks = featherEconomy.getBanks();
         assertNotNull(banks);
     }
 
@@ -369,14 +366,14 @@ class FeatherEconomyTest {
     @Test
     void testWithdrawPlayer_PlayerModel_Success() {
         mockPlayerModel.balance = 100.0;
-        EconomyResponse response = featherEconomy.withdrawPlayer(mockPlayerModel, 50.0);
+        var response = featherEconomy.withdrawPlayer(mockPlayerModel, 50.0);
         assertEquals(ResponseType.SUCCESS, response.type);
         assertEquals(50.0, response.balance);
     }
 
     @Test
     void testWithdrawPlayer_PlayerModel_Failure() {
-        EconomyResponse response = featherEconomy.withdrawPlayer((PlayerModel) null, 50.0);
+        var response = featherEconomy.withdrawPlayer((PlayerModel) null, 50.0);
         assertEquals(ResponseType.FAILURE, response.type);
         assertEquals(0, response.balance);
     }

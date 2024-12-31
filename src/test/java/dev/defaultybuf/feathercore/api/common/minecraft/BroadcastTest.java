@@ -6,7 +6,7 @@
  *
  * @file BroadcastTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit Broadcast#0.4
  * @description Unit tests for Broadcast
  */
@@ -59,7 +59,7 @@ class BroadcastTest {
     @Test
     void testBroadcastSingleMessage() {
         // Prepare test data
-        String message = "Test message";
+        var message = "Test message";
 
         // Call the method under test
         Broadcast.broadcast(message);
@@ -72,7 +72,7 @@ class BroadcastTest {
     @Test
     void testBroadcastMultipleMessages() {
         // Prepare test data
-        String[] messages = {"Message 1", "Message 2"};
+        var messages = new String[] {"Message 1", "Message 2"};
 
         // Mock StringUtils.translateColors method
         try (var mocked = mockStatic(StringUtils.class)) {
@@ -124,7 +124,7 @@ class BroadcastTest {
         when(mockPropertyAccessor.getString("key")).thenReturn("Hello {name}!");
 
         // Create a list of placeholders
-        List<Pair<String, Object>> placeholders = List.of(Pair.of("{name}", "World"));
+        var placeholders = List.of(Pair.of("{name}", (Object) "World"));
 
         // Mock StringUtils.replacePlaceholders method
         try (var mocked = mockStatic(StringUtils.class)) {
@@ -147,7 +147,7 @@ class BroadcastTest {
     @Test
     void testBroadcastWithNonEmptyStringBuilder() {
         // Mock dependencies
-        IPropertyAccessor mockPropertyAccessor = mock(IPropertyAccessor.class);
+        var mockPropertyAccessor = mock(IPropertyAccessor.class);
 
         // Mock the propertyAccessor to return some strings
         when(mockPropertyAccessor.getString("key1")).thenReturn("Hello");
@@ -164,7 +164,7 @@ class BroadcastTest {
     @Test
     void testBroadcastWithEmptyStringBuilder() {
         // Mock dependencies
-        IPropertyAccessor mockPropertyAccessor = mock(IPropertyAccessor.class);
+        var mockPropertyAccessor = mock(IPropertyAccessor.class);
 
         // Call the method under test with no keys
         Broadcast.broadcast(mockPropertyAccessor);

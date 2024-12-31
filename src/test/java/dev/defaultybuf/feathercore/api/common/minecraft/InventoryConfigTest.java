@@ -6,7 +6,7 @@
  *
  * @file InventoryConfigTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit InventoryConfig#0.1
  * @description Unit tests for InventoryConfig
  */
@@ -52,9 +52,9 @@ class InventoryConfigTest {
     @Test
     void testSerialize() {
         // Mock dependencies
-        IPropertyAccessor mockConfig = mock(IPropertyAccessor.class);
-        Inventory mockInventory = mock(Inventory.class);
-        ItemStack mockItemStack = mock(ItemStack.class);
+        var mockConfig = mock(IPropertyAccessor.class);
+        var mockInventory = mock(Inventory.class);
+        var mockItemStack = mock(ItemStack.class);
 
         // Mock inventory size and item
         when(mockInventory.getSize()).thenReturn(9); // Inventory with 9 slots
@@ -72,9 +72,9 @@ class InventoryConfigTest {
     @Test
     void testDeserialize() {
         // Mock dependencies
-        IPropertyAccessor mockInventoryConfig = mock(IPropertyAccessor.class);
-        IConfigSection mockContent = mock(IConfigSection.class);
-        ItemStack mockItemStack = new ItemStack(Material.DIAMOND);
+        var mockInventoryConfig = mock(IPropertyAccessor.class);
+        var mockContent = mock(IConfigSection.class);
+        var mockItemStack = new ItemStack(Material.DIAMOND);
 
         // Mock inventory size and display name
         when(mockInventoryConfig.getInt("size")).thenReturn(9);
@@ -86,7 +86,7 @@ class InventoryConfigTest {
         when(mockContent.getItemStack("0")).thenReturn(mockItemStack); // Return mocked item
 
         // Call the method under test
-        Inventory inventory = InventoryConfig.deserialize(mockInventoryConfig);
+        var inventory = InventoryConfig.deserialize(mockInventoryConfig);
 
         // Verify the inventory is not null and contains the mocked ItemStack
         assertNotNull(inventory, "Inventory should not be null");
@@ -98,7 +98,7 @@ class InventoryConfigTest {
     @Test
     void testDeserializeReturnsNullWhenConfigIsNull() {
         // Call the deserialize method with null
-        Inventory inventory = InventoryConfig.deserialize(null);
+        var inventory = InventoryConfig.deserialize(null);
 
         // Verify that the result is null
         assertNull(inventory);
@@ -107,14 +107,14 @@ class InventoryConfigTest {
     @Test
     void testDeserializeReturnsNullOnException() {
         // Mock dependencies
-        IPropertyAccessor mockConfig = mock(IPropertyAccessor.class);
+        var mockConfig = mock(IPropertyAccessor.class);
 
         // Mock an exception
         when(mockConfig.getConfigurationSection("content"))
                 .thenThrow(new RuntimeException("Test exception"));
 
         // Call the deserialize method
-        Inventory inventory = InventoryConfig.deserialize(mockConfig);
+        var inventory = InventoryConfig.deserialize(mockConfig);
 
         // Verify that the result is null
         assertNull(inventory);

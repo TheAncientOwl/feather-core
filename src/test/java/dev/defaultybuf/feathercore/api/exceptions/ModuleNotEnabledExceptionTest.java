@@ -6,7 +6,7 @@
  *
  * @file ModuleNotEnabledExceptionTest.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @test_unit ModuleNotEnabledException#0.1
  * @description Unit tests for ModuleNotEnabledException
  */
@@ -22,14 +22,14 @@ class ModuleNotEnabledExceptionTest {
 
     @Test
     void testNoArgConstructor() {
-        ModuleNotEnabledException exception = new ModuleNotEnabledException();
+        var exception = new ModuleNotEnabledException();
         assertNull(exception.getMessage(), "Message should be null for no-arg constructor");
     }
 
     @Test
     void testConstructorWithModuleName() {
-        String moduleName = "TestModule";
-        ModuleNotEnabledException exception = new ModuleNotEnabledException(moduleName);
+        var moduleName = "TestModule";
+        var exception = new ModuleNotEnabledException(moduleName);
 
         assertEquals("Module '" + moduleName + "' is not enabled", exception.getMessage(),
                 "Message should match the expected format");
@@ -37,8 +37,8 @@ class ModuleNotEnabledExceptionTest {
 
     @Test
     void testConstructorWithEmptyModuleName() {
-        String moduleName = "";
-        ModuleNotEnabledException exception = new ModuleNotEnabledException(moduleName);
+        var moduleName = "";
+        var exception = new ModuleNotEnabledException(moduleName);
 
         assertEquals("Module '' is not enabled", exception.getMessage(),
                 "Message should handle an empty module name correctly");
@@ -46,7 +46,7 @@ class ModuleNotEnabledExceptionTest {
 
     @Test
     void testConstructorWithNullModuleName() {
-        ModuleNotEnabledException exception = new ModuleNotEnabledException(null);
+        var exception = new ModuleNotEnabledException(null);
 
         assertEquals("Module 'null' is not enabled", exception.getMessage(),
                 "Message should handle a null module name correctly");

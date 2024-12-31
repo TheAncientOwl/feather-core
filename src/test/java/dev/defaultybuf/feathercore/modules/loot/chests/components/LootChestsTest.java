@@ -6,7 +6,7 @@
  *
  * @file LootChestsTest.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @test_unit LootChests#0.8
  * @description Unit tests for LootChests
  */
@@ -117,8 +117,8 @@ class LootChestsTest extends ModuleTestMocker<LootChests> {
 
     @Test
     void testSetChest() {
-        String location = "world,0,64,0";
-        String type = "testType";
+        var location = "world,0,64,0";
+        var type = "testType";
 
         moduleInstance.setChest(location, type);
 
@@ -129,7 +129,7 @@ class LootChestsTest extends ModuleTestMocker<LootChests> {
 
     @Test
     void testUnsetChest() {
-        String location = "world,0,64,0";
+        var location = "world,0,64,0";
         lootChestsModel.locationToType.put(location, "testType");
 
         moduleInstance.unsetChest(location);
@@ -140,35 +140,35 @@ class LootChestsTest extends ModuleTestMocker<LootChests> {
 
     @Test
     void testGetChestType() {
-        String location = "world,0,64,0";
-        String type = "testType";
+        var location = "world,0,64,0";
+        var type = "testType";
         lootChestsModel.locationToType.put(location, type);
 
-        String result = moduleInstance.getChestType(location);
+        var result = moduleInstance.getChestType(location);
 
         assertEquals(type, result);
     }
 
     @Test
     void testGetChestType_NotFound() {
-        String location = "world,0,64,0";
+        var location = "world,0,64,0";
 
-        String result = moduleInstance.getChestType(location);
+        var result = moduleInstance.getChestType(location);
 
         assertNull(result);
     }
 
     @Test
     void testGetChestLocations() {
-        String type = "testType";
-        String location1 = "world,0,64,0";
-        String location2 = "world,1,64,0";
-        String location3 = "world,2,64,0";
+        var type = "testType";
+        var location1 = "world,0,64,0";
+        var location2 = "world,1,64,0";
+        var location3 = "world,2,64,0";
         lootChestsModel.locationToType.put(location1, type);
         lootChestsModel.locationToType.put(location2, type);
         lootChestsModel.locationToType.put(location3, "otherTestType");
 
-        List<String> result = moduleInstance.getChestLocations(type);
+        var result = moduleInstance.getChestLocations(type);
 
         assertEquals(2, result.size());
         assertTrue(result.contains(location1));
@@ -177,40 +177,40 @@ class LootChestsTest extends ModuleTestMocker<LootChests> {
 
     @Test
     void testGetChestLocations_NotFound() {
-        String type = "testType";
+        var type = "testType";
 
-        List<String> result = moduleInstance.getChestLocations(type);
+        var result = moduleInstance.getChestLocations(type);
 
         assertEquals(List.of(), result);
     }
 
     @Test
     void testIsChestType() {
-        String type = "testType";
-        IConfigSection mockSection = mock(IConfigSection.class);
+        var type = "testType";
+        var mockSection = mock(IConfigSection.class);
         when(mockModuleConfig.getConfigurationSection("chests")).thenReturn(mockSection);
         when(mockSection.getKeys(false)).thenReturn(Set.of(type, "otherTestType"));
 
-        boolean result = moduleInstance.isChestType(type);
+        var result = moduleInstance.isChestType(type);
 
         assertTrue(result);
     }
 
     @Test
     void testIsChestType_NotFound() {
-        String type = "testType";
-        IConfigSection mockSection = mock(IConfigSection.class);
+        var type = "testType";
+        var mockSection = mock(IConfigSection.class);
         when(mockModuleConfig.getConfigurationSection("chests")).thenReturn(mockSection);
         when(mockSection.getKeys(false)).thenReturn(Set.of("otherTestType"));
 
-        boolean result = moduleInstance.isChestType(type);
+        var result = moduleInstance.isChestType(type);
 
         assertFalse(result);
     }
 
     @Test
     void testDeleteChest() {
-        String type = "testType";
+        var type = "testType";
 
         moduleInstance.deleteChest(type);
 
@@ -219,29 +219,29 @@ class LootChestsTest extends ModuleTestMocker<LootChests> {
 
     @Test
     void testGetOpenChestTime() {
-        String location = "world,0,64,0";
-        Long openTime = System.currentTimeMillis();
+        var location = "world,0,64,0";
+        var openTime = System.currentTimeMillis();
         playerModel.chestLocationToOpenTime.put(location, openTime);
 
-        Long result = moduleInstance.getOpenChestTime(mockPlayer, location);
+        var result = moduleInstance.getOpenChestTime(mockPlayer, location);
 
         assertEquals(openTime, result);
     }
 
     @Test
     void testGetOpenChestTime_NotFound() {
-        String location = "world,0,64,0";
+        var location = "world,0,64,0";
 
-        Long result = moduleInstance.getOpenChestTime(mockPlayer, location);
+        var result = moduleInstance.getOpenChestTime(mockPlayer, location);
 
         assertNull(result);
     }
 
     @Test
     void testOpenChest_Found() {
-        String chestType = "testType";
-        String location = "world,0,64,0";
-        Long now = System.currentTimeMillis();
+        var chestType = "testType";
+        var location = "world,0,64,0";
+        var now = System.currentTimeMillis();
 
         when(mockModuleConfig.getInventory("chests." + chestType)).thenReturn(mockInventory);
 
@@ -254,9 +254,9 @@ class LootChestsTest extends ModuleTestMocker<LootChests> {
 
     @Test
     void testOpenChest_NotFound() {
-        String chestType = "testType";
-        String location = "world,0,64,0";
-        Long now = System.currentTimeMillis();
+        var chestType = "testType";
+        var location = "world,0,64,0";
+        var now = System.currentTimeMillis();
 
         when(mockModuleConfig.getInventory("chests." + chestType)).thenReturn(null);
 
@@ -271,14 +271,14 @@ class LootChestsTest extends ModuleTestMocker<LootChests> {
 
     @Test
     void testCreateChest() {
-        String type = "testType";
-        String displayName = "Test Chest";
-        long cooldown = 3600L;
-        Inventory inventory = mock(Inventory.class);
+        var type = "testType";
+        var displayName = "Test Chest";
+        var cooldown = 3600L;
+        var inventory = mock(Inventory.class);
 
         moduleInstance.createChest(type, displayName, cooldown, inventory);
 
-        String configPath = "chests." + type;
+        var configPath = "chests." + type;
         verify(mockModuleConfig).setSeconds(configPath + ".cooldown", cooldown);
         verify(mockModuleConfig).setString(configPath + ".display-name", displayName);
         verify(mockModuleConfig).setInventory(configPath, inventory);
@@ -293,16 +293,16 @@ class LootChestsTest extends ModuleTestMocker<LootChests> {
 
     @Test
     void testCreateChest_SaveConfigThrows() throws IOException {
-        String type = "testType";
-        String displayName = "Test Chest";
-        long cooldown = 3600L;
-        Inventory inventory = mock(Inventory.class);
+        var type = "testType";
+        var displayName = "Test Chest";
+        var cooldown = 3600L;
+        var inventory = mock(Inventory.class);
 
         doThrow(new RuntimeException("Test exception")).when(mockModuleConfig).saveConfig();
 
         moduleInstance.createChest(type, displayName, cooldown, inventory);
 
-        String configPath = "chests." + type;
+        var configPath = "chests." + type;
         verify(mockModuleConfig).setSeconds(configPath + ".cooldown", cooldown);
         verify(mockModuleConfig).setString(configPath + ".display-name", displayName);
         verify(mockModuleConfig).setInventory(configPath, inventory);

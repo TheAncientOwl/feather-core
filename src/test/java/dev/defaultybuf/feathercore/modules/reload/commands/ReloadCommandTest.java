@@ -6,7 +6,7 @@
  *
  * @file ReloadCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.8
+ * @version 0.9
  * @test_unit ReloadCommand#0.7
  * @description Unit tests for ReloadCommand
  */
@@ -33,7 +33,6 @@ import org.junit.jupiter.api.Test;
 
 import dev.defaultybuf.feathercore.api.common.java.Pair;
 import dev.defaultybuf.feathercore.api.common.language.Message;
-import dev.defaultybuf.feathercore.api.core.FeatherModule;
 import dev.defaultybuf.feathercore.modules.common.mockers.CommandTestMocker;
 import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector;
 import dev.defaultybuf.feathercore.modules.language.components.LanguageManager;
@@ -70,7 +69,7 @@ class ReloadCommandTest extends CommandTestMocker<ReloadCommand> {
 
         @Test
         void testExecute_ReloadsConfigsAndTranslations() {
-                final List<FeatherModule> enabledModules = List.of(
+                final var enabledModules = List.of(
                                 DependencyInjector.Reload.Mock(),
                                 mock(LanguageManager.class));
 
@@ -84,7 +83,7 @@ class ReloadCommandTest extends CommandTestMocker<ReloadCommand> {
 
         @Test
         void testParse_ValidAllArgument() {
-                final List<FeatherModule> enabledModules = List.of(
+                final var enabledModules = List.of(
                                 DependencyInjector.Reload.Mock(),
                                 DependencyInjector.Language.Mock(),
                                 DependencyInjector.PlayersData.Mock());
@@ -100,7 +99,7 @@ class ReloadCommandTest extends CommandTestMocker<ReloadCommand> {
 
         @Test
         void testParse_ValidArgument() {
-                final List<FeatherModule> enabledModules = List.of(
+                final var enabledModules = List.of(
                                 DependencyInjector.Reload.Mock(),
                                 DependencyInjector.Language.Mock(),
                                 DependencyInjector.PlayersData.Mock());
@@ -142,7 +141,7 @@ class ReloadCommandTest extends CommandTestMocker<ReloadCommand> {
 
         @Test
         void testOnTabComplete_NoArgument() {
-                final List<FeatherModule> enabledModules = List.of(
+                final var enabledModules = List.of(
                                 DependencyInjector.Reload.Mock(),
                                 DependencyInjector.Language.Mock(),
                                 DependencyInjector.PlayersData.Mock());
@@ -166,7 +165,7 @@ class ReloadCommandTest extends CommandTestMocker<ReloadCommand> {
 
         @Test
         void testOnTabComplete_SingleArgument() {
-                final List<FeatherModule> enabledModules = List.of(
+                final var enabledModules = List.of(
                                 DependencyInjector.Reload.Mock(),
                                 DependencyInjector.Language.Mock(),
                                 DependencyInjector.PlayersData.Mock());
@@ -183,7 +182,7 @@ class ReloadCommandTest extends CommandTestMocker<ReloadCommand> {
 
         @Test
         void testOnTabComplete_NoMatchingArgument() {
-                final List<FeatherModule> enabledModules = List.of(
+                final var enabledModules = List.of(
                                 DependencyInjector.Reload.Mock(),
                                 DependencyInjector.Language.Mock(),
                                 DependencyInjector.PlayersData.Mock());

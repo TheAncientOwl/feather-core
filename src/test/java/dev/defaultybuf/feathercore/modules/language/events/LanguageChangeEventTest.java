@@ -6,7 +6,7 @@
  *
  * @file LanguageChangeEventTest.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @test_unit LanguageChangeEvent#0.3
  * @description Unit tests for LanguageChangeEvent
  */
@@ -23,7 +23,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import org.bukkit.entity.Player;
-import org.bukkit.event.HandlerList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -66,7 +65,7 @@ class LanguageChangeEventTest {
 
     @Test
     void testGetHandlers_ShouldReturnHandlerList() {
-        HandlerList handlers = event.getHandlers();
+        var handlers = event.getHandlers();
         assertNotNull(handlers, "HandlerList should not be null");
         assertSame(handlers, LanguageChangeEvent.getHandlerList(),
                 "getHandlers and getHandlerList should return the same instance");
@@ -76,20 +75,20 @@ class LanguageChangeEventTest {
     @SuppressWarnings("unlikely-arg-type")
     void testEquals() {
         // Mock the Player object
-        Player mockPlayer1 = mock(Player.class);
-        Player mockPlayer2 = mock(Player.class);
+        var mockPlayer1 = mock(Player.class);
+        var mockPlayer2 = mock(Player.class);
 
-        IConfigFile mockConfigEn = mock(IConfigFile.class);
-        IConfigFile mockConfigDe = mock(IConfigFile.class);
+        var mockConfigEn = mock(IConfigFile.class);
+        var mockConfigDe = mock(IConfigFile.class);
 
         when(mockPlayer1.getName()).thenReturn("Player1");
         when(mockPlayer2.getName()).thenReturn("Player2");
 
-        LanguageChangeEvent event1 = new LanguageChangeEvent(mockPlayer1, "en", mockConfigEn);
-        LanguageChangeEvent event2 = new LanguageChangeEvent(mockPlayer1, "en", mockConfigEn);
-        LanguageChangeEvent event3 = new LanguageChangeEvent(mockPlayer2, "de", mockConfigDe);
-        LanguageChangeEvent event4 = new LanguageChangeEvent(mockPlayer1, "de", mockConfigDe);
-        LanguageChangeEvent event5 = new LanguageChangeEvent(mockPlayer1, "en", mockConfigDe);
+        var event1 = new LanguageChangeEvent(mockPlayer1, "en", mockConfigEn);
+        var event2 = new LanguageChangeEvent(mockPlayer1, "en", mockConfigEn);
+        var event3 = new LanguageChangeEvent(mockPlayer2, "de", mockConfigDe);
+        var event4 = new LanguageChangeEvent(mockPlayer1, "de", mockConfigDe);
+        var event5 = new LanguageChangeEvent(mockPlayer1, "en", mockConfigDe);
 
         assertFalse(event1.equals("SomeString"), "Other types should not be equal to event");
         assertFalse(event1.equals(null), "Event should be different than null");

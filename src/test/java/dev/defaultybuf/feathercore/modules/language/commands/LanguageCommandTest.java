@@ -6,7 +6,7 @@
  *
  * @file LanguageCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.10
+ * @version 0.11
  * @test_unit LanguageCommand#0.9
  * @description Unit tests for LanguageCommand
  */
@@ -209,7 +209,7 @@ class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
 
     @Test
     void execute_CHANGE() {
-        PluginManager mockPluginManager = mock(PluginManager.class);
+        var mockPluginManager = mock(PluginManager.class);
         when(mockServer.getPluginManager()).thenReturn(mockPluginManager);
 
         var commandData = new LanguageCommand.CommandData(

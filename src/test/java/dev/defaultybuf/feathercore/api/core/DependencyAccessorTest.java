@@ -6,7 +6,7 @@
  *
  * @file DependencyAccessorTest.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @test_unit DependencyAccessor#0.2
  * @description Unit tests for DependencyAccessor
  */
@@ -58,7 +58,7 @@ class DependencyAccessorTest {
 
     @Test
     void getInterface_validDependency() {
-        JavaPlugin plugin = dependencyAccessor.getInterface(JavaPlugin.class);
+        var plugin = dependencyAccessor.getInterface(JavaPlugin.class);
         assertNotNull(plugin);
         assertEquals(mockPlugin, plugin);
     }
@@ -70,7 +70,7 @@ class DependencyAccessorTest {
 
     @Test
     void getPlugin_success() {
-        JavaPlugin plugin = dependencyAccessor.getPlugin();
+        var plugin = dependencyAccessor.getPlugin();
         assertNotNull(plugin);
         assertEquals(mockPlugin, plugin);
     }
@@ -83,7 +83,7 @@ class DependencyAccessorTest {
 
     @Test
     void getLogger_success() {
-        IFeatherLogger logger = dependencyAccessor.getLogger();
+        var logger = dependencyAccessor.getLogger();
         assertNotNull(logger);
         assertEquals(mockLogger, logger);
     }
@@ -96,10 +96,10 @@ class DependencyAccessorTest {
 
     @Test
     void getEnabledModules_success() {
-        List<FeatherModule> mockModules = List.of(mock(FeatherModule.class));
+        var mockModules = List.of(mock(FeatherModule.class));
         Mockito.when(mockModulesProvider.getEnabledModules()).thenReturn(mockModules);
 
-        List<FeatherModule> modules = dependencyAccessor.getEnabledModules();
+        var modules = dependencyAccessor.getEnabledModules();
         assertNotNull(modules);
         assertEquals(mockModules, modules);
     }
@@ -112,7 +112,7 @@ class DependencyAccessorTest {
 
     @Test
     void getLanguage_success() {
-        ILanguage language = dependencyAccessor.getLanguage();
+        var language = dependencyAccessor.getLanguage();
         assertNotNull(language);
         assertEquals(mockLanguage, language);
     }

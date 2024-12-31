@@ -6,7 +6,7 @@
  *
  * @file PairTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit Pair#0.1
  * @description Unit tests for Pair
  */
@@ -23,7 +23,7 @@ class PairTest {
     @Test
     void testPairInitializationWithConstructor() {
         // Create a Pair using the constructor
-        Pair<Integer, String> pair = Pair.of(1, "one");
+        var pair = Pair.of(1, "one");
 
         // Assert both fields are initialized correctly
         assertEquals(1, pair.first);
@@ -33,7 +33,7 @@ class PairTest {
     @Test
     void testPairInitializationWithFactoryMethod() {
         // Create a Pair using the static of() method
-        Pair<String, Double> pair = Pair.of("pi", 3.14);
+        var pair = Pair.of("pi", 3.14);
 
         // Assert both fields are initialized correctly
         assertEquals("pi", pair.first);
@@ -43,7 +43,7 @@ class PairTest {
     @Test
     void testPairAllowsNullValues() {
         // Create a Pair with null values
-        Pair<Object, Object> pair = Pair.of(null, null);
+        var pair = Pair.of(null, null);
 
         // Assert both fields are null
         assertNull(pair.first);
@@ -53,7 +53,7 @@ class PairTest {
     @Test
     void testPairWithDifferentTypes() {
         // Create a Pair with heterogeneous types
-        Pair<Integer, String> pair = Pair.of(42, "Answer");
+        var pair = Pair.of(42, "Answer");
 
         // Assert correct values and types
         assertEquals(42, pair.first);
@@ -63,7 +63,7 @@ class PairTest {
     @Test
     void testPairFieldsAreMutable() {
         // Create a Pair and modify its fields
-        Pair<Integer, String> pair = Pair.of(1, "one");
+        var pair = Pair.of(1, "one");
 
         pair.first = 2;
         pair.second = "two";

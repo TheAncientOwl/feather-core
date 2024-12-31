@@ -6,7 +6,7 @@
  *
  * @file LootChestsCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @test_unit LootChestsCommand#0.9
  * @description Unit tests for LootChestsCommand
  */
@@ -127,7 +127,7 @@ class LootChestsCommandTest extends CommandTestMocker<LootChestsCommand> {
 
         var data = new LootChestsCommand.CommandData(
                 LootChestsCommand.CommandType.SET, "testType", null, 0, mockChest);
-        boolean result = commandInstance.hasPermission(mockSender, data);
+        var result = commandInstance.hasPermission(mockSender, data);
 
         assertFalse(result);
         verify(mockSender).sendMessage(anyString());
@@ -139,14 +139,14 @@ class LootChestsCommandTest extends CommandTestMocker<LootChestsCommand> {
 
         var data = new LootChestsCommand.CommandData(
                 LootChestsCommand.CommandType.SET, "testType", null, 0, mockChest);
-        boolean result = commandInstance.hasPermission(mockSender, data);
+        var result = commandInstance.hasPermission(mockSender, data);
 
         assertTrue(result);
     }
 
     @Test
     void testParse_NoArgs() {
-        String[] args = {};
+        var args = new String[] {};
 
         var result = commandInstance.parse(mockSender, args);
 
@@ -156,7 +156,7 @@ class LootChestsCommandTest extends CommandTestMocker<LootChestsCommand> {
 
     @Test
     void testParse_InvalidCommand() {
-        String[] args = {"invalid"};
+        var args = new String[] {"invalid"};
 
         var result = commandInstance.parse(mockSender, args);
 
@@ -166,7 +166,7 @@ class LootChestsCommandTest extends CommandTestMocker<LootChestsCommand> {
 
     @Test
     void testParse_SetCommand() {
-        String[] args = {"set", "testType"};
+        var args = new String[] {"set", "testType"};
         when(mockPlayer.getTargetBlock((Set<Material>) null, 5)).thenReturn(mockBlock);
         when(mockLootChests.isChestType("testType")).thenReturn(true);
         when(mockBlock.getType()).thenReturn(Material.CHEST);
@@ -181,7 +181,7 @@ class LootChestsCommandTest extends CommandTestMocker<LootChestsCommand> {
 
     @Test
     void testParse_SetCommand_NotChest() {
-        String[] args = {"set", "testType"};
+        var args = new String[] {"set", "testType"};
         when(mockPlayer.getTargetBlock((Set<Material>) null, 5)).thenReturn(mockBlock);
         when(mockLootChests.isChestType("testType")).thenReturn(true);
         when(mockBlock.getType()).thenReturn(Material.ACACIA_BOAT);
@@ -194,7 +194,7 @@ class LootChestsCommandTest extends CommandTestMocker<LootChestsCommand> {
 
     @Test
     void testParse_SetCommand_SenderNotPlayer() {
-        String[] args = {"set", "testType"};
+        var args = new String[] {"set", "testType"};
         when(mockLootChests.isChestType("testType")).thenReturn(true);
 
         var result = commandInstance.parse(mockSender, args);
@@ -205,7 +205,7 @@ class LootChestsCommandTest extends CommandTestMocker<LootChestsCommand> {
 
     @Test
     void testParse_SetCommand_NotChestType() {
-        String[] args = {"set", "testType"};
+        var args = new String[] {"set", "testType"};
         when(mockLootChests.isChestType("testType")).thenReturn(false);
 
         var result = commandInstance.parse(mockPlayer, args);
@@ -216,7 +216,7 @@ class LootChestsCommandTest extends CommandTestMocker<LootChestsCommand> {
 
     @Test
     void testParse_SetCommand_InvalidArgsCount() {
-        String[] args = {"set"};
+        var args = new String[] {"set"};
 
         var result = commandInstance.parse(mockPlayer, args);
 
@@ -226,7 +226,7 @@ class LootChestsCommandTest extends CommandTestMocker<LootChestsCommand> {
 
     @Test
     void testParse_CreateCommand() {
-        String[] args = {"create", "testType", "Test Chest", "3600"};
+        var args = new String[] {"create", "testType", "Test Chest", "3600"};
         when(mockPlayer.getTargetBlock((Set<Material>) null, 5)).thenReturn(mockBlock);
         when(mockBlock.getType()).thenReturn(Material.ACACIA_BOAT);
 
@@ -238,7 +238,7 @@ class LootChestsCommandTest extends CommandTestMocker<LootChestsCommand> {
 
     @Test
     void testParse_CreateCommand_SenderNotPlayer() {
-        String[] args = {"create", "testType", "Test Chest", "3600"};
+        var args = new String[] {"create", "testType", "Test Chest", "3600"};
 
         var result = commandInstance.parse(mockSender, args);
 
@@ -248,7 +248,7 @@ class LootChestsCommandTest extends CommandTestMocker<LootChestsCommand> {
 
     @Test
     void testParse_CreateCommand_InvalidCooldown() {
-        String[] args = {"create", "testType", "Test Chest", "invalid-cooldown"};
+        var args = new String[] {"create", "testType", "Test Chest", "invalid-cooldown"};
 
         var result = commandInstance.parse(mockPlayer, args);
 
@@ -258,7 +258,7 @@ class LootChestsCommandTest extends CommandTestMocker<LootChestsCommand> {
 
     @Test
     void testParse_CreateCommand_InvalidArgsLess() {
-        String[] args = {"create", "testType", "Test Chest"};
+        var args = new String[] {"create", "testType", "Test Chest"};
 
         var result = commandInstance.parse(mockPlayer, args);
 
@@ -268,7 +268,7 @@ class LootChestsCommandTest extends CommandTestMocker<LootChestsCommand> {
 
     @Test
     void testParse_CreateCommand_InvalidArgsMore() {
-        String[] args = {"create", "testType", "Test Chest", "3600", "more-args"};
+        var args = new String[] {"create", "testType", "Test Chest", "3600", "more-args"};
 
         var result = commandInstance.parse(mockPlayer, args);
 
@@ -278,7 +278,7 @@ class LootChestsCommandTest extends CommandTestMocker<LootChestsCommand> {
 
     @Test
     void testParse_DeleteCommand() {
-        String[] args = {"delete", "testType"};
+        var args = new String[] {"delete", "testType"};
         when(mockLootChests.isChestType("testType")).thenReturn(true);
 
         var result = commandInstance.parse(mockSender, args);
@@ -290,7 +290,7 @@ class LootChestsCommandTest extends CommandTestMocker<LootChestsCommand> {
 
     @Test
     void testParse_DeleteCommand_NotChestType() {
-        String[] args = {"delete", "testType"};
+        var args = new String[] {"delete", "testType"};
         when(mockLootChests.isChestType("testType")).thenReturn(false);
 
         var result = commandInstance.parse(mockPlayer, args);
@@ -301,7 +301,7 @@ class LootChestsCommandTest extends CommandTestMocker<LootChestsCommand> {
 
     @Test
     void testParse_DeleteCommand_InvalidArgsCount() {
-        String[] args = {"delete"};
+        var args = new String[] {"delete"};
 
         var result = commandInstance.parse(mockPlayer, args);
 
@@ -311,7 +311,7 @@ class LootChestsCommandTest extends CommandTestMocker<LootChestsCommand> {
 
     @Test
     void testParse_LocationsCommand() {
-        String[] args = {"locations", "testType"};
+        var args = new String[] {"locations", "testType"};
         when(mockLootChests.isChestType("testType")).thenReturn(true);
 
         var result = commandInstance.parse(mockSender, args);
@@ -323,7 +323,7 @@ class LootChestsCommandTest extends CommandTestMocker<LootChestsCommand> {
 
     @Test
     void testParse_LocationsCommand_NotChestType() {
-        String[] args = {"locations", "testType"};
+        var args = new String[] {"locations", "testType"};
         when(mockLootChests.isChestType("testType")).thenReturn(false);
 
         var result = commandInstance.parse(mockPlayer, args);
@@ -334,7 +334,7 @@ class LootChestsCommandTest extends CommandTestMocker<LootChestsCommand> {
 
     @Test
     void testParse_LocationsCommand_InvalidArgsCount() {
-        String[] args = {"locations"};
+        var args = new String[] {"locations"};
 
         var result = commandInstance.parse(mockPlayer, args);
 
@@ -344,7 +344,7 @@ class LootChestsCommandTest extends CommandTestMocker<LootChestsCommand> {
 
     @Test
     void testParse_InfoCommand() {
-        String[] args = {"info"};
+        var args = new String[] {"info"};
         when(mockPlayer.getTargetBlock((Set<Material>) null, 5)).thenReturn(mockBlock);
         when(mockBlock.getType()).thenReturn(Material.ACACIA_BOAT);
 
@@ -356,7 +356,7 @@ class LootChestsCommandTest extends CommandTestMocker<LootChestsCommand> {
 
     @Test
     void testParse_InfoCommand_SenderNotPlayer() {
-        String[] args = {"info"};
+        var args = new String[] {"info"};
 
         var result = commandInstance.parse(mockSender, args);
 
@@ -366,7 +366,7 @@ class LootChestsCommandTest extends CommandTestMocker<LootChestsCommand> {
 
     @Test
     void testParse_UnsetCommand() {
-        String[] args = {"unset"};
+        var args = new String[] {"unset"};
         when(mockPlayer.getTargetBlock((Set<Material>) null, 5)).thenReturn(mockBlock);
         when(mockBlock.getType()).thenReturn(Material.CHEST);
         when(mockLootChests.getChestType(anyString())).thenReturn("testType");
@@ -381,7 +381,7 @@ class LootChestsCommandTest extends CommandTestMocker<LootChestsCommand> {
 
     @Test
     void testParse_UnsetCommand_NotChest() {
-        String[] args = {"unset"};
+        var args = new String[] {"unset"};
         when(mockPlayer.getTargetBlock((Set<Material>) null, 5)).thenReturn(mockBlock);
         when(mockBlock.getType()).thenReturn(Material.ACACIA_BOAT);
 
@@ -393,7 +393,7 @@ class LootChestsCommandTest extends CommandTestMocker<LootChestsCommand> {
 
     @Test
     void testParse_UnsetCommand_SenderNotPlayer() {
-        String[] args = {"unset"};
+        var args = new String[] {"unset"};
 
         var result = commandInstance.parse(mockSender, args);
 
@@ -495,7 +495,7 @@ class LootChestsCommandTest extends CommandTestMocker<LootChestsCommand> {
 
     @Test
     void testParse_ChestTypeNullAndChestNotNull() {
-        String[] args = {"info"};
+        var args = new String[] {"info"};
         when(mockPlayer.getTargetBlock((Set<Material>) null, 5)).thenReturn(mockBlock);
         when(mockBlock.getType()).thenReturn(Material.CHEST);
         when(mockLootChests.getChestType("world,0,64,0")).thenReturn("testType");
@@ -510,7 +510,7 @@ class LootChestsCommandTest extends CommandTestMocker<LootChestsCommand> {
 
     @Test
     void testParse_ChestTypeNotNullAndChestNotNull() {
-        String[] args = {"info"};
+        var args = new String[] {"info"};
         when(mockPlayer.getTargetBlock((Set<Material>) null, 5)).thenReturn(mockBlock);
         when(mockBlock.getType()).thenReturn(Material.CHEST);
         when(mockLootChests.getChestType("world,0,64,0")).thenReturn("testType");
@@ -525,7 +525,7 @@ class LootChestsCommandTest extends CommandTestMocker<LootChestsCommand> {
 
     @Test
     void testParse_ChestTypeNullAndChestNull() {
-        String[] args = {"info"};
+        var args = new String[] {"info"};
         when(mockPlayer.getTargetBlock((Set<Material>) null, 5)).thenReturn(mockBlock);
         when(mockBlock.getType()).thenReturn(Material.AIR);
 
@@ -537,7 +537,7 @@ class LootChestsCommandTest extends CommandTestMocker<LootChestsCommand> {
 
     @Test
     void testParse_ChestTypeNotNullAndChestNull() {
-        String[] args = {"info"};
+        var args = new String[] {"info"};
         when(mockPlayer.getTargetBlock((Set<Material>) null, 5)).thenReturn(mockBlock);
         when(mockBlock.getType()).thenReturn(Material.AIR);
 
@@ -554,7 +554,7 @@ class LootChestsCommandTest extends CommandTestMocker<LootChestsCommand> {
                 .thenReturn(mockConfigSection);
         lenient().when(mockConfigSection.getKeys(false)).thenReturn(Set.of("type1", "type2"));
 
-        List<String> completions = commandInstance.onTabComplete(args);
+        var completions = commandInstance.onTabComplete(args);
 
         assertEquals(expectedCompletions.size(), completions.size());
         assertEquals(new HashSet<>(expectedCompletions), new HashSet<>(completions));

@@ -6,7 +6,7 @@
  *
  * @file PayCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit PayCommand#0.10
  * @description Unit tests for PayCommand
  */
@@ -199,8 +199,8 @@ class PayCommandTest extends CommandTestMocker<PayCommand> {
 
     @Test
     void testParse_ValidArguments() {
-        OfflinePlayer mockReceiver = mock(OfflinePlayer.class);
-        PlayerModel recieverModel = new PlayerModel();
+        var mockReceiver = mock(OfflinePlayer.class);
+        var recieverModel = new PlayerModel();
         recieverModel.acceptsPayments = true;
         recieverModel.language = "en";
 
@@ -232,8 +232,8 @@ class PayCommandTest extends CommandTestMocker<PayCommand> {
 
     @Test
     void testParse_ValidArguments_NotEnoughFunds() {
-        OfflinePlayer mockReceiver = mock(OfflinePlayer.class);
-        PlayerModel recieverModel = new PlayerModel();
+        var mockReceiver = mock(OfflinePlayer.class);
+        var recieverModel = new PlayerModel();
         recieverModel.acceptsPayments = true;
         recieverModel.language = "en";
 
@@ -262,8 +262,8 @@ class PayCommandTest extends CommandTestMocker<PayCommand> {
 
     @Test
     void testParse_ValidArguments_NewBalanceExceedsMax() {
-        OfflinePlayer mockReceiver = mock(OfflinePlayer.class);
-        PlayerModel recieverModel = new PlayerModel();
+        var mockReceiver = mock(OfflinePlayer.class);
+        var recieverModel = new PlayerModel();
         recieverModel.acceptsPayments = true;
         recieverModel.language = "en";
 
@@ -294,8 +294,8 @@ class PayCommandTest extends CommandTestMocker<PayCommand> {
 
     @Test
     void testParse_ValidArguments_AmountLessThanMin() {
-        OfflinePlayer mockReceiver = mock(OfflinePlayer.class);
-        PlayerModel recieverModel = new PlayerModel();
+        var mockReceiver = mock(OfflinePlayer.class);
+        var recieverModel = new PlayerModel();
         recieverModel.acceptsPayments = true;
         recieverModel.language = "en";
 
@@ -321,8 +321,8 @@ class PayCommandTest extends CommandTestMocker<PayCommand> {
 
     @Test
     void testParse_ValidArguments_InvalidAmount() {
-        OfflinePlayer mockReceiver = mock(OfflinePlayer.class);
-        PlayerModel recieverModel = new PlayerModel();
+        var mockReceiver = mock(OfflinePlayer.class);
+        var recieverModel = new PlayerModel();
         recieverModel.acceptsPayments = true;
         recieverModel.language = "en";
 
@@ -346,7 +346,7 @@ class PayCommandTest extends CommandTestMocker<PayCommand> {
 
     @Test
     void testParse_ValidArguments_NoPlayerModel() {
-        OfflinePlayer mockReceiver = mock(OfflinePlayer.class);
+        var mockReceiver = mock(OfflinePlayer.class);
 
         when(mockReceiver.hasPlayedBefore()).thenReturn(true);
         when(mockReceiver.isOnline()).thenReturn(true);
@@ -366,8 +366,8 @@ class PayCommandTest extends CommandTestMocker<PayCommand> {
 
     @Test
     void testParse_ValidArguments_ReceiverNotOnline() {
-        OfflinePlayer mockReceiver = mock(OfflinePlayer.class);
-        PlayerModel recieverModel = new PlayerModel();
+        var mockReceiver = mock(OfflinePlayer.class);
+        var recieverModel = new PlayerModel();
         recieverModel.acceptsPayments = true;
         recieverModel.language = "en";
 
@@ -390,8 +390,8 @@ class PayCommandTest extends CommandTestMocker<PayCommand> {
 
     @Test
     void testParse_ValidArguments_ReceiverNotAcceptingPayments_NotOverride() {
-        OfflinePlayer mockReceiver = mock(OfflinePlayer.class);
-        PlayerModel recieverModel = new PlayerModel();
+        var mockReceiver = mock(OfflinePlayer.class);
+        var recieverModel = new PlayerModel();
         recieverModel.acceptsPayments = false;
         recieverModel.language = "en";
 
@@ -418,8 +418,8 @@ class PayCommandTest extends CommandTestMocker<PayCommand> {
 
     @Test
     void testParse_ValidArguments_ReceiverNotAcceptingPayments_Override() {
-        OfflinePlayer mockReceiver = mock(OfflinePlayer.class);
-        PlayerModel recieverModel = new PlayerModel();
+        var mockReceiver = mock(OfflinePlayer.class);
+        var recieverModel = new PlayerModel();
         recieverModel.acceptsPayments = false;
         recieverModel.language = "en";
 
@@ -454,8 +454,8 @@ class PayCommandTest extends CommandTestMocker<PayCommand> {
 
     @Test
     void testExecute() {
-        Player mockPlayer2 = mock(Player.class);
-        PlayerModel playerModel2 = new PlayerModel();
+        var mockPlayer2 = mock(Player.class);
+        var playerModel2 = new PlayerModel();
         playerModel2.language = "en";
 
         when(mockFeatherEconomy.getEconomy().format(100.0)).thenReturn("100.0");

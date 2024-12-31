@@ -6,7 +6,7 @@
  *
  * @file YamlUtils.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit YamlUtils#0.1
  * @description Unit tests for YamlUtils
  */
@@ -32,7 +32,6 @@ import java.util.logging.Logger;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.junit.jupiter.api.Test;
@@ -47,17 +46,17 @@ class YamlUtilsTest {
     @Test
     void testLoadYaml() throws Exception {
         // Mock the plugin and set up resource handling
-        JavaPlugin mockPlugin = mock(JavaPlugin.class);
-        String fileName = "valid.yml";
+        var mockPlugin = mock(JavaPlugin.class);
+        var fileName = "valid.yml";
 
-        String yamlContent = "value: 25\nother-value: 30";
-        InputStream mockInputStream = new ByteArrayInputStream(yamlContent.getBytes());
+        var yamlContent = "value: 25\nother-value: 30";
+        var mockInputStream = new ByteArrayInputStream(yamlContent.getBytes());
 
         // Mock the behavior of getResource to return your InputStream
         when(mockPlugin.getResource(fileName)).thenReturn(mockInputStream);
 
         // Call the method under test
-        FileConfiguration fileConfiguration = YamlUtils.loadYaml(mockPlugin, fileName);
+        var fileConfiguration = YamlUtils.loadYaml(mockPlugin, fileName);
 
         // Assertions to check if the configuration is correctly loaded
         assertNotNull(fileConfiguration);
@@ -68,12 +67,12 @@ class YamlUtilsTest {
     @Test
     void testLoadYaml_FileNotFound() {
         // Mock JavaPlugin
-        JavaPlugin mockPlugin = mock(JavaPlugin.class);
+        var mockPlugin = mock(JavaPlugin.class);
 
         when(mockPlugin.getResource("missing.yml")).thenReturn(null);
 
         // Call method under test and assert exception
-        FeatherSetupException exception = assertThrows(FeatherSetupException.class, () -> {
+        var exception = assertThrows(FeatherSetupException.class, () -> {
             YamlUtils.loadYaml(mockPlugin, "missing.yml");
         });
 
@@ -84,8 +83,8 @@ class YamlUtilsTest {
     @Test
     void testLoadYaml_IOException() {
         // Mock JavaPlugin and input stream that throws IOException
-        JavaPlugin mockPlugin = mock(JavaPlugin.class);
-        InputStream mockInputStream = mock(InputStream.class);
+        var mockPlugin = mock(JavaPlugin.class);
+        var mockInputStream = mock(InputStream.class);
 
         // Mock the resource retrieval
         when(mockPlugin.getResource("invalid.yml")).thenReturn(mockInputStream);
@@ -97,15 +96,15 @@ class YamlUtilsTest {
 
         // Mock static Bukkit.getServer() and its logger
         try (var mockedBukkit = mockStatic(Bukkit.class)) {
-            Server mockServer = mock(Server.class);
-            Logger mockLogger = mock(Logger.class);
+            var mockServer = mock(Server.class);
+            var mockLogger = mock(Logger.class);
 
             // Mock Bukkit.getServer() and Bukkit.getLogger()
             mockedBukkit.when(Bukkit::getServer).thenReturn(mockServer);
             mockedBukkit.when(Bukkit::getLogger).thenReturn(mockLogger);
 
             // Call method under test and assert exception
-            FeatherSetupException exception = assertThrows(FeatherSetupException.class, () -> {
+            var exception = assertThrows(FeatherSetupException.class, () -> {
                 YamlUtils.loadYaml(mockPlugin, "invalid.yml");
             });
 
@@ -118,8 +117,8 @@ class YamlUtilsTest {
     void testLoadYaml_NullFileConfiguration() {
         // Mock JavaPlugin and return valid input stream, but simulate null
         // FileConfiguration
-        JavaPlugin mockPlugin = mock(JavaPlugin.class);
-        InputStream mockInputStream = new ByteArrayInputStream("".getBytes());
+        var mockPlugin = mock(JavaPlugin.class);
+        var mockInputStream = new ByteArrayInputStream("".getBytes());
 
         when(mockPlugin.getResource("empty.yml")).thenReturn(mockInputStream);
 
@@ -130,7 +129,7 @@ class YamlUtilsTest {
                     .thenReturn(null);
 
             // Call method under test and assert exception
-            FeatherSetupException exception = assertThrows(FeatherSetupException.class, () -> {
+            var exception = assertThrows(FeatherSetupException.class, () -> {
                 YamlUtils.loadYaml(mockPlugin, "empty.yml");
             });
 

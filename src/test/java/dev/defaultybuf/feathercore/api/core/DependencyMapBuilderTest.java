@@ -6,7 +6,7 @@
  *
  * @file DependencyMapBuilderTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit DependencyMapBuilder#0.2
  * @description Unit tests for DependencyMapBuilder
  */
@@ -18,8 +18,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
-
-import java.util.Map;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,12 +37,12 @@ class DependencyMapBuilderTest {
     @Test
     void addDependency_success() {
         // Arrange
-        Class<?> clazz = Dummy1.class;
-        Dummy1 dependency = mock(Dummy1.class);
+        var clazz = Dummy1.class;
+        var dependency = mock(Dummy1.class);
 
         // Act
         builder.addDependency(clazz, dependency);
-        Map<Class<?>, Object> map = builder.getMap();
+        var map = builder.getMap();
 
         // Assert
         assertTrue(map.containsKey(clazz));
@@ -54,14 +52,14 @@ class DependencyMapBuilderTest {
     @Test
     void addDependency_overwriteExisting() {
         // Arrange
-        Class<?> clazz = Dummy1.class;
-        Object dependency1 = new Dummy1("Dependency1");
-        Object dependency2 = new Dummy1("Dependency2");
+        var clazz = Dummy1.class;
+        var dependency1 = new Dummy1("Dependency1");
+        var dependency2 = new Dummy1("Dependency2");
 
         // Act
         builder.addDependency(clazz, dependency1);
         builder.addDependency(clazz, dependency2); // Overwrite
-        Map<Class<?>, Object> map = builder.getMap();
+        var map = builder.getMap();
 
         // Assert
         assertTrue(map.containsKey(clazz));
@@ -71,13 +69,13 @@ class DependencyMapBuilderTest {
     @Test
     void removeDependency_success() {
         // Arrange
-        Class<?> clazz = Dummy2.class;
-        Object dependency = mock(Dummy2.class);
+        var clazz = Dummy2.class;
+        var dependency = mock(Dummy2.class);
         builder.addDependency(clazz, dependency);
 
         // Act
         builder.removeDependency(clazz);
-        Map<Class<?>, Object> map = builder.getMap();
+        var map = builder.getMap();
 
         // Assert
         assertFalse(map.containsKey(clazz));
@@ -87,7 +85,7 @@ class DependencyMapBuilderTest {
     void removeDependency_nonExisting() {
         // Act
         builder.removeDependency(Dummy1.class); // Attempt to remove non-existing key
-        Map<Class<?>, Object> map = builder.getMap();
+        var map = builder.getMap();
 
         // Assert
         assertFalse(map.containsKey(Dummy1.class)); // Ensure no exception is thrown
@@ -96,7 +94,7 @@ class DependencyMapBuilderTest {
     @Test
     void getMap_initiallyEmpty() {
         // Act
-        Map<Class<?>, Object> map = builder.getMap();
+        var map = builder.getMap();
 
         // Assert
         assertNotNull(map);
@@ -110,7 +108,7 @@ class DependencyMapBuilderTest {
         builder.addDependency(Integer.class, 42);
 
         // Act
-        Map<Class<?>, Object> map = builder.getMap();
+        var map = builder.getMap();
 
         // Assert
         assertEquals(2, map.size());

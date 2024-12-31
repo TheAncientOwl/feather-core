@@ -6,7 +6,7 @@
  *
  * @file NamespacedKeyTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit NamespacedKey#0.2
  * @description Unit tests for NamespacedKey
  */
@@ -96,7 +96,7 @@ class NamespacedKeyTest {
         // Simulate the key having a value
         when(mockDataContainer.get(any(), eq(mockDataType))).thenReturn(100);
 
-        Integer value = namespacedKey.get(mockDataType);
+        var value = namespacedKey.get(mockDataType);
 
         assertEquals(100, value); // Verify the value returned is as expected
     }

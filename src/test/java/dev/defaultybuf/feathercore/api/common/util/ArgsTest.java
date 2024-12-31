@@ -6,7 +6,7 @@
  *
  * @file ArgsTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit Args#0.4
  * @description Unit tests for Args
  */
@@ -48,9 +48,8 @@ class ArgsTest {
 
     @Test
     void testParseResultSuccess() {
-        Object[] parsedArgs = {"test", 42, 3.14};
-        Args.ParseResult result =
-                new Args.ParseResult(parsedArgs, Args.ParseResult.PARSE_SUCCESS_INDEX);
+        var parsedArgs = new Object[] {"test", 42, 3.14};
+        var result = new Args.ParseResult(parsedArgs, Args.ParseResult.PARSE_SUCCESS_INDEX);
 
         assertTrue(result.success(), "ParseResult should indicate success");
         assertEquals("test", result.getString(0), "First argument should be 'test'");
@@ -60,7 +59,7 @@ class ArgsTest {
 
     @Test
     void testParseResultFailure() {
-        Args.ParseResult result = new Args.ParseResult(null, 1);
+        var result = new Args.ParseResult(null, 1);
 
         assertFalse(result.success(), "ParseResult should indicate failure");
         assertEquals(1, result.failIndex(), "Failure index should be 1");
@@ -68,19 +67,19 @@ class ArgsTest {
 
     @Test
     void testParse() {
-        Player mockPlayer = mock(Player.class);
+        var mockPlayer = mock(Player.class);
         when(Bukkit.getPlayerExact("PlayerName")).thenReturn(mockPlayer);
 
-        OfflinePlayer mockOfflinePlayer = mock(OfflinePlayer.class);
+        var mockOfflinePlayer = mock(OfflinePlayer.class);
         when(Bukkit.getOfflinePlayer("OfflinePlayerName")).thenReturn(mockOfflinePlayer);
 
-        World mockWorld = mock(World.class);
+        var mockWorld = mock(World.class);
         when(Bukkit.getWorld("WorldName")).thenReturn(mockWorld);
 
         String[] inputArgs =
                 {"123", "4.56", "PlayerName", "OfflinePlayerName", "WorldName", "somestr"};
 
-        Args.ParseResult result =
+        var result =
                 Args.parse(inputArgs, Args::getInt, Args::getDouble, Args::getOnlinePlayer,
                         Args::getOfflinePlayer, Args::getWorld, Args::getString);
 
@@ -97,7 +96,7 @@ class ArgsTest {
     @Test
     void testParseFailure() {
         String[] inputArgs = {"123", "invalid"};
-        Args.ParseResult result = Args.parse(inputArgs, Args::getInt, Args::getDouble);
+        var result = Args.parse(inputArgs, Args::getInt, Args::getDouble);
 
         assertFalse(result.success(), "Parse should fail for invalid input");
         assertEquals(1, result.failIndex(), "Failure should occur at index 1");
@@ -105,10 +104,10 @@ class ArgsTest {
 
     @Test
     void testGetOnlinePlayer() {
-        Player mockPlayer = mock(Player.class);
+        var mockPlayer = mock(Player.class);
         when(Bukkit.getPlayerExact("PlayerName")).thenReturn(mockPlayer);
 
-        Player result = Args.getOnlinePlayer("PlayerName");
+        var result = Args.getOnlinePlayer("PlayerName");
 
         assertNotNull(result, "Online player should be found");
         assertEquals(mockPlayer, result, "Returned player should match mock");
@@ -116,10 +115,10 @@ class ArgsTest {
 
     @Test
     void testGetOfflinePlayer() {
-        OfflinePlayer mockOfflinePlayer = mock(OfflinePlayer.class);
+        var mockOfflinePlayer = mock(OfflinePlayer.class);
         when(Bukkit.getOfflinePlayer("PlayerName")).thenReturn(mockOfflinePlayer);
 
-        OfflinePlayer result = Args.getOfflinePlayer("PlayerName");
+        var result = Args.getOfflinePlayer("PlayerName");
 
         assertNotNull(result, "Offline player should be found");
         assertEquals(mockOfflinePlayer, result, "Returned offline player should match mock");
@@ -127,10 +126,10 @@ class ArgsTest {
 
     @Test
     void testGetWorld() {
-        World mockWorld = mock(World.class);
+        var mockWorld = mock(World.class);
         when(Bukkit.getWorld("WorldName")).thenReturn(mockWorld);
 
-        World result = Args.getWorld("WorldName");
+        var result = Args.getWorld("WorldName");
 
         assertNotNull(result, "World should be found");
         assertEquals(mockWorld, result, "Returned world should match mock");

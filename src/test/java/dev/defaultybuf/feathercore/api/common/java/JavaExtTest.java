@@ -6,7 +6,7 @@
  *
  * @file JavaExtTest.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @test_unit JavaExt#0.1
  * @description Unit tests for JavaExt
  */
@@ -18,7 +18,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Predicate;
 
 import org.junit.jupiter.api.Test;
@@ -28,9 +27,9 @@ class JavaExtTest {
     @Test
     void testFindIf() {
         // Test with a list and a matching predicate
-        List<String> list = List.of("apple", "banana", "cherry");
+        var list = List.of("apple", "banana", "cherry");
         Predicate<String> startsWithB = s -> s.startsWith("b");
-        Optional<String> result = JavaExt.findIf(list, startsWithB);
+        var result = JavaExt.findIf(list, startsWithB);
         assertTrue(result.isPresent());
         assertEquals("banana", result.get());
 
@@ -51,9 +50,9 @@ class JavaExtTest {
     @Test
     void testFindIndex() {
         // Test with a list and a matching predicate
-        List<String> list = List.of("apple", "banana", "cherry");
+        var list = List.of("apple", "banana", "cherry");
         Predicate<String> startsWithB = s -> s.startsWith("b");
-        Optional<Integer> result = JavaExt.findIndex(list, startsWithB);
+        var result = JavaExt.findIndex(list, startsWithB);
         assertTrue(result.isPresent());
         assertEquals(1, result.get());
 
@@ -74,9 +73,9 @@ class JavaExtTest {
     @Test
     void testFindLastIndex() {
         // Test with a list and a matching predicate
-        List<String> list = List.of("apple", "banana", "apple", "cherry");
+        var list = List.of("apple", "banana", "apple", "cherry");
         Predicate<String> isApple = "apple"::equals;
-        Optional<Integer> result = JavaExt.findLastIndex(list, isApple);
+        var result = JavaExt.findLastIndex(list, isApple);
         assertTrue(result.isPresent());
         assertEquals(2, result.get());
 
@@ -97,9 +96,9 @@ class JavaExtTest {
     @Test
     void testContains() {
         // Test with a list and a matching predicate
-        List<String> list = List.of("apple", "banana", "cherry");
+        var list = List.of("apple", "banana", "cherry");
         Predicate<String> startsWithB = s -> s.startsWith("b");
-        boolean result = JavaExt.contains(list, startsWithB);
+        var result = JavaExt.contains(list, startsWithB);
         assertTrue(result);
 
         // Test with no matching predicate
@@ -119,6 +118,6 @@ class JavaExtTest {
     @Test
     void dummyConstructor() {
         @SuppressWarnings("unused") // JavaExt should contain only static methods
-        JavaExt dummy = new JavaExt();
+        var dummy = new JavaExt();
     }
 }

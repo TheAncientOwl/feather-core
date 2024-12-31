@@ -6,7 +6,7 @@
  *
  * @file FeatherCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @test_unit FeatherCommand#0.4
  * @description Unit tests for FeatherCommand
  */
@@ -37,7 +37,7 @@ public class FeatherCommandTest extends CommandTestMocker<DummyCommand> {
     @Test
     void onTabComplete() {
         assertDoesNotThrow(() -> {
-            String[] expectedCompletions = new String[] {"comp0", "comp1"};
+            var expectedCompletions = new String[] {"comp0", "comp1"};
             var completions = commandInstance.onTabComplete(mockSender, mockCommand, "alias",
                     expectedCompletions);
             assertEquals(Arrays.asList(expectedCompletions), completions);

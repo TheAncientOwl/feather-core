@@ -6,7 +6,7 @@
  *
  * @file BanknotePickupListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.9
+ * @version 0.10
  * @test_unit BanknotePickupListener#0.5
  * @description Unit tests for BanknotePickupListener
  */
@@ -139,7 +139,7 @@ class BanknotePickupListenerTest extends ListenerTestMocker<BanknotePickupListen
         when(mockPersistentDataContainer.get(any(), eq(PersistentDataType.DOUBLE)))
                 .thenReturn(100.0);
 
-        PlayerModel playerModel = new PlayerModel();
+        var playerModel = new PlayerModel();
         playerModel.language = "en";
         when(mockPlayersData.getPlayerModel(mockPlayer)).thenReturn(playerModel);
 
