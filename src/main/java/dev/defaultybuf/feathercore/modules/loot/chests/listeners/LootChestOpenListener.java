@@ -6,7 +6,7 @@
  *
  * @file LootChestOpenListener.java
  * @author Alexandru Delegeanu
- * @version 0.8
+ * @version 0.9
  * @description Open config loot-chest on interact
  */
 
@@ -22,6 +22,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import dev.defaultybuf.feathercore.api.common.java.Pair;
 import dev.defaultybuf.feathercore.api.common.language.Message;
 import dev.defaultybuf.feathercore.api.common.minecraft.Placeholder;
+import dev.defaultybuf.feathercore.api.common.util.Clock;
 import dev.defaultybuf.feathercore.api.common.util.TimeUtils;
 import dev.defaultybuf.feathercore.api.core.FeatherListener;
 import dev.defaultybuf.feathercore.modules.loot.chests.interfaces.ILootChests;
@@ -52,7 +53,7 @@ public class LootChestOpenListener extends FeatherListener {
         final Long openChestTime =
                 getInterface(ILootChests.class).getOpenChestTime(player, chestLocation);
 
-        final var now = System.currentTimeMillis();
+        final var now = Clock.currentTimeMillis();
         final var cooldown = getInterface(ILootChests.class).getConfig()
                 .getMillis("chests." + chestType + ".cooldown");
         if (openChestTime != null

@@ -6,7 +6,7 @@
  *
  * @file PvPManager.java
  * @author Alexandru Delegeanu
- * @version 0.10
+ * @version 0.11
  * @description Module responsible for managing pvp restrictions
  */
 
@@ -24,6 +24,7 @@ import org.bukkit.scheduler.BukkitTask;
 import dev.defaultybuf.feathercore.api.common.java.Pair;
 import dev.defaultybuf.feathercore.api.common.language.Message;
 import dev.defaultybuf.feathercore.api.common.minecraft.Placeholder;
+import dev.defaultybuf.feathercore.api.common.util.Clock;
 import dev.defaultybuf.feathercore.api.core.FeatherModule;
 import dev.defaultybuf.feathercore.api.exceptions.FeatherSetupException;
 import dev.defaultybuf.feathercore.modules.pvp.manager.interfaces.IPvPManager;
@@ -82,7 +83,7 @@ public class PvPManager extends FeatherModule implements IPvPManager {
             return;
         }
 
-        final var currentTime = System.currentTimeMillis();
+        final var currentTime = Clock.currentTimeMillis();
         putPlayerInCombat(attacker, victim.getName(), currentTime, Message.PvPManager.TAG);
         putPlayerInCombat(victim, attacker.getName(), currentTime, Message.PvPManager.TAGGED);
     }
@@ -155,7 +156,7 @@ public class PvPManager extends FeatherModule implements IPvPManager {
          */
         @Override
         public void run() {
-            final var currentTime = System.currentTimeMillis();
+            final var currentTime = Clock.currentTimeMillis();
 
             final var combatTime = this.pvpManager.config.getMillis("combat.time");
             final var iterator = this.pvpManager.playersInCombat.entrySet().iterator();

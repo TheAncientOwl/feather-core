@@ -6,7 +6,7 @@
  *
  * @file TeleportAcceptCommand.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @description Accept a teleport request
  */
 
@@ -21,6 +21,7 @@ import dev.defaultybuf.feathercore.api.common.java.Pair;
 import dev.defaultybuf.feathercore.api.common.language.Message;
 import dev.defaultybuf.feathercore.api.common.minecraft.Placeholder;
 import dev.defaultybuf.feathercore.api.common.util.Args;
+import dev.defaultybuf.feathercore.api.common.util.Clock;
 import dev.defaultybuf.feathercore.api.common.util.StringUtils;
 import dev.defaultybuf.feathercore.api.common.util.TimeUtils;
 import dev.defaultybuf.feathercore.api.core.FeatherCommand;
@@ -61,7 +62,7 @@ public class TeleportAcceptCommand extends FeatherCommand<TeleportAcceptCommand.
                 if (delay > 0) {
                     getLanguage().message(data.target, Message.Teleport.REQUEST_DELAY,
                             Pair.of(Placeholder.COOLDOWN,
-                                    TimeUtils.formatRemaining(System.currentTimeMillis(), delay)));
+                                    TimeUtils.formatRemaining(Clock.currentTimeMillis(), delay)));
                 }
 
                 break;

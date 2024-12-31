@@ -6,7 +6,7 @@
  *
  * @file RandomTeleportCommand.java
  * @author Alexandru Delegeanu
- * @version 0.9
+ * @version 0.10
  * @description Teleport the player at a random location in the world
  */
 
@@ -30,6 +30,7 @@ import dev.defaultybuf.feathercore.api.common.java.Pair;
 import dev.defaultybuf.feathercore.api.common.language.Message;
 import dev.defaultybuf.feathercore.api.common.minecraft.Placeholder;
 import dev.defaultybuf.feathercore.api.common.util.Args;
+import dev.defaultybuf.feathercore.api.common.util.Clock;
 import dev.defaultybuf.feathercore.api.common.util.StringUtils;
 import dev.defaultybuf.feathercore.api.common.util.TimeUtils;
 import dev.defaultybuf.feathercore.api.core.FeatherCommand;
@@ -61,7 +62,7 @@ public class RandomTeleportCommand extends FeatherCommand<RandomTeleportCommand.
 
     @Override
     protected void execute(final CommandSender sender, final CommandData data) {
-        final var now = System.currentTimeMillis();
+        final var now = Clock.currentTimeMillis();
 
         final boolean selfTeleport = (sender instanceof Player && data.who.equals((Player) sender));
 

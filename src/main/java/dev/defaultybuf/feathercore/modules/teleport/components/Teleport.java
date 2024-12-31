@@ -6,7 +6,7 @@
  *
  * @file Teleport.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @description Module responsible for managing teleports
  */
 
@@ -25,6 +25,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
 import dev.defaultybuf.feathercore.api.common.java.JavaExt;
+import dev.defaultybuf.feathercore.api.common.util.Clock;
 import dev.defaultybuf.feathercore.api.core.FeatherModule;
 import dev.defaultybuf.feathercore.api.exceptions.FeatherSetupException;
 import dev.defaultybuf.feathercore.modules.teleport.interfaces.ITeleport;
@@ -135,7 +136,7 @@ public class Teleport extends FeatherModule implements ITeleport {
             return RequestStatus.ALREADY_REQUESTED;
         }
 
-        this.requests.add(new TeleportRequest(issuer, target, type, System.currentTimeMillis()));
+        this.requests.add(new TeleportRequest(issuer, target, type, Clock.currentTimeMillis()));
 
         return RequestStatus.REQUESTED;
     }
@@ -211,7 +212,7 @@ public class Teleport extends FeatherModule implements ITeleport {
         final var timedRequest = this.requests.get((int) index.get());
         this.requests.remove((int) index.get());
 
-        timedRequest.updateTime(System.currentTimeMillis());
+        timedRequest.updateTime(Clock.currentTimeMillis());
 
         this.teleports.put(
                 timedRequest.is(RequestType.TO) ? timedRequest.issuer.getUniqueId()
@@ -242,7 +243,7 @@ public class Teleport extends FeatherModule implements ITeleport {
         final var timedRequest = this.requests.get((int) index.get());
         this.requests.remove((int) index.get());
 
-        timedRequest.updateTime(System.currentTimeMillis());
+        timedRequest.updateTime(Clock.currentTimeMillis());
 
         this.teleports.put(
                 timedRequest.is(RequestType.TO) ? timedRequest.issuer.getUniqueId()
@@ -289,7 +290,7 @@ public class Teleport extends FeatherModule implements ITeleport {
                 return;
             }
 
-            final var currentTime = System.currentTimeMillis();
+            final var currentTime = Clock.currentTimeMillis();
 
             final var teleportsToExecute = new ArrayList<TeleportRequest>();
 

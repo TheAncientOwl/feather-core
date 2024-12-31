@@ -6,7 +6,7 @@
  *
  * @file FeatherCore.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @description Plugin entry point
  */
 
@@ -18,6 +18,7 @@ import java.util.List;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import dev.defaultybuf.feathercore.api.common.util.StringUtils;
+import dev.defaultybuf.feathercore.api.common.util.Clock;
 import dev.defaultybuf.feathercore.api.common.util.TimeUtils;
 import dev.defaultybuf.feathercore.api.core.FeatherModule;
 import dev.defaultybuf.feathercore.api.core.IFeatherLogger;
@@ -33,13 +34,13 @@ public class FeatherCore extends JavaPlugin implements IEnabledModulesProvider {
 
     @Override
     public void onEnable() {
-        final var enableStartTime = System.currentTimeMillis();
+        final var enableStartTime = Clock.currentTimeMillis();
 
         try {
             this.featherLogger = new FeatherLogger(this.getServer().getConsoleSender());
             this.modulesManager.onEnable(this);
 
-            final var enableFinishTime = System.currentTimeMillis();
+            final var enableFinishTime = Clock.currentTimeMillis();
 
             getFeatherLogger().info("Successfully enabled&8. (&btook&8: &b"
                     + TimeUtils.formatElapsed(enableStartTime, enableFinishTime) + "&8)");

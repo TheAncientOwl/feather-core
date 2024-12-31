@@ -6,7 +6,7 @@
  *
  * @file LootChestOpenListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @test_unit LootChestOpenListener#0.8
  * @description Unit tests for LootChestOpenListener
  */
@@ -30,6 +30,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
+import dev.defaultybuf.feathercore.api.common.util.Clock;
 import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.Resource;
@@ -136,7 +137,7 @@ class LootChestOpenListenerTest extends ListenerTestMocker<LootChestOpenListener
     void testOnChestOpen_CooldownNotBypassed() {
         when(mockLootChests.getChestType("world,0,64,0")).thenReturn("testType");
         when(mockLootChests.getOpenChestTime(mockPlayer, "world,0,64,0"))
-                .thenReturn(System.currentTimeMillis() - 1000);
+                .thenReturn(Clock.currentTimeMillis() - 1000);
         when(mockLootChests.getConfig().getMillis("chests.testType.cooldown")).thenReturn(5000L);
         when(mockPlayer.hasPermission("feathercore.lootchests.bypass-cooldown")).thenReturn(false);
 
@@ -150,7 +151,7 @@ class LootChestOpenListenerTest extends ListenerTestMocker<LootChestOpenListener
     void testOnChestOpen_CooldownBypassed() {
         when(mockLootChests.getChestType("world,0,64,0")).thenReturn("testType");
         when(mockLootChests.getOpenChestTime(mockPlayer, "world,0,64,0"))
-                .thenReturn(System.currentTimeMillis() - 1000);
+                .thenReturn(Clock.currentTimeMillis() - 1000);
         when(mockLootChests.getConfig().getMillis("chests.testType.cooldown")).thenReturn(5000L);
         when(mockPlayer.hasPermission("feathercore.lootchests.bypass-cooldown")).thenReturn(true);
 
@@ -171,14 +172,14 @@ class LootChestOpenListenerTest extends ListenerTestMocker<LootChestOpenListener
 
         verify(mockEvent).setCancelled(true);
         verify(mockLootChests).openChest(mockPlayer, "testType", "world,0,64,0",
-                System.currentTimeMillis());
+                Clock.currentTimeMillis());
     }
 
     @Test
     void testOnChestOpen_CooldownNotExceeded() {
         when(mockLootChests.getChestType("world,0,64,0")).thenReturn("testType");
         when(mockLootChests.getOpenChestTime(mockPlayer, "world,0,64,0"))
-                .thenReturn(System.currentTimeMillis() - 3000);
+                .thenReturn(Clock.currentTimeMillis() - 3000);
         when(mockLootChests.getConfig().getMillis("chests.testType.cooldown")).thenReturn(5000L);
         when(mockPlayer.hasPermission("feathercore.lootchests.bypass-cooldown")).thenReturn(false);
 
@@ -194,7 +195,7 @@ class LootChestOpenListenerTest extends ListenerTestMocker<LootChestOpenListener
     void testOnChestOpen_CooldownExceeded() {
         when(mockLootChests.getChestType("world,0,64,0")).thenReturn("testType");
         when(mockLootChests.getOpenChestTime(mockPlayer, "world,0,64,0"))
-                .thenReturn(System.currentTimeMillis() - 7000);
+                .thenReturn(Clock.currentTimeMillis() - 7000);
         when(mockLootChests.getConfig().getMillis("chests.testType.cooldown")).thenReturn(5000L);
 
         listenerInstance.onChestOpen(mockEvent);

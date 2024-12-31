@@ -6,7 +6,7 @@
  *
  * @file TimeUtils.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @description Utility class
  */
 
@@ -22,7 +22,7 @@ public class TimeUtils {
     }
 
     public static String formatRemaining(long startMillis, long duration) {
-        final long now = System.currentTimeMillis();
+        final long now = Clock.currentTimeMillis();
         final long elapsed = now - startMillis;
         final long remaining = duration - elapsed;
         return formatDuration(remaining);

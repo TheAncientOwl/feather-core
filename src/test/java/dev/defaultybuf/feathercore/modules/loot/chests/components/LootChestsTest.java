@@ -6,7 +6,7 @@
  *
  * @file LootChestsTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit LootChests#0.8
  * @description Unit tests for LootChests
  */
@@ -41,6 +41,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
+import dev.defaultybuf.feathercore.api.common.util.Clock;
 import dev.defaultybuf.feathercore.api.configuration.IConfigSection;
 import dev.defaultybuf.feathercore.api.exceptions.FeatherSetupException;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
@@ -220,7 +221,7 @@ class LootChestsTest extends ModuleTestMocker<LootChests> {
     @Test
     void testGetOpenChestTime() {
         var location = "world,0,64,0";
-        var openTime = System.currentTimeMillis();
+        var openTime = Clock.currentTimeMillis();
         playerModel.chestLocationToOpenTime.put(location, openTime);
 
         var result = moduleInstance.getOpenChestTime(mockPlayer, location);
@@ -241,7 +242,7 @@ class LootChestsTest extends ModuleTestMocker<LootChests> {
     void testOpenChest_Found() {
         var chestType = "testType";
         var location = "world,0,64,0";
-        var now = System.currentTimeMillis();
+        var now = Clock.currentTimeMillis();
 
         when(mockModuleConfig.getInventory("chests." + chestType)).thenReturn(mockInventory);
 
@@ -256,7 +257,7 @@ class LootChestsTest extends ModuleTestMocker<LootChests> {
     void testOpenChest_NotFound() {
         var chestType = "testType";
         var location = "world,0,64,0";
-        var now = System.currentTimeMillis();
+        var now = Clock.currentTimeMillis();
 
         when(mockModuleConfig.getInventory("chests." + chestType)).thenReturn(null);
 

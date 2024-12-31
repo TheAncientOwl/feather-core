@@ -6,7 +6,7 @@
  *
  * @file TimeUtilsTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit StringUtils#0.3
  * @description Unit tests for StringUtils
  */
@@ -55,7 +55,7 @@ class TimeUtilsTest {
 
     @Test
     void testFormatRemaining() {
-        var startMillis = System.currentTimeMillis() - 5000L; // 5 seconds ago
+        var startMillis = Clock.currentTimeMillis() - 5000L; // 5 seconds ago
         var duration = 10000L; // 10 seconds
         var result = TimeUtils.formatRemaining(startMillis, duration);
         assertEquals("5s", result); // Remaining time is 5 seconds
