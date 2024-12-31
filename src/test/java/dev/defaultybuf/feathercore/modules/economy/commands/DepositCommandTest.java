@@ -51,25 +51,28 @@ import net.milkbowl.vault.economy.Economy;
 
 class DepositCommandTest extends CommandTestMocker<DepositCommand> {
     private static final String LANGUAGE_CONFIG_CONTENT = "languages:\n  en: English";
+
+    // @formatter:off
     private static final String EN_LANGUAGE_FILE_CONTENT =
             "general:\n" +
-                    "  command:\n" +
-                    "    no-permission: '&cYou do not have permission to execute this command.'\n" +
-                    "    invalid: '&cInvalid command usage.'\n" +
-                    "    players-only: '&cOnly players can execute this command.'\n" +
-                    "  not-player: '&c{0} is not a player.'\n" +
-                    "  not-valid-number: '&cNot valid number'\n" +
-                    "economy:\n" +
-                    "  banknote:\n" +
-                    "    error:\n" +
-                    "      invalid: '&cInvalid banknote.'\n" +
-                    "  deposit:\n" +
-                    "    error:\n" +
-                    "      usage: 'Usage'\n" +
-                    "      invalid-amount: '&cInvalid amount.'\n" +
-                    "      balance-exceeds: '&cYou cannot deposit more than {0}.'\n" +
-                    "      negative-amount: '&cYou cannot deposit negative amounts.'\n" +
-                    "    success: 'Deposit successful'";
+            "  command:\n" +
+            "    no-permission: '&cYou do not have permission to execute this command.'\n" +
+            "    invalid: '&cInvalid command usage.'\n" +
+            "    players-only: '&cOnly players can execute this command.'\n" +
+            "  not-player: '&c{0} is not a player.'\n" +
+            "  not-valid-number: '&cNot valid number'\n" +
+            "economy:\n" +
+            "  banknote:\n" +
+            "    error:\n" +
+            "      invalid: '&cInvalid banknote.'\n" +
+            "  deposit:\n" +
+            "    error:\n" +
+            "      usage: 'Usage'\n" +
+            "      invalid-amount: '&cInvalid amount.'\n" +
+            "      balance-exceeds: '&cYou cannot deposit more than {0}.'\n" +
+            "      negative-amount: '&cYou cannot deposit negative amounts.'\n" +
+            "    success: 'Deposit successful'";
+    // @formatter:on
 
     @Mock Player mockPlayer;
     @Mock ItemMeta mockItemMeta;

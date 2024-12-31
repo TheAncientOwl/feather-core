@@ -63,23 +63,23 @@ class LootChestsCommandTest extends CommandTestMocker<LootChestsCommand> {
 
     // @formatter:off
     private static final String EN_LANGUAGE_FILE_CONTENT =
-        "general:\n" +
-        "  no-permission: '&cYou do not have permission to execute this command.'\n" +
-        "  command:\n" +
-        "    invalid: '&cInvalid command usage.'\n" +
-        "    players-only: '&cOnly players can execute this command.'\n" +
-        "  not-player: '&c{0} is not a player.'\n" +
-        "  not-valid-number: '&cNot valid number'\n" +
-        "loot-chests:\n" +
-        "  usage: 'Usage'\n" +
-        "  not-a-chest: '&c{0} is not a chest.'\n" +
-        "  not-a-registered-chest: '&c{0} is not a registered chest.'\n" +
-        "  set-success: '&aSuccessfully set chest at {0} to type {1}.'\n" +
-        "  unset-success: '&aSuccessfully unset chest at {0} of type {1}.'\n" +
-        "  create-success: '&aSuccessfully created chest of type {0}.'\n" +
-        "  delete-success: '&aSuccessfully deleted chest of type {0}.'\n" +
-        "  locations: '&aChest locations for type {0}: {1}'\n" +
-        "  info: '&aChest type: {0}'\n";
+            "general:\n" +
+            "  no-permission: '&cYou do not have permission to execute this command.'\n" +
+            "  command:\n" +
+            "    invalid: '&cInvalid command usage.'\n" +
+            "    players-only: '&cOnly players can execute this command.'\n" +
+            "  not-player: '&c{0} is not a player.'\n" +
+            "  not-valid-number: '&cNot valid number'\n" +
+            "loot-chests:\n" +
+            "  usage: 'Usage'\n" +
+            "  not-a-chest: '&c{0} is not a chest.'\n" +
+            "  not-a-registered-chest: '&c{0} is not a registered chest.'\n" +
+            "  set-success: '&aSuccessfully set chest at {0} to type {1}.'\n" +
+            "  unset-success: '&aSuccessfully unset chest at {0} of type {1}.'\n" +
+            "  create-success: '&aSuccessfully created chest of type {0}.'\n" +
+            "  delete-success: '&aSuccessfully deleted chest of type {0}.'\n" +
+            "  locations: '&aChest locations for type {0}: {1}'\n" +
+            "  info: '&aChest type: {0}'\n";
     // @formatter:on
 
     @Mock Block mockBlock;

@@ -43,12 +43,15 @@ import dev.defaultybuf.feathercore.modules.language.events.LanguageChangeEvent;
 
 class LanguageChangeListenerTest extends ListenerTestMocker<LanguageChangeListener> {
         private static final String LANGUAGE_CONFIG_CONTENT = "languages:\n en: English";
+
+    // @formatter:off
         private static final String EN_LANGUAGE_FILE_CONTENT =
                         "economy:\n" +
-                                        "  banknote:\n" +
-                                        "    display-name: '&7Banknote'\n" +
-                                        "    lore:\n" +
-                                        "      - '&7Banknote value: &e{0}'";
+                        "  banknote:\n" +
+                        "    display-name: '&7Banknote'\n" +
+                        "    lore:\n" +
+                        "      - '&7Banknote value: &e{0}'";
+    // @formatter:on
 
         @Mock Player mockPlayer;
         @Mock ItemMeta mockItemMeta;

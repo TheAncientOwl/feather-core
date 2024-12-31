@@ -42,7 +42,9 @@ import dev.defaultybuf.feathercore.modules.language.components.LanguageManager;
 
 class PayToggleCommandTest extends CommandTestMocker<PayToggleCommand> {
     private static final String LANGUAGE_CONFIG_CONTENT = "languages:\n  en: English";
-    private static final String EN_LANGUAGE_FILE_CONTENT = "" +
+
+    // @formatter:off
+    private static final String EN_LANGUAGE_FILE_CONTENT =
             "general:\n" +
             "  command:\n" +
             "    invalid: 'Invalid command'\n" +
@@ -56,6 +58,7 @@ class PayToggleCommandTest extends CommandTestMocker<PayToggleCommand> {
             "    success:\n" +
             "      status-true: 'Changed to true'\n" +
             "      status-false: 'Changed to false'\n";
+    // @formatter:on
 
     @Mock Player mockPlayer;
     @Mock CommandSender mockSender;

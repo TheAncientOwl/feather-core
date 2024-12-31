@@ -57,35 +57,37 @@ import dev.defaultybuf.feathercore.modules.language.components.LanguageManager;
 import net.milkbowl.vault.economy.Economy;
 
 class PayCommandTest extends CommandTestMocker<PayCommand> {
-
     private static final String LANGUAGE_CONFIG_CONTENT = "languages:\n  en: English";
+
+    // @formatter:off
     private static final String EN_LANGUAGE_FILE_CONTENT =
             "general:\n" +
-                    "  command:\n" +
-                    "    no-permission: '&cYou do not have permission to execute this command.'\n" +
-                    "    invalid: '&cInvalid command usage.'\n" +
-                    "    players-only: '&cOnly players can execute this command.'\n" +
-                    "  not-player: '&c{0} is not a player.'\n" +
-                    "  not-online-player: '&c{0} is not online.'\n" +
-                    "  not-valid-number: '&cNot valid number'\n" +
-                    "economy:\n" +
-                    "  paytoggle:\n" +
-                    "    error:\n" +
-                    "      does-not-accept: '&c{player} does not accept payments.'\n" +
-                    "  pay:\n" +
-                    "    error:\n" +
-                    "      usage: 'Usage'\n" +
-                    "      min-amount: 'You have to pay at least {0}$'\n" +
-                    "      not-enough-funds: '&cYou do not have enough funds to send {0}.'\n" +
-                    "      balance-exceeds: 'The balance would exced max {0}'\n" +
-                    "    success:\n" +
-                    "      send: 'You have sent {amount} to {player}.'\n" +
-                    "      receive: 'You have received {amount} from {player}.'\n" +
-                    "    toggle-not-accepting: '{player} is not accepting payments.'\n" +
-                    "    balance-exceeds: 'You cannot send more than {amount}.'\n" +
-                    "    min-amount: 'You must send at least {amount}.'\n" +
-                    "    no-funds: 'You do not have enough funds to send {amount}.'\n" +
-                    "    usage: 'Usage: /pay <player> <amount>'";
+            "  command:\n" +
+            "    no-permission: '&cYou do not have permission to execute this command.'\n" +
+            "    invalid: '&cInvalid command usage.'\n" +
+            "    players-only: '&cOnly players can execute this command.'\n" +
+            "  not-player: '&c{0} is not a player.'\n" +
+            "  not-online-player: '&c{0} is not online.'\n" +
+            "  not-valid-number: '&cNot valid number'\n" +
+            "economy:\n" +
+            "  paytoggle:\n" +
+            "    error:\n" +
+            "      does-not-accept: '&c{player} does not accept payments.'\n" +
+            "  pay:\n" +
+            "    error:\n" +
+            "      usage: 'Usage'\n" +
+            "      min-amount: 'You have to pay at least {0}$'\n" +
+            "      not-enough-funds: '&cYou do not have enough funds to send {0}.'\n" +
+            "      balance-exceeds: 'The balance would exced max {0}'\n" +
+            "    success:\n" +
+            "      send: 'You have sent {amount} to {player}.'\n" +
+            "      receive: 'You have received {amount} from {player}.'\n" +
+            "    toggle-not-accepting: '{player} is not accepting payments.'\n" +
+            "    balance-exceeds: 'You cannot send more than {amount}.'\n" +
+            "    min-amount: 'You must send at least {amount}.'\n" +
+            "    no-funds: 'You do not have enough funds to send {amount}.'\n" +
+            "    usage: 'Usage: /pay <player> <amount>'";
+    // @formatter:on
 
     @Mock Player mockPlayer;
     @Mock CommandSender mockSender;

@@ -62,23 +62,25 @@ import dev.defaultybuf.feathercore.modules.language.components.LanguageManagerTe
 import dev.defaultybuf.feathercore.modules.language.events.LanguageChangeEvent;
 
 class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
+    private static final String LANGUAGE_CONFIG_CONTENT = "languages:\n en: English\n de: Deutsch";
+
+    // @formatter:off
     private static final String EN_LANGUAGE_FILE_CONTENT =
             "language:\n" +
-                    "  usage: '&8[&6Usage&8] &e/language info/list/[language]'\n" +
-                    "  change-success: '&8[&6Language&8] &eChanged successfully&8!'\n" +
-                    "  unknown: '&8[&4Language&8] &cInvalid value&8!'\n" +
-                    "  info: '&8[&6Language&8] &e{language}&8.'\n" +
-                    "  list: '&8[&6Language&8] &7Available languages&8: &e{language}&8.'\n";
+            "  usage: '&8[&6Usage&8] &e/language info/list/[language]'\n" +
+            "  change-success: '&8[&6Language&8] &eChanged successfully&8!'\n" +
+            "  unknown: '&8[&4Language&8] &cInvalid value&8!'\n" +
+            "  info: '&8[&6Language&8] &e{language}&8.'\n" +
+            "  list: '&8[&6Language&8] &7Available languages&8: &e{language}&8.'\n";
 
     private static final String DE_LANGUAGE_FILE_CONTENT =
             "language:\n" +
-                    "  usage: '&8[&6Verwendung&8] &e/language info/list/[sprache]'\n" +
-                    "  change-success: '&8[&6Sprache&8] &eErfolgreich geändert&8!'\n" +
-                    "  unknown: '&8[&4Sprache&8] &cUngültiger Wert&8!'\n" +
-                    "  info: '&8[&6Sprache&8] &e{sprache}&8.'\n" +
-                    "  list: '&8[&6Sprache&8] &7Verfügbare Sprachen&8: &e{sprache}&8.'\n";
-
-    private static final String LANGUAGE_CONFIG_CONTENT = "languages:\n en: English\n de: Deutsch";
+            "  usage: '&8[&6Verwendung&8] &e/language info/list/[sprache]'\n" +
+            "  change-success: '&8[&6Sprache&8] &eErfolgreich geändert&8!'\n" +
+            "  unknown: '&8[&4Sprache&8] &cUngültiger Wert&8!'\n" +
+            "  info: '&8[&6Sprache&8] &e{sprache}&8.'\n" +
+            "  list: '&8[&6Sprache&8] &7Verfügbare Sprachen&8: &e{sprache}&8.'\n";
+    // @formatter:on
 
     @Mock World mockWorld;
     @Mock Player mockPlayer;

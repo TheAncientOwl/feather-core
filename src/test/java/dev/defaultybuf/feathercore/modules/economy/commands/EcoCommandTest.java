@@ -52,26 +52,29 @@ import net.milkbowl.vault.economy.Economy;
 
 class EcoCommandTest extends CommandTestMocker<EcoCommand> {
     private static final String LANGUAGE_CONFIG_CONTENT = "languages:\n  en: English";
+
+    // @formatter:off
     private static final String EN_LANGUAGE_FILE_CONTENT =
             "general:\n" +
-                    "  command:\n" +
-                    "    no-permission: '&cYou do not have permission to execute this command.'\n" +
-                    "    invalid: '&cInvalid command usage.'\n" +
-                    "    players-only: '&cOnly players can execute this command.'\n" +
-                    "  not-player: '&c{0} is not a player.'\n" +
-                    "  not-valid-number: '&cNot valid number'\n" +
-                    "economy:\n" +
-                    "  eco:\n" +
-                    "    usage: 'Usage'\n" +
-                    "    error:\n" +
-                    "      no-negative-amount: '&cYou cannot use negative amounts for {0}.'\n" +
-                    "      bounds-max: '&cYou cannot exceed the maximum balance of {0}.'\n" +
-                    "      bounds-min: '&cYou cannot go below the minimum balance of {0}.'\n" +
-                    "    success: 'Eco command executed successfully'\n" +
-                    "    cannot-negative-amounts: '&cYou cannot use negative amounts for {0}.'\n" +
-                    "    bounds:\n" +
-                    "      min: '0.0'\n" +
-                    "      max: '1000.0'\n";
+            "  command:\n" +
+            "    no-permission: '&cYou do not have permission to execute this command.'\n" +
+            "    invalid: '&cInvalid command usage.'\n" +
+            "    players-only: '&cOnly players can execute this command.'\n" +
+            "  not-player: '&c{0} is not a player.'\n" +
+            "  not-valid-number: '&cNot valid number'\n" +
+            "economy:\n" +
+            "  eco:\n" +
+            "    usage: 'Usage'\n" +
+            "    error:\n" +
+            "      no-negative-amount: '&cYou cannot use negative amounts for {0}.'\n" +
+            "      bounds-max: '&cYou cannot exceed the maximum balance of {0}.'\n" +
+            "      bounds-min: '&cYou cannot go below the minimum balance of {0}.'\n" +
+            "    success: 'Eco command executed successfully'\n" +
+            "    cannot-negative-amounts: '&cYou cannot use negative amounts for {0}.'\n" +
+            "    bounds:\n" +
+            "      min: '0.0'\n" +
+            "      max: '1000.0'\n";
+    // @formatter:on
 
     @Mock Player mockPlayer;
     @Mock CommandSender mockSender;

@@ -49,22 +49,25 @@ import net.milkbowl.vault.economy.Economy;
 
 class BalanceCommandTest extends CommandTestMocker<BalanceCommand> {
     private static final String LANGUAGE_CONFIG_CONTENT = "languages:\n en: English";
+
+    // @formatter:off
     private static final String EN_LANGUAGE_FILE_CONTENT =
             "general:\n" +
-                    "  command:\n" +
-                    "    no-permission: '&cYou do not have permission to execute this command.'\n" +
-                    "    invalid: '&cInvalid command usage.'\n" +
-                    "    players-only: '&cOnly players can execute this command.'\n" +
-                    "  not-player: '&c{0} is not a player.'\n" +
-                    "economy:\n" +
-                    "  balance:\n" +
-                    "    self: '&7Your balance: &e{0}'\n" +
-                    "    other: '&7{0}&7''s balance: &e{1}'\n" +
-                    "    usage: '&cUsage: /balance [player]'\n" +
-                    "  banknote:\n" +
-                    "    display-name: '&7Banknote'\n" +
-                    "    lore:\n" +
-                    "      - '&7Banknote value: &e{0}'";
+            "  command:\n" +
+            "    no-permission: '&cYou do not have permission to execute this command.'\n" +
+            "    invalid: '&cInvalid command usage.'\n" +
+            "    players-only: '&cOnly players can execute this command.'\n" +
+            "  not-player: '&c{0} is not a player.'\n" +
+            "economy:\n" +
+            "  balance:\n" +
+            "    self: '&7Your balance: &e{0}'\n" +
+            "    other: '&7{0}&7''s balance: &e{1}'\n" +
+            "    usage: '&cUsage: /balance [player]'\n" +
+            "  banknote:\n" +
+            "    display-name: '&7Banknote'\n" +
+            "    lore:\n" +
+            "      - '&7Banknote value: &e{0}'";
+    // @formatter:on
 
     @Mock Player mockPlayer;
     @Mock CommandSender mockSender;

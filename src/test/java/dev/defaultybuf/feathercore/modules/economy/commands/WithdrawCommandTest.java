@@ -57,27 +57,27 @@ class WithdrawCommandTest extends CommandTestMocker<WithdrawCommand> {
 
     // @formatter:off
     private static final String EN_LANGUAGE_FILE_CONTENT =
-        "general:\n" +
-        "  command:\n" +
-        "    no-permission: '&cYou do not have permission to execute this command.'\n" +
-        "    invalid: '&cInvalid command usage.'\n" +
-        "    players-only: '&cOnly players can execute this command.'\n" +
-        "  not-player: '&c{0} is not a player.'\n" +
-        "  not-valid-number: '&cNot valid number'\n" +
-        "economy:\n" +
-        "  banknote:\n" +
-        "    invalid-material: 'Invalid material'\n" +
-        "    display-name: 'Banknote'\n" +
-        "    lore:\n" +
-        "      - 'lore-line'\n" +
-        "    lang: 'en'\n" +
-        "  withdraw:\n" +
-        "    success: 'Success'\n" +
-        "    error:\n" +
-        "      usage: 'Usage'\n" +
-        "      minimum-value: 'Min value: {0}$'\n" +
-        "      not-enough-space: 'Not enough space'\n" +
-        "      not-enough-funds: 'Not enough funds'\n";
+            "general:\n" +
+            "  command:\n" +
+            "    no-permission: '&cYou do not have permission to execute this command.'\n" +
+            "    invalid: '&cInvalid command usage.'\n" +
+            "    players-only: '&cOnly players can execute this command.'\n" +
+            "  not-player: '&c{0} is not a player.'\n" +
+            "  not-valid-number: '&cNot valid number'\n" +
+            "economy:\n" +
+            "  banknote:\n" +
+            "    invalid-material: 'Invalid material'\n" +
+            "    display-name: 'Banknote'\n" +
+            "    lore:\n" +
+            "      - 'lore-line'\n" +
+            "    lang: 'en'\n" +
+            "  withdraw:\n" +
+            "    success: 'Success'\n" +
+            "    error:\n" +
+            "      usage: 'Usage'\n" +
+            "      minimum-value: 'Min value: {0}$'\n" +
+            "      not-enough-space: 'Not enough space'\n" +
+            "      not-enough-funds: 'Not enough funds'\n";
     // @formatter:on
 
     @Mock Player mockPlayer;
