@@ -6,7 +6,7 @@
  *
  * @file PvPManager.java
  * @author Alexandru Delegeanu
- * @version 0.9
+ * @version 0.10
  * @description Module responsible for managing pvp restrictions
  */
 
@@ -45,9 +45,7 @@ public class PvPManager extends FeatherModule implements IPvPManager {
 
     @Override
     protected void onModuleDisable() {
-        if (this.playersInCombat != null) {
-            this.playersInCombat.clear();
-        }
+        this.playersInCombat.clear();
     }
 
     /**
@@ -144,7 +142,7 @@ public class PvPManager extends FeatherModule implements IPvPManager {
         return this.config.getStringList("commands.whitelist");
     }
 
-    private static class CombatChecker implements Runnable {
+    public static final class CombatChecker implements Runnable {
         final PvPManager pvpManager;
 
         public CombatChecker(final PvPManager pvpManager) {
