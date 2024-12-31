@@ -6,7 +6,7 @@
  *
  * @file LootChestOpenListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit LootChestOpenListener#0.8
  * @description Unit tests for LootChestOpenListener
  */
@@ -171,8 +171,8 @@ class LootChestOpenListenerTest extends ListenerTestMocker<LootChestOpenListener
         listenerInstance.onChestOpen(mockEvent);
 
         verify(mockEvent).setCancelled(true);
-        verify(mockLootChests).openChest(mockPlayer, "testType", "world,0,64,0",
-                Clock.currentTimeMillis());
+        verify(mockLootChests).openChest(eq(mockPlayer), eq("testType"), eq("world,0,64,0"),
+                anyLong());
     }
 
     @Test

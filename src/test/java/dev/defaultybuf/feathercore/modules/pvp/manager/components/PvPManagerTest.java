@@ -6,7 +6,7 @@
  *
  * @file PvPManagerTest.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @test_unit PvPManager#0.10
  * @description Unit tests for PvPManager
  */
@@ -43,6 +43,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 
+import dev.defaultybuf.feathercore.api.common.util.Clock;
 import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
 import dev.defaultybuf.feathercore.modules.common.mockers.ModuleTestMocker;
 
@@ -261,41 +262,34 @@ class PvPManagerTest extends ModuleTestMocker<PvPManager> {
 
     @Test
     void testCombatCheckerRun() {
-        // TODO: Add some clock module to get current time and allow mocking
-        // @formatter:off
-        // moduleInstance.putPlayersInCombat(mockVictim, mockAttacker);
+        when(mockModuleConfig.getMillis("combat.time")).thenReturn(59000L);
 
-        // when(mockModuleConfig.getMillis("combat.time")).thenReturn(59000L);
+        try (var mockedBukkit = mockStatic(Bukkit.class);
+                var mockedClock = mockStatic(Clock.class)) {
+            when(mockVictim.isOnline()).thenReturn(true);
+            when(mockAttacker.isOnline()).thenReturn(true);
+            mockedBukkit.when(() -> Bukkit.getPlayer(victimUUID)).thenReturn(mockVictim);
+            mockedBukkit.when(() -> Bukkit.getPlayer(attackerUUID)).thenReturn(mockAttacker);
 
-        // try (var mockedBukkit = mockStatic(Bukkit.class);
-        //         var mockedSystem = mockStatic(System.class)) {
-        //     mockedBukkit.when(() -> Bukkit.getPlayer(victimUUID)).thenReturn(mockVictim);
-        //     mockedBukkit.when(() -> Bukkit.getPlayer(attackerUUID)).thenReturn(mockAttacker);
-        //     when(mockVictim.isOnline()).thenReturn(true);
-        //     when(mockAttacker.isOnline()).thenReturn(true);
+            var initialTime = 0L;
 
-        //     var initialTime = 0L;
+            mockedClock.when(Clock::currentTimeMillis).thenReturn(initialTime);
 
-        //     mockedSystem.when(System::currentTimeMillis).thenReturn(initialTime);
+            moduleInstance.putPlayersInCombat(mockVictim, mockAttacker);
 
-        //     var combatChecker = new PvPManager.CombatChecker(moduleInstance);
-        //     combatChecker.run();
+            var combatChecker = new PvPManager.CombatChecker(moduleInstance);
+            combatChecker.run();
 
-        //     assertTrue(moduleInstance.isPlayerInCombat(mockVictim));
-        //     assertTrue(moduleInstance.isPlayerInCombat(mockAttacker));
+            assertTrue(moduleInstance.isPlayerInCombat(mockVictim));
+            assertTrue(moduleInstance.isPlayerInCombat(mockAttacker));
 
-        //     // Simulate time passing
-        //     mockedSystem.when(System::currentTimeMillis)
-        //             .thenReturn(initialTime + 60000); // 60 seconds later
-        //     combatChecker.run();
+            // Simulate 60s passing
+            mockedClock.when(Clock::currentTimeMillis).thenReturn(initialTime + 60000L);
+            combatChecker.run();
 
-        //     assertFalse(moduleInstance.isPlayerInCombat(mockVictim));
-        //     assertFalse(moduleInstance.isPlayerInCombat(mockAttacker));
-
-        //     verify(mockVictim).sendMessage(anyString());
-        //     verify(mockAttacker).sendMessage(anyString());
-        // }
-        // @formatter:on
+            assertFalse(moduleInstance.isPlayerInCombat(mockVictim));
+            assertFalse(moduleInstance.isPlayerInCombat(mockAttacker));
+        }
     }
 
 }
