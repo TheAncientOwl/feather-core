@@ -6,7 +6,7 @@
  *
  * @file LootChestsCommand.java
  * @author Alexandru Delegeanu
- * @version 0.8
+ * @version 0.9
  * @description Module main command
  */
 
@@ -34,7 +34,7 @@ public class LootChestsCommand extends FeatherCommand<LootChestsCommand.CommandD
         super(data);
     }
 
-    private static enum CommandType {
+    public static enum CommandType {
         SET, UNSET, CREATE, DELETE, INFO, LOCATIONS
     }
 

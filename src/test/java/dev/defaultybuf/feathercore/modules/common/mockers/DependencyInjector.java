@@ -6,7 +6,7 @@
  *
  * @file DependencyInjector.java
  * @author Alexandru Delegeanu
- * @version 0.11
+ * @version 0.12
  * @description Create mocks / actual instances of all modules 
  *              and inject them into tests dependencies map
  */
@@ -31,18 +31,22 @@ import dev.defaultybuf.feathercore.modules.common.annotations.Resource;
 import dev.defaultybuf.feathercore.modules.common.utils.TempFile;
 import dev.defaultybuf.feathercore.modules.common.utils.TempModule;
 import dev.defaultybuf.feathercore.modules.common.utils.TestUtils;
+import dev.defaultybuf.feathercore.modules.data.mongodb.components.MongoManager;
+import dev.defaultybuf.feathercore.modules.data.mongodb.interfaces.IMongoDB;
 import dev.defaultybuf.feathercore.modules.data.players.components.PlayersData;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 import dev.defaultybuf.feathercore.modules.economy.components.FeatherEconomyProvider;
 import dev.defaultybuf.feathercore.modules.economy.interfaces.IFeatherEconomy;
 import dev.defaultybuf.feathercore.modules.language.components.LanguageManager;
 import dev.defaultybuf.feathercore.modules.language.interfaces.ILanguage;
+import dev.defaultybuf.feathercore.modules.loot.chests.components.LootChests;
+import dev.defaultybuf.feathercore.modules.loot.chests.interfaces.ILootChests;
 import dev.defaultybuf.feathercore.modules.reload.components.ReloadModule;
 import dev.defaultybuf.feathercore.modules.reload.interfaces.IReloadModule;
 
 public final class DependencyInjector {
     public static enum Module {
-        Language, Reload, PlayersData, Economy
+        Language, Reload, PlayersData, Economy, LootChests, MongoDB
     }
 
     @SuppressWarnings("unchecked")
@@ -81,6 +85,20 @@ public final class DependencyInjector {
                     IFeatherEconomy.class,
                     "FeatherEconomy",
                     "economy");
+
+    public static final ModuleInjector<LootChests> LootChests =
+            new ModuleInjector<LootChests>(
+                    LootChests.class,
+                    ILootChests.class,
+                    "LootChests",
+                    "lootchests");
+
+    public static final ModuleInjector<MongoManager> MongoDB =
+            new ModuleInjector<MongoManager>(
+                    MongoManager.class,
+                    IMongoDB.class,
+                    "MongoManager",
+                    "mongodb");
 
     public static final record ModuleInjector<T extends FeatherModule>(Class<T> moduleClass,
             Class<?> interfaceClass,
@@ -165,6 +183,8 @@ public final class DependencyInjector {
             Module.Language, Language,
             Module.Reload, Reload,
             Module.PlayersData, PlayersData,
-            Module.Economy, Economy);
+            Module.Economy, Economy,
+            Module.LootChests, LootChests,
+            Module.MongoDB, MongoDB);
 
 }
