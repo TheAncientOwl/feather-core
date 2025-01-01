@@ -6,7 +6,7 @@
  *
  * @file IPlayersData.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description PlayersData module interface
  */
 
@@ -43,6 +43,7 @@ public interface IPlayersData {
      * @deprecated As of FeatherCore 0.2.3 use {{@link #markPlayerModelForSave(UUID)}} or
      *             {{@link #markPlayerModelForSave(Player)}} instead
      */
+    @Deprecated
     public boolean markPlayerModelForSave(final String name);
 
     public boolean markPlayerModelForSave(final UUID uuid);
