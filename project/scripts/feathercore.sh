@@ -49,7 +49,12 @@ while [[ $# -gt 0 ]]; do
         feather_configure
         ;;
     --test | -t)
-        feather_test
+        if [[ $# -gt 1 && $2 != -* ]]; then
+            feather_test $2
+            shift
+        else
+            feather_test
+        fi
         ;;
     --headers | -h)
         feather_headers
