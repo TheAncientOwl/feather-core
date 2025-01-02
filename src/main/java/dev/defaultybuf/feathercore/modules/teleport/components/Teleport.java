@@ -6,7 +6,7 @@
  *
  * @file Teleport.java
  * @author Alexandru Delegeanu
- * @version 0.7
+ * @version 0.8
  * @description Module responsible for managing teleports
  */
 
@@ -35,7 +35,7 @@ public class Teleport extends FeatherModule implements ITeleport {
         TO, HERE
     }
 
-    private static final class TeleportRequest {
+    public static final class TeleportRequest {
         private final Player issuer;
         private final Player target;
         private final RequestType type;
@@ -273,7 +273,7 @@ public class Teleport extends FeatherModule implements ITeleport {
         return this.teleports.remove(player.getUniqueId()) != null;
     }
 
-    private static class TeleportChecker implements Runnable {
+    public static class TeleportChecker implements Runnable {
         final Teleport teleport;
 
         public TeleportChecker(final Teleport teleport) {

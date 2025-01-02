@@ -6,7 +6,7 @@
  *
  * @file PvPCancelTpListener.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @description Cancel teleport on player move
  */
 
@@ -33,7 +33,7 @@ public class MoveCancelTpListener extends FeatherListener {
         final var from = event.getFrom();
         final var to = event.getTo();
 
-        if (from.getX() != to.getX() || from.getY() != to.getY() || from.getZ() != from.getZ()) {
+        if (from.getX() != to.getX() || from.getY() != to.getY() || from.getZ() != to.getZ()) {
             final var player = event.getPlayer();
             if (getInterface(ITeleport.class).cancelTeleport(player)) {
                 getLanguage().message(player, Message.Teleport.MOVED_WHILE_WAITING);

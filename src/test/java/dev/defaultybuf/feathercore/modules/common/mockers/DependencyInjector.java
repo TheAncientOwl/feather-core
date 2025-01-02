@@ -45,10 +45,12 @@ import dev.defaultybuf.feathercore.modules.pvp.manager.components.PvPManager;
 import dev.defaultybuf.feathercore.modules.pvp.manager.interfaces.IPvPManager;
 import dev.defaultybuf.feathercore.modules.reload.components.ReloadModule;
 import dev.defaultybuf.feathercore.modules.reload.interfaces.IReloadModule;
+import dev.defaultybuf.feathercore.modules.teleport.components.Teleport;
+import dev.defaultybuf.feathercore.modules.teleport.interfaces.ITeleport;
 
 public final class DependencyInjector {
     public static enum Module {
-        Language, Reload, PlayersData, Economy, LootChests, MongoDB, PvPManager
+        Language, Reload, PlayersData, Economy, LootChests, MongoDB, PvPManager, Teleport
     }
 
     @SuppressWarnings("unchecked")
@@ -108,6 +110,13 @@ public final class DependencyInjector {
                     IPvPManager.class,
                     "PvPManager",
                     "pvpmanager");
+
+    public static final ModuleInjector<Teleport> Teleport =
+            new ModuleInjector<Teleport>(
+                    Teleport.class,
+                    ITeleport.class,
+                    "Teleport",
+                    "teleport");
 
     public static final record ModuleInjector<T extends FeatherModule>(Class<T> moduleClass,
             Class<?> interfaceClass,
@@ -195,6 +204,7 @@ public final class DependencyInjector {
             Module.Economy, Economy,
             Module.LootChests, LootChests,
             Module.MongoDB, MongoDB,
-            Module.PvPManager, PvPManager);
+            Module.PvPManager, PvPManager,
+            Module.Teleport, Teleport);
 
 }
