@@ -6,7 +6,7 @@
  *
  * @file TeleportAcceptCommand.java
  * @author Alexandru Delegeanu
- * @version 0.7
+ * @version 0.8
  * @description Accept a teleport request
  */
 
@@ -14,6 +14,7 @@ package dev.defaultybuf.feathercore.modules.teleport.commands;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -68,8 +69,10 @@ public class TeleportAcceptCommand extends FeatherCommand<TeleportAcceptCommand.
                 break;
             }
             default: {
-                throw new Error(
-                        "Logic error: TeleportAcceptCommand.java::execute(CommandSender, CommandData). Please notify developer");
+                assert false : "[modules.teleport.commands]@TeleportAcceptCommand.execute(CommandSender, CommandData): branch not handled for '"
+                        + getInterface(ITeleport.class)
+                                .acceptRequest(data.issuer, data.target).toString()
+                        + "'";
             }
         }
     }
