@@ -6,7 +6,7 @@
  *
  * @file LogoManagerTest.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @test_unit LogoManager#0.5
  * @description Unit tests for LogoManager
  */
@@ -29,7 +29,7 @@ import org.mockito.Mock;
 import dev.defaultybuf.feathercore.modules.common.mockers.FeatherModuleTest;
 
 class LogoManagerTest extends FeatherModuleTest<LogoManager> {
-    private static final String PLUGIN_YML_CONTENT = "version: 'test-plugin-version'";
+    static final String PLUGIN_YML_CONTENT = "version: 'test-plugin-version'";
 
     @Mock ConsoleCommandSender mockConsoleCommandSender;
 
@@ -67,60 +67,5 @@ class LogoManagerTest extends FeatherModuleTest<LogoManager> {
 
         verify(mockConsoleCommandSender, atLeast(2)).sendMessage(anyString());
     }
-
-    // @Test
-    // void testServerType_Paper() {
-    // try (var mockedClass = mockStatic(Class.class)) {
-    // mockedClass
-    // .when(() -> Class.forName("com.destroystokyo.paper.PaperConfig"))
-    // .thenReturn(LogoManagerTest.DummyConfig.class);
-
-    // mockedClass
-    // .when(() -> Class.forName("org.spigotmc.SpigotConfig"))
-    // .thenThrow(ClassNotFoundException.class);
-
-    // assertEquals("Paper", invokeGetServerType());
-    // }
-    // }
-
-    // @Test
-    // void testServerType_Spigot() {
-    // try (var mockedClass = mockStatic(Class.class)) {
-    // mockedClass
-    // .when(() -> Class.forName("com.destroystokyo.paper.PaperConfig"))
-    // .thenThrow(ClassNotFoundException.class);
-
-    // mockedClass
-    // .when(() -> Class.forName("org.spigotmc.SpigotConfig"))
-    // .thenReturn(LogoManagerTest.DummyConfig.class);
-
-    // assertEquals("Spigot", invokeGetServerType());
-    // }
-    // }
-
-    // @Test
-    // void testServerType_Bukkit() {
-    // try (var mockedClass = mockStatic(Class.class)) {
-    // mockedClass
-    // .when(() -> Class.forName("com.destroystokyo.paper.PaperConfig"))
-    // .thenThrow(ClassNotFoundException.class);
-
-    // mockedClass
-    // .when(() -> Class.forName("org.spigotmc.SpigotConfig"))
-    // .thenThrow(ClassNotFoundException.class);
-
-    // assertEquals("Bukkit", invokeGetServerType());
-    // }
-    // }
-
-    // private String invokeGetServerType() {
-    // try {
-    // var method = LogoManager.class.getDeclaredMethod("getServerType");
-    // method.setAccessible(true);
-    // return (String) method.invoke(null);
-    // } catch (Exception e) {
-    // throw new RuntimeException(e);
-    // }
-    // }
 
 }

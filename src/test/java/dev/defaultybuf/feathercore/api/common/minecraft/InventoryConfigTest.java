@@ -6,7 +6,7 @@
  *
  * @file InventoryConfigTest.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @test_unit InventoryConfig#0.1
  * @description Unit tests for InventoryConfig
  */
@@ -37,7 +37,7 @@ import dev.defaultybuf.feathercore.api.configuration.IPropertyAccessor;
 import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
 
 class InventoryConfigTest {
-    @TestField private ServerMock server = null;
+    @TestField ServerMock server = null;
 
     @BeforeEach
     void setUp() {

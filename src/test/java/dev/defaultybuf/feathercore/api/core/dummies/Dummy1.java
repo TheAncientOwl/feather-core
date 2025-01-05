@@ -6,13 +6,13 @@
  *
  * @file Dummy1.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Dummy class for testing
  */
 package dev.defaultybuf.feathercore.api.core.dummies;
 
 public class Dummy1 {
-    private String data;
+    String data;
 
     public Dummy1() {
         this.data = "nodata1";

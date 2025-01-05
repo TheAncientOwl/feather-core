@@ -6,7 +6,7 @@
  *
  * @file MoveCancelTpListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit MoveCancelTpListener#0.5
  * @description Unit tests for MoveCancelTpListener
  */
@@ -38,10 +38,10 @@ import dev.defaultybuf.feathercore.modules.language.components.LanguageManager;
 import dev.defaultybuf.feathercore.modules.teleport.interfaces.ITeleport;
 
 class MoveCancelTpListenerTest extends FeatherListenerTest<MoveCancelTpListener> {
-    private static final String LANGUAGE_CONFIG_CONTENT = "languages:\n  en: English";
+    static final String LANGUAGE_CONFIG_CONTENT = "languages:\n  en: English";
 
     // @formatter:off
-    private static final String EN_LANGUAGE_FILE_CONTENT =
+     static final String EN_LANGUAGE_FILE_CONTENT =
             "teleport:\n" +
             "  request:\n" +
             "    moved-while-waiting: '&cYou moved while waiting for teleportation!'\n";

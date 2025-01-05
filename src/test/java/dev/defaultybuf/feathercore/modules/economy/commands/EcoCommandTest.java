@@ -6,7 +6,7 @@
  *
  * @file EcoCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @test_unit EcoCommand#0.10
  * @description Unit tests for EcoCommand
  */
@@ -51,10 +51,10 @@ import dev.defaultybuf.feathercore.modules.language.components.LanguageManager;
 import net.milkbowl.vault.economy.Economy;
 
 class EcoCommandTest extends FeatherCommandTest<EcoCommand> {
-    private static final String LANGUAGE_CONFIG_CONTENT = "languages:\n  en: English";
+    static final String LANGUAGE_CONFIG_CONTENT = "languages:\n  en: English";
 
     // @formatter:off
-    private static final String EN_LANGUAGE_FILE_CONTENT =
+     static final String EN_LANGUAGE_FILE_CONTENT =
             "general:\n" +
             "  command:\n" +
             "    no-permission: '&cYou do not have permission to execute this command.'\n" +

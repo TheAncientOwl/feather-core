@@ -6,7 +6,7 @@
  *
  * @file TempModule.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Helper class to delete given module files when no longer needed
  */
 package dev.defaultybuf.feathercore.modules.common.utils;
@@ -16,8 +16,8 @@ import java.util.List;
 import dev.defaultybuf.feathercore.api.core.FeatherModule;
 
 public class TempModule<T extends FeatherModule> implements AutoCloseable {
-    private final List<TempFile> resources;
-    private final T module;
+    final List<TempFile> resources;
+    final T module;
 
     public TempModule(T module, List<TempFile> resources) {
         this.module = module;

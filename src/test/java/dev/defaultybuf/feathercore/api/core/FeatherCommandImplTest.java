@@ -6,7 +6,7 @@
  *
  * @file FeatherCommandImplTest.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @test_unit FeatherCommand#0.4
  * @description Unit tests for FeatherCommand
  */
@@ -27,7 +27,7 @@ import org.mockito.Mock;
 import dev.defaultybuf.feathercore.api.core.dummies.DummyCommand;
 import dev.defaultybuf.feathercore.modules.common.mockers.FeatherCommandTest;
 
-public class FeatherCommandImplTest extends FeatherCommandTest<DummyCommand> {
+class FeatherCommandImplTest extends FeatherCommandTest<DummyCommand> {
     @Mock Command mockCommand;
     @Mock CommandSender mockSender;
 

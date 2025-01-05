@@ -6,7 +6,7 @@
  *
  * @file PayCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit PayCommand#0.10
  * @description Unit tests for PayCommand
  */
@@ -41,10 +41,10 @@ import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 import dev.defaultybuf.feathercore.modules.language.components.LanguageManager;
 
 class PayToggleCommandTest extends FeatherCommandTest<PayToggleCommand> {
-    private static final String LANGUAGE_CONFIG_CONTENT = "languages:\n  en: English";
+    static final String LANGUAGE_CONFIG_CONTENT = "languages:\n  en: English";
 
     // @formatter:off
-    private static final String EN_LANGUAGE_FILE_CONTENT =
+     static final String EN_LANGUAGE_FILE_CONTENT =
             "general:\n" +
             "  command:\n" +
             "    invalid: 'Invalid command'\n" +

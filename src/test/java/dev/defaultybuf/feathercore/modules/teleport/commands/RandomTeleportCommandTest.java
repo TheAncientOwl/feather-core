@@ -6,7 +6,7 @@
  *
  * @file RandomTeleportCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @test_unit RandomTeleportCommand#0.11
  * @description Unit tests for RandomTeleportCommand
  */
@@ -61,8 +61,8 @@ import dev.defaultybuf.feathercore.modules.common.utils.Argumentable;
 import dev.defaultybuf.feathercore.modules.teleport.interfaces.ITeleport;
 
 @SuppressWarnings("unchecked")
-public class RandomTeleportCommandTest extends FeatherCommandTest<RandomTeleportCommand> {
-        private static final long INITIAL_TIME = 0L;
+class RandomTeleportCommandTest extends FeatherCommandTest<RandomTeleportCommand> {
+        static final long INITIAL_TIME = 0L;
 
         @Mock World mockWorld;
         @Mock WorldBorder mockWorldBorder;

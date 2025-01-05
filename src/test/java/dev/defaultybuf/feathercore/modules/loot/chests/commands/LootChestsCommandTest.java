@@ -6,7 +6,7 @@
  *
  * @file LootChestsCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @test_unit LootChestsCommand#0.9
  * @description Unit tests for LootChestsCommand
  */
@@ -59,10 +59,10 @@ import dev.defaultybuf.feathercore.modules.language.components.LanguageManager;
 import dev.defaultybuf.feathercore.modules.loot.chests.interfaces.ILootChests;
 
 class LootChestsCommandTest extends FeatherCommandTest<LootChestsCommand> {
-    private static final String LANGUAGE_CONFIG_CONTENT = "languages:\n  en: English";
+    static final String LANGUAGE_CONFIG_CONTENT = "languages:\n  en: English";
 
     // @formatter:off
-    private static final String EN_LANGUAGE_FILE_CONTENT =
+     static final String EN_LANGUAGE_FILE_CONTENT =
             "general:\n" +
             "  no-permission: '&cYou do not have permission to execute this command.'\n" +
             "  command:\n" +

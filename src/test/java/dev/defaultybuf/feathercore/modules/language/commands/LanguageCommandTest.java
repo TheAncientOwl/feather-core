@@ -6,7 +6,7 @@
  *
  * @file LanguageCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.13
+ * @version 0.14
  * @test_unit LanguageCommand#0.9
  * @description Unit tests for LanguageCommand
  */
@@ -51,8 +51,8 @@ import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.Resource;
 import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
-import dev.defaultybuf.feathercore.modules.common.mockers.FeatherCommandTest;
 import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
+import dev.defaultybuf.feathercore.modules.common.mockers.FeatherCommandTest;
 import dev.defaultybuf.feathercore.modules.common.utils.TempModule;
 import dev.defaultybuf.feathercore.modules.common.utils.TestUtils;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
@@ -63,10 +63,10 @@ import dev.defaultybuf.feathercore.modules.language.components.LanguageManagerTe
 import dev.defaultybuf.feathercore.modules.language.events.LanguageChangeEvent;
 
 class LanguageCommandTest extends FeatherCommandTest<LanguageCommand> {
-    private static final String LANGUAGE_CONFIG_CONTENT = "languages:\n en: English\n de: Deutsch";
+    static final String LANGUAGE_CONFIG_CONTENT = "languages:\n en: English\n de: Deutsch";
 
     // @formatter:off
-    private static final String EN_LANGUAGE_FILE_CONTENT =
+     static final String EN_LANGUAGE_FILE_CONTENT =
             "language:\n" +
             "  usage: '&8[&6Usage&8] &e/language info/list/[language]'\n" +
             "  change-success: '&8[&6Language&8] &eChanged successfully&8!'\n" +
@@ -74,7 +74,7 @@ class LanguageCommandTest extends FeatherCommandTest<LanguageCommand> {
             "  info: '&8[&6Language&8] &e{language}&8.'\n" +
             "  list: '&8[&6Language&8] &7Available languages&8: &e{language}&8.'\n";
 
-    private static final String DE_LANGUAGE_FILE_CONTENT =
+     static final String DE_LANGUAGE_FILE_CONTENT =
             "language:\n" +
             "  usage: '&8[&6Verwendung&8] &e/language info/list/[sprache]'\n" +
             "  change-success: '&8[&6Sprache&8] &eErfolgreich geändert&8!'\n" +

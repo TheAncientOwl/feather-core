@@ -6,7 +6,7 @@
  *
  * @file TeleportListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit TeleportListener#0.6
  * @description Unit tests for TeleportListener
  */
@@ -31,9 +31,8 @@ import dev.defaultybuf.feathercore.modules.common.mockers.FeatherListenerTest;
 import dev.defaultybuf.feathercore.modules.pvp.manager.interfaces.IPvPManager;
 
 class TeleportListenerTest extends FeatherListenerTest<TeleportListener> {
-
-    @Mock private PlayerTeleportEvent mockEvent;
-    @Mock private Player mockPlayer;
+    @Mock PlayerTeleportEvent mockEvent;
+    @Mock Player mockPlayer;
 
     @MockedModule(of = Module.PvPManager) IPvPManager mockPvPManager;
 

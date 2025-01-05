@@ -6,7 +6,7 @@
  *
  * @file TempFile.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Helper class to delete given file when no longer needed
  */
 package dev.defaultybuf.feathercore.modules.common.utils;
@@ -18,7 +18,7 @@ import java.nio.file.Path;
 import org.apache.commons.io.FileUtils;
 
 public class TempFile implements AutoCloseable {
-    private final Path path;
+    final Path path;
 
     public TempFile(final Path path) {
         this.path = path;

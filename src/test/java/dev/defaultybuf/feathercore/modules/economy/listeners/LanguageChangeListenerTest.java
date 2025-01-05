@@ -6,7 +6,7 @@
  *
  * @file LanguageChangeListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.7
+ * @version 0.8
  * @test_unit LanguageChangeListener#0.5
  * @description Unit tests for LanguageChangeListener
  */
@@ -42,10 +42,10 @@ import dev.defaultybuf.feathercore.modules.language.components.LanguageManager;
 import dev.defaultybuf.feathercore.modules.language.events.LanguageChangeEvent;
 
 class LanguageChangeListenerTest extends FeatherListenerTest<LanguageChangeListener> {
-        private static final String LANGUAGE_CONFIG_CONTENT = "languages:\n en: English";
+        static final String LANGUAGE_CONFIG_CONTENT = "languages:\n en: English";
 
     // @formatter:off
-        private static final String EN_LANGUAGE_FILE_CONTENT =
+         static final String EN_LANGUAGE_FILE_CONTENT =
                         "economy:\n" +
                         "  banknote:\n" +
                         "    display-name: '&7Banknote'\n" +

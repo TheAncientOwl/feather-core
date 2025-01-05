@@ -6,7 +6,7 @@
  *
  * @file TestUtils.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Testing utilities
  */
 package dev.defaultybuf.feathercore.modules.common.utils;
@@ -73,11 +73,11 @@ public class TestUtils {
         return tempFile;
     }
 
-    private static final String CHARACTERS =
+    static final String CHARACTERS =
             "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    private static final SecureRandom RANDOM = new SecureRandom();
+    static final SecureRandom RANDOM = new SecureRandom();
 
-    private static String getRandomStringFile(int length, final String extension) {
+    static String getRandomStringFile(int length, final String extension) {
         StringBuilder randomString = new StringBuilder();
 
         // Generate random characters and add them to the string

@@ -6,7 +6,7 @@
  *
  * @file DependencyInjector.java
  * @author Alexandru Delegeanu
- * @version 0.14
+ * @version 0.15
  * @description Create mocks / actual instances of all modules 
  *              and inject them into tests dependencies map
  */
@@ -202,7 +202,7 @@ public final class DependencyInjector {
                 }
         }
 
-        private static final Map<Module, ModuleInjector<?>> moduleInjectors = Map.of(
+        static final Map<Module, ModuleInjector<?>> moduleInjectors = Map.of(
                         Module.Language, Language,
                         Module.Reload, Reload,
                         Module.PlayersData, PlayersData,
