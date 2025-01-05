@@ -6,7 +6,7 @@
  *
  * @file FeatherCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @test_unit FeatherCommand#0.4
  * @description Unit tests for FeatherCommand
  */
@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.Arrays;
 
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
@@ -28,6 +29,7 @@ import dev.defaultybuf.feathercore.modules.common.mockers.CommandTestMocker;
 
 public class FeatherCommandTest extends CommandTestMocker<DummyCommand> {
     @Mock Command mockCommand;
+    @Mock CommandSender mockSender;
 
     @Override
     protected Class<DummyCommand> getCommandClass() {

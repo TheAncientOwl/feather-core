@@ -6,7 +6,7 @@
  *
  * @file LanguageCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.11
+ * @version 0.12
  * @test_unit LanguageCommand#0.9
  * @description Unit tests for LanguageCommand
  */
@@ -33,6 +33,7 @@ import java.util.stream.Stream;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.junit.jupiter.api.Test;
@@ -84,6 +85,7 @@ class LanguageCommandTest extends CommandTestMocker<LanguageCommand> {
 
     @Mock World mockWorld;
     @Mock Player mockPlayer;
+    @Mock CommandSender mockSender;
 
     @MockedModule(of = Module.PlayersData) PlayersData mockPlayersData;
 

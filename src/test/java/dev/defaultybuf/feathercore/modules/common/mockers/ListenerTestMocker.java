@@ -6,30 +6,25 @@
  *
  * @file ListenerTestMocker.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Utility class for developing listeners unit tests that use modules
  */
 package dev.defaultybuf.feathercore.modules.common.mockers;
 
-import static org.mockito.Mockito.mock;
-
 import java.lang.reflect.InvocationTargetException;
 
-import org.bukkit.command.CommandSender;
 import org.junit.jupiter.api.BeforeEach;
 
 import dev.defaultybuf.feathercore.api.core.FeatherListener;
 
 public abstract class ListenerTestMocker<ListenerType extends FeatherListener>
         extends DependencyAccessorMocker {
-    protected CommandSender mockSender;
     protected ListenerType listenerInstance;
 
     @BeforeEach
     void setUpListenerTest()
             throws InstantiationException, IllegalAccessException, IllegalArgumentException,
             InvocationTargetException, NoSuchMethodException, SecurityException {
-        mockSender = mock(CommandSender.class);
         listenerInstance = getListenerClass().getConstructor(FeatherListener.InitData.class)
                 .newInstance(new FeatherListener.InitData(dependenciesMap));
     }

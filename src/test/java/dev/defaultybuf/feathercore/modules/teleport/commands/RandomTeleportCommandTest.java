@@ -6,7 +6,7 @@
  *
  * @file RandomTeleportCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @test_unit RandomTeleportCommand#0.11
  * @description Unit tests for RandomTeleportCommand
  */
@@ -72,6 +72,8 @@ public class RandomTeleportCommandTest extends CommandTestMocker<RandomTeleportC
         @Mock Player mockTargetPlayer;
         @Mock Location mockTargetLocation;
         @Mock Location mockRandomLocation;
+
+        @Mock CommandSender mockSender;
 
         @MockedModule(of = Module.Teleport) ITeleport mockTeleport;
 
