@@ -6,7 +6,7 @@
  *
  * @file EcoCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @test_unit EcoCommand#0.10
  * @description Unit tests for EcoCommand
  */
@@ -43,14 +43,14 @@ import dev.defaultybuf.feathercore.api.common.util.StringUtils;
 import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.Resource;
-import dev.defaultybuf.feathercore.modules.common.mockers.CommandTestMocker;
+import dev.defaultybuf.feathercore.modules.common.mockers.FeatherCommandTest;
 import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feathercore.modules.common.utils.TempModule;
 import dev.defaultybuf.feathercore.modules.economy.interfaces.IFeatherEconomy;
 import dev.defaultybuf.feathercore.modules.language.components.LanguageManager;
 import net.milkbowl.vault.economy.Economy;
 
-class EcoCommandTest extends CommandTestMocker<EcoCommand> {
+class EcoCommandTest extends FeatherCommandTest<EcoCommand> {
     private static final String LANGUAGE_CONFIG_CONTENT = "languages:\n  en: English";
 
     // @formatter:off

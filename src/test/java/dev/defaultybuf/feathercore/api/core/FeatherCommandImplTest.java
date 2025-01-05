@@ -4,9 +4,9 @@
  * ------------------------------------------------------------------------- *
  * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
  *
- * @file FeatherCommandTest.java
+ * @file FeatherCommandImplTest.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @test_unit FeatherCommand#0.4
  * @description Unit tests for FeatherCommand
  */
@@ -25,9 +25,9 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import dev.defaultybuf.feathercore.api.core.dummies.DummyCommand;
-import dev.defaultybuf.feathercore.modules.common.mockers.CommandTestMocker;
+import dev.defaultybuf.feathercore.modules.common.mockers.FeatherCommandTest;
 
-public class FeatherCommandTest extends CommandTestMocker<DummyCommand> {
+public class FeatherCommandImplTest extends FeatherCommandTest<DummyCommand> {
     @Mock Command mockCommand;
     @Mock CommandSender mockSender;
 

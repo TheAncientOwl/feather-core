@@ -6,7 +6,7 @@
  *
  * @file BanknotePickupListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.10
+ * @version 0.11
  * @test_unit BanknotePickupListener#0.5
  * @description Unit tests for BanknotePickupListener
  */
@@ -35,7 +35,7 @@ import dev.defaultybuf.feathercore.api.common.minecraft.NamespacedKey;
 import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.Resource;
-import dev.defaultybuf.feathercore.modules.common.mockers.ListenerTestMocker;
+import dev.defaultybuf.feathercore.modules.common.mockers.FeatherListenerTest;
 import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feathercore.modules.common.utils.TempModule;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
@@ -43,7 +43,7 @@ import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 import dev.defaultybuf.feathercore.modules.economy.interfaces.IFeatherEconomy;
 import dev.defaultybuf.feathercore.modules.language.components.LanguageManager;
 
-class BanknotePickupListenerTest extends ListenerTestMocker<BanknotePickupListener> {
+class BanknotePickupListenerTest extends FeatherListenerTest<BanknotePickupListener> {
     private static final String LANGUAGE_CONFIG_CONTENT = "languages:\n en: English";
 
     // @formatter:off

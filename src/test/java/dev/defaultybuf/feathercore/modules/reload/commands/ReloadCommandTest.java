@@ -6,7 +6,7 @@
  *
  * @file ReloadCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.10
+ * @version 0.11
  * @test_unit ReloadCommand#0.7
  * @description Unit tests for ReloadCommand
  */
@@ -35,11 +35,11 @@ import org.mockito.Mock;
 
 import dev.defaultybuf.feathercore.api.common.java.Pair;
 import dev.defaultybuf.feathercore.api.common.language.Message;
-import dev.defaultybuf.feathercore.modules.common.mockers.CommandTestMocker;
+import dev.defaultybuf.feathercore.modules.common.mockers.FeatherCommandTest;
 import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector;
 import dev.defaultybuf.feathercore.modules.language.components.LanguageManager;
 
-class ReloadCommandTest extends CommandTestMocker<ReloadCommand> {
+class ReloadCommandTest extends FeatherCommandTest<ReloadCommand> {
         @Mock CommandSender mockSender;
 
         @Override

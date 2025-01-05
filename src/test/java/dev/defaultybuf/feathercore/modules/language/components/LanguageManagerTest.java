@@ -6,7 +6,7 @@
  *
  * @file LanguageManagerTest.java
  * @author Alexandru Delegeanu
- * @version 0.9
+ * @version 0.10
  * @test_unit LanguageManager#0.8
  * @description Unit tests for LanguageManager
  */
@@ -38,13 +38,13 @@ import dev.defaultybuf.feathercore.api.common.java.Pair;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
 import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector;
-import dev.defaultybuf.feathercore.modules.common.mockers.ModuleTestMocker;
+import dev.defaultybuf.feathercore.modules.common.mockers.FeatherModuleTest;
 import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feathercore.modules.common.utils.TestUtils;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import dev.defaultybuf.feathercore.modules.data.players.components.PlayersData;
 
-public class LanguageManagerTest extends ModuleTestMocker<LanguageManager> {
+public class LanguageManagerTest extends FeatherModuleTest<LanguageManager> {
     public static final record TranslationTestConfig(String shortName, Path actualPath,
             String content, String testKey, String testValue) {
     }

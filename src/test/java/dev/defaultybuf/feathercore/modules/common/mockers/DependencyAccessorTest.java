@@ -4,9 +4,9 @@
  * ------------------------------------------------------------------------- *
  * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
  *
- * @file DependencyAccessorMocker.java
+ * @file DependencyAccessorTest.java
  * @author Alexandru Delegeanu
- * @version 0.12
+ * @version 0.13
  * @description Utility class for developing unit tests that use modules
  */
 
@@ -36,7 +36,7 @@ import dev.defaultybuf.feathercore.modules.common.utils.TestUtils;
 import dev.defaultybuf.feathercore.modules.language.interfaces.ILanguage;
 
 @ExtendWith(MockitoExtension.class)
-public abstract class DependencyAccessorMocker {
+public abstract class DependencyAccessorTest {
     protected static Map<Class<?>, Object> dependenciesMap;
     @Mock static protected JavaPlugin mockJavaPlugin;
 
@@ -59,14 +59,14 @@ public abstract class DependencyAccessorMocker {
     protected void tearDown() {}
 
     @BeforeEach
-    void setUpTest() {
+    void setUpDependencyAccessorTest() {
         lenientCommons();
         initDependencies();
         setUp();
     }
 
     @AfterEach
-    void tearDownTest() {
+    void tearDownDependencyAccessorTest() {
         closeResources();
         tearDown();
     }

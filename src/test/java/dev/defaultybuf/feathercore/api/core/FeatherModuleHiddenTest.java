@@ -6,7 +6,7 @@
  *
  * @file FeatherModuleHiddenTest.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @test_unit FeatherModuleHidden#0.6
  * @description Unit tests for FeatherModuleHidden
  */
@@ -21,9 +21,9 @@ import static org.mockito.Mockito.verifyNoInteractions;
 import org.junit.jupiter.api.Test;
 
 import dev.defaultybuf.feathercore.api.core.dummies.DummyModule;
-import dev.defaultybuf.feathercore.modules.common.mockers.ModuleTestMocker;
+import dev.defaultybuf.feathercore.modules.common.mockers.FeatherModuleTest;
 
-class FeatherModuleHiddenTest extends ModuleTestMocker<DummyModule> {
+class FeatherModuleHiddenTest extends FeatherModuleTest<DummyModule> {
 
     @Override
     protected Class<DummyModule> getModuleClass() {

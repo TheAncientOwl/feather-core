@@ -6,7 +6,7 @@
  *
  * @file LogoManagerTest.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @test_unit LogoManager#0.5
  * @description Unit tests for LogoManager
  */
@@ -26,9 +26,9 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import dev.defaultybuf.feathercore.modules.common.mockers.ModuleTestMocker;
+import dev.defaultybuf.feathercore.modules.common.mockers.FeatherModuleTest;
 
-class LogoManagerTest extends ModuleTestMocker<LogoManager> {
+class LogoManagerTest extends FeatherModuleTest<LogoManager> {
     private static final String PLUGIN_YML_CONTENT = "version: 'test-plugin-version'";
 
     @Mock ConsoleCommandSender mockConsoleCommandSender;

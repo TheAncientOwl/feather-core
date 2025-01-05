@@ -6,7 +6,7 @@
  *
  * @file PlayerLogoutListeneTest.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @test_unit PlayerLogoutListene#0.7
  * @description Unit tests for PlayerLogoutListene
  */
@@ -34,11 +34,11 @@ import org.mockito.Mock;
 import dev.defaultybuf.feathercore.api.common.java.Pair;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
 import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
-import dev.defaultybuf.feathercore.modules.common.mockers.ListenerTestMocker;
+import dev.defaultybuf.feathercore.modules.common.mockers.FeatherListenerTest;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 import dev.defaultybuf.feathercore.modules.pvp.manager.interfaces.IPvPManager;
 
-class PlayerLogoutListenerTest extends ListenerTestMocker<PlayerLogoutListener> {
+class PlayerLogoutListenerTest extends FeatherListenerTest<PlayerLogoutListener> {
     @Mock Player mockPlayer;
     @Mock PlayerQuitEvent mockEvent;
 

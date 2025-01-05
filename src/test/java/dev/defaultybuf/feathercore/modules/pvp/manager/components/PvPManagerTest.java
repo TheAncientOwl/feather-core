@@ -6,7 +6,7 @@
  *
  * @file PvPManagerTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit PvPManager#0.10
  * @description Unit tests for PvPManager
  */
@@ -45,9 +45,9 @@ import org.mockito.Mock;
 
 import dev.defaultybuf.feathercore.api.common.util.Clock;
 import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
-import dev.defaultybuf.feathercore.modules.common.mockers.ModuleTestMocker;
+import dev.defaultybuf.feathercore.modules.common.mockers.FeatherModuleTest;
 
-class PvPManagerTest extends ModuleTestMocker<PvPManager> {
+class PvPManagerTest extends FeatherModuleTest<PvPManager> {
     @Mock Player mockVictim;
     @Mock Player mockAttacker;
 

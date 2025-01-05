@@ -6,7 +6,7 @@
  *
  * @file LootChestsTest.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @test_unit LootChests#0.8
  * @description Unit tests for LootChests
  */
@@ -47,14 +47,14 @@ import dev.defaultybuf.feathercore.api.exceptions.FeatherSetupException;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
 import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
-import dev.defaultybuf.feathercore.modules.common.mockers.ModuleTestMocker;
+import dev.defaultybuf.feathercore.modules.common.mockers.FeatherModuleTest;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.accessors.LootChestsDAO;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.LootChestsModel;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import dev.defaultybuf.feathercore.modules.data.mongodb.interfaces.IMongoDB;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 
-class LootChestsTest extends ModuleTestMocker<LootChests> {
+class LootChestsTest extends FeatherModuleTest<LootChests> {
     @Mock Player mockPlayer;
     @Mock Inventory mockInventory;
     @Mock LootChestsDAO mockLootChestsDAO;

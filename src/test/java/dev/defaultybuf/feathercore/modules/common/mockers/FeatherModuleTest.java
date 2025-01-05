@@ -4,9 +4,9 @@
  * ------------------------------------------------------------------------- *
  * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
  *
- * @file ModuleTestMocker.java
+ * @file FeatherModuleTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @description Utility class for developing module unit tests that use modules
  */
 
@@ -19,8 +19,8 @@ import org.mockito.Mock;
 import dev.defaultybuf.feathercore.api.configuration.IConfigFile;
 import dev.defaultybuf.feathercore.api.core.FeatherModule;
 
-public abstract class ModuleTestMocker<ModuleType extends FeatherModule>
-        extends DependencyAccessorMocker {
+public abstract class FeatherModuleTest<ModuleType extends FeatherModule>
+        extends DependencyAccessorTest {
     @Mock protected IConfigFile mockModuleConfig;
     protected ModuleType moduleInstance;
 
