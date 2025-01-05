@@ -6,7 +6,7 @@
  *
  * @file RandomTeleportCommand.java
  * @author Alexandru Delegeanu
- * @version 0.10
+ * @version 0.11
  * @description Teleport the player at a random location in the world
  */
 
@@ -16,19 +16,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.UUID;
 
 import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.WorldBorder;
-import org.bukkit.block.BlockFace;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import dev.defaultybuf.feathercore.api.common.java.Pair;
 import dev.defaultybuf.feathercore.api.common.language.Message;
 import dev.defaultybuf.feathercore.api.common.minecraft.Placeholder;
+import dev.defaultybuf.feathercore.api.common.minecraft.WorldUtils;
 import dev.defaultybuf.feathercore.api.common.util.Args;
 import dev.defaultybuf.feathercore.api.common.util.Clock;
 import dev.defaultybuf.feathercore.api.common.util.StringUtils;
@@ -111,59 +108,15 @@ public class RandomTeleportCommand extends FeatherCommand<RandomTeleportCommand.
     }
 
     private Location randomize(final Location location) {
-        World world = location.getWorld();
-        WorldBorder worldBorder = world.getWorldBorder();
-        Random random = new Random();
-
         final var worldConfig = getInterface(ITeleport.class).getConfig()
-                .getConfigurationSection("random." + world.getName());
+                .getConfigurationSection("random." + location.getWorld().getName());
 
-        final var trials = worldConfig.getInt("trials");
-        final var minDistance = worldConfig.getInt("min-distance");
-        final var distanceDiff = worldConfig.getInt("max-distance") - minDistance + 1;
-        final var minAltitude = worldConfig.getInt("altitude.min");
-        final var maxAltitude = worldConfig.getInt("altitude.max");
-
-        for (int i = 0; i < trials; ++i) {
-            final var rand = random.nextInt(distanceDiff) + minDistance;
-
-            double x = (int) (location.getX()) + rand + 0.5D;
-            double z = (int) (location.getZ()) + rand + 0.5D;
-            int y = world.getHighestBlockYAt((int) x, (int) z);
-
-            final var randLocation =
-                    new Location(world, x, y, z, location.getYaw(), location.getPitch());
-
-            if (!worldBorder.isInside(randLocation)) {
-                continue;
-            }
-
-            if (isSafe(randLocation)) {
-                return randLocation;
-            }
-
-            for (int altitude = maxAltitude; altitude > minAltitude; --altitude) {
-                randLocation.setY(altitude);
-                if (isSafe(randLocation)) {
-                    return randLocation;
-                }
-
-                if (randLocation.getBlock().isLiquid()) {
-                    break;
-                }
-            }
-        }
-
-        return null;
-    }
-
-    public boolean isSafe(final Location location) {
-        final var block = location.getBlock();
-        final var down = block.getRelative(BlockFace.DOWN);
-        final var up = block.getRelative(BlockFace.UP);
-
-        return !block.isLiquid() && !block.isSolid() && down.isSolid() && !up.isLiquid()
-                && !up.isSolid();
+        return WorldUtils.randomize(location, new WorldUtils.RandomLocationRestrictions(
+                worldConfig.getInt("trials"),
+                worldConfig.getInt("min-distance"),
+                worldConfig.getInt("max-distance"),
+                worldConfig.getInt("altitude.min"),
+                worldConfig.getInt("altitude.max")));
     }
 
     protected CommandData parse(final CommandSender sender, final String[] args) {
