@@ -6,7 +6,7 @@
  *
  * @file TeleportCommand.java
  * @author Alexandru Delegeanu
- * @version 0.8
+ * @version 0.9
  * @description Teleport to a player, or teleport player1 to player2
  */
 
@@ -31,15 +31,14 @@ public class TeleportCommand extends FeatherCommand<TeleportCommand.CommandData>
         super(data);
     }
 
-    public static record CommandData(Player who, Player destination) {
+    public static record CommandData(Player who, Player destination, boolean selfTeleport) {
     }
 
     @Override
     protected boolean hasPermission(final CommandSender sender, final CommandData data) {
-        final boolean selfTeleport = (sender instanceof Player && data.who.equals((Player) sender));
-
         if (!sender.hasPermission("feathercore.teleport.player.self")
-                || (!selfTeleport && !sender.hasPermission("feathercore.teleport.player.other"))) {
+                || (!data.selfTeleport
+                        && !sender.hasPermission("feathercore.teleport.player.other"))) {
             getLanguage().message(sender, Message.General.NO_PERMISSION);
             return false;
         }
@@ -48,11 +47,9 @@ public class TeleportCommand extends FeatherCommand<TeleportCommand.CommandData>
 
     @Override
     protected void execute(final CommandSender sender, final CommandData data) {
-        final boolean selfTeleport = (sender instanceof Player && data.who.equals((Player) sender));
-
         getInterface(ITeleport.class).teleport(data.who, data.destination);
 
-        if (selfTeleport) {
+        if (data.selfTeleport) {
             getLanguage().message(sender, Message.Teleport.PLAYER_SELF, List.of(
                     Pair.of(Placeholder.PLAYER, data.destination.getName())));
         } else {
@@ -65,6 +62,7 @@ public class TeleportCommand extends FeatherCommand<TeleportCommand.CommandData>
     protected CommandData parse(final CommandSender sender, final String[] args) {
         Player who = null;
         Player destination = null;
+        boolean selfTeleport = false;
 
         switch (args.length) {
             case 1: {
@@ -77,6 +75,7 @@ public class TeleportCommand extends FeatherCommand<TeleportCommand.CommandData>
                         return null;
                     }
 
+                    selfTeleport = true;
                     who = (Player) sender;
                     destination = parsedArgs.getPlayer(0);
                 } else {
@@ -93,6 +92,7 @@ public class TeleportCommand extends FeatherCommand<TeleportCommand.CommandData>
                         Args.parse(args, Args::getOnlinePlayer, Args::getOnlinePlayer);
 
                 if (parsedArgs.success()) {
+                    selfTeleport = false;
                     who = parsedArgs.getPlayer(0);
                     destination = parsedArgs.getPlayer(1);
                 } else {
@@ -110,7 +110,7 @@ public class TeleportCommand extends FeatherCommand<TeleportCommand.CommandData>
             }
         }
 
-        return new CommandData(who, destination);
+        return new CommandData(who, destination, selfTeleport);
     }
 
     @Override
