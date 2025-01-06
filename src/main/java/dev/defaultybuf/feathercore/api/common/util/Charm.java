@@ -4,9 +4,9 @@
  * ------------------------------------------------------------------------- *
  * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
  *
- * @file Logger.java
+ * @file Charm.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Debug logger utility
  */
 package dev.defaultybuf.feathercore.api.common.util;
@@ -14,7 +14,7 @@ package dev.defaultybuf.feathercore.api.common.util;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public final class Logger {
+public final class Charm {
     private static final DateTimeFormatter formatter =
             DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -28,7 +28,7 @@ public final class Logger {
     private static final String DARK_RED = "\u001B[31m";
     private static final String RED = "\u001B[91m";
 
-    private Logger() {}
+    private Charm() {}
 
     public static void debug(Object object) {
         log("DEBUG", object, DARK_GREEN, GREEN);
