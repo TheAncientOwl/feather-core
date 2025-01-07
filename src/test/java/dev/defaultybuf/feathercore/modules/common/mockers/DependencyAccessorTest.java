@@ -6,12 +6,13 @@
  *
  * @file DependencyAccessorTest.java
  * @author Alexandru Delegeanu
- * @version 0.13
+ * @version 0.14
  * @description Utility class for developing unit tests that use modules
  */
 
 package dev.defaultybuf.feathercore.modules.common.mockers;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.lenient;
 
 import java.lang.reflect.Field;
@@ -26,6 +27,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import dev.defaultybuf.feathercore.api.common.java.Pair;
 import dev.defaultybuf.feathercore.api.core.IFeatherLogger;
 import dev.defaultybuf.feathercore.core.interfaces.IEnabledModulesProvider;
 import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
@@ -136,5 +138,10 @@ public abstract class DependencyAccessorTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @SuppressWarnings("rawtypes")
+    protected Pair anyPair() {
+        return any(Pair.class);
     }
 }

@@ -6,7 +6,7 @@
  *
  * @file TeleportAllCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @test_unit TeleportAllCommand#0.9
  * @description Unit tests for TeleportAllCommand
  */
@@ -18,7 +18,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -40,7 +39,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 
-import dev.defaultybuf.feathercore.api.common.java.Pair;
 import dev.defaultybuf.feathercore.api.common.language.Message;
 import dev.defaultybuf.feathercore.api.common.util.StringUtils;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
@@ -120,7 +118,7 @@ class TeleportAllCommandTest extends FeatherCommandTest<TeleportAllCommand> {
             verify(mockTeleport).teleport(mockPlayer2, mockPlayer2);
             verify(mockTeleport).teleport(mockPlayer3, mockPlayer2);
             verify(mockLanguage).message(eq(mockPlayer1), eq(Message.Teleport.ALL_OTHER),
-                    any(Pair.class));
+                    anyPair());
         }
     }
 
@@ -139,7 +137,7 @@ class TeleportAllCommandTest extends FeatherCommandTest<TeleportAllCommand> {
             verify(mockTeleport).teleport(mockPlayer3, mockPlayer2);
             verify(mockLanguage).message(eq(
                     mockCommandSender), eq(Message.Teleport.ALL_OTHER),
-                    any(Pair.class));
+                    anyPair());
         }
     }
 
@@ -185,7 +183,7 @@ class TeleportAllCommandTest extends FeatherCommandTest<TeleportAllCommand> {
 
             assertNull(result);
             verify(mockLanguage).message(eq(mockPlayer1), eq(Message.General.NOT_ONLINE_PLAYER),
-                    any(Pair.class));
+                    anyPair());
         }
     }
 

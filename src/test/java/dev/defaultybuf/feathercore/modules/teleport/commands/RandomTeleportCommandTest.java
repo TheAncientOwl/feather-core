@@ -6,7 +6,7 @@
  *
  * @file RandomTeleportCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @test_unit RandomTeleportCommand#0.11
  * @description Unit tests for RandomTeleportCommand
  */
@@ -47,7 +47,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
 
-import dev.defaultybuf.feathercore.api.common.java.Pair;
 import dev.defaultybuf.feathercore.api.common.language.Message;
 import dev.defaultybuf.feathercore.api.common.minecraft.WorldUtils;
 import dev.defaultybuf.feathercore.api.common.util.Clock;
@@ -55,8 +54,8 @@ import dev.defaultybuf.feathercore.api.common.util.StringUtils;
 import dev.defaultybuf.feathercore.api.configuration.IConfigSection;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
-import dev.defaultybuf.feathercore.modules.common.mockers.FeatherCommandTest;
 import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
+import dev.defaultybuf.feathercore.modules.common.mockers.FeatherCommandTest;
 import dev.defaultybuf.feathercore.modules.common.utils.Argumentable;
 import dev.defaultybuf.feathercore.modules.teleport.interfaces.ITeleport;
 
@@ -326,7 +325,7 @@ class RandomTeleportCommandTest extends FeatherCommandTest<RandomTeleportCommand
 
                 assertNull(result);
                 verify(mockLanguage).message(eq(mockIssuerPlayer),
-                                eq(Message.General.NOT_ONLINE_PLAYER), any(Pair.class));
+                                eq(Message.General.NOT_ONLINE_PLAYER), anyPair());
         }
 
         @Test
@@ -366,7 +365,7 @@ class RandomTeleportCommandTest extends FeatherCommandTest<RandomTeleportCommand
                 verify(mockLanguage).message(eq(mockIssuerPlayer), eq(Message.Teleport.RTP_TRY));
                 verify(mockLanguage, never()).message(
                                 eq(mockIssuerPlayer), eq(Message.Teleport.RTP_COOLDOWN),
-                                any(Pair.class));
+                                anyPair());
         }
 
         @Test

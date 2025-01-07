@@ -6,7 +6,7 @@
  *
  * @file ReloadCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.11
+ * @version 0.12
  * @test_unit ReloadCommand#0.7
  * @description Unit tests for ReloadCommand
  */
@@ -18,7 +18,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -33,10 +32,9 @@ import org.bukkit.command.CommandSender;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import dev.defaultybuf.feathercore.api.common.java.Pair;
 import dev.defaultybuf.feathercore.api.common.language.Message;
-import dev.defaultybuf.feathercore.modules.common.mockers.FeatherCommandTest;
 import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector;
+import dev.defaultybuf.feathercore.modules.common.mockers.FeatherCommandTest;
 import dev.defaultybuf.feathercore.modules.language.components.LanguageManager;
 
 class ReloadCommandTest extends FeatherCommandTest<ReloadCommand> {
@@ -128,7 +126,7 @@ class ReloadCommandTest extends FeatherCommandTest<ReloadCommand> {
 
                 assertNull(result);
                 verify(mockLanguage, times(1))
-                                .message(eq(mockSender), eq(Message.Reload.USAGE), any(Pair.class));
+                                .message(eq(mockSender), eq(Message.Reload.USAGE), anyPair());
         }
 
         @Test
@@ -139,7 +137,7 @@ class ReloadCommandTest extends FeatherCommandTest<ReloadCommand> {
 
                 assertNull(result);
                 verify(mockLanguage, times(1))
-                                .message(eq(mockSender), eq(Message.Reload.USAGE), any(Pair.class));
+                                .message(eq(mockSender), eq(Message.Reload.USAGE), anyPair());
         }
 
         @Test

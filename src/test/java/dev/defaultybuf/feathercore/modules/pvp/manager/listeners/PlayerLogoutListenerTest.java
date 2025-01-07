@@ -4,16 +4,15 @@
  * ------------------------------------------------------------------------- *
  * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
  *
- * @file PlayerLogoutListeneTest.java
+ * @file PlayerLogoutListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit PlayerLogoutListene#0.7
  * @description Unit tests for PlayerLogoutListene
  */
 
 package dev.defaultybuf.feathercore.modules.pvp.manager.listeners;
 
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.lenient;
@@ -31,7 +30,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import dev.defaultybuf.feathercore.api.common.java.Pair;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
 import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feathercore.modules.common.mockers.FeatherListenerTest;
@@ -114,7 +112,7 @@ class PlayerLogoutListenerTest extends FeatherListenerTest<PlayerLogoutListener>
 
             verify(mockPlayer).setHealth(0.0d);
             verify(mockPvPManager).removePlayerInCombat(mockPlayer);
-            verify(mockLanguage).message(eq(mockOnlinePlayer), anyString(), any(Pair.class));
+            verify(mockLanguage).message(eq(mockOnlinePlayer), anyString(), anyPair());
         }
     }
 }
