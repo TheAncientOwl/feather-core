@@ -6,7 +6,7 @@
  *
  * @file RandomTeleportCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @test_unit RandomTeleportCommand#0.11
  * @description Unit tests for RandomTeleportCommand
  */

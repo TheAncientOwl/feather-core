@@ -6,7 +6,7 @@
  *
  * @file LanguageChangeListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.8
+ * @version 0.9
  * @test_unit LanguageChangeListener#0.5
  * @description Unit tests for LanguageChangeListener
  */
@@ -42,7 +42,7 @@ import dev.defaultybuf.feathercore.modules.language.components.LanguageManager;
 import dev.defaultybuf.feathercore.modules.language.events.LanguageChangeEvent;
 
 class LanguageChangeListenerTest extends FeatherListenerTest<LanguageChangeListener> {
-        static final String LANGUAGE_CONFIG_CONTENT = "languages:\n en: English";
+    static final String LANGUAGE_CONFIG_CONTENT = "languages:\n en: English";
 
     // @formatter:off
          static final String EN_LANGUAGE_FILE_CONTENT =
@@ -53,85 +53,85 @@ class LanguageChangeListenerTest extends FeatherListenerTest<LanguageChangeListe
                         "      - '&7Banknote value: &e{0}'";
     // @formatter:on
 
-        @Mock Player mockPlayer;
-        @Mock ItemMeta mockItemMeta;
-        @Mock ItemStack mockItemStack;
-        @Mock LanguageChangeEvent mockEvent;
-        @Mock PlayerInventory mockPlayerInventory;
-        @Mock PersistentDataContainer mockPersistentDataContainer;
+    @Mock Player mockPlayer;
+    @Mock ItemMeta mockItemMeta;
+    @Mock ItemStack mockItemStack;
+    @Mock LanguageChangeEvent mockEvent;
+    @Mock PlayerInventory mockPlayerInventory;
+    @Mock PersistentDataContainer mockPersistentDataContainer;
 
-        @MockedModule(of = Module.Economy) IFeatherEconomy mockFeatherEconomy;
+    @MockedModule(of = Module.Economy) IFeatherEconomy mockFeatherEconomy;
 
-        @ActualModule(
-                        of = Module.Language,
-                        resources = {
-                                        @Resource(path = "config.yml",
-                                                        content = LANGUAGE_CONFIG_CONTENT),
-                                        @Resource(path = "en.yml",
-                                                        content = EN_LANGUAGE_FILE_CONTENT)
-                        }) TempModule<LanguageManager> actualLanguage;
+    @ActualModule(
+            of = Module.Language,
+            resources = {
+                    @Resource(path = "config.yml",
+                            content = LANGUAGE_CONFIG_CONTENT),
+                    @Resource(path = "en.yml",
+                            content = EN_LANGUAGE_FILE_CONTENT)
+            }) TempModule<LanguageManager> actualLanguage;
 
-        @Override
-        protected Class<LanguageChangeListener> getListenerClass() {
-                return LanguageChangeListener.class;
-        }
+    @Override
+    protected Class<LanguageChangeListener> getListenerClass() {
+        return LanguageChangeListener.class;
+    }
 
-        @Override
-        protected void setUp() {
-                var config = mockFeatherEconomy.getConfig();
-                lenient().when(config.getString("banknote.key")).thenReturn("banknote_key");
+    @Override
+    protected void setUp() {
+        var config = mockFeatherEconomy.getConfig();
+        lenient().when(config.getString("banknote.key")).thenReturn("banknote_key");
 
-                lenient().when(mockEvent.getPlayer()).thenReturn(mockPlayer);
-                var translation = actualLanguage.module().getTranslation("en");
-                lenient().when(mockEvent.getTranslation()).thenReturn(translation);
-                lenient().when(mockPlayer.getInventory()).thenReturn(mockPlayerInventory);
-                var inventoryContent = new ItemStack[] {null, mockItemStack, null, null};
-                lenient().when(mockPlayerInventory.getContents()).thenReturn(inventoryContent);
-                lenient().when(mockPlayerInventory.iterator())
-                                .thenReturn(Arrays.asList(inventoryContent).listIterator());
-                lenient().when(mockItemStack.getItemMeta()).thenReturn(mockItemMeta);
-                lenient().when(mockItemMeta.getPersistentDataContainer())
-                                .thenReturn(mockPersistentDataContainer);
-        }
+        lenient().when(mockEvent.getPlayer()).thenReturn(mockPlayer);
+        var translation = actualLanguage.module().getTranslation("en");
+        lenient().when(mockEvent.getTranslation()).thenReturn(translation);
+        lenient().when(mockPlayer.getInventory()).thenReturn(mockPlayerInventory);
+        var inventoryContent = new ItemStack[] {null, mockItemStack, null, null};
+        lenient().when(mockPlayerInventory.getContents()).thenReturn(inventoryContent);
+        lenient().when(mockPlayerInventory.iterator())
+                .thenReturn(Arrays.asList(inventoryContent).listIterator());
+        lenient().when(mockItemStack.getItemMeta()).thenReturn(mockItemMeta);
+        lenient().when(mockItemMeta.getPersistentDataContainer())
+                .thenReturn(mockPersistentDataContainer);
+    }
 
-        @Test
-        void testOnLanguageChange_EventCancelled() {
-                when(mockEvent.isCancelled()).thenReturn(true);
+    @Test
+    void testOnLanguageChange_EventCancelled() {
+        when(mockEvent.isCancelled()).thenReturn(true);
 
-                listenerInstance.onLanguageChange(mockEvent);
+        listenerInstance.onLanguageChange(mockEvent);
 
-                verify(mockPlayerInventory, never()).getContents();
-        }
+        verify(mockPlayerInventory, never()).getContents();
+    }
 
-        @Test
-        void testOnLanguageChange_MetaNull() {
-                when(mockItemStack.getItemMeta()).thenReturn(null);
+    @Test
+    void testOnLanguageChange_MetaNull() {
+        when(mockItemStack.getItemMeta()).thenReturn(null);
 
-                listenerInstance.onLanguageChange(mockEvent);
+        listenerInstance.onLanguageChange(mockEvent);
 
-                verify(mockItemStack, never()).setItemMeta(any());
-        }
+        verify(mockItemStack, never()).setItemMeta(any());
+    }
 
-        @Test
-        void testOnLanguageChange_ValueKeyNotPresent() {
-                when(mockPersistentDataContainer.has(any(org.bukkit.NamespacedKey.class)))
-                                .thenReturn(false);
+    @Test
+    void testOnLanguageChange_ValueKeyNotPresent() {
+        when(mockPersistentDataContainer.has(any(org.bukkit.NamespacedKey.class)))
+                .thenReturn(false);
 
-                listenerInstance.onLanguageChange(mockEvent);
+        listenerInstance.onLanguageChange(mockEvent);
 
-                verify(mockItemStack, never()).setItemMeta(any());
-        }
+        verify(mockItemStack, never()).setItemMeta(any());
+    }
 
-        @Test
-        void testOnLanguageChange_ValueKeyPresent() {
-                when(mockPersistentDataContainer.has(any(org.bukkit.NamespacedKey.class)))
-                                .thenReturn(true);
-                when(mockPersistentDataContainer.get(any(org.bukkit.NamespacedKey.class),
-                                eq(PersistentDataType.DOUBLE)))
-                                                .thenReturn(100.0);
+    @Test
+    void testOnLanguageChange_ValueKeyPresent() {
+        when(mockPersistentDataContainer.has(any(org.bukkit.NamespacedKey.class)))
+                .thenReturn(true);
+        when(mockPersistentDataContainer.get(any(org.bukkit.NamespacedKey.class),
+                eq(PersistentDataType.DOUBLE)))
+                        .thenReturn(100.0);
 
-                listenerInstance.onLanguageChange(mockEvent);
+        listenerInstance.onLanguageChange(mockEvent);
 
-                verify(mockItemStack).setItemMeta(any());
-        }
+        verify(mockItemStack).setItemMeta(any());
+    }
 }
