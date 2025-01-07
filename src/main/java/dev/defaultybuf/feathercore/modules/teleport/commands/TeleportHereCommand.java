@@ -6,7 +6,7 @@
  *
  * @file TeleportHereCommand.java
  * @author Alexandru Delegeanu
- * @version 0.8
+ * @version 0.9
  * @description Teleport the target player to command sender player
  */
 
@@ -45,11 +45,6 @@ public class TeleportHereCommand extends FeatherCommand<TeleportHereCommand.Comm
 
     @Override
     protected void execute(final CommandSender sender, final CommandData data) {
-        if (!(sender instanceof Player)) {
-            getLanguage().message(sender, Message.General.PLAYERS_ONLY);
-            return;
-        }
-
         getInterface(ITeleport.class).teleport(data.who, (Player) sender);
 
         getLanguage().message(sender, Message.Teleport.HERE,
@@ -63,6 +58,11 @@ public class TeleportHereCommand extends FeatherCommand<TeleportHereCommand.Comm
             case 1: {
                 // /tphere [player]
                 final var parsedArgs = Args.parse(args, Args::getOnlinePlayer);
+
+                if (!(sender instanceof Player)) {
+                    getLanguage().message(sender, Message.General.PLAYERS_ONLY);
+                    return null;
+                }
 
                 if (parsedArgs.success()) {
                     who = parsedArgs.getPlayer(0);

@@ -6,7 +6,7 @@
  *
  * @file TeleportAcceptCommand.java
  * @author Alexandru Delegeanu
- * @version 0.8
+ * @version 0.9
  * @description Accept a teleport request
  */
 
@@ -47,7 +47,9 @@ public class TeleportAcceptCommand extends FeatherCommand<TeleportAcceptCommand.
 
     @Override
     protected void execute(final CommandSender sender, final CommandData data) {
-        switch (getInterface(ITeleport.class).acceptRequest(data.issuer, data.target)) {
+        final var requestStatus =
+                getInterface(ITeleport.class).acceptRequest(data.issuer, data.target);
+        switch (requestStatus) {
             case NO_SUCH_REQUEST: {
                 getLanguage().message(sender, Message.Teleport.NO_SUCH_REQUEST);
                 break;
@@ -70,9 +72,7 @@ public class TeleportAcceptCommand extends FeatherCommand<TeleportAcceptCommand.
             }
             default: {
                 assert false : "[modules.teleport.commands]@TeleportAcceptCommand.execute(CommandSender, CommandData): branch not handled for '"
-                        + getInterface(ITeleport.class)
-                                .acceptRequest(data.issuer, data.target).toString()
-                        + "'";
+                        + requestStatus.toString() + "'";
             }
         }
     }

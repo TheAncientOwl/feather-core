@@ -6,7 +6,7 @@
  *
  * @file TeleportHereRequestCommand.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @description Request teleport the target player to command sender player
  */
 
@@ -47,7 +47,9 @@ public class TeleportHereRequestCommand
 
     @Override
     protected void execute(final CommandSender sender, final CommandData data) {
-        switch (getInterface(ITeleport.class).request(data.issuer, data.target, RequestType.HERE)) {
+        final var requestStatus =
+                getInterface(ITeleport.class).request(data.issuer, data.target, RequestType.HERE);
+        switch (requestStatus) {
             case ALREADY_REQUESTED: {
                 getLanguage().message(data.issuer, Message.Teleport.REQUEST_HERE_EXECUTE_PENDING,
                         Pair.of(Placeholder.PLAYER, data.target.getName()));
@@ -61,8 +63,8 @@ public class TeleportHereRequestCommand
                 break;
             }
             default: {
-                throw new Error(
-                        "Logic error: TeleportHereRequestCommand.java::execute(CommandSender, CommandData). Please notify developer");
+                assert false : "[modules.teleport.commands]@TeleportHereRequestCommand.execute(CommandSender, CommandData): branch not handled for '"
+                        + requestStatus.toString() + "'";
             }
         }
     }

@@ -6,7 +6,7 @@
  *
  * @file TeleportLastPositionCommand.java
  * @author Alexandru Delegeanu
- * @version 0.9
+ * @version 0.10
  * @description Teleport to the last known location of the player
  */
 
@@ -36,15 +36,14 @@ public class TeleportLastLocationCommand
         super(data);
     }
 
-    public static record CommandData(Player who, LocationModel destination) {
+    public static record CommandData(Player who, LocationModel destination, boolean selfTeleport) {
     }
 
     @Override
     protected boolean hasPermission(final CommandSender sender, final CommandData data) {
-        final boolean selfTeleport = (sender instanceof Player && data.who.equals((Player) sender));
-
         if (!sender.hasPermission("feathercore.teleport.lastknown") ||
-                (!selfTeleport && !sender.hasPermission("feathercore.teleport.lastknown.other"))) {
+                (!data.selfTeleport
+                        && !sender.hasPermission("feathercore.teleport.lastknown.other"))) {
             getLanguage().message(sender, Message.General.NO_PERMISSION);
             return false;
         }
@@ -53,8 +52,6 @@ public class TeleportLastLocationCommand
 
     @Override
     protected void execute(final CommandSender sender, final CommandData data) {
-        final boolean selfTeleport = (sender instanceof Player && data.who.equals((Player) sender));
-
         final var world = Bukkit.getWorld(data.destination.world);
         if (world == null) {
             getLanguage().message(sender, Message.General.WORLD_NO_LONGER_AVAILABLE,
@@ -62,9 +59,8 @@ public class TeleportLastLocationCommand
             return;
         }
 
-        getInterface(ITeleport.class).teleport(data.who, data.destination.x, data.destination.y,
-                data.destination.z,
-                world);
+        getInterface(ITeleport.class).teleport(data.who,
+                data.destination.x, data.destination.y, data.destination.z, world);
 
         getLanguage().message(data.who, Message.Teleport.POSITION, List.of(
                 Pair.of(Placeholder.X, (int) data.destination.x),
@@ -72,7 +68,7 @@ public class TeleportLastLocationCommand
                 Pair.of(Placeholder.Z, (int) data.destination.z),
                 Pair.of(Placeholder.WORLD, data.destination.world)));
 
-        if (!selfTeleport) {
+        if (!data.selfTeleport) {
             getLanguage().message(sender, Message.Teleport.POSITION_OTHER, List.of(
                     Pair.of(Placeholder.PLAYER, data.who.getName()),
                     Pair.of(Placeholder.X, (int) data.destination.x),
@@ -83,8 +79,9 @@ public class TeleportLastLocationCommand
     }
 
     protected CommandData parse(final CommandSender sender, final String[] args) {
-        PlayerModel destination = null;
+        PlayerModel destinationPlayerModel = null;
         Player who = null;
+        boolean selfTeleport = false;
 
         switch (args.length) {
             case 1: {
@@ -96,8 +93,9 @@ public class TeleportLastLocationCommand
                         getLanguage().message(sender, Message.General.PLAYERS_ONLY);
                         return null;
                     } else {
+                        selfTeleport = true;
                         who = (Player) sender;
-                        destination = getInterface(IPlayersData.class)
+                        destinationPlayerModel = getInterface(IPlayersData.class)
                                 .getPlayerModel(parsedArgs.getOfflinePlayer(0));
                     }
                 } else {
@@ -113,12 +111,10 @@ public class TeleportLastLocationCommand
                         Args.parse(args, Args::getOfflinePlayer, Args::getOnlinePlayer);
 
                 if (parsedArgs.success()) {
-                    destination = getInterface(IPlayersData.class)
-                            .getPlayerModel(parsedArgs.getOfflinePlayer(0));
+                    selfTeleport = false;
                     who = parsedArgs.getPlayer(1);
-                    if (who == null) {
-                        return null;
-                    }
+                    destinationPlayerModel = getInterface(IPlayersData.class)
+                            .getPlayerModel(parsedArgs.getOfflinePlayer(0));
                 } else {
                     switch (parsedArgs.failIndex()) {
                         case 0: {
@@ -143,13 +139,13 @@ public class TeleportLastLocationCommand
             }
         }
 
-        if (destination == null) {
+        if (destinationPlayerModel == null) {
             getLanguage().message(sender, Message.General.NOT_VALID_PLAYER,
                     Pair.of(Placeholder.STRING, args[0]));
             return null;
         }
 
-        return new CommandData(who, destination.lastKnownLocation);
+        return new CommandData(who, destinationPlayerModel.lastKnownLocation, selfTeleport);
     }
 
     @Override

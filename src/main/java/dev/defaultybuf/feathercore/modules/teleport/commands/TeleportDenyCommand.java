@@ -6,7 +6,7 @@
  *
  * @file TeleportDenyCommand.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @description Deny a teleport request
  */
 
@@ -45,7 +45,9 @@ public class TeleportDenyCommand extends FeatherCommand<TeleportDenyCommand.Comm
 
     @Override
     protected void execute(final CommandSender sender, final CommandData data) {
-        switch (getInterface(ITeleport.class).cancelRequest(data.issuer, data.target)) {
+        final var requestStatus =
+                getInterface(ITeleport.class).cancelRequest(data.issuer, data.target);
+        switch (requestStatus) {
             case NO_SUCH_REQUEST: {
                 getLanguage().message(sender, Message.Teleport.NO_SUCH_REQUEST);
                 break;
@@ -58,8 +60,8 @@ public class TeleportDenyCommand extends FeatherCommand<TeleportDenyCommand.Comm
                 break;
             }
             default: {
-                throw new Error(
-                        "Logic error: TeleportDenyCommand.java::execute(CommandSender, CommandData). Please notify developer");
+                assert false : "[modules.teleport.commands]@TeleportDenyCommand.execute(CommandSender, CommandData): branch not handled for '"
+                        + requestStatus.toString() + "'";
             }
         }
     }
