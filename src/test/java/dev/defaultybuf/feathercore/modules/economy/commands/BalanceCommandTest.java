@@ -6,7 +6,7 @@
  *
  * @file BalanceCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.9
+ * @version 0.10
  * @test_unit BalanceCommand#0.8
  * @description Unit tests for BalanceCommand
  */
@@ -37,7 +37,6 @@ import org.mockito.Mock;
 import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.Resource;
-import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
 import dev.defaultybuf.feathercore.modules.common.mockers.FeatherCommandTest;
 import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feathercore.modules.common.utils.TempModule;
@@ -83,7 +82,7 @@ class BalanceCommandTest extends FeatherCommandTest<BalanceCommand> {
                     @Resource(path = "en.yml", content = EN_LANGUAGE_FILE_CONTENT),
             }) TempModule<LanguageManager> actualLanguage;
 
-    @TestField PlayerModel playerModel;
+    PlayerModel playerModel;
 
     @Override
     protected Class<BalanceCommand> getCommandClass() {

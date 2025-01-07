@@ -6,7 +6,7 @@
  *
  * @file RandomTeleportCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @test_unit RandomTeleportCommand#0.11
  * @description Unit tests for RandomTeleportCommand
  */
@@ -53,7 +53,7 @@ import dev.defaultybuf.feathercore.api.common.util.Clock;
 import dev.defaultybuf.feathercore.api.common.util.StringUtils;
 import dev.defaultybuf.feathercore.api.configuration.IConfigSection;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
-import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
+import dev.defaultybuf.feathercore.modules.common.annotations.StaticMock;
 import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feathercore.modules.common.mockers.FeatherCommandTest;
 import dev.defaultybuf.feathercore.modules.common.utils.Argumentable;
@@ -74,13 +74,14 @@ class RandomTeleportCommandTest extends FeatherCommandTest<RandomTeleportCommand
 
         @Mock CommandSender mockSender;
 
+        @StaticMock(of = Bukkit.class) MockedStatic<Bukkit> mockedBukkit;
+        @StaticMock(of = Clock.class) MockedStatic<Clock> mockedClock;
+        @StaticMock(of = WorldUtils.class) MockedStatic<WorldUtils> mockedWorldUtils;
+
         @MockedModule(of = Module.Teleport) ITeleport mockTeleport;
 
-        @TestField UUID mockIssuerUUID;
-        @TestField UUID mockTargetUUID;
-        @TestField MockedStatic<Bukkit> mockedBukkit;
-        @TestField MockedStatic<Clock> mockedClock;
-        @TestField MockedStatic<WorldUtils> mockedWorldUtils;
+        UUID mockIssuerUUID;
+        UUID mockTargetUUID;
 
         @Override
         protected Class<RandomTeleportCommand> getCommandClass() {
@@ -120,21 +121,10 @@ class RandomTeleportCommandTest extends FeatherCommandTest<RandomTeleportCommand
 
                 lenient().when(mockRandomLocation.getWorld()).thenReturn(mockWorld);
 
-                mockedBukkit = mockStatic(Bukkit.class);
-                mockedClock = mockStatic(Clock.class);
-                mockedWorldUtils = mockStatic(WorldUtils.class);
-
                 mockedBukkit.when(() -> Bukkit.getPlayerExact(mockIssuerPlayer.getName()))
                                 .thenReturn(mockIssuerPlayer);
                 mockedBukkit.when(() -> Bukkit.getPlayerExact(mockTargetPlayer.getName()))
                                 .thenReturn(mockTargetPlayer);
-        }
-
-        @Override
-        protected void tearDown() {
-                mockedBukkit.close();
-                mockedClock.close();
-                mockedWorldUtils.close();
         }
 
         public static class HasPermissionTestCase extends Argumentable {

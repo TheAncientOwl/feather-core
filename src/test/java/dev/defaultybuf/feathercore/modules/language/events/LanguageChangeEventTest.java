@@ -6,7 +6,7 @@
  *
  * @file LanguageChangeEventTest.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @test_unit LanguageChangeEvent#0.3
  * @description Unit tests for LanguageChangeEvent
  */
@@ -30,14 +30,13 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import dev.defaultybuf.feathercore.api.configuration.IConfigFile;
-import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
 
 @ExtendWith(MockitoExtension.class)
 class LanguageChangeEventTest {
     @Mock Player mockPlayer = null;
     @Mock IConfigFile mockTranslation = null;
 
-    @TestField LanguageChangeEvent event = null;
+    LanguageChangeEvent event = null;
 
     @BeforeEach
     void setUp() {

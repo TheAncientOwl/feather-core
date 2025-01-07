@@ -4,7 +4,7 @@
  * ------------------------------------------------------------------------- *
  * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
  *
- * @file DependencyAccessorTest.java
+ * @file FeatherUnitTest.java
  * @author Alexandru Delegeanu
  * @version 0.14
  * @description Utility class for developing unit tests that use modules
@@ -14,6 +14,7 @@ package dev.defaultybuf.feathercore.modules.common.mockers;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.mockStatic;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -33,12 +34,13 @@ import dev.defaultybuf.feathercore.core.interfaces.IEnabledModulesProvider;
 import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.Resource;
+import dev.defaultybuf.feathercore.modules.common.annotations.StaticMock;
 import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feathercore.modules.common.utils.TestUtils;
 import dev.defaultybuf.feathercore.modules.language.interfaces.ILanguage;
 
 @ExtendWith(MockitoExtension.class)
-public abstract class DependencyAccessorTest {
+public abstract class FeatherUnitTest {
     protected static Map<Class<?>, Object> dependenciesMap;
     @Mock static protected JavaPlugin mockJavaPlugin;
 
@@ -64,6 +66,7 @@ public abstract class DependencyAccessorTest {
     void setUpDependencyAccessorTest() {
         lenientCommons();
         initDependencies();
+        setUpAnnotations();
         setUp();
     }
 
@@ -75,7 +78,8 @@ public abstract class DependencyAccessorTest {
 
     void closeResources() {
         for (Field field : this.getClass().getDeclaredFields()) {
-            if (field.isAnnotationPresent(ActualModule.class)) {
+            if (field.isAnnotationPresent(ActualModule.class)
+                    || field.isAnnotationPresent(StaticMock.class)) {
                 field.setAccessible(true);
                 try {
                     Object fieldValue = field.get(this);
@@ -103,16 +107,16 @@ public abstract class DependencyAccessorTest {
         dependenciesMap.put(IEnabledModulesProvider.class, mockEnabledModulesProvider);
 
         mockLanguage = DependencyInjector.Language.Mock();
-
-        injectModules();
     }
 
-    void injectModules() {
+    void setUpAnnotations() {
         for (Field field : this.getClass().getDeclaredFields()) {
             if (field.isAnnotationPresent(MockedModule.class)) {
                 injectMockedModule(field);
             } else if (field.isAnnotationPresent(ActualModule.class)) {
                 injectActualModule(field);
+            } else if (field.isAnnotationPresent(StaticMock.class)) {
+                createStaticMock(field);
             }
         }
     }
@@ -135,6 +139,15 @@ public abstract class DependencyAccessorTest {
 
             field.set(this,
                     DependencyInjector.getInjector(annotation.of()).Actual(resources));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    void createStaticMock(final Field field) {
+        field.setAccessible(true);
+        try {
+            field.set(this, mockStatic(field.getAnnotation(StaticMock.class).of()));
         } catch (Exception e) {
             e.printStackTrace();
         }

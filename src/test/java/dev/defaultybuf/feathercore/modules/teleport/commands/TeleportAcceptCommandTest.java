@@ -6,7 +6,7 @@
  *
  * @file TeleportAcceptCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit TeleportAcceptCommand#0.8
  * @description Unit tests for TeleportAcceptCommand
  */
@@ -46,7 +46,7 @@ import org.mockito.MockedStatic;
 import dev.defaultybuf.feathercore.api.common.language.Message;
 import dev.defaultybuf.feathercore.api.common.util.StringUtils;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
-import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
+import dev.defaultybuf.feathercore.modules.common.annotations.StaticMock;
 import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feathercore.modules.common.mockers.FeatherCommandTest;
 import dev.defaultybuf.feathercore.modules.teleport.components.Teleport;
@@ -59,9 +59,9 @@ class TeleportAcceptCommandTest extends FeatherCommandTest<TeleportAcceptCommand
         @Mock Player mockPlayer2;
         @Mock CommandSender mockCommandSender;
 
-        @MockedModule(of = Module.Teleport) ITeleport mockTeleport;
+        @StaticMock(of = Bukkit.class) MockedStatic<Bukkit> mockedBukkit;
 
-        @TestField MockedStatic<Bukkit> mockedBukkit;
+        @MockedModule(of = Module.Teleport) ITeleport mockTeleport;
 
         @Override
         protected Class<TeleportAcceptCommand> getCommandClass() {
@@ -73,17 +73,10 @@ class TeleportAcceptCommandTest extends FeatherCommandTest<TeleportAcceptCommand
                 lenient().when(mockPlayer1.getName()).thenReturn("player1");
                 lenient().when(mockPlayer2.getName()).thenReturn("player2");
 
-                mockedBukkit = mockStatic(Bukkit.class);
-
                 mockedBukkit.when(() -> Bukkit.getPlayerExact(mockPlayer1.getName()))
                                 .thenReturn(mockPlayer1);
                 mockedBukkit.when(() -> Bukkit.getPlayerExact(mockPlayer2.getName()))
                                 .thenReturn(mockPlayer2);
-        }
-
-        @Override
-        protected void tearDown() {
-                mockedBukkit.close();
         }
 
         @Test

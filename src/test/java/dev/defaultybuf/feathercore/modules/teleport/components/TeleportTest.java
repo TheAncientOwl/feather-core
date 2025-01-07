@@ -6,7 +6,7 @@
  *
  * @file TeleportTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit Teleport#0.8
  * @description Unit tests for Teleport
  */
@@ -43,7 +43,6 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import dev.defaultybuf.feathercore.api.common.util.Clock;
-import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
 import dev.defaultybuf.feathercore.modules.common.mockers.FeatherModuleTest;
 import dev.defaultybuf.feathercore.modules.teleport.components.Teleport.RequestStatus;
 import dev.defaultybuf.feathercore.modules.teleport.components.Teleport.RequestType;
@@ -57,10 +56,10 @@ class TeleportTest extends FeatherModuleTest<Teleport> {
     @Mock BukkitTask mockTask;
     @Mock BukkitScheduler mockScheduler;
 
-    @TestField UUID issuerUUID;
-    @TestField UUID targetUUID;
+    UUID issuerUUID;
+    UUID targetUUID;
 
-    @TestField Location location;
+    Location location;
 
     @Override
     protected Class<Teleport> getModuleClass() {

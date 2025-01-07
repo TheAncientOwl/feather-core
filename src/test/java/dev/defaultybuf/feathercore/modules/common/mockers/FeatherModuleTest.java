@@ -20,7 +20,7 @@ import dev.defaultybuf.feathercore.api.configuration.IConfigFile;
 import dev.defaultybuf.feathercore.api.core.FeatherModule;
 
 public abstract class FeatherModuleTest<ModuleType extends FeatherModule>
-        extends DependencyAccessorTest {
+        extends FeatherUnitTest {
     @Mock protected IConfigFile mockModuleConfig;
     protected ModuleType moduleInstance;
 

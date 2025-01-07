@@ -19,7 +19,7 @@ import org.junit.jupiter.api.BeforeEach;
 import dev.defaultybuf.feathercore.api.core.FeatherCommand;
 
 public abstract class FeatherCommandTest<CommandType extends FeatherCommand<?>>
-        extends DependencyAccessorTest {
+        extends FeatherUnitTest {
     protected CommandType commandInstance;
 
     @BeforeEach

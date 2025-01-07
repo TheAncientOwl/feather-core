@@ -6,7 +6,7 @@
  *
  * @file MoveCancelTpListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @test_unit MoveCancelTpListener#0.5
  * @description Unit tests for MoveCancelTpListener
  */
@@ -28,7 +28,6 @@ import org.mockito.Mock;
 import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.Resource;
-import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
 import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feathercore.modules.common.mockers.FeatherListenerTest;
 import dev.defaultybuf.feathercore.modules.common.utils.TempModule;
@@ -62,7 +61,7 @@ class MoveCancelTpListenerTest extends FeatherListenerTest<MoveCancelTpListener>
                     @Resource(path = "en.yml", content = EN_LANGUAGE_FILE_CONTENT)
             }) TempModule<LanguageManager> actualLanguage;
 
-    @TestField PlayerModel playerModel;
+    PlayerModel playerModel;
 
     @Override
     protected Class<MoveCancelTpListener> getListenerClass() {

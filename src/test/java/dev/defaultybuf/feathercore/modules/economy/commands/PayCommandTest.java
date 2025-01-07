@@ -6,7 +6,7 @@
  *
  * @file PayCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @test_unit PayCommand#0.10
  * @description Unit tests for PayCommand
  */
@@ -46,7 +46,6 @@ import dev.defaultybuf.feathercore.api.common.util.StringUtils;
 import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.Resource;
-import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
 import dev.defaultybuf.feathercore.modules.common.mockers.FeatherCommandTest;
 import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feathercore.modules.common.utils.TempModule;
@@ -103,7 +102,7 @@ class PayCommandTest extends FeatherCommandTest<PayCommand> {
                     @Resource(path = "en.yml", content = EN_LANGUAGE_FILE_CONTENT)
             }) TempModule<LanguageManager> actualLanguage;
 
-    @TestField PlayerModel playerModel;
+    PlayerModel playerModel;
 
     @Override
     protected Class<PayCommand> getCommandClass() {

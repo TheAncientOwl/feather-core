@@ -146,7 +146,7 @@ public final class DependencyInjector {
                         lenient().when(mockModule.getModuleName()).thenReturn(name);
                         lenient().when(mockModule.getConfig()).thenReturn(mockConfig);
 
-                        DependencyAccessorTest.getDependenciesMap().put(interfaceClass, mockModule);
+                        FeatherUnitTest.getDependenciesMap().put(interfaceClass, mockModule);
 
                         return mockModule;
                 }
@@ -154,8 +154,8 @@ public final class DependencyInjector {
                 public TempModule<T> Actual(final Resource[] resources) {
                         T moduleOut = null;
 
-                        var plugin = DependencyAccessorTest.getJavaPluginMock();
-                        var dependencies = DependencyAccessorTest.getDependenciesMap();
+                        var plugin = FeatherUnitTest.getJavaPluginMock();
+                        var dependencies = FeatherUnitTest.getDependenciesMap();
 
                         lenient().when(plugin.getDataFolder())
                                         .thenReturn(TestUtils.getTestDataFolder());

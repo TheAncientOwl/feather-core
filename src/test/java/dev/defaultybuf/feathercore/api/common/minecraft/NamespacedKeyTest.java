@@ -6,7 +6,7 @@
  *
  * @file NamespacedKeyTest.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @test_unit NamespacedKey#0.2
  * @description Unit tests for NamespacedKey
  */
@@ -32,8 +32,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
-
 @ExtendWith(MockitoExtension.class)
 class NamespacedKeyTest {
     @Mock JavaPlugin mockPlugin;
@@ -41,7 +39,7 @@ class NamespacedKeyTest {
     @Mock PersistentDataContainer mockDataContainer;
     @Mock PersistentDataType<String, Integer> mockDataType;
 
-    @TestField NamespacedKey namespacedKey;
+    NamespacedKey namespacedKey;
 
     @BeforeEach
     void setUp() {

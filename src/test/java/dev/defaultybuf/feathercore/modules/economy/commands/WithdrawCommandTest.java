@@ -6,7 +6,7 @@
  *
  * @file PayCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @test_unit PayCommand#0.10
  * @description Unit tests for PayCommand
  */
@@ -42,7 +42,6 @@ import org.mockito.Mock;
 import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.Resource;
-import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
 import dev.defaultybuf.feathercore.modules.common.mockers.FeatherCommandTest;
 import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feathercore.modules.common.utils.TempModule;
@@ -97,8 +96,8 @@ class WithdrawCommandTest extends FeatherCommandTest<WithdrawCommand> {
                     @Resource(path = "en.yml", content = EN_LANGUAGE_FILE_CONTENT)
             }) TempModule<LanguageManager> actualLanguage;
 
-    @TestField ItemStack[] mocksInventoryItems;
-    @TestField PlayerModel playerModel;
+    ItemStack[] mocksInventoryItems;
+    PlayerModel playerModel;
 
     @Override
     protected Class<WithdrawCommand> getCommandClass() {

@@ -6,7 +6,7 @@
  *
  * @file LanguageCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.14
+ * @version 0.15
  * @test_unit LanguageCommand#0.9
  * @description Unit tests for LanguageCommand
  */
@@ -50,7 +50,6 @@ import dev.defaultybuf.feathercore.api.common.minecraft.Placeholder;
 import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.Resource;
-import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
 import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feathercore.modules.common.mockers.FeatherCommandTest;
 import dev.defaultybuf.feathercore.modules.common.utils.TempModule;
@@ -97,8 +96,8 @@ class LanguageCommandTest extends FeatherCommandTest<LanguageCommand> {
                     @Resource(path = "de.yml", content = DE_LANGUAGE_FILE_CONTENT),
             }) TempModule<LanguageManager> actualLanguage;
 
-    @TestField PlayerModel playerModel;
-    @TestField ArgumentCaptor<String> messageCaptor;
+    PlayerModel playerModel;
+    ArgumentCaptor<String> messageCaptor;
 
     @Override
     protected Class<LanguageCommand> getCommandClass() {

@@ -6,7 +6,7 @@
  *
  * @file FeatherLoggerTest.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @test_unit FeatherLogger#0.3
  * @description Unit tests for FeatherLogger
  */
@@ -24,14 +24,12 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
-
 @ExtendWith(MockitoExtension.class)
 class FeatherLoggerTest {
     @Mock ConsoleCommandSender mockConsole;
 
-    @TestField FeatherLogger featherLogger;
-    @TestField ArgumentCaptor<String> messageCaptor;
+    FeatherLogger featherLogger;
+    ArgumentCaptor<String> messageCaptor;
 
     @BeforeEach
     void setUp() {

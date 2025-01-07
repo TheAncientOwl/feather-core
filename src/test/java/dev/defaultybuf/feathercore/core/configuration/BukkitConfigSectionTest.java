@@ -6,7 +6,7 @@
  *
  * @file BukkitConfigSectionTest.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @test_unit BukkitConfigSection#0.3
  * @description Unit tests for BukkitConfigSection
  */
@@ -38,13 +38,12 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import dev.defaultybuf.feathercore.api.common.minecraft.InventoryConfig;
 import dev.defaultybuf.feathercore.api.common.util.TimeUtils;
 import dev.defaultybuf.feathercore.core.configuration.bukkit.BukkitConfigSection;
-import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
 
 @ExtendWith(MockitoExtension.class)
 class BukkitConfigSectionTest {
     @Mock ConfigurationSection mockConfigSection;
 
-    @TestField BukkitConfigSection bukkitConfigSection;
+    BukkitConfigSection bukkitConfigSection;
 
     @BeforeEach
     void setUp() {

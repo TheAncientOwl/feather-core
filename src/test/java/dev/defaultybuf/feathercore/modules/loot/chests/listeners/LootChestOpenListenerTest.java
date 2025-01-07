@@ -6,7 +6,7 @@
  *
  * @file LootChestOpenListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @test_unit LootChestOpenListener#0.8
  * @description Unit tests for LootChestOpenListener
  */
@@ -34,7 +34,6 @@ import dev.defaultybuf.feathercore.api.common.util.Clock;
 import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.Resource;
-import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
 import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feathercore.modules.common.mockers.FeatherListenerTest;
 import dev.defaultybuf.feathercore.modules.common.utils.TempModule;
@@ -83,7 +82,7 @@ class LootChestOpenListenerTest extends FeatherListenerTest<LootChestOpenListene
                     @Resource(path = "en.yml", content = EN_LANGUAGE_FILE_CONTENT)
             }) TempModule<LanguageManager> actualLanguage;
 
-    @TestField PlayerModel playerModel;
+    PlayerModel playerModel;
 
     @Override
     protected Class<LootChestOpenListener> getListenerClass() {

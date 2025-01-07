@@ -6,7 +6,7 @@
  *
  * @file LanguageManagerTest.java
  * @author Alexandru Delegeanu
- * @version 0.10
+ * @version 0.11
  * @test_unit LanguageManager#0.8
  * @description Unit tests for LanguageManager
  */
@@ -36,7 +36,6 @@ import org.mockito.Mock;
 
 import dev.defaultybuf.feathercore.api.common.java.Pair;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
-import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
 import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector;
 import dev.defaultybuf.feathercore.modules.common.mockers.FeatherModuleTest;
 import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
@@ -66,7 +65,7 @@ public class LanguageManagerTest extends FeatherModuleTest<LanguageManager> {
 
     @MockedModule(of = Module.PlayersData) PlayersData mockPlayersData;
 
-    @TestField PlayerModel playerModel;
+    PlayerModel playerModel;
 
     @Override
     protected Class<LanguageManager> getModuleClass() {

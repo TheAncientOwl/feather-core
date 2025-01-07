@@ -6,7 +6,7 @@
  *
  * @file TeleportCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit TeleportCommand#0.9
  * @description Unit tests for TeleportCommand
  */
@@ -45,7 +45,7 @@ import org.mockito.MockedStatic;
 import dev.defaultybuf.feathercore.api.common.language.Message;
 import dev.defaultybuf.feathercore.api.common.util.StringUtils;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
-import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
+import dev.defaultybuf.feathercore.modules.common.annotations.StaticMock;
 import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feathercore.modules.common.mockers.FeatherCommandTest;
 import dev.defaultybuf.feathercore.modules.teleport.interfaces.ITeleport;
@@ -56,9 +56,9 @@ class TeleportCommandTest extends FeatherCommandTest<TeleportCommand> {
         @Mock Player mockPlayer3;
         @Mock CommandSender mockSender;
 
-        @MockedModule(of = Module.Teleport) ITeleport mockTeleport;
+        @StaticMock(of = Bukkit.class) MockedStatic<Bukkit> mockedBukkit;
 
-        @TestField MockedStatic<Bukkit> mockedBukkit;
+        @MockedModule(of = Module.Teleport) ITeleport mockTeleport;
 
         @Override
         protected Class<TeleportCommand> getCommandClass() {
@@ -71,12 +71,6 @@ class TeleportCommandTest extends FeatherCommandTest<TeleportCommand> {
                 lenient().when(mockPlayer2.getName()).thenReturn("player2");
                 lenient().when(mockPlayer3.getName()).thenReturn("player3");
 
-                mockedBukkit = mockStatic(Bukkit.class);
-        }
-
-        @Override
-        protected void tearDown() {
-                mockedBukkit.close();
         }
 
         @ParameterizedTest

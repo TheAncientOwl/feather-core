@@ -6,7 +6,7 @@
  *
  * @file ArgsTest.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @test_unit Args#0.7
  * @description Unit tests for Args
  */
@@ -31,10 +31,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockedStatic;
 
-import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
-
 class ArgsTest {
-    @TestField MockedStatic<Bukkit> mockedBukkit = null;
+    MockedStatic<Bukkit> mockedBukkit = null;
 
     @BeforeEach
     void setUpMocks() {

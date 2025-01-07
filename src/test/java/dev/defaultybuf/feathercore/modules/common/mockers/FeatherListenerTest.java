@@ -18,7 +18,7 @@ import org.junit.jupiter.api.BeforeEach;
 import dev.defaultybuf.feathercore.api.core.FeatherListener;
 
 public abstract class FeatherListenerTest<ListenerType extends FeatherListener>
-        extends DependencyAccessorTest {
+        extends FeatherUnitTest {
     protected ListenerType listenerInstance;
 
     @BeforeEach

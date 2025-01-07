@@ -6,7 +6,7 @@
  *
  * @file LootChestsCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @test_unit LootChestsCommand#0.9
  * @description Unit tests for LootChestsCommand
  */
@@ -49,7 +49,6 @@ import dev.defaultybuf.feathercore.api.configuration.IConfigSection;
 import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.Resource;
-import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
 import dev.defaultybuf.feathercore.modules.common.mockers.FeatherCommandTest;
 import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feathercore.modules.common.utils.TempModule;
@@ -99,7 +98,7 @@ class LootChestsCommandTest extends FeatherCommandTest<LootChestsCommand> {
             @Resource(path = "en.yml", content = EN_LANGUAGE_FILE_CONTENT)
     }) TempModule<LanguageManager> actualLanguage;
 
-    @TestField PlayerModel playerModel;
+    PlayerModel playerModel;
 
     @Override
     protected Class<LootChestsCommand> getCommandClass() {

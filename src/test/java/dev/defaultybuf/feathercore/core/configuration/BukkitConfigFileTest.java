@@ -6,7 +6,7 @@
  *
  * @file BukkitConfigFileTest.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @test_unit BukkitConfigFile#0.3
  * @description Unit tests for BukkitConfigFile
  */
@@ -45,7 +45,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import dev.defaultybuf.feathercore.api.common.minecraft.InventoryConfig;
 import dev.defaultybuf.feathercore.api.common.util.TimeUtils;
 import dev.defaultybuf.feathercore.core.configuration.bukkit.BukkitConfigFile;
-import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
 import dev.defaultybuf.feathercore.modules.common.utils.TempFile;
 import dev.defaultybuf.feathercore.modules.common.utils.TestUtils;
 
@@ -54,8 +53,8 @@ class BukkitConfigFileTest {
     @Mock JavaPlugin mockPlugin;
     @Mock YamlConfiguration mockFileConfiguration;
 
-    @TestField BukkitConfigFile bukkitConfigFile;
-    @TestField TempFile testYml;
+    BukkitConfigFile bukkitConfigFile;
+    TempFile testYml;
 
     @BeforeEach
     void setUp() throws IOException {

@@ -6,7 +6,7 @@
  *
  * @file DependencyAccessorTest.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @test_unit DependencyAccessor#0.2
  * @description Unit tests for DependencyAccessor
  */
@@ -32,7 +32,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import dev.defaultybuf.feathercore.core.interfaces.IEnabledModulesProvider;
-import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
 import dev.defaultybuf.feathercore.modules.language.interfaces.ILanguage;
 
 @ExtendWith(MockitoExtension.class)
@@ -42,8 +41,8 @@ class DependencyAccessorTest {
     @Mock IFeatherLogger mockLogger;
     @Mock IEnabledModulesProvider mockModulesProvider;
 
-    @TestField DependencyAccessor dependencyAccessor;
-    @TestField Map<Class<?>, Object> dependencyMap;
+    DependencyAccessor dependencyAccessor;
+    Map<Class<?>, Object> dependencyMap;
 
     @BeforeEach
     void setUp() {

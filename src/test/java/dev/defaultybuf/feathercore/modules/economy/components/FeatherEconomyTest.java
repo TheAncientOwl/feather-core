@@ -6,7 +6,7 @@
  *
  * @file FeatherEconomyTest.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @test_unit FeatherEconomy#0.2
  * @description Unit tests for FeatherEconomy
  */
@@ -27,7 +27,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import dev.defaultybuf.feathercore.api.configuration.IConfigFile;
-import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
@@ -40,7 +39,7 @@ class FeatherEconomyTest {
     @Mock IPlayersData mockPlayersData;
     @Mock OfflinePlayer mockPlayer;
 
-    @TestField FeatherEconomy featherEconomy;
+    FeatherEconomy featherEconomy;
 
     @BeforeEach
     void setUp() {

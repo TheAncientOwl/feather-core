@@ -6,7 +6,7 @@
  *
  * @file PlayerDamageListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @test_unit PlayerDamageListener#0.4
  * @description Unit tests for PlayerDamageListener
  */
@@ -31,7 +31,6 @@ import org.mockito.Mock;
 import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
 import dev.defaultybuf.feathercore.modules.common.annotations.Resource;
-import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
 import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feathercore.modules.common.mockers.FeatherListenerTest;
 import dev.defaultybuf.feathercore.modules.common.utils.TempModule;
@@ -71,7 +70,7 @@ class PlayerDamageListenerTest extends FeatherListenerTest<PlayerDamageListener>
                     @Resource(path = "en.yml", content = EN_LANGUAGE_FILE_CONTENT)
             }) TempModule<LanguageManager> actualLanguage;
 
-    @TestField PlayerModel playerModel;
+    PlayerModel playerModel;
 
     @Override
     protected Class<PlayerDamageListener> getListenerClass() {

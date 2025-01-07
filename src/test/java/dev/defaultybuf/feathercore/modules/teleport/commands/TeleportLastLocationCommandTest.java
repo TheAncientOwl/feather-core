@@ -6,7 +6,7 @@
  *
  * @file TeleportLastLocationCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit TeleportLastLocationCommand#0.10
  * @description Unit tests for TeleportLastLocationCommand
  */
@@ -49,7 +49,7 @@ import org.mockito.MockedStatic;
 import dev.defaultybuf.feathercore.api.common.language.Message;
 import dev.defaultybuf.feathercore.api.common.util.StringUtils;
 import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
-import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
+import dev.defaultybuf.feathercore.modules.common.annotations.StaticMock;
 import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feathercore.modules.common.mockers.FeatherCommandTest;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.LocationModel;
@@ -65,11 +65,12 @@ class TeleportLastLocationCommandTest extends FeatherCommandTest<TeleportLastLoc
         @Mock OfflinePlayer mockOfflinePlayer;
         @Mock CommandSender mockCommandSender;
 
+        @StaticMock(of = Bukkit.class) MockedStatic<Bukkit> mockedBukkit;
+
         @MockedModule(of = Module.Teleport) ITeleport mockTeleport;
         @MockedModule(of = Module.PlayersData) IPlayersData mockPlayersData;
 
-        @TestField PlayerModel playerModel;
-        @TestField MockedStatic<Bukkit> mockedBukkit;
+        PlayerModel playerModel;
 
         @Override
         protected Class<TeleportLastLocationCommand> getCommandClass() {
@@ -92,13 +93,6 @@ class TeleportLastLocationCommandTest extends FeatherCommandTest<TeleportLastLoc
                 playerModel.lastKnownLocation = new LocationModel(mockLocation);
                 lenient().when(mockPlayersData.getPlayerModel(mockOfflinePlayer))
                                 .thenReturn(playerModel);
-
-                mockedBukkit = mockStatic(Bukkit.class);
-        }
-
-        @Override
-        protected void tearDown() {
-                mockedBukkit.close();
         }
 
         @ParameterizedTest

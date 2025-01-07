@@ -6,7 +6,7 @@
  *
  * @file BroadcastTest.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @test_unit Broadcast#0.4
  * @description Unit tests for Broadcast
  */
@@ -35,7 +35,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import dev.defaultybuf.feathercore.api.common.java.Pair;
 import dev.defaultybuf.feathercore.api.common.util.StringUtils;
 import dev.defaultybuf.feathercore.api.configuration.IPropertyAccessor;
-import dev.defaultybuf.feathercore.modules.common.annotations.TestField;
 
 @ExtendWith(MockitoExtension.class)
 class BroadcastTest {
@@ -43,7 +42,7 @@ class BroadcastTest {
     @Mock Player mockPlayer1 = null;
     @Mock Player mockPlayer2 = null;
 
-    @TestField MockedStatic<Bukkit> mockedBukkit = null;
+    MockedStatic<Bukkit> mockedBukkit;
 
     @BeforeEach
     void setUp() {
