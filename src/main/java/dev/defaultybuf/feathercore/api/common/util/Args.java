@@ -6,7 +6,7 @@
  *
  * @file Args.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @description Utility for parsing objects from command string args
  */
 
@@ -118,7 +118,8 @@ public class Args {
     }
 
     public static OfflinePlayer getOfflinePlayer(final String name) {
-        return Bukkit.getOfflinePlayer(name);
+        var player = Bukkit.getOfflinePlayer(name);
+        return player.hasPlayedBefore() ? player : null;
     }
 
     public static World getWorld(final String name) {

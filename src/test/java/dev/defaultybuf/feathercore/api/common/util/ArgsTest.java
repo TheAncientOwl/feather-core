@@ -6,8 +6,8 @@
  *
  * @file ArgsTest.java
  * @author Alexandru Delegeanu
- * @version 0.3
- * @test_unit Args#0.4
+ * @version 0.4
+ * @test_unit Args#0.7
  * @description Unit tests for Args
  */
 
@@ -72,6 +72,7 @@ class ArgsTest {
 
         var mockOfflinePlayer = mock(OfflinePlayer.class);
         when(Bukkit.getOfflinePlayer("OfflinePlayerName")).thenReturn(mockOfflinePlayer);
+        when(mockOfflinePlayer.hasPlayedBefore()).thenReturn(true);
 
         var mockWorld = mock(World.class);
         when(Bukkit.getWorld("WorldName")).thenReturn(mockWorld);
@@ -117,6 +118,7 @@ class ArgsTest {
     void testGetOfflinePlayer() {
         var mockOfflinePlayer = mock(OfflinePlayer.class);
         when(Bukkit.getOfflinePlayer("PlayerName")).thenReturn(mockOfflinePlayer);
+        when(mockOfflinePlayer.hasPlayedBefore()).thenReturn(true);
 
         var result = Args.getOfflinePlayer("PlayerName");
 
