@@ -1,8 +1,8 @@
 modules:
   $LogoManager:
-    class: mc.owls.valley.net.feathercore.modules.logo.components.LogoManager
+    class: dev.defaultybuf.feathercore.modules.logo.components.LogoManager
     interfaces:
-      - mc.owls.valley.net.feathercore.modules.logo.interfaces.ILogoManager
+      - dev.defaultybuf.feathercore.modules.logo.interfaces.ILogoManager
     dependencies: []
     mandatory: true
     config: null
@@ -10,20 +10,20 @@ modules:
     listeners: []
 
   ReloadModule:
-    class: mc.owls.valley.net.feathercore.modules.reload.components.ReloadModule
+    class: dev.defaultybuf.feathercore.modules.reload.components.ReloadModule
     interfaces:
-      - mc.owls.valley.net.feathercore.modules.reload.interfaces.IReloadModule
+      - dev.defaultybuf.feathercore.modules.reload.interfaces.IReloadModule
     dependencies: []
     mandatory: true
     config: null
     commands:
-      feather-reload: mc.owls.valley.net.feathercore.modules.reload.commands.ReloadCommand
+      feather-reload: dev.defaultybuf.feathercore.modules.reload.commands.ReloadCommand
     listeners: []
 
   MongoManager:
-    class: mc.owls.valley.net.feathercore.modules.data.mongodb.components.MongoManager
+    class: dev.defaultybuf.feathercore.modules.data.mongodb.components.MongoManager
     interfaces:
-      - mc.owls.valley.net.feathercore.modules.data.mongodb.interfaces.IMongoDB
+      - dev.defaultybuf.feathercore.modules.data.mongodb.interfaces.IMongoDB
     dependencies: [$LogoManager]
     mandatory: true
     config: modules/mongodb.yml
@@ -31,92 +31,92 @@ modules:
     listeners: []
 
   PlayersData:
-    class: mc.owls.valley.net.feathercore.modules.data.players.components.PlayersData
+    class: dev.defaultybuf.feathercore.modules.data.players.components.PlayersData
     interfaces:
-      - mc.owls.valley.net.feathercore.modules.data.players.interfaces.IPlayersData
+      - dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData
     dependencies: [MongoManager]
     mandatory: true
     config: modules/players.yml
     commands: []
     listeners:
-      - mc.owls.valley.net.feathercore.modules.data.players.listeners.PlayerJoinDataListener
-      - mc.owls.valley.net.feathercore.modules.data.players.listeners.PlayerQuitDataListener
+      - dev.defaultybuf.feathercore.modules.data.players.listeners.PlayerJoinDataListener
+      - dev.defaultybuf.feathercore.modules.data.players.listeners.PlayerQuitDataListener
 
   LanguageManager:
-    class: mc.owls.valley.net.feathercore.modules.language.components.LanguageManager
+    class: dev.defaultybuf.feathercore.modules.language.components.LanguageManager
     interfaces:
-      - mc.owls.valley.net.feathercore.modules.language.interfaces.ILanguage
+      - dev.defaultybuf.feathercore.modules.language.interfaces.ILanguage
     dependencies: [PlayersData]
     mandatory: true
     config: language/config.yml
     commands:
-      language: mc.owls.valley.net.feathercore.modules.language.commands.LanguageCommand
+      language: dev.defaultybuf.feathercore.modules.language.commands.LanguageCommand
     listeners: []
 
   FeatherEconomyProvider:
-    class: mc.owls.valley.net.feathercore.modules.economy.components.FeatherEconomyProvider
+    class: dev.defaultybuf.feathercore.modules.economy.components.FeatherEconomyProvider
     interfaces:
-      - mc.owls.valley.net.feathercore.modules.economy.interfaces.IFeatherEconomy
+      - dev.defaultybuf.feathercore.modules.economy.interfaces.IFeatherEconomy
     dependencies: [PlayersData, LanguageManager]
     mandatory: true
     config: modules/economy.yml
     commands:
-      balance: mc.owls.valley.net.feathercore.modules.economy.commands.BalanceCommand
-      eco: mc.owls.valley.net.feathercore.modules.economy.commands.EcoCommand
-      pay: mc.owls.valley.net.feathercore.modules.economy.commands.PayCommand
-      paytoggle: mc.owls.valley.net.feathercore.modules.economy.commands.PayToggleCommand
-      withdraw: mc.owls.valley.net.feathercore.modules.economy.commands.WithdrawCommand
-      deposit: mc.owls.valley.net.feathercore.modules.economy.commands.DepositCommand
+      balance: dev.defaultybuf.feathercore.modules.economy.commands.BalanceCommand
+      eco: dev.defaultybuf.feathercore.modules.economy.commands.EcoCommand
+      pay: dev.defaultybuf.feathercore.modules.economy.commands.PayCommand
+      paytoggle: dev.defaultybuf.feathercore.modules.economy.commands.PayToggleCommand
+      withdraw: dev.defaultybuf.feathercore.modules.economy.commands.WithdrawCommand
+      deposit: dev.defaultybuf.feathercore.modules.economy.commands.DepositCommand
     listeners:
-      - mc.owls.valley.net.feathercore.modules.economy.listeners.BanknotePlaceListener
-      - mc.owls.valley.net.feathercore.modules.economy.listeners.BanknotePickupListener
-      - mc.owls.valley.net.feathercore.modules.economy.listeners.LanguageChangeListener
+      - dev.defaultybuf.feathercore.modules.economy.listeners.BanknotePlaceListener
+      - dev.defaultybuf.feathercore.modules.economy.listeners.BanknotePickupListener
+      - dev.defaultybuf.feathercore.modules.economy.listeners.LanguageChangeListener
 
   PvPManager:
-    class: mc.owls.valley.net.feathercore.modules.pvp.manager.components.PvPManager
+    class: dev.defaultybuf.feathercore.modules.pvp.manager.components.PvPManager
     interfaces:
-      - mc.owls.valley.net.feathercore.modules.pvp.manager.interfaces.IPvPManager
+      - dev.defaultybuf.feathercore.modules.pvp.manager.interfaces.IPvPManager
     dependencies: [LanguageManager]
     mandatory: false
     commands: []
     config: modules/restricted-pvp.yml
     listeners:
-      - mc.owls.valley.net.feathercore.modules.pvp.manager.listeners.BlockCommandsListener
-      - mc.owls.valley.net.feathercore.modules.pvp.manager.listeners.PlayerDamageListener
-      - mc.owls.valley.net.feathercore.modules.pvp.manager.listeners.PlayerDeathListener
-      - mc.owls.valley.net.feathercore.modules.pvp.manager.listeners.PlayerLogoutListener
-      - mc.owls.valley.net.feathercore.modules.pvp.manager.listeners.TeleportListener
+      - dev.defaultybuf.feathercore.modules.pvp.manager.listeners.BlockCommandsListener
+      - dev.defaultybuf.feathercore.modules.pvp.manager.listeners.PlayerDamageListener
+      - dev.defaultybuf.feathercore.modules.pvp.manager.listeners.PlayerDeathListener
+      - dev.defaultybuf.feathercore.modules.pvp.manager.listeners.PlayerLogoutListener
+      - dev.defaultybuf.feathercore.modules.pvp.manager.listeners.TeleportListener
 
   LootChests:
-    class: mc.owls.valley.net.feathercore.modules.loot.chests.components.LootChests
+    class: dev.defaultybuf.feathercore.modules.loot.chests.components.LootChests
     interfaces:
-      - mc.owls.valley.net.feathercore.modules.loot.chests.interfaces.ILootChests
+      - dev.defaultybuf.feathercore.modules.loot.chests.interfaces.ILootChests
     dependencies: [PlayersData, LanguageManager]
     mandatory: false
     config: modules/loot-chests.yml
     commands:
-      lootchests: mc.owls.valley.net.feathercore.modules.loot.chests.commands.LootChestsCommand
+      lootchests: dev.defaultybuf.feathercore.modules.loot.chests.commands.LootChestsCommand
     listeners:
-      - mc.owls.valley.net.feathercore.modules.loot.chests.listeners.LootChestOpenListener
+      - dev.defaultybuf.feathercore.modules.loot.chests.listeners.LootChestOpenListener
 
   Teleport:
-    class: mc.owls.valley.net.feathercore.modules.teleport.components.Teleport
+    class: dev.defaultybuf.feathercore.modules.teleport.components.Teleport
     interfaces:
-      - mc.owls.valley.net.feathercore.modules.teleport.interfaces.ITeleport
+      - dev.defaultybuf.feathercore.modules.teleport.interfaces.ITeleport
     dependencies: [PlayersData, LanguageManager, FeatherEconomyProvider]
     mandatory: false
     config: modules/teleport.yml
     commands:
-      random-teleport: mc.owls.valley.net.feathercore.modules.teleport.commands.RandomTeleportCommand
-      teleport-accept: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportAcceptCommand
-      teleport-all: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportAllCommand
-      teleport: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportCommand
-      teleport-deny: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportDenyCommand
-      teleport-here: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportHereCommand
-      teleport-here-request: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportHereRequestCommand
-      teleport-last-location: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportLastLocationCommand
-      teleport-position: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportPositionCommand
-      teleport-request: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportRequestCommand
-      teleport-request-cancel: mc.owls.valley.net.feathercore.modules.teleport.commands.TeleportRequestCancelCommand
+      random-teleport: dev.defaultybuf.feathercore.modules.teleport.commands.RandomTeleportCommand
+      teleport-accept: dev.defaultybuf.feathercore.modules.teleport.commands.TeleportAcceptCommand
+      teleport-all: dev.defaultybuf.feathercore.modules.teleport.commands.TeleportAllCommand
+      teleport: dev.defaultybuf.feathercore.modules.teleport.commands.TeleportCommand
+      teleport-deny: dev.defaultybuf.feathercore.modules.teleport.commands.TeleportDenyCommand
+      teleport-here: dev.defaultybuf.feathercore.modules.teleport.commands.TeleportHereCommand
+      teleport-here-request: dev.defaultybuf.feathercore.modules.teleport.commands.TeleportHereRequestCommand
+      teleport-last-location: dev.defaultybuf.feathercore.modules.teleport.commands.TeleportLastLocationCommand
+      teleport-position: dev.defaultybuf.feathercore.modules.teleport.commands.TeleportPositionCommand
+      teleport-request: dev.defaultybuf.feathercore.modules.teleport.commands.TeleportRequestCommand
+      teleport-request-cancel: dev.defaultybuf.feathercore.modules.teleport.commands.TeleportRequestCancelCommand
     listeners:
-      - mc.owls.valley.net.feathercore.modules.teleport.listeners.MoveCancelTpListener
+      - dev.defaultybuf.feathercore.modules.teleport.listeners.MoveCancelTpListener
