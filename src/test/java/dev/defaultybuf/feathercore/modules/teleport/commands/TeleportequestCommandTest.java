@@ -4,11 +4,11 @@
  * ------------------------------------------------------------------------- *
  * @license https://github.com/TheAncientOwl/feather-core/blob/main/LICENSE
  *
- * @file TeleportRequestCancelCommandTest.java
+ * @file TeleportequestCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
- * @test_unit TeleportRequestCancelCommand#0.7
- * @description Unit tests for TeleportRequestCancelCommand
+ * @version 0.1
+ * @test_unit TeleportequestCommand#0.7
+ * @description Unit tests for TeleportequestCommand
  */
 
 package dev.defaultybuf.feathercore.modules.teleport.commands;
@@ -51,9 +51,10 @@ import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Mod
 import dev.defaultybuf.feathercore.modules.common.mockers.FeatherCommandTest;
 import dev.defaultybuf.feathercore.modules.teleport.components.Teleport;
 import dev.defaultybuf.feathercore.modules.teleport.components.Teleport.RequestStatus;
+import dev.defaultybuf.feathercore.modules.teleport.components.Teleport.RequestType;
 import dev.defaultybuf.feathercore.modules.teleport.interfaces.ITeleport;
 
-class TeleportRequestCancelCommandTest extends FeatherCommandTest<TeleportRequestCancelCommand> {
+public class TeleportequestCommandTest extends FeatherCommandTest<TeleportRequestCommand> {
     @Mock Player mockPlayer1;
     @Mock Player mockPlayer2;
     @Mock CommandSender mockCommandSender;
@@ -63,8 +64,8 @@ class TeleportRequestCancelCommandTest extends FeatherCommandTest<TeleportReques
     @MockedModule(of = Module.Teleport) ITeleport mockTeleport;
 
     @Override
-    protected Class<TeleportRequestCancelCommand> getCommandClass() {
-        return TeleportRequestCancelCommand.class;
+    protected Class<TeleportRequestCommand> getCommandClass() {
+        return TeleportRequestCommand.class;
     }
 
     @Override
@@ -81,40 +82,45 @@ class TeleportRequestCancelCommandTest extends FeatherCommandTest<TeleportReques
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
     void testHasPermission_True(boolean has) {
-        when(mockPlayer1.hasPermission("feathercore.teleport.request.cancel"))
+        when(mockPlayer1.hasPermission("feathercore.teleport.request.to"))
                 .thenReturn(has);
 
         assertEquals(has, commandInstance.hasPermission(mockPlayer1,
-                new TeleportRequestCancelCommand.CommandData(mockPlayer2,
+                new TeleportRequestCommand.CommandData(mockPlayer2,
                         mockPlayer1)));
         verify(mockLanguage, has ? never() : times(1)).message(mockPlayer1,
                 Message.General.NO_PERMISSION);
     }
 
     @Test
-    void testExecute_NoSuchRequest() {
-        var data = new TeleportRequestCancelCommand.CommandData(mockPlayer1, mockPlayer2);
+    void testExecute_AlreadyRequested() {
+        var data = new TeleportRequestCommand.CommandData(mockPlayer1, mockPlayer2);
 
-        when(mockTeleport.cancelRequest(data.issuer(), data.target()))
-                .thenReturn(RequestStatus.NO_SUCH_REQUEST);
+        when(mockTeleport.request(data.issuer(), data.target(), RequestType.TO))
+                .thenReturn(RequestStatus.ALREADY_REQUESTED);
 
         commandInstance.execute(mockPlayer1, data);
 
-        verify(mockLanguage).message(mockPlayer1, Message.Teleport.NO_SUCH_REQUEST);
+        verify(mockLanguage).message(eq(mockPlayer1),
+                eq(Message.Teleport.REQUEST_TO_EXECUTE_PENDING), anyPlaceholder());
     }
 
     @Test
-    void testExecute_RequestCancelled() {
-        var data = new TeleportRequestCancelCommand.CommandData(mockPlayer1, mockPlayer2);
+    void testExecute_Requested() {
+        var data = new TeleportRequestCommand.CommandData(mockPlayer1, mockPlayer2);
 
-        when(mockTeleport.cancelRequest(data.issuer(), data.target()))
-                .thenReturn(RequestStatus.CANCELLED);
+        when(mockTeleport.request(data.issuer(), data.target(), RequestType.TO))
+                .thenReturn(RequestStatus.REQUESTED);
 
         commandInstance.execute(mockPlayer1, data);
 
         verify(mockLanguage).message(
                 eq(data.issuer()),
-                eq(Message.Teleport.REQUEST_CANCEL),
+                eq(Message.Teleport.REQUEST_TO_EXECUTE_ISSUER),
+                anyPlaceholder());
+        verify(mockLanguage).message(
+                eq(data.target()),
+                eq(Message.Teleport.REQUEST_TO_EXECUTE_TARGET),
                 anyPlaceholder());
     }
 
@@ -123,9 +129,9 @@ class TeleportRequestCancelCommandTest extends FeatherCommandTest<TeleportReques
     void testExecute_LogicErrorRequestType(Teleport.RequestStatus requestStatus) {
         clearInvocations(mockLanguage, mockPlayer1, mockPlayer2);
 
-        var data = new TeleportRequestCancelCommand.CommandData(mockPlayer1, mockPlayer2);
+        var data = new TeleportRequestCommand.CommandData(mockPlayer1, mockPlayer2);
 
-        when(mockTeleport.cancelRequest(data.issuer(), data.target()))
+        when(mockTeleport.request(data.issuer(), data.target(), RequestType.TO))
                 .thenReturn(requestStatus);
 
         assertThrows(AssertionError.class, () -> {
@@ -137,8 +143,8 @@ class TeleportRequestCancelCommandTest extends FeatherCommandTest<TeleportReques
 
     static Stream<Arguments> getLogicErrorRequestStatuses() {
         return Stream.of(
-                /* 1 */ Arguments.of(Teleport.RequestStatus.ALREADY_REQUESTED),
-                /* 2 */ Arguments.of(Teleport.RequestStatus.REQUESTED),
+                /* 1 */ Arguments.of(Teleport.RequestStatus.NO_SUCH_REQUEST),
+                /* 2 */ Arguments.of(Teleport.RequestStatus.CANCELLED),
                 /* 3 */ Arguments.of(Teleport.RequestStatus.ACCEPTED));
     }
 
@@ -150,7 +156,7 @@ class TeleportRequestCancelCommandTest extends FeatherCommandTest<TeleportReques
 
         assertNull(result);
         verify(mockLanguage).message(eq(mockPlayer1), eq(Message.General.USAGE_INVALID),
-                eq(Message.Teleport.USAGE_REQUEST_CANCEL));
+                eq(Message.Teleport.USAGE_REQUEST_TO));
     }
 
     @Test

@@ -6,7 +6,7 @@
  *
  * @file TeleportRequestCommand.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @description Request teleport to a player
  */
 
@@ -46,7 +46,9 @@ public class TeleportRequestCommand extends FeatherCommand<TeleportRequestComman
 
     @Override
     protected void execute(final CommandSender sender, final CommandData data) {
-        switch (getInterface(ITeleport.class).request(data.issuer, data.target, RequestType.TO)) {
+        final var requestStatus =
+                getInterface(ITeleport.class).request(data.issuer, data.target, RequestType.TO);
+        switch (requestStatus) {
             case ALREADY_REQUESTED: {
                 getLanguage().message(data.issuer, Message.Teleport.REQUEST_TO_EXECUTE_PENDING,
                         Pair.of(Placeholder.PLAYER, data.target.getName()));
@@ -60,8 +62,8 @@ public class TeleportRequestCommand extends FeatherCommand<TeleportRequestComman
                 break;
             }
             default: {
-                throw new Error(
-                        "Logic error: TeleportRequestCommand.java::execute(CommandSender, CommandData). Please notify developer");
+                assert false : "[modules.teleport.commands]@TeleportRequestCommand.execute(CommandSender, CommandData): branch not handled for '"
+                        + requestStatus.toString() + "'";
             }
         }
     }
