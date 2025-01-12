@@ -6,7 +6,7 @@
  *
  * @file TeleportAllCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit TeleportAllCommand#0.9
  * @description Unit tests for TeleportAllCommand
  */
@@ -46,7 +46,6 @@ import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Mod
 import dev.defaultybuf.feathercore.modules.common.mockers.FeatherCommandTest;
 import dev.defaultybuf.feathercore.modules.teleport.interfaces.ITeleport;
 
-@SuppressWarnings("unchecked")
 class TeleportAllCommandTest extends FeatherCommandTest<TeleportAllCommand> {
     @Mock Player mockPlayer1;
     @Mock Player mockPlayer2;
@@ -118,7 +117,7 @@ class TeleportAllCommandTest extends FeatherCommandTest<TeleportAllCommand> {
             verify(mockTeleport).teleport(mockPlayer2, mockPlayer2);
             verify(mockTeleport).teleport(mockPlayer3, mockPlayer2);
             verify(mockLanguage).message(eq(mockPlayer1), eq(Message.Teleport.ALL_OTHER),
-                    anyPair());
+                    anyPlaceholder());
         }
     }
 
@@ -137,7 +136,7 @@ class TeleportAllCommandTest extends FeatherCommandTest<TeleportAllCommand> {
             verify(mockTeleport).teleport(mockPlayer3, mockPlayer2);
             verify(mockLanguage).message(eq(
                     mockCommandSender), eq(Message.Teleport.ALL_OTHER),
-                    anyPair());
+                    anyPlaceholder());
         }
     }
 
@@ -183,7 +182,7 @@ class TeleportAllCommandTest extends FeatherCommandTest<TeleportAllCommand> {
 
             assertNull(result);
             verify(mockLanguage).message(eq(mockPlayer1), eq(Message.General.NOT_ONLINE_PLAYER),
-                    anyPair());
+                    anyPlaceholder());
         }
     }
 

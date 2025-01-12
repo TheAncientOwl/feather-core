@@ -6,7 +6,7 @@
  *
  * @file ReloadCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.13
+ * @version 0.14
  * @test_unit ReloadCommand#0.7
  * @description Unit tests for ReloadCommand
  */
@@ -117,7 +117,6 @@ class ReloadCommandTest extends FeatherCommandTest<ReloadCommand> {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     void testParse_InvalidArgument() {
         when(commandInstance.getEnabledModules()).thenReturn(List.of());
 
@@ -126,18 +125,19 @@ class ReloadCommandTest extends FeatherCommandTest<ReloadCommand> {
 
         assertNull(result);
         verify(mockLanguage, times(1))
-                .message(eq(mockSender), eq(Message.Reload.USAGE), anyPair());
+                .message(eq(mockSender), eq(Message.Reload.USAGE),
+                        anyPlaceholder());
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     void testParse_EmptyArgument() {
         var args = new String[] {};
         var result = commandInstance.parse(mockSender, args);
 
         assertNull(result);
         verify(mockLanguage, times(1))
-                .message(eq(mockSender), eq(Message.Reload.USAGE), anyPair());
+                .message(eq(mockSender), eq(Message.Reload.USAGE),
+                        anyPlaceholder());
     }
 
     @Test

@@ -6,7 +6,7 @@
  *
  * @file TeleportCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @test_unit TeleportCommand#0.9
  * @description Unit tests for TeleportCommand
  */
@@ -177,7 +177,6 @@ class TeleportCommandTest extends FeatherCommandTest<TeleportCommand> {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     void testParse_Player1Teleport_Player2ToPlayer3NotOnline_IsNotSelf() {
         var args = new String[] {mockPlayer2.getName(), mockPlayer3.getName()};
 
@@ -190,11 +189,10 @@ class TeleportCommandTest extends FeatherCommandTest<TeleportCommand> {
 
         assertNull(result);
         verify(mockLanguage).message(eq(mockPlayer1), eq(Message.General.NOT_ONLINE_PLAYER),
-                anyPair());
+                anyPlaceholder());
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     void testParse_Player1ToNotOnlinePlayer2() {
         var args = new String[] {mockPlayer2.getName()};
 
@@ -205,7 +203,7 @@ class TeleportCommandTest extends FeatherCommandTest<TeleportCommand> {
 
         assertNull(result);
         verify(mockLanguage).message(eq(mockPlayer1), eq(Message.General.NOT_ONLINE_PLAYER),
-                anyPair());
+                anyPlaceholder());
     }
 
     @ParameterizedTest

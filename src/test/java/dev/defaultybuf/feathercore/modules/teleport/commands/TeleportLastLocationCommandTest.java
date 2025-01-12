@@ -6,7 +6,7 @@
  *
  * @file TeleportLastLocationCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @test_unit TeleportLastLocationCommand#0.10
  * @description Unit tests for TeleportLastLocationCommand
  */
@@ -125,7 +125,6 @@ class TeleportLastLocationCommandTest extends FeatherCommandTest<TeleportLastLoc
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     void testExecute_WorldNoLongerAvailable() {
         var data = new TeleportLastLocationCommand.CommandData(mockPlayer1,
                 playerModel.lastKnownLocation, true);
@@ -137,12 +136,11 @@ class TeleportLastLocationCommandTest extends FeatherCommandTest<TeleportLastLoc
         verifyNoInteractions(mockTeleport);
         verify(mockLanguage).message(eq(mockPlayer1),
                 eq(Message.General.WORLD_NO_LONGER_AVAILABLE),
-                anyPair());
+                anyPlaceholder());
     }
 
     @ParameterizedTest
     @ValueSource(booleans = {true, false})
-    @SuppressWarnings("unchecked")
     void testExecute_Teleport(boolean isSelf) {
         var data = new TeleportLastLocationCommand.CommandData(mockPlayer1,
                 playerModel.lastKnownLocation, isSelf);
@@ -153,7 +151,7 @@ class TeleportLastLocationCommandTest extends FeatherCommandTest<TeleportLastLoc
 
         verify(mockLanguage, never()).message(eq(mockPlayer1),
                 eq(Message.General.WORLD_NO_LONGER_AVAILABLE),
-                anyPair());
+                anyPlaceholder());
 
         verify(mockTeleport).teleport(mockPlayer1,
                 data.destination().x, data.destination().y, data.destination().z,
@@ -195,7 +193,6 @@ class TeleportLastLocationCommandTest extends FeatherCommandTest<TeleportLastLoc
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     void testParse_Self_InvalidPlayer() {
         var args = new String[] {mockOfflinePlayer.getName()};
 
@@ -207,7 +204,7 @@ class TeleportLastLocationCommandTest extends FeatherCommandTest<TeleportLastLoc
 
         assertNull(result);
         verify(mockLanguage).message(eq(mockPlayer1), eq(Message.General.NOT_VALID_PLAYER),
-                anyPair());
+                anyPlaceholder());
     }
 
     @Test
@@ -227,7 +224,6 @@ class TeleportLastLocationCommandTest extends FeatherCommandTest<TeleportLastLoc
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     void testParse_Self_ValidPlayer_MissingDestination() {
         var args = new String[] {mockOfflinePlayer.getName()};
 
@@ -241,11 +237,10 @@ class TeleportLastLocationCommandTest extends FeatherCommandTest<TeleportLastLoc
 
         assertNull(result);
         verify(mockLanguage).message(eq(mockPlayer1), eq(Message.General.NOT_VALID_PLAYER),
-                anyPair());
+                anyPlaceholder());
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     void testParse_OtherOnline_InvalidPlayer() {
         var args = new String[] {mockOfflinePlayer.getName(), mockPlayer2.getName()};
 
@@ -259,7 +254,7 @@ class TeleportLastLocationCommandTest extends FeatherCommandTest<TeleportLastLoc
 
         assertNull(result);
         verify(mockLanguage).message(eq(mockPlayer1), eq(Message.General.NOT_VALID_PLAYER),
-                anyPair());
+                anyPlaceholder());
     }
 
     @Test
@@ -281,7 +276,6 @@ class TeleportLastLocationCommandTest extends FeatherCommandTest<TeleportLastLoc
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     void testParse_OtherOffline_InvalidPlayer() {
         var args = new String[] {mockOfflinePlayer.getName(), mockPlayer2.getName()};
 
@@ -295,11 +289,10 @@ class TeleportLastLocationCommandTest extends FeatherCommandTest<TeleportLastLoc
 
         assertNull(result);
         verify(mockLanguage).message(eq(mockPlayer1), eq(Message.General.NOT_VALID_PLAYER),
-                anyPair());
+                anyPlaceholder());
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     void testParse_OtherOffline_ValidPlayer() {
         var args = new String[] {mockOfflinePlayer.getName(), mockPlayer2.getName()};
 
@@ -313,7 +306,7 @@ class TeleportLastLocationCommandTest extends FeatherCommandTest<TeleportLastLoc
 
         assertNull(result);
         verify(mockLanguage).message(eq(mockPlayer1), eq(Message.General.NOT_ONLINE_PLAYER),
-                anyPair());
+                anyPlaceholder());
     }
 
     @ParameterizedTest

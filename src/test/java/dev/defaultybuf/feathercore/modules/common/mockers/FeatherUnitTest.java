@@ -6,7 +6,7 @@
  *
  * @file FeatherUnitTest.java
  * @author Alexandru Delegeanu
- * @version 0.14
+ * @version 0.15
  * @description Utility class for developing unit tests that use modules
  */
 
@@ -153,8 +153,8 @@ public abstract class FeatherUnitTest {
         }
     }
 
-    @SuppressWarnings("rawtypes")
-    protected Pair anyPair() {
+    @SuppressWarnings("unchecked")
+    protected Pair<String, Object> anyPlaceholder() {
         return any(Pair.class);
     }
 }

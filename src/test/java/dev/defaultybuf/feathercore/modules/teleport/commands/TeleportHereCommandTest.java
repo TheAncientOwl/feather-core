@@ -6,7 +6,7 @@
  *
  * @file TeleportHereCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @test_unit TeleportHereCommand#0.9
  * @description Unit tests for TeleportHereCommand
  */
@@ -82,7 +82,6 @@ class TeleportHereCommandTest extends FeatherCommandTest<TeleportHereCommand> {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     void testExecute() {
         var data = new TeleportHereCommand.CommandData(mockPlayer2);
 
@@ -90,7 +89,7 @@ class TeleportHereCommandTest extends FeatherCommandTest<TeleportHereCommand> {
 
         verify(mockTeleport).teleport(data.who(), mockPlayer1);
         verify(mockLanguage).message(eq(mockPlayer1), eq(Message.Teleport.HERE),
-                anyPair());
+                anyPlaceholder());
     }
 
     @Test
@@ -118,7 +117,6 @@ class TeleportHereCommandTest extends FeatherCommandTest<TeleportHereCommand> {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     void testParse_Player1_NotOnlinePlayer2() {
         var args = new String[] {mockPlayer2.getName()};
 
@@ -129,7 +127,7 @@ class TeleportHereCommandTest extends FeatherCommandTest<TeleportHereCommand> {
 
         assertNull(result);
         verify(mockLanguage).message(eq(mockPlayer1), eq(Message.General.NOT_ONLINE_PLAYER),
-                anyPair());
+                anyPlaceholder());
     }
 
     @Test

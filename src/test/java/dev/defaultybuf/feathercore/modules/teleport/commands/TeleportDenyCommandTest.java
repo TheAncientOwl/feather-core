@@ -6,7 +6,7 @@
  *
  * @file TeleportDenyCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @test_unit TeleportDenyCommand#0.7
  * @description Unit tests for TeleportDenyCommand
  */
@@ -87,7 +87,6 @@ class TeleportDenyCommandTest extends FeatherCommandTest<TeleportDenyCommand> {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     void testExecute_NoSuchRequest() {
         var data = new TeleportDenyCommand.CommandData(mockPlayer1, mockPlayer2);
 
@@ -100,15 +99,14 @@ class TeleportDenyCommandTest extends FeatherCommandTest<TeleportDenyCommand> {
         verify(mockLanguage, never()).message(
                 eq(data.issuer()),
                 eq(Message.Teleport.REQUEST_DECLINE_ISSUER),
-                anyPair());
+                anyPlaceholder());
         verify(mockLanguage, never()).message(
                 eq(data.target()),
                 eq(Message.Teleport.REQUEST_DECLINE_TARGET),
-                anyPair());
+                anyPlaceholder());
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     void testExecute_Cancelled() {
         var data = new TeleportDenyCommand.CommandData(mockPlayer1, mockPlayer2);
 
@@ -120,11 +118,11 @@ class TeleportDenyCommandTest extends FeatherCommandTest<TeleportDenyCommand> {
         verify(mockLanguage).message(
                 eq(data.issuer()),
                 eq(Message.Teleport.REQUEST_DECLINE_ISSUER),
-                anyPair());
+                anyPlaceholder());
         verify(mockLanguage).message(
                 eq(data.target()),
                 eq(Message.Teleport.REQUEST_DECLINE_TARGET),
-                anyPair());
+                anyPlaceholder());
     }
 
     @ParameterizedTest
@@ -176,7 +174,6 @@ class TeleportDenyCommandTest extends FeatherCommandTest<TeleportDenyCommand> {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     void testParse_Player1_NotOnlinePlayer2() {
         var args = new String[] {mockPlayer2.getName()};
 
@@ -187,7 +184,7 @@ class TeleportDenyCommandTest extends FeatherCommandTest<TeleportDenyCommand> {
 
         assertNull(result);
         verify(mockLanguage).message(eq(mockPlayer1), eq(Message.General.NOT_ONLINE_PLAYER),
-                anyPair());
+                anyPlaceholder());
     }
 
     @Test

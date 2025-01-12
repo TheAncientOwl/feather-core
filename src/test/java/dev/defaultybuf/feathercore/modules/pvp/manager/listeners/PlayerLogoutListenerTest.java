@@ -6,7 +6,7 @@
  *
  * @file PlayerLogoutListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @test_unit PlayerLogoutListene#0.7
  * @description Unit tests for PlayerLogoutListene
  */
@@ -98,7 +98,6 @@ class PlayerLogoutListenerTest extends FeatherListenerTest<PlayerLogoutListener>
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     void testOnPlayerLogout_InCombat_Broadcast() {
         var mockOnlinePlayer = mock(Player.class);
 
@@ -112,7 +111,7 @@ class PlayerLogoutListenerTest extends FeatherListenerTest<PlayerLogoutListener>
 
             verify(mockPlayer).setHealth(0.0d);
             verify(mockPvPManager).removePlayerInCombat(mockPlayer);
-            verify(mockLanguage).message(eq(mockOnlinePlayer), anyString(), anyPair());
+            verify(mockLanguage).message(eq(mockOnlinePlayer), anyString(), anyPlaceholder());
         }
     }
 }

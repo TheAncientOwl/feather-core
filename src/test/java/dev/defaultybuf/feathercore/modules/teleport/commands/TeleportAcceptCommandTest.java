@@ -6,7 +6,7 @@
  *
  * @file TeleportAcceptCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @test_unit TeleportAcceptCommand#0.8
  * @description Unit tests for TeleportAcceptCommand
  */
@@ -53,7 +53,6 @@ import dev.defaultybuf.feathercore.modules.teleport.components.Teleport;
 import dev.defaultybuf.feathercore.modules.teleport.components.Teleport.RequestStatus;
 import dev.defaultybuf.feathercore.modules.teleport.interfaces.ITeleport;
 
-@SuppressWarnings("unchecked")
 class TeleportAcceptCommandTest extends FeatherCommandTest<TeleportAcceptCommand> {
     @Mock Player mockPlayer1;
     @Mock Player mockPlayer2;
@@ -112,11 +111,11 @@ class TeleportAcceptCommandTest extends FeatherCommandTest<TeleportAcceptCommand
         verify(mockLanguage, never()).message(
                 eq(data.issuer()),
                 eq(Message.Teleport.REQUEST_ACCEPT_ISSUER),
-                anyPair());
+                anyPlaceholder());
         verify(mockLanguage, never()).message(
                 eq(data.target()),
                 eq(Message.Teleport.REQUEST_ACCEPT_TARGET),
-                anyPair());
+                anyPlaceholder());
     }
 
     @Test
@@ -133,15 +132,15 @@ class TeleportAcceptCommandTest extends FeatherCommandTest<TeleportAcceptCommand
         verify(mockLanguage).message(
                 eq(data.issuer()),
                 eq(Message.Teleport.REQUEST_ACCEPT_ISSUER),
-                anyPair());
+                anyPlaceholder());
         verify(mockLanguage).message(
                 eq(data.target()),
                 eq(Message.Teleport.REQUEST_ACCEPT_TARGET),
-                anyPair());
+                anyPlaceholder());
         verify(mockLanguage, never()).message(
                 eq(data.target()),
                 eq(Message.Teleport.REQUEST_DELAY),
-                anyPair());
+                anyPlaceholder());
     }
 
     @ParameterizedTest
@@ -182,15 +181,15 @@ class TeleportAcceptCommandTest extends FeatherCommandTest<TeleportAcceptCommand
         verify(mockLanguage).message(
                 eq(data.issuer()),
                 eq(Message.Teleport.REQUEST_ACCEPT_ISSUER),
-                anyPair());
+                anyPlaceholder());
         verify(mockLanguage).message(
                 eq(data.target()),
                 eq(Message.Teleport.REQUEST_ACCEPT_TARGET),
-                anyPair());
+                anyPlaceholder());
         verify(mockLanguage).message(
                 eq(data.target()),
                 eq(Message.Teleport.REQUEST_DELAY),
-                anyPair());
+                anyPlaceholder());
     }
 
     @Test
@@ -238,7 +237,7 @@ class TeleportAcceptCommandTest extends FeatherCommandTest<TeleportAcceptCommand
         assertNull(result);
         assertNull(result);
         verify(mockLanguage).message(eq(mockPlayer1), eq(Message.General.NOT_ONLINE_PLAYER),
-                anyPair());
+                anyPlaceholder());
     }
 
     @ParameterizedTest
@@ -259,41 +258,35 @@ class TeleportAcceptCommandTest extends FeatherCommandTest<TeleportAcceptCommand
         }
     }
 
+    // @formatter:off
     static Stream<Arguments> getTabCompleteTestCases() {
         return Stream.of(
                 /* 1 */ Arguments.of(new String[] {}, List.of(), List.of()),
                 /* 2 */ Arguments.of(
                         new String[] {},
-                        List.of("player1", "player2", "player11",
-                                "player22"),
+                        List.of("player1", "player2", "player11", "player22"),
                         List.of()),
                 /* 3 */ Arguments.of(
                         new String[] {"arg1", "arg2"},
-                        List.of("player1", "player2", "player11",
-                                "player22"),
+                        List.of("player1", "player2", "player11", "player22"),
                         List.of()),
                 /* 4 */ Arguments.of(
                         new String[] {""},
-                        List.of("player1", "player2", "player11",
-                                "player22"),
-                        List.of("player1", "player2", "player11",
-                                "player22")),
+                        List.of("player1", "player2", "player11", "player22"),
+                        List.of("player1", "player2", "player11", "player22")),
                 /* 5 */ Arguments.of(
                         new String[] {"p"},
-                        List.of("player1", "player2", "player11",
-                                "player22"),
-                        List.of("player1", "player2", "player11",
-                                "player22")),
+                        List.of("player1", "player2", "player11", "player22"),
+                        List.of("player1", "player2", "player11", "player22")),
                 /* 6 */ Arguments.of(
                         new String[] {"player1"},
-                        List.of("player1", "player2", "player11",
-                                "player22"),
+                        List.of("player1", "player2", "player11", "player22"),
                         List.of("player1", "player11")),
                 /* 7 */ Arguments.of(
                         new String[] {"player3"},
-                        List.of("player1", "player2", "player11",
-                                "player22"),
+                        List.of("player1", "player2", "player11", "player22"),
                         List.of()));
     }
+    // @formatter:on
 
 }

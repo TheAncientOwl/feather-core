@@ -6,7 +6,7 @@
  *
  * @file TeleportRequestCancelCommand.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @description Cancel a sent teleport request
  */
 
@@ -46,7 +46,9 @@ public class TeleportRequestCancelCommand
 
     @Override
     protected void execute(final CommandSender sender, final CommandData data) {
-        switch (getInterface(ITeleport.class).cancelRequest(data.issuer, data.target)) {
+        final var requestStatus =
+                getInterface(ITeleport.class).cancelRequest(data.issuer, data.target);
+        switch (requestStatus) {
             case NO_SUCH_REQUEST: {
                 getLanguage().message(sender, Message.Teleport.NO_SUCH_REQUEST);
                 break;
@@ -57,8 +59,8 @@ public class TeleportRequestCancelCommand
                 break;
             }
             default: {
-                throw new Error(
-                        "Logic error: TeleportRequestCancelCommand.java::execute(CommandSender, CommandData). Please notify developer");
+                assert false : "[modules.teleport.commands]@TeleportRequestCancelCommand.execute(CommandSender, CommandData): branch not handled for '"
+                        + requestStatus.toString() + "'";
             }
         }
     }
