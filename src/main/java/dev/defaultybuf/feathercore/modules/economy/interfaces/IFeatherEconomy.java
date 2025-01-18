@@ -12,7 +12,7 @@
 
 package dev.defaultybuf.feathercore.modules.economy.interfaces;
 
-import dev.defaultybuf.feathercore.api.core.IConfigAccessor;
+import dev.defaultybuf.feather.toolkit.api.interfaces.IConfigAccessor;
 import net.milkbowl.vault.economy.Economy;
 
 public interface IFeatherEconomy extends IConfigAccessor {

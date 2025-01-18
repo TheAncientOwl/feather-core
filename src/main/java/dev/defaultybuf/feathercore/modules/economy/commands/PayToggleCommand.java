@@ -18,8 +18,8 @@ import java.util.List;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import dev.defaultybuf.feathercore.api.common.language.Message;
-import dev.defaultybuf.feathercore.api.core.FeatherCommand;
+import dev.defaultybuf.feather.toolkit.api.FeatherCommand;
+import dev.defaultybuf.feathercore.common.Message;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 

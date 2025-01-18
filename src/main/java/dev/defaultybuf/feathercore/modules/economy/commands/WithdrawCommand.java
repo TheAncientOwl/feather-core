@@ -23,12 +23,12 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
-import dev.defaultybuf.feathercore.api.common.java.Pair;
-import dev.defaultybuf.feathercore.api.common.language.Message;
-import dev.defaultybuf.feathercore.api.common.minecraft.NamespacedKey;
-import dev.defaultybuf.feathercore.api.common.minecraft.Placeholder;
-import dev.defaultybuf.feathercore.api.common.util.StringUtils;
-import dev.defaultybuf.feathercore.api.core.FeatherCommand;
+import dev.defaultybuf.feather.toolkit.api.FeatherCommand;
+import dev.defaultybuf.feather.toolkit.util.java.Pair;
+import dev.defaultybuf.feather.toolkit.util.java.StringUtils;
+import dev.defaultybuf.feathercore.common.Message;
+import dev.defaultybuf.feathercore.common.minecraft.NamespacedKey;
+import dev.defaultybuf.feathercore.common.minecraft.Placeholder;
 import dev.defaultybuf.feathercore.modules.economy.interfaces.IFeatherEconomy;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 

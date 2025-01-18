@@ -1,0 +1,122 @@
+modules:
+  LanguageManager:
+    class: dev.defaultybuf.feather.toolkit.core.modules.language.components.LanguageManager
+    interfaces:
+      - dev.defaultybuf.feather.toolkit.core.modules.language.interfaces.ILanguage
+    dependencies: [PlayersData]
+    mandatory: true
+    config: language/config.yml
+    commands:
+      language: dev.defaultybuf.feather.toolkit.core.modules.language.commands.LanguageCommand
+    listeners: []
+
+  ReloadModule:
+    class: dev.defaultybuf.feather.toolkit.core.modules.reload.components.ReloadModule
+    interfaces:
+      - dev.defaultybuf.feather.toolkit.core.modules.reload.interfaces.IReloadModule
+    dependencies: []
+    mandatory: true
+    config: null
+    commands:
+      feather-reload: dev.defaultybuf.feather.toolkit.core.modules.reload.commands.ReloadCommand
+    listeners: []
+
+  $LogoManager:
+    class: dev.defaultybuf.feathercore.modules.logo.components.LogoManager
+    interfaces:
+      - dev.defaultybuf.feathercore.modules.logo.interfaces.ILogoManager
+    dependencies: []
+    mandatory: true
+    config: null
+    commands: []
+    listeners: []
+
+  MongoManager:
+    class: dev.defaultybuf.feathercore.modules.data.mongodb.components.MongoManager
+    interfaces:
+      - dev.defaultybuf.feathercore.modules.data.mongodb.interfaces.IMongoDB
+    dependencies: [$LogoManager]
+    mandatory: true
+    config: modules/mongodb.yml
+    commands: []
+    listeners: []
+
+  PlayersData:
+    class: dev.defaultybuf.feathercore.modules.data.players.components.PlayersData
+    interfaces:
+      - dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData
+    dependencies: [MongoManager]
+    mandatory: true
+    config: modules/players.yml
+    commands: []
+    listeners:
+      - dev.defaultybuf.feathercore.modules.data.players.listeners.PlayerJoinDataListener
+      - dev.defaultybuf.feathercore.modules.data.players.listeners.PlayerQuitDataListener
+
+  FeatherEconomyProvider:
+    class: dev.defaultybuf.feathercore.modules.economy.components.FeatherEconomyProvider
+    interfaces:
+      - dev.defaultybuf.feathercore.modules.economy.interfaces.IFeatherEconomy
+    dependencies: [PlayersData, LanguageManager]
+    mandatory: true
+    config: modules/economy.yml
+    commands:
+      balance: dev.defaultybuf.feathercore.modules.economy.commands.BalanceCommand
+      eco: dev.defaultybuf.feathercore.modules.economy.commands.EcoCommand
+      pay: dev.defaultybuf.feathercore.modules.economy.commands.PayCommand
+      paytoggle: dev.defaultybuf.feathercore.modules.economy.commands.PayToggleCommand
+      withdraw: dev.defaultybuf.feathercore.modules.economy.commands.WithdrawCommand
+      deposit: dev.defaultybuf.feathercore.modules.economy.commands.DepositCommand
+    listeners:
+      - dev.defaultybuf.feathercore.modules.economy.listeners.BanknotePlaceListener
+      - dev.defaultybuf.feathercore.modules.economy.listeners.BanknotePickupListener
+      - dev.defaultybuf.feathercore.modules.economy.listeners.LanguageChangeListener
+
+  PvPManager:
+    class: dev.defaultybuf.feathercore.modules.pvp.manager.components.PvPManager
+    interfaces:
+      - dev.defaultybuf.feathercore.modules.pvp.manager.interfaces.IPvPManager
+    dependencies: [LanguageManager]
+    mandatory: false
+    commands: []
+    config: modules/restricted-pvp.yml
+    listeners:
+      - dev.defaultybuf.feathercore.modules.pvp.manager.listeners.BlockCommandsListener
+      - dev.defaultybuf.feathercore.modules.pvp.manager.listeners.PlayerDamageListener
+      - dev.defaultybuf.feathercore.modules.pvp.manager.listeners.PlayerDeathListener
+      - dev.defaultybuf.feathercore.modules.pvp.manager.listeners.PlayerLogoutListener
+      - dev.defaultybuf.feathercore.modules.pvp.manager.listeners.TeleportListener
+
+  LootChests:
+    class: dev.defaultybuf.feathercore.modules.loot.chests.components.LootChests
+    interfaces:
+      - dev.defaultybuf.feathercore.modules.loot.chests.interfaces.ILootChests
+    dependencies: [PlayersData, LanguageManager]
+    mandatory: false
+    config: modules/loot-chests.yml
+    commands:
+      lootchests: dev.defaultybuf.feathercore.modules.loot.chests.commands.LootChestsCommand
+    listeners:
+      - dev.defaultybuf.feathercore.modules.loot.chests.listeners.LootChestOpenListener
+
+  Teleport:
+    class: dev.defaultybuf.feathercore.modules.teleport.components.Teleport
+    interfaces:
+      - dev.defaultybuf.feathercore.modules.teleport.interfaces.ITeleport
+    dependencies: [PlayersData, LanguageManager, FeatherEconomyProvider]
+    mandatory: false
+    config: modules/teleport.yml
+    commands:
+      random-teleport: dev.defaultybuf.feathercore.modules.teleport.commands.RandomTeleportCommand
+      teleport-accept: dev.defaultybuf.feathercore.modules.teleport.commands.TeleportAcceptCommand
+      teleport-all: dev.defaultybuf.feathercore.modules.teleport.commands.TeleportAllCommand
+      teleport: dev.defaultybuf.feathercore.modules.teleport.commands.TeleportCommand
+      teleport-deny: dev.defaultybuf.feathercore.modules.teleport.commands.TeleportDenyCommand
+      teleport-here: dev.defaultybuf.feathercore.modules.teleport.commands.TeleportHereCommand
+      teleport-here-request: dev.defaultybuf.feathercore.modules.teleport.commands.TeleportHereRequestCommand
+      teleport-last-location: dev.defaultybuf.feathercore.modules.teleport.commands.TeleportLastLocationCommand
+      teleport-position: dev.defaultybuf.feathercore.modules.teleport.commands.TeleportPositionCommand
+      teleport-request: dev.defaultybuf.feathercore.modules.teleport.commands.TeleportRequestCommand
+      teleport-request-cancel: dev.defaultybuf.feathercore.modules.teleport.commands.TeleportRequestCancelCommand
+    listeners:
+      - dev.defaultybuf.feathercore.modules.teleport.listeners.MoveCancelTpListener

@@ -15,7 +15,7 @@ package dev.defaultybuf.feathercore.modules.data.players.listeners;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerQuitEvent;
 
-import dev.defaultybuf.feathercore.api.core.FeatherListener;
+import dev.defaultybuf.feather.toolkit.api.FeatherListener;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.LocationModel;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 

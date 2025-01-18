@@ -42,17 +42,17 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 
-import dev.defaultybuf.feathercore.api.common.util.StringUtils;
-import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
-import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
-import dev.defaultybuf.feathercore.modules.common.annotations.Resource;
-import dev.defaultybuf.feathercore.modules.common.mockers.FeatherCommandTest;
-import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
-import dev.defaultybuf.feathercore.modules.common.utils.TempModule;
+import dev.defaultybuf.feather.toolkit.core.modules.language.components.LanguageManager;
+import dev.defaultybuf.feather.toolkit.testing.annotations.ActualModule;
+import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
+import dev.defaultybuf.feather.toolkit.testing.annotations.Resource;
+import dev.defaultybuf.feather.toolkit.testing.mockers.DependencyInjector.Module;
+import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherCommandTest;
+import dev.defaultybuf.feather.toolkit.testing.utils.TempModule;
+import dev.defaultybuf.feather.toolkit.util.java.StringUtils;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 import dev.defaultybuf.feathercore.modules.economy.interfaces.IFeatherEconomy;
-import dev.defaultybuf.feathercore.modules.language.components.LanguageManager;
 import net.milkbowl.vault.economy.Economy;
 
 class PayCommandTest extends FeatherCommandTest<PayCommand> {

@@ -17,7 +17,7 @@ import java.util.UUID;
 
 import org.bukkit.entity.Player;
 
-import dev.defaultybuf.feathercore.api.core.IConfigAccessor;
+import dev.defaultybuf.feather.toolkit.api.interfaces.IConfigAccessor;
 
 public interface IPvPManager extends IConfigAccessor {
     /**

@@ -17,8 +17,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
-import dev.defaultybuf.feathercore.api.common.language.Message;
-import dev.defaultybuf.feathercore.api.core.FeatherListener;
+import dev.defaultybuf.feather.toolkit.api.FeatherListener;
+import dev.defaultybuf.feathercore.common.Message;
 import dev.defaultybuf.feathercore.modules.pvp.manager.interfaces.IPvPManager;
 
 public class BlockCommandsListener extends FeatherListener {

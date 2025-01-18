@@ -11,10 +11,10 @@
 
   "material-icon-theme.folders.customClones": [
     {
-      "name": "feathercore",
+      "name": "mojo-red",
       "base": "mojo",
       "color": "red-900",
-      "folderNames": ["feathercore"]
+      "folderNames": ["feathercore", "defaultybuf", "feather"]
     }
   ],
   "material-icon-theme.files.associations": {

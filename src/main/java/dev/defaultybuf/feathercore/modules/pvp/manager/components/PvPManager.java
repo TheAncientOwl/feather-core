@@ -21,12 +21,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
-import dev.defaultybuf.feathercore.api.common.java.Pair;
-import dev.defaultybuf.feathercore.api.common.language.Message;
-import dev.defaultybuf.feathercore.api.common.minecraft.Placeholder;
-import dev.defaultybuf.feathercore.api.common.util.Clock;
-import dev.defaultybuf.feathercore.api.core.FeatherModule;
-import dev.defaultybuf.feathercore.api.exceptions.FeatherSetupException;
+import dev.defaultybuf.feather.toolkit.api.FeatherModule;
+import dev.defaultybuf.feather.toolkit.exceptions.FeatherSetupException;
+import dev.defaultybuf.feather.toolkit.util.java.Clock;
+import dev.defaultybuf.feather.toolkit.util.java.Pair;
+import dev.defaultybuf.feathercore.common.Message;
+import dev.defaultybuf.feathercore.common.minecraft.Placeholder;
 import dev.defaultybuf.feathercore.modules.pvp.manager.interfaces.IPvPManager;
 
 public class PvPManager extends FeatherModule implements IPvPManager {

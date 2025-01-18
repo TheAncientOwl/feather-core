@@ -23,8 +23,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
-import dev.defaultybuf.feathercore.api.configuration.IConfigSection;
-import dev.defaultybuf.feathercore.api.core.FeatherModule;
+import dev.defaultybuf.feather.toolkit.api.FeatherModule;
+import dev.defaultybuf.feather.toolkit.api.configuration.IConfigSection;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import dev.defaultybuf.feathercore.modules.data.mongodb.interfaces.IMongoDB;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;

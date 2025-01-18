@@ -42,8 +42,8 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import dev.defaultybuf.feathercore.api.common.util.Clock;
-import dev.defaultybuf.feathercore.modules.common.mockers.FeatherModuleTest;
+import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherModuleTest;
+import dev.defaultybuf.feather.toolkit.util.java.Clock;
 import dev.defaultybuf.feathercore.modules.teleport.components.Teleport.RequestStatus;
 import dev.defaultybuf.feathercore.modules.teleport.components.Teleport.RequestType;
 import dev.defaultybuf.feathercore.modules.teleport.components.Teleport.TeleportChecker;

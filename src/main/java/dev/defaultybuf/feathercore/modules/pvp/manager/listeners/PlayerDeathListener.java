@@ -16,7 +16,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
-import dev.defaultybuf.feathercore.api.core.FeatherListener;
+import dev.defaultybuf.feather.toolkit.api.FeatherListener;
 import dev.defaultybuf.feathercore.modules.pvp.manager.interfaces.IPvPManager;
 
 public class PlayerDeathListener extends FeatherListener {

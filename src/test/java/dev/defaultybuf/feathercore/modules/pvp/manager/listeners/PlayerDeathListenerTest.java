@@ -22,9 +22,9 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
-import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
-import dev.defaultybuf.feathercore.modules.common.mockers.FeatherListenerTest;
+import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
+import dev.defaultybuf.feather.toolkit.testing.mockers.DependencyInjector.Module;
+import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherListenerTest;
 import dev.defaultybuf.feathercore.modules.pvp.manager.interfaces.IPvPManager;
 
 class PlayerDeathListenerTest extends FeatherListenerTest<PlayerDeathListener> {

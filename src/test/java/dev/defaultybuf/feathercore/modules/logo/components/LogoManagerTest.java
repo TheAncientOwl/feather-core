@@ -26,7 +26,7 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import dev.defaultybuf.feathercore.modules.common.mockers.FeatherModuleTest;
+import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherModuleTest;
 
 class LogoManagerTest extends FeatherModuleTest<LogoManager> {
     static final String PLUGIN_YML_CONTENT = "version: 'test-plugin-version'";

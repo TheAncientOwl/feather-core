@@ -22,15 +22,15 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import dev.defaultybuf.feathercore.api.common.java.Pair;
-import dev.defaultybuf.feathercore.api.common.language.Message;
-import dev.defaultybuf.feathercore.api.common.minecraft.Placeholder;
-import dev.defaultybuf.feathercore.api.common.minecraft.WorldUtils;
-import dev.defaultybuf.feathercore.api.common.util.Args;
-import dev.defaultybuf.feathercore.api.common.util.Clock;
-import dev.defaultybuf.feathercore.api.common.util.StringUtils;
-import dev.defaultybuf.feathercore.api.common.util.TimeUtils;
-import dev.defaultybuf.feathercore.api.core.FeatherCommand;
+import dev.defaultybuf.feather.toolkit.api.FeatherCommand;
+import dev.defaultybuf.feather.toolkit.util.java.Clock;
+import dev.defaultybuf.feather.toolkit.util.java.Pair;
+import dev.defaultybuf.feather.toolkit.util.java.StringUtils;
+import dev.defaultybuf.feather.toolkit.util.java.TimeUtils;
+import dev.defaultybuf.feather.toolkit.util.parsing.Args;
+import dev.defaultybuf.feathercore.common.Message;
+import dev.defaultybuf.feathercore.common.minecraft.Placeholder;
+import dev.defaultybuf.feathercore.common.minecraft.WorldUtils;
 import dev.defaultybuf.feathercore.modules.teleport.interfaces.ITeleport;
 
 public class RandomTeleportCommand extends FeatherCommand<RandomTeleportCommand.CommandData> {
