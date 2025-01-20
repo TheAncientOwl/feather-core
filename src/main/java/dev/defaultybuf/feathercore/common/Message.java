@@ -6,13 +6,13 @@
  *
  * @file Message.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @description Message keys from language yml files
  */
 
 package dev.defaultybuf.feathercore.common;
 
-public final class Message {
+public final class Message extends dev.defaultybuf.feather.toolkit.core.Message {
     public static final class General {
         public static final String PERMISSION_DENIED = "general.command.no-permission";
         public static final String USAGE_INVALID = "general.command.invalid";
@@ -25,20 +25,6 @@ public final class Message {
         public static final String NOT_VALID_VALUE = "general.invalid-value";
         public static final String NOT_VALID_NUMBER = "general.not-valid-number";
         public static final String WORLD_NO_LONGER_AVAILABLE = "general.world-no-longer-available";
-    }
-
-    public static final class Reload {
-        public static final String USAGE = "configuration.usage";
-        public static final String CONFIG_RELOADED = "configuration.reload.single";
-        public static final String CONFIGS_RELOADED = "configuration.reload.multiple";
-    }
-
-    public static final class Language {
-        public static final String USAGE = "language.usage";
-        public static final String CHANGE_SUCCESS = "language.change-success";
-        public static final String UNKNOWN = "language.unknown";
-        public static final String INFO = "language.info";
-        public static final String LIST = "language.list";
     }
 
     public static final class PvPManager {

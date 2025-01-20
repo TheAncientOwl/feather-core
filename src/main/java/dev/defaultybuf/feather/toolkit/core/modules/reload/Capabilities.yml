@@ -19,7 +19,7 @@ module:
         all: reloads all modules
         module-name: reloads one specific module
       permissions:
-        - name: feathercore.reload
+        - name: featherplugin.reload
 
   components:
     - name: ReloadModule

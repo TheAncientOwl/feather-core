@@ -6,7 +6,7 @@
  *
  * @file PlayersData.java
  * @author Alexandru Delegeanu
- * @version 0.7
+ * @version 0.8
  * @description Module responsible for managing plugin players data
  */
 
@@ -25,11 +25,12 @@ import org.bukkit.entity.Player;
 
 import dev.defaultybuf.feather.toolkit.api.FeatherModule;
 import dev.defaultybuf.feather.toolkit.api.configuration.IConfigSection;
+import dev.defaultybuf.feather.toolkit.api.interfaces.IPlayerLanguageAccessor;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import dev.defaultybuf.feathercore.modules.data.mongodb.interfaces.IMongoDB;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 
-public class PlayersData extends FeatherModule implements IPlayersData {
+public class PlayersData extends FeatherModule implements IPlayersData, IPlayerLanguageAccessor {
     private final Map<UUID, PlayerModel> playersDataCache = new HashMap<>();
     private Set<UUID> saveMarks = Collections.synchronizedSet(new HashSet<>());
 
@@ -187,5 +188,17 @@ public class PlayersData extends FeatherModule implements IPlayersData {
                 }, 0L, ticks);
             }
         }
+    }
+
+    @Override
+    public String getPlayerLanguageCode(final OfflinePlayer player) {
+        return getPlayerModel(player).language;
+    }
+
+    @Override
+    public void setPlayerLanguageCode(final OfflinePlayer player, final String lang) {
+        final var playerModel = getPlayerModel(player);
+        playerModel.language = lang;
+        markPlayerModelForSave(playerModel);
     }
 }

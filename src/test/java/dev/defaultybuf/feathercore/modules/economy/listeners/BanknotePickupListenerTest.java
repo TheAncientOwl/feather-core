@@ -6,7 +6,7 @@
  *
  * @file BanknotePickupListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.12
+ * @version 0.13
  * @test_unit BanknotePickupListener#0.5
  * @description Unit tests for BanknotePickupListener
  */
@@ -39,7 +39,6 @@ import dev.defaultybuf.feather.toolkit.testing.mockers.DependencyInjector.Module
 import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherListenerTest;
 import dev.defaultybuf.feather.toolkit.testing.utils.TempModule;
 import dev.defaultybuf.feathercore.common.minecraft.NamespacedKey;
-import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 import dev.defaultybuf.feathercore.modules.economy.interfaces.IFeatherEconomy;
 
@@ -140,10 +139,6 @@ class BanknotePickupListenerTest extends FeatherListenerTest<BanknotePickupListe
 
         when(mockPersistentDataContainer.get(any(), eq(PersistentDataType.DOUBLE)))
                 .thenReturn(100.0);
-
-        var playerModel = new PlayerModel();
-        playerModel.language = "en";
-        when(mockPlayersData.getPlayerModel(mockPlayer)).thenReturn(playerModel);
 
         listenerInstance.onItemPickup(mockEvent);
 

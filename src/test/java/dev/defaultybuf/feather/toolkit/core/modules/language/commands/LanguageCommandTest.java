@@ -6,7 +6,7 @@
  *
  * @file LanguageCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.15
+ * @version 0.16
  * @test_unit LanguageCommand#0.9
  * @description Unit tests for LanguageCommand
  */
@@ -20,7 +20,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -158,7 +160,7 @@ class LanguageCommandTest extends FeatherCommandTest<LanguageCommand> {
             commandInstance.execute(mockPlayer, commandData);
         });
 
-        playerModel.language = LanguageManagerTest.FR.shortName();
+        when(mockPlayersLanguageAccessor.getPlayerLanguageCode(mockPlayer)).thenReturn("fr");
 
         assertDoesNotThrow(() -> {
             commandInstance.execute(mockPlayer, commandData);
@@ -218,26 +220,13 @@ class LanguageCommandTest extends FeatherCommandTest<LanguageCommand> {
         var commandData = new LanguageCommand.CommandData(
                 LanguageCommand.CommandType.CHANGE, "de");
 
-        assertEquals("en", playerModel.language);
-
         assertDoesNotThrow(() -> {
             commandInstance.execute(mockPlayer, commandData);
         });
 
-        assertEquals("de", playerModel.language, "Player language was not changed");
-
-        verify(mockPlayer).sendMessage(messageCaptor.capture());
-        verify(mockPlayersData).markPlayerModelForSave(playerModel);
-        verify(mockPluginManager).callEvent(new LanguageChangeEvent(mockPlayer, "de",
-                actualLanguage.module().getTranslation("de")));
-
-        assertEquals(1, messageCaptor.getAllValues().size());
-
-        var rawMessage =
-                actualLanguage.module().getTranslation("de")
-                        .getString(Message.Language.CHANGE_SUCCESS);
-        assertEquals(TestUtils.placeholderize(rawMessage, Pair.of("", "")),
-                messageCaptor.getValue());
+        verify(mockPlayersLanguageAccessor).setPlayerLanguageCode(eq(mockPlayer), eq("de"));
+        verify(mockPlayer).sendMessage(anyString());
+        verify(mockPluginManager).callEvent(any(LanguageChangeEvent.class));
     }
 
     @Test

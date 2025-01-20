@@ -6,7 +6,7 @@
  *
  * @file ReloadCommand.java
  * @author Alexandru Delegeanu
- * @version 0.7
+ * @version 0.8
  * @description Reload configurations command
  */
 
@@ -19,11 +19,11 @@ import org.bukkit.command.CommandSender;
 
 import dev.defaultybuf.feather.toolkit.api.FeatherCommand;
 import dev.defaultybuf.feather.toolkit.api.FeatherModule;
+import dev.defaultybuf.feather.toolkit.core.Message;
+import dev.defaultybuf.feather.toolkit.core.Placeholder;
 import dev.defaultybuf.feather.toolkit.core.modules.language.components.LanguageManager;
 import dev.defaultybuf.feather.toolkit.util.java.Pair;
 import dev.defaultybuf.feather.toolkit.util.java.StringUtils;
-import dev.defaultybuf.feathercore.common.Message;
-import dev.defaultybuf.feathercore.common.minecraft.Placeholder;
 
 public class ReloadCommand extends FeatherCommand<ReloadCommand.CommandData> {
     public ReloadCommand(final InitData data) {
@@ -35,8 +35,8 @@ public class ReloadCommand extends FeatherCommand<ReloadCommand.CommandData> {
 
     @Override
     protected boolean hasPermission(final CommandSender sender, final CommandData data) {
-        if (!sender.hasPermission("feathercore.reload")) {
-            getLanguage().message(sender, Message.General.PERMISSION_DENIED);
+        if (!sender.hasPermission("featherplugin.reload")) {
+            getLanguage().message(sender, Message.GeneralCore.PERMISSION_DENIED);
             return false;
         }
         return true;

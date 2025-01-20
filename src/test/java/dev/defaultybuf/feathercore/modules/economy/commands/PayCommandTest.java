@@ -6,7 +6,7 @@
  *
  * @file PayCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @test_unit PayCommand#0.10
  * @description Unit tests for PayCommand
  */
@@ -456,13 +456,8 @@ class PayCommandTest extends FeatherCommandTest<PayCommand> {
     @Test
     void testExecute() {
         var mockPlayer2 = mock(Player.class);
-        var playerModel2 = new PlayerModel();
-        playerModel2.language = "en";
 
         when(mockFeatherEconomy.getEconomy().format(100.0)).thenReturn("100.0");
-
-        when(mockPlayersData.getPlayerModel(mockPlayer)).thenReturn(playerModel);
-        when(mockPlayersData.getPlayerModel(mockPlayer2)).thenReturn(playerModel2);
 
         when(mockPlayer2.getName()).thenReturn("player");
         when(mockPlayer.getName()).thenReturn("sender");

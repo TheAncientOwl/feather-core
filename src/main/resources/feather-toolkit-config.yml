@@ -45,6 +45,7 @@ modules:
     class: dev.defaultybuf.feathercore.modules.data.players.components.PlayersData
     interfaces:
       - dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData
+      - dev.defaultybuf.feather.toolkit.api.interface.IPlayerLangaugeAccessor
     dependencies: [MongoManager]
     mandatory: true
     config: modules/players.yml

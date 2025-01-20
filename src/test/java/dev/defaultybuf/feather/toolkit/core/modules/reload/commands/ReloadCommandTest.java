@@ -6,7 +6,7 @@
  *
  * @file ReloadCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.14
+ * @version 0.15
  * @test_unit ReloadCommand#0.7
  * @description Unit tests for ReloadCommand
  */
@@ -47,23 +47,23 @@ class ReloadCommandTest extends FeatherCommandTest<ReloadCommand> {
 
     @Test
     void testHasPermission_WithPermission() {
-        when(mockSender.hasPermission("feathercore.reload")).thenReturn(true);
+        when(mockSender.hasPermission("featherplugin.reload")).thenReturn(true);
 
         var commandData = new ReloadCommand.CommandData(new ArrayList<>());
         assertTrue(commandInstance.hasPermission(mockSender, commandData));
 
-        verify(mockSender, times(1)).hasPermission("feathercore.reload");
+        verify(mockSender, times(1)).hasPermission("featherplugin.reload");
         verifyNoInteractions(mockLanguage);
     }
 
     @Test
     void testHasPermission_WithoutPermission() {
-        when(mockSender.hasPermission("feathercore.reload")).thenReturn(false);
+        when(mockSender.hasPermission("featherplugin.reload")).thenReturn(false);
 
         var commandData = new ReloadCommand.CommandData(new ArrayList<>());
         assertFalse(commandInstance.hasPermission(mockSender, commandData));
 
-        verify(mockSender, times(1)).hasPermission("feathercore.reload");
+        verify(mockSender, times(1)).hasPermission("featherplugin.reload");
         verify(mockLanguage, times(1))
                 .message(mockSender, Message.General.PERMISSION_DENIED);
     }

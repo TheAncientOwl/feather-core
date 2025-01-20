@@ -6,7 +6,7 @@
  *
  * @file FeatherUnitTest.java
  * @author Alexandru Delegeanu
- * @version 0.15
+ * @version 0.16
  * @description Utility class for developing unit tests that use modules
  */
 
@@ -20,6 +20,7 @@ import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.junit.jupiter.api.AfterEach;
@@ -30,6 +31,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import dev.defaultybuf.feather.toolkit.api.interfaces.IEnabledModulesProvider;
 import dev.defaultybuf.feather.toolkit.api.interfaces.IFeatherLogger;
+import dev.defaultybuf.feather.toolkit.api.interfaces.IPlayerLanguageAccessor;
 import dev.defaultybuf.feather.toolkit.core.modules.language.interfaces.ILanguage;
 import dev.defaultybuf.feather.toolkit.testing.annotations.ActualModule;
 import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
@@ -47,6 +49,7 @@ public abstract class FeatherUnitTest {
     @Mock protected IFeatherLogger mockFeatherLogger;
     @Mock protected IEnabledModulesProvider mockEnabledModulesProvider;
     @Mock protected Server mockServer;
+    @Mock protected IPlayerLanguageAccessor mockPlayersLanguageAccessor;
 
     @MockedModule(of = Module.Language) protected ILanguage mockLanguage;
 
@@ -105,6 +108,10 @@ public abstract class FeatherUnitTest {
         dependenciesMap.put(JavaPlugin.class, mockJavaPlugin);
         dependenciesMap.put(IFeatherLogger.class, mockFeatherLogger);
         dependenciesMap.put(IEnabledModulesProvider.class, mockEnabledModulesProvider);
+        dependenciesMap.put(IPlayerLanguageAccessor.class, mockPlayersLanguageAccessor);
+
+        lenient().when(mockPlayersLanguageAccessor.getPlayerLanguageCode(any(OfflinePlayer.class)))
+                .thenReturn("en");
 
         mockLanguage = DependencyInjector.Language.Mock();
     }

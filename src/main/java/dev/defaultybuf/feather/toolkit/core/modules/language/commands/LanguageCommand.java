@@ -6,7 +6,7 @@
  *
  * @file LanguageCommand.java
  * @author Alexandru Delegeanu
- * @version 0.9
+ * @version 0.10
  * @description Manage player's messages language
  */
 
@@ -20,12 +20,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import dev.defaultybuf.feather.toolkit.api.FeatherCommand;
+import dev.defaultybuf.feather.toolkit.api.interfaces.IPlayerLanguageAccessor;
+import dev.defaultybuf.feather.toolkit.core.Message;
+import dev.defaultybuf.feather.toolkit.core.Placeholder;
 import dev.defaultybuf.feather.toolkit.core.modules.language.events.LanguageChangeEvent;
 import dev.defaultybuf.feather.toolkit.util.java.Pair;
 import dev.defaultybuf.feather.toolkit.util.java.StringUtils;
-import dev.defaultybuf.feathercore.common.Message;
-import dev.defaultybuf.feathercore.common.minecraft.Placeholder;
-import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 
 public class LanguageCommand extends FeatherCommand<LanguageCommand.CommandData> {
     public LanguageCommand(final InitData data) {
@@ -48,8 +48,8 @@ public class LanguageCommand extends FeatherCommand<LanguageCommand.CommandData>
     protected void execute(final CommandSender sender, final CommandData data) {
         switch (data.commandType) {
             case INFO: {
-                final var playerLangPrefix = getInterface(IPlayersData.class)
-                        .getPlayerModel((OfflinePlayer) sender).language;
+                final var playerLangPrefix = getInterface(IPlayerLanguageAccessor.class)
+                        .getPlayerLanguageCode((OfflinePlayer) sender);
                 final var langExtended =
                         getLanguage().getConfig().getConfigurationSection("languages")
                                 .getString(playerLangPrefix, "");
@@ -71,12 +71,10 @@ public class LanguageCommand extends FeatherCommand<LanguageCommand.CommandData>
                 break;
             }
             case CHANGE: {
-                final var playerModel =
-                        getInterface(IPlayersData.class).getPlayerModel((OfflinePlayer) sender);
-                playerModel.language = data.language;
-                getInterface(IPlayersData.class).markPlayerModelForSave(playerModel);
-                getLanguage().message(sender, Message.Language.CHANGE_SUCCESS);
+                getInterface(IPlayerLanguageAccessor.class)
+                        .setPlayerLanguageCode((OfflinePlayer) sender, data.language);
 
+                getLanguage().message(sender, Message.Language.CHANGE_SUCCESS);
                 getPlugin().getServer().getPluginManager().callEvent(
                         new LanguageChangeEvent((Player) sender, data.language,
                                 getLanguage().getTranslation(sender)));

@@ -6,7 +6,7 @@
  *
  * @file LanguageManager.java
  * @author Alexandru Delegeanu
- * @version 0.10
+ * @version 0.11
  * @description Module responsible for managing plugin messages translations
  */
 
@@ -18,17 +18,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import dev.defaultybuf.feather.toolkit.api.FeatherModule;
 import dev.defaultybuf.feather.toolkit.api.configuration.IConfigFile;
+import dev.defaultybuf.feather.toolkit.api.interfaces.IPlayerLanguageAccessor;
 import dev.defaultybuf.feather.toolkit.core.configuration.bukkit.BukkitConfigFile;
 import dev.defaultybuf.feather.toolkit.core.modules.language.interfaces.ILanguage;
 import dev.defaultybuf.feather.toolkit.exceptions.FeatherSetupException;
 import dev.defaultybuf.feather.toolkit.util.java.Pair;
 import dev.defaultybuf.feather.toolkit.util.java.StringUtils;
-import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 
 public class LanguageManager extends FeatherModule implements ILanguage {
     private final Map<String, IConfigFile> translations = new HashMap<>();
@@ -64,7 +65,8 @@ public class LanguageManager extends FeatherModule implements ILanguage {
     public IConfigFile getTranslation(final CommandSender sender) {
         return getTranslation(
                 sender instanceof Player
-                        ? getInterface(IPlayersData.class).getPlayerModel((Player) sender).language
+                        ? getInterface(IPlayerLanguageAccessor.class)
+                                .getPlayerLanguageCode((OfflinePlayer) sender)
                         : "en");
     }
 

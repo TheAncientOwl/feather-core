@@ -6,7 +6,7 @@
  *
  * @file BalanceCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.10
+ * @version 0.11
  * @test_unit BalanceCommand#0.8
  * @description Unit tests for BalanceCommand
  */
@@ -130,9 +130,6 @@ class BalanceCommandTest extends FeatherCommandTest<BalanceCommand> {
 
         when(mockFeatherEconomy.getEconomy().getBalance(mockPlayer)).thenReturn(100.0);
         when(mockFeatherEconomy.getEconomy().format(100.0)).thenReturn("100.0");
-
-        playerModel.language = "en";
-        when(mockPlayersData.getPlayerModel(mockPlayer)).thenReturn(playerModel);
 
         commandInstance.execute(mockPlayer, commandData);
 
