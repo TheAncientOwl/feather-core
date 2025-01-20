@@ -15,6 +15,12 @@
       "base": "mojo",
       "color": "red-900",
       "folderNames": ["feathercore", "defaultybuf", "feather"]
+    },
+    {
+      "name": "toolkit-red",
+      "base": "helper",
+      "color": "blue-700",
+      "folderNames": ["feather-toolkit"]
     }
   ],
   "material-icon-theme.files.associations": {
