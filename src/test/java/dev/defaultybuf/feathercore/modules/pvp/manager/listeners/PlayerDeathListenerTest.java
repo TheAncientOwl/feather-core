@@ -6,7 +6,7 @@
  *
  * @file PlayerDeathListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.2
+ * @version 0.3
  * @test_unit PlayerDeathListener#0.4
  * @description Unit tests for PlayerDeathListener
  */
@@ -23,7 +23,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
-import dev.defaultybuf.feather.toolkit.testing.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherListenerTest;
 import dev.defaultybuf.feathercore.modules.pvp.manager.interfaces.IPvPManager;
 
@@ -31,7 +30,7 @@ class PlayerDeathListenerTest extends FeatherListenerTest<PlayerDeathListener> {
     @Mock Player mockPlayer;
     @Mock PlayerDeathEvent mockEvent;
 
-    @MockedModule(of = Module.PvPManager) IPvPManager mockPvPManager;
+    @MockedModule IPvPManager mockPvPManager;
 
     @Override
     protected Class<PlayerDeathListener> getListenerClass() {

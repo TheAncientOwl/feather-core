@@ -6,7 +6,7 @@
  *
  * @file PlayerDamageListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @test_unit PlayerDamageListener#0.4
  * @description Unit tests for PlayerDamageListener
  */
@@ -29,10 +29,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import dev.defaultybuf.feather.toolkit.core.modules.language.components.LanguageManager;
+import dev.defaultybuf.feather.toolkit.core.modules.language.interfaces.ILanguage;
 import dev.defaultybuf.feather.toolkit.testing.annotations.ActualModule;
 import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
 import dev.defaultybuf.feather.toolkit.testing.annotations.Resource;
-import dev.defaultybuf.feather.toolkit.testing.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherListenerTest;
 import dev.defaultybuf.feather.toolkit.testing.utils.TempModule;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
@@ -60,11 +60,11 @@ class PlayerDamageListenerTest extends FeatherListenerTest<PlayerDamageListener>
     @Mock Projectile mockProjectile;
     @Mock EntityDamageByEntityEvent mockEvent;
 
-    @MockedModule(of = Module.PlayersData) IPlayersData mockPlayersData;
-    @MockedModule(of = Module.PvPManager) IPvPManager mockPvPManager;
+    @MockedModule IPlayersData mockPlayersData;
+    @MockedModule IPvPManager mockPvPManager;
 
     @ActualModule(
-            of = Module.Language,
+            of = ILanguage.class,
             resources = {
                     @Resource(path = "config.yml", content = LANGUAGE_CONFIG_CONTENT),
                     @Resource(path = "en.yml", content = EN_LANGUAGE_FILE_CONTENT)

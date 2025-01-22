@@ -6,7 +6,7 @@
  *
  * @file TeleportListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @test_unit TeleportListener#0.6
  * @description Unit tests for TeleportListener
  */
@@ -25,7 +25,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
-import dev.defaultybuf.feather.toolkit.testing.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherListenerTest;
 import dev.defaultybuf.feathercore.common.Message;
 import dev.defaultybuf.feathercore.modules.pvp.manager.interfaces.IPvPManager;
@@ -34,7 +33,7 @@ class TeleportListenerTest extends FeatherListenerTest<TeleportListener> {
     @Mock PlayerTeleportEvent mockEvent;
     @Mock Player mockPlayer;
 
-    @MockedModule(of = Module.PvPManager) IPvPManager mockPvPManager;
+    @MockedModule IPvPManager mockPvPManager;
 
     @Override
     protected Class<TeleportListener> getListenerClass() {

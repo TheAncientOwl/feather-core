@@ -6,7 +6,7 @@
  *
  * @file PayCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.7
+ * @version 0.8
  * @test_unit PayCommand#0.10
  * @description Unit tests for PayCommand
  */
@@ -43,10 +43,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 
 import dev.defaultybuf.feather.toolkit.core.modules.language.components.LanguageManager;
+import dev.defaultybuf.feather.toolkit.core.modules.language.interfaces.ILanguage;
 import dev.defaultybuf.feather.toolkit.testing.annotations.ActualModule;
 import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
 import dev.defaultybuf.feather.toolkit.testing.annotations.Resource;
-import dev.defaultybuf.feather.toolkit.testing.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherCommandTest;
 import dev.defaultybuf.feather.toolkit.testing.utils.TempModule;
 import dev.defaultybuf.feather.toolkit.util.java.StringUtils;
@@ -92,11 +92,11 @@ class PayCommandTest extends FeatherCommandTest<PayCommand> {
     @Mock CommandSender mockSender;
     @Mock OfflinePlayer mockOfflinePlayer;
 
-    @MockedModule(of = Module.Economy) IFeatherEconomy mockFeatherEconomy;
-    @MockedModule(of = Module.PlayersData) IPlayersData mockPlayersData;
+    @MockedModule IFeatherEconomy mockFeatherEconomy;
+    @MockedModule IPlayersData mockPlayersData;
 
     @ActualModule(
-            of = Module.Language,
+            of = ILanguage.class,
             resources = {
                     @Resource(path = "config.yml", content = LANGUAGE_CONFIG_CONTENT),
                     @Resource(path = "en.yml", content = EN_LANGUAGE_FILE_CONTENT)

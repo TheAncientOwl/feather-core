@@ -6,7 +6,7 @@
  *
  * @file PlayerLogoutListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @test_unit PlayerLogoutListene#0.7
  * @description Unit tests for PlayerLogoutListene
  */
@@ -31,7 +31,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
-import dev.defaultybuf.feather.toolkit.testing.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherListenerTest;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 import dev.defaultybuf.feathercore.modules.pvp.manager.interfaces.IPvPManager;
@@ -40,8 +39,8 @@ class PlayerLogoutListenerTest extends FeatherListenerTest<PlayerLogoutListener>
     @Mock Player mockPlayer;
     @Mock PlayerQuitEvent mockEvent;
 
-    @MockedModule(of = Module.PlayersData) IPlayersData mockpPlayersData;
-    @MockedModule(of = Module.PvPManager) IPvPManager mockPvPManager;
+    @MockedModule IPlayersData mockpPlayersData;
+    @MockedModule IPvPManager mockPvPManager;
 
     @Override
     protected Class<PlayerLogoutListener> getListenerClass() {

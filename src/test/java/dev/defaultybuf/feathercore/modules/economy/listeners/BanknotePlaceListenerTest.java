@@ -6,7 +6,7 @@
  *
  * @file BanknotePlaceListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.7
+ * @version 0.8
  * @test_unit BanknotePlaceListener#0.6
  * @description Unit tests for BanknotePlaceListener
  */
@@ -27,7 +27,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
-import dev.defaultybuf.feather.toolkit.testing.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherListenerTest;
 import dev.defaultybuf.feathercore.modules.economy.interfaces.IFeatherEconomy;
 
@@ -37,7 +36,7 @@ class BanknotePlaceListenerTest extends FeatherListenerTest<BanknotePlaceListene
     @Mock ItemMeta mockItemMeta;
     @Mock PersistentDataContainer mockPersistentDataContainer;
 
-    @MockedModule(of = Module.Economy) IFeatherEconomy mockFeatherEconomy;
+    @MockedModule IFeatherEconomy mockFeatherEconomy;
 
     @Override
     protected Class<BanknotePlaceListener> getListenerClass() {

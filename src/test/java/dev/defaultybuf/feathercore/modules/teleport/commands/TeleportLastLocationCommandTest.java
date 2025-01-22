@@ -6,7 +6,7 @@
  *
  * @file TeleportLastLocationCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.7
  * @test_unit TeleportLastLocationCommand#0.10
  * @description Unit tests for TeleportLastLocationCommand
  */
@@ -48,7 +48,6 @@ import org.mockito.MockedStatic;
 
 import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
 import dev.defaultybuf.feather.toolkit.testing.annotations.StaticMock;
-import dev.defaultybuf.feather.toolkit.testing.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherCommandTest;
 import dev.defaultybuf.feather.toolkit.util.java.StringUtils;
 import dev.defaultybuf.feathercore.common.Message;
@@ -67,8 +66,8 @@ class TeleportLastLocationCommandTest extends FeatherCommandTest<TeleportLastLoc
 
     @StaticMock(of = Bukkit.class) MockedStatic<Bukkit> mockedBukkit;
 
-    @MockedModule(of = Module.Teleport) ITeleport mockTeleport;
-    @MockedModule(of = Module.PlayersData) IPlayersData mockPlayersData;
+    @MockedModule ITeleport mockTeleport;
+    @MockedModule IPlayersData mockPlayersData;
 
     PlayerModel playerModel;
 

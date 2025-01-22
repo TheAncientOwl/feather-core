@@ -6,7 +6,7 @@
  *
  * @file LanguageCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.16
+ * @version 0.17
  * @test_unit LanguageCommand#0.9
  * @description Unit tests for LanguageCommand
  */
@@ -50,10 +50,10 @@ import dev.defaultybuf.feather.toolkit.core.modules.language.commands.LanguageCo
 import dev.defaultybuf.feather.toolkit.core.modules.language.components.LanguageManager;
 import dev.defaultybuf.feather.toolkit.core.modules.language.components.LanguageManagerTest;
 import dev.defaultybuf.feather.toolkit.core.modules.language.events.LanguageChangeEvent;
+import dev.defaultybuf.feather.toolkit.core.modules.language.interfaces.ILanguage;
 import dev.defaultybuf.feather.toolkit.testing.annotations.ActualModule;
 import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
 import dev.defaultybuf.feather.toolkit.testing.annotations.Resource;
-import dev.defaultybuf.feather.toolkit.testing.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherCommandTest;
 import dev.defaultybuf.feather.toolkit.testing.utils.TempModule;
 import dev.defaultybuf.feather.toolkit.testing.utils.TestUtils;
@@ -61,7 +61,7 @@ import dev.defaultybuf.feather.toolkit.util.java.Pair;
 import dev.defaultybuf.feathercore.common.Message;
 import dev.defaultybuf.feathercore.common.minecraft.Placeholder;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
-import dev.defaultybuf.feathercore.modules.data.players.components.PlayersData;
+import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 
 class LanguageCommandTest extends FeatherCommandTest<LanguageCommand> {
     static final String LANGUAGE_CONFIG_CONTENT = "languages:\n en: English\n de: Deutsch";
@@ -88,10 +88,10 @@ class LanguageCommandTest extends FeatherCommandTest<LanguageCommand> {
     @Mock Player mockPlayer;
     @Mock CommandSender mockSender;
 
-    @MockedModule(of = Module.PlayersData) PlayersData mockPlayersData;
+    @MockedModule IPlayersData mockPlayersData;
 
     @ActualModule(
-            of = Module.Language,
+            of = ILanguage.class,
             resources = {
                     @Resource(path = "config.yml", content = LANGUAGE_CONFIG_CONTENT),
                     @Resource(path = "en.yml", content = EN_LANGUAGE_FILE_CONTENT),

@@ -6,7 +6,7 @@
  *
  * @file LanguageChangeListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.9
+ * @version 0.10
  * @test_unit LanguageChangeListener#0.5
  * @description Unit tests for LanguageChangeListener
  */
@@ -33,10 +33,10 @@ import org.mockito.Mock;
 
 import dev.defaultybuf.feather.toolkit.core.modules.language.components.LanguageManager;
 import dev.defaultybuf.feather.toolkit.core.modules.language.events.LanguageChangeEvent;
+import dev.defaultybuf.feather.toolkit.core.modules.language.interfaces.ILanguage;
 import dev.defaultybuf.feather.toolkit.testing.annotations.ActualModule;
 import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
 import dev.defaultybuf.feather.toolkit.testing.annotations.Resource;
-import dev.defaultybuf.feather.toolkit.testing.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherListenerTest;
 import dev.defaultybuf.feather.toolkit.testing.utils.TempModule;
 import dev.defaultybuf.feathercore.modules.economy.interfaces.IFeatherEconomy;
@@ -60,10 +60,10 @@ class LanguageChangeListenerTest extends FeatherListenerTest<LanguageChangeListe
     @Mock PlayerInventory mockPlayerInventory;
     @Mock PersistentDataContainer mockPersistentDataContainer;
 
-    @MockedModule(of = Module.Economy) IFeatherEconomy mockFeatherEconomy;
+    @MockedModule IFeatherEconomy mockFeatherEconomy;
 
     @ActualModule(
-            of = Module.Language,
+            of = ILanguage.class,
             resources = {
                     @Resource(path = "config.yml",
                             content = LANGUAGE_CONFIG_CONTENT),

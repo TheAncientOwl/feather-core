@@ -6,7 +6,7 @@
  *
  * @file LootChestsCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @test_unit LootChestsCommand#0.9
  * @description Unit tests for LootChestsCommand
  */
@@ -47,11 +47,11 @@ import org.mockito.Mock;
 
 import dev.defaultybuf.feather.toolkit.api.configuration.IConfigSection;
 import dev.defaultybuf.feather.toolkit.core.modules.language.components.LanguageManager;
+import dev.defaultybuf.feather.toolkit.core.modules.language.interfaces.ILanguage;
 import dev.defaultybuf.feather.toolkit.testing.annotations.ActualModule;
 import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
 import dev.defaultybuf.feather.toolkit.testing.annotations.Resource;
 import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherCommandTest;
-import dev.defaultybuf.feather.toolkit.testing.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feather.toolkit.testing.utils.TempModule;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
@@ -90,13 +90,15 @@ class LootChestsCommandTest extends FeatherCommandTest<LootChestsCommand> {
     @Mock BlockState mockBlockState;
     @Mock IConfigSection mockConfigSection;
 
-    @MockedModule(of = Module.LootChests) ILootChests mockLootChests;
-    @MockedModule(of = Module.PlayersData) IPlayersData mockPlayersData;
+    @MockedModule ILootChests mockLootChests;
+    @MockedModule IPlayersData mockPlayersData;
 
-    @ActualModule(of = Module.Language, resources = {
-            @Resource(path = "config.yml", content = LANGUAGE_CONFIG_CONTENT),
-            @Resource(path = "en.yml", content = EN_LANGUAGE_FILE_CONTENT)
-    }) TempModule<LanguageManager> actualLanguage;
+    @ActualModule(
+            of = ILanguage.class,
+            resources = {
+                    @Resource(path = "config.yml", content = LANGUAGE_CONFIG_CONTENT),
+                    @Resource(path = "en.yml", content = EN_LANGUAGE_FILE_CONTENT)
+            }) TempModule<LanguageManager> actualLanguage;
 
     PlayerModel playerModel;
 

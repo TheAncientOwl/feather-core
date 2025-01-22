@@ -6,7 +6,7 @@
  *
  * @file TeleportAllCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @test_unit TeleportAllCommand#0.9
  * @description Unit tests for TeleportAllCommand
  */
@@ -40,7 +40,6 @@ import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 
 import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
-import dev.defaultybuf.feather.toolkit.testing.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherCommandTest;
 import dev.defaultybuf.feather.toolkit.util.java.StringUtils;
 import dev.defaultybuf.feathercore.common.Message;
@@ -52,7 +51,7 @@ class TeleportAllCommandTest extends FeatherCommandTest<TeleportAllCommand> {
     @Mock Player mockPlayer3;
     @Mock CommandSender mockCommandSender;
 
-    @MockedModule(of = Module.Teleport) ITeleport mockTeleport;
+    @MockedModule ITeleport mockTeleport;
 
     @Override
     protected Class<TeleportAllCommand> getCommandClass() {

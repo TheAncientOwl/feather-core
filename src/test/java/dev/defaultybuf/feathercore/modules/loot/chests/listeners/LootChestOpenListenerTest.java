@@ -6,7 +6,7 @@
  *
  * @file LootChestOpenListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.7
  * @test_unit LootChestOpenListener#0.8
  * @description Unit tests for LootChestOpenListener
  */
@@ -31,10 +31,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import dev.defaultybuf.feather.toolkit.core.modules.language.components.LanguageManager;
+import dev.defaultybuf.feather.toolkit.core.modules.language.interfaces.ILanguage;
 import dev.defaultybuf.feather.toolkit.testing.annotations.ActualModule;
 import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
 import dev.defaultybuf.feather.toolkit.testing.annotations.Resource;
-import dev.defaultybuf.feather.toolkit.testing.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherListenerTest;
 import dev.defaultybuf.feather.toolkit.testing.utils.TempModule;
 import dev.defaultybuf.feather.toolkit.util.java.Clock;
@@ -72,11 +72,11 @@ class LootChestOpenListenerTest extends FeatherListenerTest<LootChestOpenListene
     @Mock Location mockLocation;
     @Mock PlayerInteractEvent mockEvent;
 
-    @MockedModule(of = Module.PlayersData) IPlayersData mockPlayersData;
-    @MockedModule(of = Module.LootChests) ILootChests mockLootChests;
+    @MockedModule IPlayersData mockPlayersData;
+    @MockedModule ILootChests mockLootChests;
 
     @ActualModule(
-            of = Module.Language,
+            of = ILanguage.class,
             resources = {
                     @Resource(path = "config.yml", content = LANGUAGE_CONFIG_CONTENT),
                     @Resource(path = "en.yml", content = EN_LANGUAGE_FILE_CONTENT)

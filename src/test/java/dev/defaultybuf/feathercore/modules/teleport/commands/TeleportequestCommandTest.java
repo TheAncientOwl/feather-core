@@ -6,7 +6,7 @@
  *
  * @file TeleportequestCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.1
+ * @version 0.2
  * @test_unit TeleportequestCommand#0.7
  * @description Unit tests for TeleportequestCommand
  */
@@ -45,7 +45,6 @@ import org.mockito.MockedStatic;
 
 import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
 import dev.defaultybuf.feather.toolkit.testing.annotations.StaticMock;
-import dev.defaultybuf.feather.toolkit.testing.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherCommandTest;
 import dev.defaultybuf.feather.toolkit.util.java.StringUtils;
 import dev.defaultybuf.feathercore.common.Message;
@@ -61,7 +60,7 @@ public class TeleportequestCommandTest extends FeatherCommandTest<TeleportReques
 
     @StaticMock(of = Bukkit.class) MockedStatic<Bukkit> mockedBukkit;
 
-    @MockedModule(of = Module.Teleport) ITeleport mockTeleport;
+    @MockedModule ITeleport mockTeleport;
 
     @Override
     protected Class<TeleportRequestCommand> getCommandClass() {

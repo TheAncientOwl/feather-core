@@ -6,7 +6,7 @@
  *
  * @file FeatherUnitTest.java
  * @author Alexandru Delegeanu
- * @version 0.16
+ * @version 0.17
  * @description Utility class for developing unit tests that use modules
  */
 
@@ -37,7 +37,6 @@ import dev.defaultybuf.feather.toolkit.testing.annotations.ActualModule;
 import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
 import dev.defaultybuf.feather.toolkit.testing.annotations.Resource;
 import dev.defaultybuf.feather.toolkit.testing.annotations.StaticMock;
-import dev.defaultybuf.feather.toolkit.testing.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feather.toolkit.testing.utils.TestUtils;
 import dev.defaultybuf.feather.toolkit.util.java.Pair;
 
@@ -51,7 +50,7 @@ public abstract class FeatherUnitTest {
     @Mock protected Server mockServer;
     @Mock protected IPlayerLanguageAccessor mockPlayersLanguageAccessor;
 
-    @MockedModule(of = Module.Language) protected ILanguage mockLanguage;
+    @MockedModule protected ILanguage mockLanguage;
 
     public static JavaPlugin getJavaPluginMock() {
         return mockJavaPlugin;
@@ -131,8 +130,8 @@ public abstract class FeatherUnitTest {
     void injectMockedModule(final Field field) {
         field.setAccessible(true);
         try {
-            MockedModule annotation = field.getAnnotation(MockedModule.class);
-            field.set(this, DependencyInjector.getInjector(annotation.of()).Mock());
+            // MockedModule annotation = field.getAnnotation(MockedModule.class);
+            field.set(this, DependencyInjector.getInjector(field.getType()).Mock());
         } catch (Exception e) {
             e.printStackTrace();
         }

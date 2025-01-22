@@ -6,7 +6,7 @@
  *
  * @file DependencyInjector.java
  * @author Alexandru Delegeanu
- * @version 0.15
+ * @version 0.16
  * @description Create mocks / actual instances of all modules 
  *              and inject them into tests dependencies map
  */
@@ -49,17 +49,15 @@ import dev.defaultybuf.feathercore.modules.teleport.components.Teleport;
 import dev.defaultybuf.feathercore.modules.teleport.interfaces.ITeleport;
 
 public final class DependencyInjector {
-    public static enum Module {
-        Language, Reload, PlayersData, Economy, LootChests, MongoDB, PvPManager, Teleport
-    }
 
     @SuppressWarnings("unchecked")
-    public static final <T extends FeatherModule> ModuleInjector<T> getInjector(Module module) {
+    public static final <T extends FeatherModule> ModuleInjector<T> getInjector(
+            Class<?> interfaceClass) {
         assert moduleInjectors.containsKey(
-                module) : "[modules.common.mockers]@DependencyInjector.getInjector(Module): Module injector not found for "
-                        + module;
+                interfaceClass) : "[modules.common.mockers]@DependencyInjector.getInjector(Module): Module injector not found for "
+                        + interfaceClass;
 
-        return (ModuleInjector<T>) moduleInjectors.get(module);
+        return (ModuleInjector<T>) moduleInjectors.get(interfaceClass);
     }
 
     public static final ModuleInjector<LanguageManager> Language =
@@ -202,14 +200,14 @@ public final class DependencyInjector {
         }
     }
 
-    static final Map<Module, ModuleInjector<?>> moduleInjectors = Map.of(
-            Module.Language, Language,
-            Module.Reload, Reload,
-            Module.PlayersData, PlayersData,
-            Module.Economy, Economy,
-            Module.LootChests, LootChests,
-            Module.MongoDB, MongoDB,
-            Module.PvPManager, PvPManager,
-            Module.Teleport, Teleport);
+    static final Map<Class<?>, ModuleInjector<?>> moduleInjectors = Map.of(
+            ILanguage.class, Language,
+            IReloadModule.class, Reload,
+            IPlayersData.class, PlayersData,
+            IFeatherEconomy.class, Economy,
+            ILootChests.class, LootChests,
+            IMongoDB.class, MongoDB,
+            IPvPManager.class, PvPManager,
+            ITeleport.class, Teleport);
 
 }

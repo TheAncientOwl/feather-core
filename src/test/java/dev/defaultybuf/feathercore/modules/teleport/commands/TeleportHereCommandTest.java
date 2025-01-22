@@ -6,7 +6,7 @@
  *
  * @file TeleportHereCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @test_unit TeleportHereCommand#0.9
  * @description Unit tests for TeleportHereCommand
  */
@@ -42,7 +42,6 @@ import org.mockito.MockedStatic;
 
 import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
 import dev.defaultybuf.feather.toolkit.testing.annotations.StaticMock;
-import dev.defaultybuf.feather.toolkit.testing.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherCommandTest;
 import dev.defaultybuf.feather.toolkit.util.java.StringUtils;
 import dev.defaultybuf.feathercore.common.Message;
@@ -55,7 +54,7 @@ class TeleportHereCommandTest extends FeatherCommandTest<TeleportHereCommand> {
 
     @StaticMock(of = Bukkit.class) MockedStatic<Bukkit> mockedBukkit;
 
-    @MockedModule(of = Module.Teleport) ITeleport mockTeleport;
+    @MockedModule ITeleport mockTeleport;
 
     @Override
     protected Class<TeleportHereCommand> getCommandClass() {

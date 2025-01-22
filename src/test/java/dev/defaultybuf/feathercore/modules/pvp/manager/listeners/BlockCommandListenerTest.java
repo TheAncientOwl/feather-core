@@ -6,7 +6,7 @@
  *
  * @file BlockCommandListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @test_unit BlockCommandListener#0.6
  * @description Unit tests for BlockCommandListener
  */
@@ -27,10 +27,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import dev.defaultybuf.feather.toolkit.core.modules.language.components.LanguageManager;
+import dev.defaultybuf.feather.toolkit.core.modules.language.interfaces.ILanguage;
 import dev.defaultybuf.feather.toolkit.testing.annotations.ActualModule;
 import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
 import dev.defaultybuf.feather.toolkit.testing.annotations.Resource;
-import dev.defaultybuf.feather.toolkit.testing.mockers.DependencyInjector.Module;
 import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherListenerTest;
 import dev.defaultybuf.feather.toolkit.testing.utils.TempModule;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
@@ -56,11 +56,11 @@ class BlockCommandListenerTest extends FeatherListenerTest<BlockCommandsListener
     @Mock Player mockPlayer;
     @Mock PlayerCommandPreprocessEvent mockEvent;
 
-    @MockedModule(of = Module.PlayersData) IPlayersData mockPlayersData;
-    @MockedModule(of = Module.PvPManager) IPvPManager mockPvPManager;
+    @MockedModule IPlayersData mockPlayersData;
+    @MockedModule IPvPManager mockPvPManager;
 
     @ActualModule(
-            of = Module.Language,
+            of = ILanguage.class,
             resources = {
                     @Resource(path = "config.yml", content = LANGUAGE_CONFIG_CONTENT),
                     @Resource(path = "en.yml", content = EN_LANGUAGE_FILE_CONTENT)
