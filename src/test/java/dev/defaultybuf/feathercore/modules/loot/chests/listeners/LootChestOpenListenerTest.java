@@ -6,7 +6,7 @@
  *
  * @file LootChestOpenListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.7
+ * @version 0.8
  * @test_unit LootChestOpenListener#0.8
  * @description Unit tests for LootChestOpenListener
  */
@@ -33,8 +33,10 @@ import org.mockito.Mock;
 import dev.defaultybuf.feather.toolkit.core.modules.language.components.LanguageManager;
 import dev.defaultybuf.feather.toolkit.core.modules.language.interfaces.ILanguage;
 import dev.defaultybuf.feather.toolkit.testing.annotations.ActualModule;
+import dev.defaultybuf.feather.toolkit.testing.annotations.InjectDependencies;
 import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
 import dev.defaultybuf.feather.toolkit.testing.annotations.Resource;
+import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherCoreDependencyFactory;
 import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherListenerTest;
 import dev.defaultybuf.feather.toolkit.testing.utils.TempModule;
 import dev.defaultybuf.feather.toolkit.util.java.Clock;
@@ -42,6 +44,7 @@ import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 import dev.defaultybuf.feathercore.modules.loot.chests.interfaces.ILootChests;
 
+@InjectDependencies(factories = {FeatherCoreDependencyFactory.class})
 class LootChestOpenListenerTest extends FeatherListenerTest<LootChestOpenListener> {
     static final String LANGUAGE_CONFIG_CONTENT = "languages:\n  en: English";
 

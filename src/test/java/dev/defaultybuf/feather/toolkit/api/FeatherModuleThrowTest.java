@@ -6,7 +6,7 @@
  *
  * @file FeatherModuleThrowTest.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @test_unit FeatherModuleThrow#0.6
  * @description Unit tests for FeatherModuleThrow
  */
@@ -22,8 +22,11 @@ import org.junit.jupiter.api.Test;
 
 import dev.defaultybuf.feather.toolkit.api.dummies.ThrowableDummyModule;
 import dev.defaultybuf.feather.toolkit.exceptions.FeatherSetupException;
+import dev.defaultybuf.feather.toolkit.testing.annotations.InjectDependencies;
+import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherCoreDependencyFactory;
 import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherModuleTest;
 
+@InjectDependencies(factories = {FeatherCoreDependencyFactory.class})
 class FeatherModuleThrowTest extends FeatherModuleTest<ThrowableDummyModule> {
     @Override
     protected Class<ThrowableDummyModule> getModuleClass() {

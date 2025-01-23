@@ -6,7 +6,7 @@
  *
  * @file DepositCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.11
+ * @version 0.12
  * @test_unit DepositCommand#0.10
  * @description Unit tests for DepositCommand
  */
@@ -39,8 +39,10 @@ import org.mockito.Mock;
 import dev.defaultybuf.feather.toolkit.core.modules.language.components.LanguageManager;
 import dev.defaultybuf.feather.toolkit.core.modules.language.interfaces.ILanguage;
 import dev.defaultybuf.feather.toolkit.testing.annotations.ActualModule;
+import dev.defaultybuf.feather.toolkit.testing.annotations.InjectDependencies;
 import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
 import dev.defaultybuf.feather.toolkit.testing.annotations.Resource;
+import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherCoreDependencyFactory;
 import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherCommandTest;
 import dev.defaultybuf.feather.toolkit.testing.utils.TempModule;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
@@ -48,6 +50,7 @@ import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 import dev.defaultybuf.feathercore.modules.economy.interfaces.IFeatherEconomy;
 import net.milkbowl.vault.economy.Economy;
 
+@InjectDependencies(factories = {FeatherCoreDependencyFactory.class})
 class DepositCommandTest extends FeatherCommandTest<DepositCommand> {
     static final String LANGUAGE_CONFIG_CONTENT = "languages:\n  en: English";
 

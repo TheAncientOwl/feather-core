@@ -6,7 +6,7 @@
  *
  * @file FeatherModuleImplTest.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.5
  * @test_unit FeatherModule#0.6
  * @description Unit tests for FeatherModule
  */
@@ -24,8 +24,11 @@ import org.junit.jupiter.api.Test;
 
 import dev.defaultybuf.feather.toolkit.api.dummies.DummyModule;
 import dev.defaultybuf.feather.toolkit.api.interfaces.IFeatherLogger;
+import dev.defaultybuf.feather.toolkit.testing.annotations.InjectDependencies;
+import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherCoreDependencyFactory;
 import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherModuleTest;
 
+@InjectDependencies(factories = {FeatherCoreDependencyFactory.class})
 class FeatherModuleImplTest extends FeatherModuleTest<DummyModule> {
 
     @Override

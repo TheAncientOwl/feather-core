@@ -6,7 +6,7 @@
  *
  * @file FeatherEconomyProviderTest.java
  * @author Alexandru Delegeanu
- * @version 0.8
+ * @version 0.9
  * @test_unit FeatherEconomyProvider#0.8
  * @description Unit tests for FeatherEconomyProvider
  */
@@ -34,11 +34,13 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import dev.defaultybuf.feather.toolkit.exceptions.FeatherSetupException;
-import dev.defaultybuf.feather.toolkit.testing.mockers.DependencyInjector;
+import dev.defaultybuf.feather.toolkit.testing.annotations.InjectDependencies;
+import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherCoreDependencyFactory;
 import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherModuleTest;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 import net.milkbowl.vault.economy.Economy;
 
+@InjectDependencies(factories = {FeatherCoreDependencyFactory.class})
 class FeatherEconomyProviderTest extends FeatherModuleTest<FeatherEconomyProvider> {
     @Mock IPlayersData mockPlayersData;
     @Mock PluginManager mockPluginManager;
@@ -52,7 +54,7 @@ class FeatherEconomyProviderTest extends FeatherModuleTest<FeatherEconomyProvide
 
     @Override
     protected String getModuleName() {
-        return DependencyInjector.Economy.name();
+        return FeatherCoreDependencyFactory.getEconomyFactory().name();
     }
 
     @Override

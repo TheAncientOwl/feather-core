@@ -6,7 +6,7 @@
  *
  * @file FeatherCommandImplTest.java
  * @author Alexandru Delegeanu
- * @version 0.7
+ * @version 0.8
  * @test_unit FeatherCommand#0.4
  * @description Unit tests for FeatherCommand
  */
@@ -25,8 +25,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import dev.defaultybuf.feather.toolkit.api.dummies.DummyCommand;
+import dev.defaultybuf.feather.toolkit.testing.annotations.InjectDependencies;
 import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherCommandTest;
+import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherCoreDependencyFactory;
 
+@InjectDependencies(factories = {FeatherCoreDependencyFactory.class})
 class FeatherCommandImplTest extends FeatherCommandTest<DummyCommand> {
     @Mock Command mockCommand;
     @Mock CommandSender mockSender;

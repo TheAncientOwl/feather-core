@@ -6,7 +6,7 @@
  *
  * @file RandomTeleportCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.9
+ * @version 0.10
  * @test_unit RandomTeleportCommand#0.11
  * @description Unit tests for RandomTeleportCommand
  */
@@ -48,8 +48,10 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 
 import dev.defaultybuf.feather.toolkit.api.configuration.IConfigSection;
+import dev.defaultybuf.feather.toolkit.testing.annotations.InjectDependencies;
 import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
 import dev.defaultybuf.feather.toolkit.testing.annotations.StaticMock;
+import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherCoreDependencyFactory;
 import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherCommandTest;
 import dev.defaultybuf.feather.toolkit.testing.utils.Argumentable;
 import dev.defaultybuf.feather.toolkit.util.java.Clock;
@@ -58,6 +60,7 @@ import dev.defaultybuf.feathercore.common.Message;
 import dev.defaultybuf.feathercore.common.minecraft.WorldUtils;
 import dev.defaultybuf.feathercore.modules.teleport.interfaces.ITeleport;
 
+@InjectDependencies(factories = {FeatherCoreDependencyFactory.class})
 class RandomTeleportCommandTest extends FeatherCommandTest<RandomTeleportCommand> {
     static final long INITIAL_TIME = 0L;
 

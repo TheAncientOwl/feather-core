@@ -6,7 +6,7 @@
  *
  * @file LanguageManagerTest.java
  * @author Alexandru Delegeanu
- * @version 0.12
+ * @version 0.13
  * @test_unit LanguageManager#0.8
  * @description Unit tests for LanguageManager
  */
@@ -34,14 +34,17 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 
+import dev.defaultybuf.feather.toolkit.testing.annotations.InjectDependencies;
 import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
-import dev.defaultybuf.feather.toolkit.testing.mockers.DependencyInjector;
+import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherCoreDependencyFactory;
 import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherModuleTest;
+import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherToolkitDependencyFactory;
 import dev.defaultybuf.feather.toolkit.testing.utils.TestUtils;
 import dev.defaultybuf.feather.toolkit.util.java.Pair;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 
+@InjectDependencies(factories = {FeatherCoreDependencyFactory.class})
 public class LanguageManagerTest extends FeatherModuleTest<LanguageManager> {
     public static final record TranslationTestConfig(String shortName, Path actualPath,
             String content, String testKey, String testValue) {
@@ -73,7 +76,7 @@ public class LanguageManagerTest extends FeatherModuleTest<LanguageManager> {
 
     @Override
     protected String getModuleName() {
-        return DependencyInjector.Language.name();
+        return FeatherToolkitDependencyFactory.getLanguageFactory().name();
     }
 
     @Override
