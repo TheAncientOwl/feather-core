@@ -6,7 +6,7 @@
  *
  * @file FeatherUnitTest.java
  * @author Alexandru Delegeanu
- * @version 0.18
+ * @version 0.19
  * @description Utility class for developing unit tests that use modules
  */
 
@@ -17,7 +17,7 @@ import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mockStatic;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +30,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import dev.defaultybuf.feather.toolkit.api.FeatherModule;
 import dev.defaultybuf.feather.toolkit.api.interfaces.IEnabledModulesProvider;
 import dev.defaultybuf.feather.toolkit.api.interfaces.IFeatherLogger;
 import dev.defaultybuf.feather.toolkit.api.interfaces.IPlayerLanguageAccessor;
@@ -114,35 +113,55 @@ public abstract class FeatherUnitTest {
         dependenciesMap.put(ILanguage.class, mockLanguage);
     }
 
+    // Map TestClass -> Factories
+    static final Map<Class<?>, Map<Class<?>, Method>> TestFactoriesCache = new HashMap<>();
+
     void setUpAnnotations() {
+        Map<Class<?>, Method> factories = TestFactoriesCache.get(this.getClass());
+        if (factories == null) {
+            factories = setupDependencyFactories();
+            TestFactoriesCache.put(this.getClass(), factories);
+        }
+
         for (Field field : this.getClass().getDeclaredFields()) {
             if (field.isAnnotationPresent(MockedModule.class)) {
-                injectMockedModule(field);
+                injectMockedModule(field, factories);
             } else if (field.isAnnotationPresent(ActualModule.class)) {
-                injectActualModule(field);
+                injectActualModule(field, factories);
             } else if (field.isAnnotationPresent(StaticMock.class)) {
                 createStaticMock(field);
             }
         }
     }
 
-    void injectMockedModule(final Field field) {
+    void injectMockedModule(final Field field, final Map<Class<?>, Method> factories) {
         field.setAccessible(true);
         try {
-            field.set(this, getDependencyHelperOf(field.getType()).MockModule(dependenciesMap));
+            final var factory = factories.get(field.getType());
+            assert factory != null : "Missing factory of " + field.getType().getName()
+                    + " in test class " + this.getClass().getName();
+            final var dependencyHelper = (DependencyHelper<?>) factory.invoke(null);
+
+            field.set(this, dependencyHelper.MockModule(dependenciesMap));
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    void injectActualModule(final Field field) {
+    void injectActualModule(final Field field, final Map<Class<?>, Method> factories) {
         field.setAccessible(true);
         try {
             ActualModule annotation = field.getAnnotation(ActualModule.class);
             Resource[] resources = annotation.resources();
+            Class<?> interfaceClass = annotation.of();
 
-            field.set(this, getDependencyHelperOf(annotation.of()).ActualModule(resources,
-                    mockJavaPlugin, dependenciesMap));
+            final var factory = factories.get(interfaceClass);
+            assert factory != null : "Missing factory of " + interfaceClass.getName()
+                    + " in test class " + this.getClass().getName();
+            final var dependencyHelper = (DependencyHelper<?>) factory.invoke(null);
+
+            field.set(this,
+                    dependencyHelper.ActualModule(resources, mockJavaPlugin, dependenciesMap));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -162,54 +181,28 @@ public abstract class FeatherUnitTest {
         return any(Pair.class);
     }
 
-    @SuppressWarnings("unchecked")
-    <T extends FeatherModule> DependencyHelper<T> getDependencyHelperOf(
-            final Class<?> interfaceClass) {
-        for (final var factoryClass : getDependencyFactoryClasses()) {
-            final var dependencyHelper = getDependencyHelperOf(interfaceClass, factoryClass);
-            if (dependencyHelper != null) {
-                return (DependencyHelper<T>) dependencyHelper;
-            }
-        }
+    Map<Class<?>, Method> setupDependencyFactories() {
+        final var map = new HashMap<Class<?>, Method>();
 
-        assert false : "Missing dependency factory of interface " + interfaceClass.getName()
-                + " in test class " + this.getClass().getName();
-        return null;
-    }
-
-    @SuppressWarnings("unchecked")
-    <T extends FeatherModule> DependencyHelper<T> getDependencyHelperOf(
-            final Class<?> interfaceClass, final Class<?> factoryClass) {
-        for (final var method : factoryClass.getMethods()) {
-            if (method.isAnnotationPresent(DependencyFactory.class)
-                    && method.getAnnotation(DependencyFactory.class).of().equals(interfaceClass)) {
-                try {
-                    return (DependencyHelper<T>) method.invoke(null);
-                } catch (IllegalAccessException | InvocationTargetException e) {
-                    e.printStackTrace();
-                    assert false : "Failed to invoke dependency factory of interface "
-                            + interfaceClass.getName()
-                            + ". It should be static and return a DependencyHelper";
-                }
-            }
-        }
-        return null;
-    }
-
-    Class<?>[] getDependencyFactoryClasses() {
         assert this.getClass().isAnnotationPresent(
                 InjectDependencies.class) : "Missing InjectDependencies annotation for test class "
                         + this.getClass().getName();
 
-        final var annotation = this.getClass().getAnnotation(InjectDependencies.class);
-        final var factories = annotation.factories();
-
-        final var result = new Class<?>[factories.length + 1];
-        for (int i = 0; i < factories.length; ++i) {
-            result[i] = factories[i];
+        for (final var method : FeatherToolkitDependencyFactory.class.getMethods()) {
+            if (method.isAnnotationPresent(DependencyFactory.class)) {
+                map.put(method.getAnnotation(DependencyFactory.class).of(), method);
+            }
         }
-        result[factories.length] = FeatherToolkitDependencyFactory.class;
 
-        return result;
+        for (final var factory : this.getClass().getAnnotation(InjectDependencies.class)
+                .factories()) {
+            for (final var method : factory.getMethods()) {
+                if (method.isAnnotationPresent(DependencyFactory.class)) {
+                    map.put(method.getAnnotation(DependencyFactory.class).of(), method);
+                }
+            }
+        }
+
+        return map;
     }
 }
