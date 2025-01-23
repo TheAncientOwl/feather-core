@@ -6,7 +6,7 @@
  *
  * @file BanknotePlaceListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.10
+ * @version 0.11
  * @test_unit BanknotePlaceListener#0.6
  * @description Unit tests for BanknotePlaceListener
  */
@@ -55,6 +55,7 @@ class BanknotePlaceListenerTest extends FeatherListenerTest<BanknotePlaceListene
         lenient().when(mockItemStack.getItemMeta()).thenReturn(mockItemMeta);
         lenient().when(mockItemMeta.getPersistentDataContainer())
                 .thenReturn(mockPersistentDataContainer);
+        lenient().when(mockJavaPlugin.getName()).thenReturn("FeatherCore");
     }
 
     @Test

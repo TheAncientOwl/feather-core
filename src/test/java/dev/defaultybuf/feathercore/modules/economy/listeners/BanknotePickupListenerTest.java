@@ -6,7 +6,7 @@
  *
  * @file BanknotePickupListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.16
+ * @version 0.17
  * @test_unit BanknotePickupListener#0.5
  * @description Unit tests for BanknotePickupListener
  */
@@ -87,7 +87,7 @@ class BanknotePickupListenerTest extends FeatherListenerTest<BanknotePickupListe
         lenient().when(mockEvent.getItem()).thenReturn(mockItem);
         lenient().when(mockItem.getItemStack()).thenReturn(mockItemStack);
         lenient().when(mockItemStack.getItemMeta()).thenReturn(mockItemMeta);
-
+        lenient().when(mockJavaPlugin.getName()).thenReturn("FeatherCore");
     }
 
     @Test

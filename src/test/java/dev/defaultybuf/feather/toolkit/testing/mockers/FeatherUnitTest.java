@@ -6,7 +6,7 @@
  *
  * @file FeatherUnitTest.java
  * @author Alexandru Delegeanu
- * @version 0.20
+ * @version 0.21
  * @description Utility class for developing unit tests that use modules
  */
 
@@ -92,7 +92,6 @@ public abstract class FeatherUnitTest {
     }
 
     void lenientCommons() {
-        lenient().when(mockJavaPlugin.getName()).thenReturn("FeatherCore");
         lenient().when(mockJavaPlugin.getServer()).thenReturn(mockServer);
         lenient().when(mockJavaPlugin.getDataFolder()).thenReturn(TestUtils.getTestDataFolder());
     }

@@ -6,7 +6,7 @@
  *
  * @file LanguageManagerTest.java
  * @author Alexandru Delegeanu
- * @version 0.14
+ * @version 0.15
  * @test_unit LanguageManager#0.8
  * @description Unit tests for LanguageManager
  */
@@ -19,7 +19,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 
 import java.nio.file.Files;
 import java.nio.file.Path;

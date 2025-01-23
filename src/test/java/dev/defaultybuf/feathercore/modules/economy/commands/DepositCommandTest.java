@@ -6,7 +6,7 @@
  *
  * @file DepositCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.13
+ * @version 0.14
  * @test_unit DepositCommand#0.10
  * @description Unit tests for DepositCommand
  */
@@ -116,6 +116,8 @@ class DepositCommandTest extends FeatherCommandTest<DepositCommand> {
         lenient().when(mockItemStack.getItemMeta()).thenReturn(mockItemMeta);
         lenient().when(mockItemMeta.getPersistentDataContainer())
                 .thenReturn(mockPersistentDataContainer);
+
+        lenient().when(mockJavaPlugin.getName()).thenReturn("FeatherCore");
 
         playerModel = new PlayerModel();
         playerModel.language = "en";

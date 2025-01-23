@@ -6,7 +6,7 @@
  *
  * @file LanguageChangeListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.12
+ * @version 0.13
  * @test_unit LanguageChangeListener#0.5
  * @description Unit tests for LanguageChangeListener
  */
@@ -95,6 +95,7 @@ class LanguageChangeListenerTest extends FeatherListenerTest<LanguageChangeListe
         lenient().when(mockItemStack.getItemMeta()).thenReturn(mockItemMeta);
         lenient().when(mockItemMeta.getPersistentDataContainer())
                 .thenReturn(mockPersistentDataContainer);
+        lenient().when(mockJavaPlugin.getName()).thenReturn("FeatherCore");
     }
 
     @Test
