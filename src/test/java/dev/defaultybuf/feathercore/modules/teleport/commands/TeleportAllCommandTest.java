@@ -6,7 +6,7 @@
  *
  * @file TeleportAllCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.6
  * @test_unit TeleportAllCommand#0.9
  * @description Unit tests for TeleportAllCommand
  */
@@ -41,9 +41,9 @@ import org.mockito.Mock;
 
 import dev.defaultybuf.feather.toolkit.testing.annotations.InjectDependencies;
 import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
-import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherCoreDependencyFactory;
 import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherCommandTest;
 import dev.defaultybuf.feather.toolkit.util.java.StringUtils;
+import dev.defaultybuf.feathercore.common.FeatherCoreDependencyFactory;
 import dev.defaultybuf.feathercore.common.Message;
 import dev.defaultybuf.feathercore.modules.teleport.interfaces.ITeleport;
 

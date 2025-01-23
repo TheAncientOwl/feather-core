@@ -6,7 +6,7 @@
  *
  * @file LanguageCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.18
+ * @version 0.19
  * @test_unit LanguageCommand#0.9
  * @description Unit tests for LanguageCommand
  */
@@ -25,6 +25,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoInteractions;
@@ -33,7 +34,6 @@ import static org.mockito.Mockito.when;
 import java.util.stream.Stream;
 
 import org.bukkit.Location;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -46,26 +46,20 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 
+import dev.defaultybuf.feather.toolkit.core.Message;
+import dev.defaultybuf.feather.toolkit.core.Placeholder;
 import dev.defaultybuf.feather.toolkit.core.modules.language.commands.LanguageCommand.CommandType;
 import dev.defaultybuf.feather.toolkit.core.modules.language.components.LanguageManager;
 import dev.defaultybuf.feather.toolkit.core.modules.language.components.LanguageManagerTest;
 import dev.defaultybuf.feather.toolkit.core.modules.language.events.LanguageChangeEvent;
 import dev.defaultybuf.feather.toolkit.core.modules.language.interfaces.ILanguage;
 import dev.defaultybuf.feather.toolkit.testing.annotations.ActualModule;
-import dev.defaultybuf.feather.toolkit.testing.annotations.InjectDependencies;
-import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
 import dev.defaultybuf.feather.toolkit.testing.annotations.Resource;
-import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherCoreDependencyFactory;
 import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherCommandTest;
 import dev.defaultybuf.feather.toolkit.testing.utils.TempModule;
 import dev.defaultybuf.feather.toolkit.testing.utils.TestUtils;
 import dev.defaultybuf.feather.toolkit.util.java.Pair;
-import dev.defaultybuf.feathercore.common.Message;
-import dev.defaultybuf.feathercore.common.minecraft.Placeholder;
-import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
-import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 
-@InjectDependencies(factories = {FeatherCoreDependencyFactory.class})
 class LanguageCommandTest extends FeatherCommandTest<LanguageCommand> {
     static final String LANGUAGE_CONFIG_CONTENT = "languages:\n en: English\n de: Deutsch";
 
@@ -91,8 +85,6 @@ class LanguageCommandTest extends FeatherCommandTest<LanguageCommand> {
     @Mock Player mockPlayer;
     @Mock CommandSender mockSender;
 
-    @MockedModule IPlayersData mockPlayersData;
-
     @ActualModule(
             of = ILanguage.class,
             resources = {
@@ -101,7 +93,6 @@ class LanguageCommandTest extends FeatherCommandTest<LanguageCommand> {
                     @Resource(path = "de.yml", content = DE_LANGUAGE_FILE_CONTENT),
             }) TempModule<LanguageManager> actualLanguage;
 
-    PlayerModel playerModel;
     ArgumentCaptor<String> messageCaptor;
 
     @Override
@@ -113,13 +104,8 @@ class LanguageCommandTest extends FeatherCommandTest<LanguageCommand> {
     protected void setUp() {
         lenient().when(mockPlayer.getLocation()).thenReturn(new Location(mockWorld, 0, 0, 0));
 
-        playerModel = new PlayerModel(mockPlayer, 0, LanguageManagerTest.EN.shortName());
-        verify(mockPlayer).getUniqueId();
-        verify(mockPlayer).getName();
-        verify(mockPlayer).getLocation();
-        lenient().when(mockPlayersData.getPlayerModel(mockPlayer)).thenReturn(playerModel);
-        lenient().when(mockPlayersData.getPlayerModel((OfflinePlayer) mockPlayer))
-                .thenReturn(playerModel);
+        lenient().when(mockPlayersLanguageAccessor.getPlayerLanguageCode(mockPlayer))
+                .thenReturn(LanguageManagerTest.EN.shortName());
 
         messageCaptor = ArgumentCaptor.forClass(String.class);
     }
@@ -193,7 +179,8 @@ class LanguageCommandTest extends FeatherCommandTest<LanguageCommand> {
             commandInstance.execute(mockPlayer, commandData);
         });
 
-        playerModel.language = LanguageManagerTest.FR.shortName();
+        when(mockPlayersLanguageAccessor.getPlayerLanguageCode(mockPlayer))
+                .thenReturn(LanguageManagerTest.FR.shortName());
 
         assertDoesNotThrow(() -> {
             commandInstance.execute(mockPlayer, commandData);
@@ -236,13 +223,12 @@ class LanguageCommandTest extends FeatherCommandTest<LanguageCommand> {
     void execute_NULL() {
         var commandData = new LanguageCommand.CommandData(null, "de");
 
-        assertEquals("en", playerModel.language);
-
         assertThrows(NullPointerException.class, () -> {
             commandInstance.execute(mockPlayer, commandData);
         });
 
-        assertEquals("en", playerModel.language, "Player language should not be changed");
+        verify(mockPlayersLanguageAccessor, never()).setPlayerLanguageCode(eq(mockPlayer),
+                eq("de"));
     }
 
     @ParameterizedTest

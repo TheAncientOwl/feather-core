@@ -6,7 +6,7 @@
  *
  * @file LanguageManagerTest.java
  * @author Alexandru Delegeanu
- * @version 0.13
+ * @version 0.14
  * @test_unit LanguageManager#0.8
  * @description Unit tests for LanguageManager
  */
@@ -19,6 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -34,17 +35,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 
-import dev.defaultybuf.feather.toolkit.testing.annotations.InjectDependencies;
-import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
-import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherCoreDependencyFactory;
 import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherModuleTest;
 import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherToolkitDependencyFactory;
 import dev.defaultybuf.feather.toolkit.testing.utils.TestUtils;
 import dev.defaultybuf.feather.toolkit.util.java.Pair;
-import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
-import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 
-@InjectDependencies(factories = {FeatherCoreDependencyFactory.class})
 public class LanguageManagerTest extends FeatherModuleTest<LanguageManager> {
     public static final record TranslationTestConfig(String shortName, Path actualPath,
             String content, String testKey, String testValue) {
@@ -65,10 +60,6 @@ public class LanguageManagerTest extends FeatherModuleTest<LanguageManager> {
     @Mock ConsoleCommandSender mockConsole;
     @Mock YamlConfiguration mockLanguageConfig;
 
-    @MockedModule IPlayersData mockPlayersData;
-
-    PlayerModel playerModel;
-
     @Override
     protected Class<LanguageManager> getModuleClass() {
         return LanguageManager.class;
@@ -83,8 +74,8 @@ public class LanguageManagerTest extends FeatherModuleTest<LanguageManager> {
     protected void setUp() {
         lenient().when(mockPlayer.getLocation()).thenReturn(new Location(mockWorld, 0, 0, 0));
 
-        playerModel = new PlayerModel(mockPlayer, 0, EN.shortName);
-        lenient().when(mockPlayersData.getPlayerModel(mockPlayer)).thenReturn(playerModel);
+        lenient().when(mockPlayersLanguageAccessor.getPlayerLanguageCode(mockPlayer))
+                .thenReturn(EN.shortName);
     }
 
     @Test
@@ -166,7 +157,8 @@ public class LanguageManagerTest extends FeatherModuleTest<LanguageManager> {
     @Test
     void getTranslation_SenderValidTranslation() {
         try (var enTempFile = TestUtils.makeTempFile(EN.actualPath, EN.content)) {
-            playerModel.language = EN.shortName;
+            lenient().when(mockPlayersLanguageAccessor.getPlayerLanguageCode(mockPlayer))
+                    .thenReturn(EN.shortName);
 
             assertDoesNotThrow(() -> {
                 var enTranslation01 = moduleInstance.getTranslation(mockPlayer);
@@ -185,7 +177,8 @@ public class LanguageManagerTest extends FeatherModuleTest<LanguageManager> {
     @Test
     void getTranslation_SenderNotValidTranslation() {
         try (var enTempFile = TestUtils.makeTempFile(EN.actualPath, EN.content)) {
-            playerModel.language = EN.shortName;
+            lenient().when(mockPlayersLanguageAccessor.getPlayerLanguageCode(mockPlayer))
+                    .thenReturn(EN.shortName);
 
             assertDoesNotThrow(() -> {
                 var enTranslation = moduleInstance.getTranslation(mockPlayer);
@@ -193,7 +186,8 @@ public class LanguageManagerTest extends FeatherModuleTest<LanguageManager> {
                 assertNotNull(enTranslation, "'en' translation should not be null");
                 assertEquals(enTranslation.getString(EN.testKey), EN.testValue);
 
-                playerModel.language = FR.shortName;
+                lenient().when(mockPlayersLanguageAccessor.getPlayerLanguageCode(mockPlayer))
+                        .thenReturn(FR.shortName);
                 var frTranslation = moduleInstance.getTranslation(mockPlayer);
 
                 assertTrue(enTranslation == frTranslation,

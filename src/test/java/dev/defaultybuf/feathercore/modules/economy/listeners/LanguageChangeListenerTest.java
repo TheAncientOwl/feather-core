@@ -6,7 +6,7 @@
  *
  * @file LanguageChangeListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.11
+ * @version 0.12
  * @test_unit LanguageChangeListener#0.5
  * @description Unit tests for LanguageChangeListener
  */
@@ -38,9 +38,9 @@ import dev.defaultybuf.feather.toolkit.testing.annotations.ActualModule;
 import dev.defaultybuf.feather.toolkit.testing.annotations.InjectDependencies;
 import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
 import dev.defaultybuf.feather.toolkit.testing.annotations.Resource;
-import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherCoreDependencyFactory;
 import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherListenerTest;
 import dev.defaultybuf.feather.toolkit.testing.utils.TempModule;
+import dev.defaultybuf.feathercore.common.FeatherCoreDependencyFactory;
 import dev.defaultybuf.feathercore.modules.economy.interfaces.IFeatherEconomy;
 
 @InjectDependencies(factories = {FeatherCoreDependencyFactory.class})

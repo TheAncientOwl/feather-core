@@ -6,7 +6,7 @@
  *
  * @file TestUtils.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @description Testing utilities
  */
 package dev.defaultybuf.feather.toolkit.testing.utils;
@@ -24,7 +24,7 @@ import dev.defaultybuf.feather.toolkit.util.java.StringUtils;
 
 public class TestUtils {
     public static Path getTestDataFolderPath() {
-        return Paths.get(System.getProperty("user.home"), "feathercore-tmp");
+        return Paths.get(System.getProperty("user.home"), "tmp-feather-toolkit");
     }
 
     public static File getTestDataFolder() {

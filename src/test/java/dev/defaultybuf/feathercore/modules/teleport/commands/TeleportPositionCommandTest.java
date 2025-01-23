@@ -6,7 +6,7 @@
  *
  * @file TeleportPositionCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.4
  * @test_unit TeleportPositionCommand#0.10
  * @description Unit tests for TeleportPositionCommand
  */
@@ -43,9 +43,9 @@ import org.mockito.MockedStatic;
 import dev.defaultybuf.feather.toolkit.testing.annotations.InjectDependencies;
 import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
 import dev.defaultybuf.feather.toolkit.testing.annotations.StaticMock;
-import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherCoreDependencyFactory;
 import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherCommandTest;
 import dev.defaultybuf.feather.toolkit.util.java.StringUtils;
+import dev.defaultybuf.feathercore.common.FeatherCoreDependencyFactory;
 import dev.defaultybuf.feathercore.common.Message;
 import dev.defaultybuf.feathercore.modules.teleport.interfaces.ITeleport;
 

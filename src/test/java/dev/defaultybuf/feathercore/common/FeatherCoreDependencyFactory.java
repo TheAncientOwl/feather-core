@@ -11,7 +11,7 @@
  *              and inject them into tests dependencies map
  */
 
-package dev.defaultybuf.feather.toolkit.testing.mockers;
+package dev.defaultybuf.feathercore.common;
 
 import dev.defaultybuf.feather.toolkit.testing.annotations.DependencyFactory;
 import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherToolkitDependencyFactory.DependencyHelper;
