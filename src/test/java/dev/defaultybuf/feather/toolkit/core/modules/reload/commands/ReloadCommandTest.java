@@ -6,7 +6,7 @@
  *
  * @file ReloadCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.16
+ * @version 0.17
  * @test_unit ReloadCommand#0.7
  * @description Unit tests for ReloadCommand
  */
@@ -33,13 +33,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
 import dev.defaultybuf.feather.toolkit.core.modules.language.components.LanguageManager;
-import dev.defaultybuf.feather.toolkit.testing.annotations.InjectDependencies;
-import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherCoreDependencyFactory;
-import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherToolkitDependencyFactory;
 import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherCommandTest;
+import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherToolkitDependencyFactory;
 import dev.defaultybuf.feathercore.common.Message;
 
-@InjectDependencies(factories = {FeatherCoreDependencyFactory.class})
 class ReloadCommandTest extends FeatherCommandTest<ReloadCommand> {
     @Mock CommandSender mockSender;
 
@@ -90,8 +87,7 @@ class ReloadCommandTest extends FeatherCommandTest<ReloadCommand> {
         final var enabledModules = List.of(
                 FeatherToolkitDependencyFactory.getReloadFactory().MockModule(dependenciesMap),
                 FeatherToolkitDependencyFactory.getLanguageFactory().MockModule(
-                        dependenciesMap),
-                FeatherCoreDependencyFactory.getPlayersDataFactory().MockModule(dependenciesMap));
+                        dependenciesMap));
         when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
 
         var args =
@@ -111,18 +107,16 @@ class ReloadCommandTest extends FeatherCommandTest<ReloadCommand> {
         final var enabledModules = List.of(
                 FeatherToolkitDependencyFactory.getReloadFactory().MockModule(dependenciesMap),
                 FeatherToolkitDependencyFactory.getLanguageFactory().MockModule(
-                        dependenciesMap),
-                FeatherCoreDependencyFactory.getPlayersDataFactory().MockModule(dependenciesMap));
+                        dependenciesMap));
         when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
 
         var args = new String[] {"all"};
         var result = commandInstance.parse(mockSender, args);
 
         assertNotNull(result);
-        assertEquals(3, result.modules().size());
+        assertEquals(2, result.modules().size());
         assertEquals(enabledModules.get(0), result.modules().get(0));
         assertEquals(enabledModules.get(1), result.modules().get(1));
-        assertEquals(enabledModules.get(2), result.modules().get(2));
     }
 
     @Test
@@ -154,14 +148,13 @@ class ReloadCommandTest extends FeatherCommandTest<ReloadCommand> {
         final var enabledModules = List.of(
                 FeatherToolkitDependencyFactory.getReloadFactory().MockModule(
                         dependenciesMap),
-                FeatherToolkitDependencyFactory.getLanguageFactory().MockModule(dependenciesMap),
-                FeatherCoreDependencyFactory.getPlayersDataFactory().MockModule(dependenciesMap));
+                FeatherToolkitDependencyFactory.getLanguageFactory().MockModule(dependenciesMap));
         when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
 
         var args = new String[] {};
         var completions = commandInstance.onTabComplete(args);
 
-        assertEquals(4, completions.size());
+        assertEquals(3, completions.size());
         assertEquals("all", completions.get(0), "1st completion should be 'all'");
         assertEquals(FeatherToolkitDependencyFactory.getReloadFactory().name(), completions.get(1),
                 "2nd completion should be '"
@@ -172,10 +165,6 @@ class ReloadCommandTest extends FeatherCommandTest<ReloadCommand> {
                 "3rd completion should be '"
                         + FeatherToolkitDependencyFactory.getLanguageFactory().name()
                         + "'");
-        assertEquals(FeatherCoreDependencyFactory.getPlayersDataFactory().name(),
-                completions.get(3),
-                "4th completion should be '"
-                        + FeatherCoreDependencyFactory.getPlayersDataFactory().name() + "'");
     }
 
     @Test
@@ -184,8 +173,7 @@ class ReloadCommandTest extends FeatherCommandTest<ReloadCommand> {
                 FeatherToolkitDependencyFactory.getReloadFactory().MockModule(
                         dependenciesMap),
                 FeatherToolkitDependencyFactory.getLanguageFactory().MockModule(
-                        dependenciesMap),
-                FeatherCoreDependencyFactory.getPlayersDataFactory().MockModule(dependenciesMap));
+                        dependenciesMap));
         when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
 
         var args = new String[] {"re"};
@@ -203,8 +191,7 @@ class ReloadCommandTest extends FeatherCommandTest<ReloadCommand> {
         final var enabledModules = List.of(
                 FeatherToolkitDependencyFactory.getReloadFactory().MockModule(
                         dependenciesMap),
-                FeatherToolkitDependencyFactory.getLanguageFactory().MockModule(dependenciesMap),
-                FeatherCoreDependencyFactory.getPlayersDataFactory().MockModule(dependenciesMap));
+                FeatherToolkitDependencyFactory.getLanguageFactory().MockModule(dependenciesMap));
         when(mockEnabledModulesProvider.getEnabledModules()).thenReturn(enabledModules);
 
         var args = new String[] {"unknown"};

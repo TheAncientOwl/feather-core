@@ -6,7 +6,7 @@
  *
  * @file FeatherUnitTest.java
  * @author Alexandru Delegeanu
- * @version 0.19
+ * @version 0.20
  * @description Utility class for developing unit tests that use modules
  */
 
@@ -184,21 +184,19 @@ public abstract class FeatherUnitTest {
     Map<Class<?>, Method> setupDependencyFactories() {
         final var map = new HashMap<Class<?>, Method>();
 
-        assert this.getClass().isAnnotationPresent(
-                InjectDependencies.class) : "Missing InjectDependencies annotation for test class "
-                        + this.getClass().getName();
-
         for (final var method : FeatherToolkitDependencyFactory.class.getMethods()) {
             if (method.isAnnotationPresent(DependencyFactory.class)) {
                 map.put(method.getAnnotation(DependencyFactory.class).of(), method);
             }
         }
 
-        for (final var factory : this.getClass().getAnnotation(InjectDependencies.class)
-                .factories()) {
-            for (final var method : factory.getMethods()) {
-                if (method.isAnnotationPresent(DependencyFactory.class)) {
-                    map.put(method.getAnnotation(DependencyFactory.class).of(), method);
+        if (this.getClass().isAnnotationPresent(InjectDependencies.class)) {
+            for (final var factory : this.getClass().getAnnotation(InjectDependencies.class)
+                    .factories()) {
+                for (final var method : factory.getMethods()) {
+                    if (method.isAnnotationPresent(DependencyFactory.class)) {
+                        map.put(method.getAnnotation(DependencyFactory.class).of(), method);
+                    }
                 }
             }
         }
