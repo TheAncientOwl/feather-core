@@ -6,7 +6,7 @@
  *
  * @file LogoManagerTest.java
  * @author Alexandru Delegeanu
- * @version 0.8
+ * @version 0.9
  * @test_unit LogoManager#0.5
  * @description Unit tests for LogoManager
  */
@@ -26,8 +26,8 @@ import org.bukkit.command.ConsoleCommandSender;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import dev.defaultybuf.feather.toolkit.testing.annotations.InjectDependencies;
-import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherModuleTest;
+import dev.defaultybuf.feather.toolkit.testing.core.FeatherModuleTest;
+import dev.defaultybuf.feather.toolkit.testing.core.annotations.InjectDependencies;
 import dev.defaultybuf.feathercore.common.FeatherCoreDependencyFactory;
 
 @InjectDependencies(factories = {FeatherCoreDependencyFactory.class})

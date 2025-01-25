@@ -6,15 +6,15 @@
  *
  * @file DependencyInjector.java
  * @author Alexandru Delegeanu
- * @version 0.18
+ * @version 0.19
  * @description Create mocks / actual instances of all modules 
  *              and inject them into tests dependencies map
  */
 
 package dev.defaultybuf.feathercore.common;
 
-import dev.defaultybuf.feather.toolkit.testing.annotations.DependencyFactory;
-import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherToolkitDependencyFactory.DependencyHelper;
+import dev.defaultybuf.feather.toolkit.testing.core.FeatherToolkitDependencyFactory.DependencyHelper;
+import dev.defaultybuf.feather.toolkit.testing.core.annotations.DependencyFactory;
 import dev.defaultybuf.feathercore.modules.data.mongodb.components.MongoManager;
 import dev.defaultybuf.feathercore.modules.data.mongodb.interfaces.IMongoDB;
 import dev.defaultybuf.feathercore.modules.data.players.components.PlayersData;

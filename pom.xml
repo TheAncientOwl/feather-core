@@ -24,11 +24,17 @@
         </repository>
         <!-- Vault -->
         <repository>
-            <id>Vault-repo</id>
+            <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
     </repositories>
     <dependencies>
+        <!-- FeatherToolkit -->
+        <dependency>
+            <groupId>dev.defaultybuf.feather.toolkit</groupId>
+            <artifactId>FeatherToolkit</artifactId>
+            <version>v1.0.0</version>
+        </dependency>
         <!-- Spigot/Paper -->
         <dependency>
             <groupId>io.papermc.paper</groupId>

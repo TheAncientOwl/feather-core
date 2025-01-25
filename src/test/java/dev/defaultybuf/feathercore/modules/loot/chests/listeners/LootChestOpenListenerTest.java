@@ -6,7 +6,7 @@
  *
  * @file LootChestOpenListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.9
+ * @version 0.10
  * @test_unit LootChestOpenListener#0.8
  * @description Unit tests for LootChestOpenListener
  */
@@ -32,11 +32,11 @@ import org.mockito.Mock;
 
 import dev.defaultybuf.feather.toolkit.core.modules.language.components.LanguageManager;
 import dev.defaultybuf.feather.toolkit.core.modules.language.interfaces.ILanguage;
-import dev.defaultybuf.feather.toolkit.testing.annotations.ActualModule;
-import dev.defaultybuf.feather.toolkit.testing.annotations.InjectDependencies;
-import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
-import dev.defaultybuf.feather.toolkit.testing.annotations.Resource;
-import dev.defaultybuf.feather.toolkit.testing.mockers.FeatherListenerTest;
+import dev.defaultybuf.feather.toolkit.testing.core.FeatherListenerTest;
+import dev.defaultybuf.feather.toolkit.testing.core.annotations.ActualModule;
+import dev.defaultybuf.feather.toolkit.testing.core.annotations.InjectDependencies;
+import dev.defaultybuf.feather.toolkit.testing.core.annotations.MockedModule;
+import dev.defaultybuf.feather.toolkit.testing.core.annotations.Resource;
 import dev.defaultybuf.feather.toolkit.testing.utils.TempModule;
 import dev.defaultybuf.feather.toolkit.util.java.Clock;
 import dev.defaultybuf.feathercore.common.FeatherCoreDependencyFactory;
