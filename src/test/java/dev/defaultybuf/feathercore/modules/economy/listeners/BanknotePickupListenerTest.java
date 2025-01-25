@@ -6,7 +6,7 @@
  *
  * @file BanknotePickupListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.12
+ * @version 0.18
  * @test_unit BanknotePickupListener#0.5
  * @description Unit tests for BanknotePickupListener
  */
@@ -31,18 +31,20 @@ import org.bukkit.persistence.PersistentDataType;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import dev.defaultybuf.feathercore.api.common.minecraft.NamespacedKey;
-import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
-import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
-import dev.defaultybuf.feathercore.modules.common.annotations.Resource;
-import dev.defaultybuf.feathercore.modules.common.mockers.FeatherListenerTest;
-import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
-import dev.defaultybuf.feathercore.modules.common.utils.TempModule;
-import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
+import dev.defaultybuf.feather.toolkit.core.modules.language.components.LanguageManager;
+import dev.defaultybuf.feather.toolkit.core.modules.language.interfaces.ILanguage;
+import dev.defaultybuf.feather.toolkit.testing.core.FeatherListenerTest;
+import dev.defaultybuf.feather.toolkit.testing.core.annotations.ActualModule;
+import dev.defaultybuf.feather.toolkit.testing.core.annotations.InjectDependencies;
+import dev.defaultybuf.feather.toolkit.testing.core.annotations.MockedModule;
+import dev.defaultybuf.feather.toolkit.testing.core.annotations.Resource;
+import dev.defaultybuf.feather.toolkit.testing.utils.TempModule;
+import dev.defaultybuf.feathercore.common.FeatherCoreDependencyFactory;
+import dev.defaultybuf.feathercore.common.minecraft.NamespacedKey;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 import dev.defaultybuf.feathercore.modules.economy.interfaces.IFeatherEconomy;
-import dev.defaultybuf.feathercore.modules.language.components.LanguageManager;
 
+@InjectDependencies(factories = {FeatherCoreDependencyFactory.class})
 class BanknotePickupListenerTest extends FeatherListenerTest<BanknotePickupListener> {
     static final String LANGUAGE_CONFIG_CONTENT = "languages:\n en: English";
 
@@ -63,11 +65,11 @@ class BanknotePickupListenerTest extends FeatherListenerTest<BanknotePickupListe
     @Mock EntityPickupItemEvent mockEvent;
     @Mock PersistentDataContainer mockPersistentDataContainer;
 
-    @MockedModule(of = Module.PlayersData) IPlayersData mockPlayersData;
-    @MockedModule(of = Module.Economy) IFeatherEconomy mockFeatherEconomy;
+    @MockedModule IPlayersData mockPlayersData;
+    @MockedModule IFeatherEconomy mockFeatherEconomy;
 
     @ActualModule(
-            of = Module.Language,
+            of = ILanguage.class,
             resources = {
                     @Resource(path = "config.yml", content = LANGUAGE_CONFIG_CONTENT),
                     @Resource(path = "en.yml", content = EN_LANGUAGE_FILE_CONTENT)
@@ -85,7 +87,7 @@ class BanknotePickupListenerTest extends FeatherListenerTest<BanknotePickupListe
         lenient().when(mockEvent.getItem()).thenReturn(mockItem);
         lenient().when(mockItem.getItemStack()).thenReturn(mockItemStack);
         lenient().when(mockItemStack.getItemMeta()).thenReturn(mockItemMeta);
-
+        lenient().when(mockJavaPlugin.getName()).thenReturn("FeatherCore");
     }
 
     @Test
@@ -140,10 +142,6 @@ class BanknotePickupListenerTest extends FeatherListenerTest<BanknotePickupListe
 
         when(mockPersistentDataContainer.get(any(), eq(PersistentDataType.DOUBLE)))
                 .thenReturn(100.0);
-
-        var playerModel = new PlayerModel();
-        playerModel.language = "en";
-        when(mockPlayersData.getPlayerModel(mockPlayer)).thenReturn(playerModel);
 
         listenerInstance.onItemPickup(mockEvent);
 

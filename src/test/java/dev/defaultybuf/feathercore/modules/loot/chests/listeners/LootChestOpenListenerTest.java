@@ -6,7 +6,7 @@
  *
  * @file LootChestOpenListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.6
+ * @version 0.10
  * @test_unit LootChestOpenListener#0.8
  * @description Unit tests for LootChestOpenListener
  */
@@ -30,18 +30,21 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import dev.defaultybuf.feathercore.api.common.util.Clock;
-import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
-import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
-import dev.defaultybuf.feathercore.modules.common.annotations.Resource;
-import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
-import dev.defaultybuf.feathercore.modules.common.mockers.FeatherListenerTest;
-import dev.defaultybuf.feathercore.modules.common.utils.TempModule;
+import dev.defaultybuf.feather.toolkit.core.modules.language.components.LanguageManager;
+import dev.defaultybuf.feather.toolkit.core.modules.language.interfaces.ILanguage;
+import dev.defaultybuf.feather.toolkit.testing.core.FeatherListenerTest;
+import dev.defaultybuf.feather.toolkit.testing.core.annotations.ActualModule;
+import dev.defaultybuf.feather.toolkit.testing.core.annotations.InjectDependencies;
+import dev.defaultybuf.feather.toolkit.testing.core.annotations.MockedModule;
+import dev.defaultybuf.feather.toolkit.testing.core.annotations.Resource;
+import dev.defaultybuf.feather.toolkit.testing.utils.TempModule;
+import dev.defaultybuf.feather.toolkit.util.java.Clock;
+import dev.defaultybuf.feathercore.common.FeatherCoreDependencyFactory;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
-import dev.defaultybuf.feathercore.modules.language.components.LanguageManager;
 import dev.defaultybuf.feathercore.modules.loot.chests.interfaces.ILootChests;
 
+@InjectDependencies(factories = {FeatherCoreDependencyFactory.class})
 class LootChestOpenListenerTest extends FeatherListenerTest<LootChestOpenListener> {
     static final String LANGUAGE_CONFIG_CONTENT = "languages:\n  en: English";
 
@@ -72,11 +75,11 @@ class LootChestOpenListenerTest extends FeatherListenerTest<LootChestOpenListene
     @Mock Location mockLocation;
     @Mock PlayerInteractEvent mockEvent;
 
-    @MockedModule(of = Module.PlayersData) IPlayersData mockPlayersData;
-    @MockedModule(of = Module.LootChests) ILootChests mockLootChests;
+    @MockedModule IPlayersData mockPlayersData;
+    @MockedModule ILootChests mockLootChests;
 
     @ActualModule(
-            of = Module.Language,
+            of = ILanguage.class,
             resources = {
                     @Resource(path = "config.yml", content = LANGUAGE_CONFIG_CONTENT),
                     @Resource(path = "en.yml", content = EN_LANGUAGE_FILE_CONTENT)

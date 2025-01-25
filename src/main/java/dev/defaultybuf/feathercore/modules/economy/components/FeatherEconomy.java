@@ -18,7 +18,7 @@ import java.util.List;
 
 import org.bukkit.OfflinePlayer;
 
-import dev.defaultybuf.feathercore.api.configuration.IConfigFile;
+import dev.defaultybuf.feather.toolkit.api.configuration.IConfigFile;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 import net.milkbowl.vault.economy.AbstractEconomy;

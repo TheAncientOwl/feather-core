@@ -12,10 +12,10 @@
 
 package dev.defaultybuf.feathercore.modules.logo.components;
 
-import dev.defaultybuf.feathercore.api.common.util.StringUtils;
-import dev.defaultybuf.feathercore.api.common.util.YamlUtils;
-import dev.defaultybuf.feathercore.api.core.FeatherModule;
-import dev.defaultybuf.feathercore.api.exceptions.FeatherSetupException;
+import dev.defaultybuf.feather.toolkit.api.FeatherModule;
+import dev.defaultybuf.feather.toolkit.exceptions.FeatherSetupException;
+import dev.defaultybuf.feather.toolkit.util.java.StringUtils;
+import dev.defaultybuf.feather.toolkit.util.parsing.YamlUtils;
 import dev.defaultybuf.feathercore.modules.logo.interfaces.ILogoManager;
 
 public class LogoManager extends FeatherModule implements ILogoManager {

@@ -15,14 +15,14 @@ package dev.defaultybuf.feathercore.modules.economy.listeners;
 import org.bukkit.event.EventHandler;
 import org.bukkit.persistence.PersistentDataType;
 
-import dev.defaultybuf.feathercore.api.common.java.Pair;
-import dev.defaultybuf.feathercore.api.common.language.Message;
-import dev.defaultybuf.feathercore.api.common.minecraft.NamespacedKey;
-import dev.defaultybuf.feathercore.api.common.minecraft.Placeholder;
-import dev.defaultybuf.feathercore.api.common.util.StringUtils;
-import dev.defaultybuf.feathercore.api.core.FeatherListener;
+import dev.defaultybuf.feather.toolkit.api.FeatherListener;
+import dev.defaultybuf.feather.toolkit.core.modules.language.events.LanguageChangeEvent;
+import dev.defaultybuf.feather.toolkit.util.java.Pair;
+import dev.defaultybuf.feather.toolkit.util.java.StringUtils;
+import dev.defaultybuf.feathercore.common.Message;
+import dev.defaultybuf.feathercore.common.minecraft.NamespacedKey;
+import dev.defaultybuf.feathercore.common.minecraft.Placeholder;
 import dev.defaultybuf.feathercore.modules.economy.interfaces.IFeatherEconomy;
-import dev.defaultybuf.feathercore.modules.language.events.LanguageChangeEvent;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 
 public class LanguageChangeListener extends FeatherListener {

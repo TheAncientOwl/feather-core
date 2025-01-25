@@ -6,7 +6,7 @@
  *
  * @file DepositCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.10
+ * @version 0.15
  * @test_unit DepositCommand#0.10
  * @description Unit tests for DepositCommand
  */
@@ -36,18 +36,21 @@ import org.bukkit.persistence.PersistentDataType;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
-import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
-import dev.defaultybuf.feathercore.modules.common.annotations.Resource;
-import dev.defaultybuf.feathercore.modules.common.mockers.FeatherCommandTest;
-import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
-import dev.defaultybuf.feathercore.modules.common.utils.TempModule;
+import dev.defaultybuf.feather.toolkit.core.modules.language.components.LanguageManager;
+import dev.defaultybuf.feather.toolkit.core.modules.language.interfaces.ILanguage;
+import dev.defaultybuf.feather.toolkit.testing.core.FeatherCommandTest;
+import dev.defaultybuf.feather.toolkit.testing.core.annotations.ActualModule;
+import dev.defaultybuf.feather.toolkit.testing.core.annotations.InjectDependencies;
+import dev.defaultybuf.feather.toolkit.testing.core.annotations.MockedModule;
+import dev.defaultybuf.feather.toolkit.testing.core.annotations.Resource;
+import dev.defaultybuf.feather.toolkit.testing.utils.TempModule;
+import dev.defaultybuf.feathercore.common.FeatherCoreDependencyFactory;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 import dev.defaultybuf.feathercore.modules.economy.interfaces.IFeatherEconomy;
-import dev.defaultybuf.feathercore.modules.language.components.LanguageManager;
 import net.milkbowl.vault.economy.Economy;
 
+@InjectDependencies(factories = {FeatherCoreDependencyFactory.class})
 class DepositCommandTest extends FeatherCommandTest<DepositCommand> {
     static final String LANGUAGE_CONFIG_CONTENT = "languages:\n  en: English";
 
@@ -80,11 +83,11 @@ class DepositCommandTest extends FeatherCommandTest<DepositCommand> {
     @Mock PlayerInventory mockPlayerInventory;
     @Mock PersistentDataContainer mockPersistentDataContainer;
 
-    @MockedModule(of = Module.PlayersData) IPlayersData mockPlayersData;
-    @MockedModule(of = Module.Economy) IFeatherEconomy mockFeatherEconomy;
+    @MockedModule IPlayersData mockPlayersData;
+    @MockedModule IFeatherEconomy mockFeatherEconomy;
 
     @ActualModule(
-            of = Module.Language,
+            of = ILanguage.class,
             resources = {
                     @Resource(path = "config.yml", content = LANGUAGE_CONFIG_CONTENT),
                     @Resource(path = "en.yml", content = EN_LANGUAGE_FILE_CONTENT)
@@ -113,6 +116,8 @@ class DepositCommandTest extends FeatherCommandTest<DepositCommand> {
         lenient().when(mockItemStack.getItemMeta()).thenReturn(mockItemMeta);
         lenient().when(mockItemMeta.getPersistentDataContainer())
                 .thenReturn(mockPersistentDataContainer);
+
+        lenient().when(mockJavaPlugin.getName()).thenReturn("FeatherCore");
 
         playerModel = new PlayerModel();
         playerModel.language = "en";

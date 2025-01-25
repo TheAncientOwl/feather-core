@@ -16,9 +16,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.block.BlockPlaceEvent;
 
-import dev.defaultybuf.feathercore.api.common.language.Message;
-import dev.defaultybuf.feathercore.api.common.minecraft.NamespacedKey;
-import dev.defaultybuf.feathercore.api.core.FeatherListener;
+import dev.defaultybuf.feather.toolkit.api.FeatherListener;
+import dev.defaultybuf.feathercore.common.Message;
+import dev.defaultybuf.feathercore.common.minecraft.NamespacedKey;
 import dev.defaultybuf.feathercore.modules.economy.interfaces.IFeatherEconomy;
 
 public class BanknotePlaceListener extends FeatherListener {

@@ -6,7 +6,7 @@
  *
  * @file LootChestsCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.5
+ * @version 0.9
  * @test_unit LootChestsCommand#0.9
  * @description Unit tests for LootChestsCommand
  */
@@ -45,18 +45,21 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 
-import dev.defaultybuf.feathercore.api.configuration.IConfigSection;
-import dev.defaultybuf.feathercore.modules.common.annotations.ActualModule;
-import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
-import dev.defaultybuf.feathercore.modules.common.annotations.Resource;
-import dev.defaultybuf.feathercore.modules.common.mockers.FeatherCommandTest;
-import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
-import dev.defaultybuf.feathercore.modules.common.utils.TempModule;
+import dev.defaultybuf.feather.toolkit.api.configuration.IConfigSection;
+import dev.defaultybuf.feather.toolkit.core.modules.language.components.LanguageManager;
+import dev.defaultybuf.feather.toolkit.core.modules.language.interfaces.ILanguage;
+import dev.defaultybuf.feather.toolkit.testing.core.FeatherCommandTest;
+import dev.defaultybuf.feather.toolkit.testing.core.annotations.ActualModule;
+import dev.defaultybuf.feather.toolkit.testing.core.annotations.InjectDependencies;
+import dev.defaultybuf.feather.toolkit.testing.core.annotations.MockedModule;
+import dev.defaultybuf.feather.toolkit.testing.core.annotations.Resource;
+import dev.defaultybuf.feather.toolkit.testing.utils.TempModule;
+import dev.defaultybuf.feathercore.common.FeatherCoreDependencyFactory;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
-import dev.defaultybuf.feathercore.modules.language.components.LanguageManager;
 import dev.defaultybuf.feathercore.modules.loot.chests.interfaces.ILootChests;
 
+@InjectDependencies(factories = {FeatherCoreDependencyFactory.class})
 class LootChestsCommandTest extends FeatherCommandTest<LootChestsCommand> {
     static final String LANGUAGE_CONFIG_CONTENT = "languages:\n  en: English";
 
@@ -90,13 +93,15 @@ class LootChestsCommandTest extends FeatherCommandTest<LootChestsCommand> {
     @Mock BlockState mockBlockState;
     @Mock IConfigSection mockConfigSection;
 
-    @MockedModule(of = Module.LootChests) ILootChests mockLootChests;
-    @MockedModule(of = Module.PlayersData) IPlayersData mockPlayersData;
+    @MockedModule ILootChests mockLootChests;
+    @MockedModule IPlayersData mockPlayersData;
 
-    @ActualModule(of = Module.Language, resources = {
-            @Resource(path = "config.yml", content = LANGUAGE_CONFIG_CONTENT),
-            @Resource(path = "en.yml", content = EN_LANGUAGE_FILE_CONTENT)
-    }) TempModule<LanguageManager> actualLanguage;
+    @ActualModule(
+            of = ILanguage.class,
+            resources = {
+                    @Resource(path = "config.yml", content = LANGUAGE_CONFIG_CONTENT),
+                    @Resource(path = "en.yml", content = EN_LANGUAGE_FILE_CONTENT)
+            }) TempModule<LanguageManager> actualLanguage;
 
     PlayerModel playerModel;
 

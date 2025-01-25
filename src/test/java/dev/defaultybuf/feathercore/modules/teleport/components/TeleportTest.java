@@ -6,7 +6,7 @@
  *
  * @file TeleportTest.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.6
  * @test_unit Teleport#0.8
  * @description Unit tests for Teleport
  */
@@ -42,13 +42,16 @@ import org.mockito.Mock;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
-import dev.defaultybuf.feathercore.api.common.util.Clock;
-import dev.defaultybuf.feathercore.modules.common.mockers.FeatherModuleTest;
+import dev.defaultybuf.feather.toolkit.testing.core.FeatherModuleTest;
+import dev.defaultybuf.feather.toolkit.testing.core.annotations.InjectDependencies;
+import dev.defaultybuf.feather.toolkit.util.java.Clock;
+import dev.defaultybuf.feathercore.common.FeatherCoreDependencyFactory;
 import dev.defaultybuf.feathercore.modules.teleport.components.Teleport.RequestStatus;
 import dev.defaultybuf.feathercore.modules.teleport.components.Teleport.RequestType;
 import dev.defaultybuf.feathercore.modules.teleport.components.Teleport.TeleportChecker;
 import dev.defaultybuf.feathercore.modules.teleport.components.Teleport.TeleportRequest;
 
+@InjectDependencies(factories = {FeatherCoreDependencyFactory.class})
 class TeleportTest extends FeatherModuleTest<Teleport> {
     @Mock World mockWorld;
     @Mock Player mockIssuer;

@@ -20,7 +20,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.player.PlayerJoinEvent;
 
-import dev.defaultybuf.feathercore.api.core.FeatherListener;
+import dev.defaultybuf.feather.toolkit.api.FeatherListener;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.LocationModel;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.PlayerModel;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;

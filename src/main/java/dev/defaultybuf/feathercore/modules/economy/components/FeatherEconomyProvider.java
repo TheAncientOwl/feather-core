@@ -17,9 +17,9 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import dev.defaultybuf.feathercore.api.configuration.IConfigFile;
-import dev.defaultybuf.feathercore.api.core.FeatherModule;
-import dev.defaultybuf.feathercore.api.exceptions.FeatherSetupException;
+import dev.defaultybuf.feather.toolkit.api.FeatherModule;
+import dev.defaultybuf.feather.toolkit.api.configuration.IConfigFile;
+import dev.defaultybuf.feather.toolkit.exceptions.FeatherSetupException;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 import dev.defaultybuf.feathercore.modules.economy.interfaces.IFeatherEconomy;
 import net.milkbowl.vault.economy.Economy;

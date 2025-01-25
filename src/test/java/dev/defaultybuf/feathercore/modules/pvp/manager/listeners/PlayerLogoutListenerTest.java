@@ -6,7 +6,7 @@
  *
  * @file PlayerLogoutListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.8
  * @test_unit PlayerLogoutListene#0.7
  * @description Unit tests for PlayerLogoutListene
  */
@@ -30,18 +30,20 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
-import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
-import dev.defaultybuf.feathercore.modules.common.mockers.FeatherListenerTest;
+import dev.defaultybuf.feather.toolkit.testing.core.FeatherListenerTest;
+import dev.defaultybuf.feather.toolkit.testing.core.annotations.InjectDependencies;
+import dev.defaultybuf.feather.toolkit.testing.core.annotations.MockedModule;
+import dev.defaultybuf.feathercore.common.FeatherCoreDependencyFactory;
 import dev.defaultybuf.feathercore.modules.data.players.interfaces.IPlayersData;
 import dev.defaultybuf.feathercore.modules.pvp.manager.interfaces.IPvPManager;
 
+@InjectDependencies(factories = {FeatherCoreDependencyFactory.class})
 class PlayerLogoutListenerTest extends FeatherListenerTest<PlayerLogoutListener> {
     @Mock Player mockPlayer;
     @Mock PlayerQuitEvent mockEvent;
 
-    @MockedModule(of = Module.PlayersData) IPlayersData mockpPlayersData;
-    @MockedModule(of = Module.PvPManager) IPvPManager mockPvPManager;
+    @MockedModule IPlayersData mockpPlayersData;
+    @MockedModule IPvPManager mockPvPManager;
 
     @Override
     protected Class<PlayerLogoutListener> getListenerClass() {

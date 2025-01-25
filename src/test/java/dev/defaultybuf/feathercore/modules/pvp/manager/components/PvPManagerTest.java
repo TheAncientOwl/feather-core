@@ -6,7 +6,7 @@
  *
  * @file PvPManagerTest.java
  * @author Alexandru Delegeanu
- * @version 0.4
+ * @version 0.7
  * @test_unit PvPManager#0.10
  * @description Unit tests for PvPManager
  */
@@ -43,9 +43,12 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 
-import dev.defaultybuf.feathercore.api.common.util.Clock;
-import dev.defaultybuf.feathercore.modules.common.mockers.FeatherModuleTest;
+import dev.defaultybuf.feather.toolkit.testing.core.FeatherModuleTest;
+import dev.defaultybuf.feather.toolkit.testing.core.annotations.InjectDependencies;
+import dev.defaultybuf.feather.toolkit.util.java.Clock;
+import dev.defaultybuf.feathercore.common.FeatherCoreDependencyFactory;
 
+@InjectDependencies(factories = {FeatherCoreDependencyFactory.class})
 class PvPManagerTest extends FeatherModuleTest<PvPManager> {
     @Mock Player mockVictim;
     @Mock Player mockAttacker;

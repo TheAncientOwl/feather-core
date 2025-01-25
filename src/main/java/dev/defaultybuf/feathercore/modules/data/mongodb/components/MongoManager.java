@@ -24,8 +24,8 @@ import com.mongodb.ServerApiVersion;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 
-import dev.defaultybuf.feathercore.api.core.FeatherModule;
-import dev.defaultybuf.feathercore.api.exceptions.FeatherSetupException;
+import dev.defaultybuf.feather.toolkit.api.FeatherModule;
+import dev.defaultybuf.feather.toolkit.exceptions.FeatherSetupException;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.accessors.LootChestsDAO;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.accessors.PlayersDAO;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.models.LocationModel;

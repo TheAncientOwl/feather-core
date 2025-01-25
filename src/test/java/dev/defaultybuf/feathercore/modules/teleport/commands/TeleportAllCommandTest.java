@@ -6,7 +6,7 @@
  *
  * @file TeleportAllCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.3
+ * @version 0.7
  * @test_unit TeleportAllCommand#0.9
  * @description Unit tests for TeleportAllCommand
  */
@@ -39,20 +39,22 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 
-import dev.defaultybuf.feathercore.api.common.language.Message;
-import dev.defaultybuf.feathercore.api.common.util.StringUtils;
-import dev.defaultybuf.feathercore.modules.common.annotations.MockedModule;
-import dev.defaultybuf.feathercore.modules.common.mockers.DependencyInjector.Module;
-import dev.defaultybuf.feathercore.modules.common.mockers.FeatherCommandTest;
+import dev.defaultybuf.feather.toolkit.testing.core.FeatherCommandTest;
+import dev.defaultybuf.feather.toolkit.testing.core.annotations.InjectDependencies;
+import dev.defaultybuf.feather.toolkit.testing.core.annotations.MockedModule;
+import dev.defaultybuf.feather.toolkit.util.java.StringUtils;
+import dev.defaultybuf.feathercore.common.FeatherCoreDependencyFactory;
+import dev.defaultybuf.feathercore.common.Message;
 import dev.defaultybuf.feathercore.modules.teleport.interfaces.ITeleport;
 
+@InjectDependencies(factories = {FeatherCoreDependencyFactory.class})
 class TeleportAllCommandTest extends FeatherCommandTest<TeleportAllCommand> {
     @Mock Player mockPlayer1;
     @Mock Player mockPlayer2;
     @Mock Player mockPlayer3;
     @Mock CommandSender mockCommandSender;
 
-    @MockedModule(of = Module.Teleport) ITeleport mockTeleport;
+    @MockedModule ITeleport mockTeleport;
 
     @Override
     protected Class<TeleportAllCommand> getCommandClass() {
