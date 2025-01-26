@@ -56,5 +56,6 @@
       "post": [["$PROJECT_ROOT/project/scripts/mongodb.sh", "-x"]]
     }
   },
-  "coverage-resources-path": ["project", "coverage", "resources"]
+  "coverage-resources-path": ["project", "coverage", "resources"],
+  "clean-paths": ["target/.*FeatherCore.*", "dev/server/plugins/FeatherCore.*"]
 }
