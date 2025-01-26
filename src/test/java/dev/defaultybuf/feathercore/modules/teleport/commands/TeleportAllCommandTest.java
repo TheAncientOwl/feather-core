@@ -6,7 +6,7 @@
  *
  * @file TeleportAllCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.7
+ * @version 0.8
  * @test_unit TeleportAllCommand#0.9
  * @description Unit tests for TeleportAllCommand
  */
@@ -39,9 +39,9 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.Mock;
 
-import dev.defaultybuf.feather.toolkit.testing.core.FeatherCommandTest;
-import dev.defaultybuf.feather.toolkit.testing.core.annotations.InjectDependencies;
-import dev.defaultybuf.feather.toolkit.testing.core.annotations.MockedModule;
+import dev.defaultybuf.feather.toolkit.testing.FeatherCommandTest;
+import dev.defaultybuf.feather.toolkit.testing.annotations.InjectDependencies;
+import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
 import dev.defaultybuf.feather.toolkit.util.java.StringUtils;
 import dev.defaultybuf.feathercore.common.FeatherCoreDependencyFactory;
 import dev.defaultybuf.feathercore.common.Message;

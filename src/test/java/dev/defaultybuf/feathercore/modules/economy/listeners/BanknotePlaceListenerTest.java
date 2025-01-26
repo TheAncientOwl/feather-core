@@ -6,7 +6,7 @@
  *
  * @file BanknotePlaceListenerTest.java
  * @author Alexandru Delegeanu
- * @version 0.12
+ * @version 0.13
  * @test_unit BanknotePlaceListener#0.6
  * @description Unit tests for BanknotePlaceListener
  */
@@ -26,9 +26,9 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 
-import dev.defaultybuf.feather.toolkit.testing.core.FeatherListenerTest;
-import dev.defaultybuf.feather.toolkit.testing.core.annotations.InjectDependencies;
-import dev.defaultybuf.feather.toolkit.testing.core.annotations.MockedModule;
+import dev.defaultybuf.feather.toolkit.testing.FeatherListenerTest;
+import dev.defaultybuf.feather.toolkit.testing.annotations.InjectDependencies;
+import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
 import dev.defaultybuf.feathercore.common.FeatherCoreDependencyFactory;
 import dev.defaultybuf.feathercore.modules.economy.interfaces.IFeatherEconomy;
 

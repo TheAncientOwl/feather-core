@@ -6,7 +6,7 @@
  *
  * @file RandomTeleportCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.12
+ * @version 0.13
  * @test_unit RandomTeleportCommand#0.11
  * @description Unit tests for RandomTeleportCommand
  */
@@ -48,10 +48,10 @@ import org.mockito.Mock;
 import org.mockito.MockedStatic;
 
 import dev.defaultybuf.feather.toolkit.api.configuration.IConfigSection;
-import dev.defaultybuf.feather.toolkit.testing.core.FeatherCommandTest;
-import dev.defaultybuf.feather.toolkit.testing.core.annotations.InjectDependencies;
-import dev.defaultybuf.feather.toolkit.testing.core.annotations.MockedModule;
-import dev.defaultybuf.feather.toolkit.testing.core.annotations.StaticMock;
+import dev.defaultybuf.feather.toolkit.testing.FeatherCommandTest;
+import dev.defaultybuf.feather.toolkit.testing.annotations.InjectDependencies;
+import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
+import dev.defaultybuf.feather.toolkit.testing.annotations.StaticMock;
 import dev.defaultybuf.feather.toolkit.testing.utils.Argumentable;
 import dev.defaultybuf.feather.toolkit.util.java.Clock;
 import dev.defaultybuf.feather.toolkit.util.java.StringUtils;

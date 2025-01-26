@@ -6,7 +6,7 @@
  *
  * @file LootChestsTest.java
  * @author Alexandru Delegeanu
- * @version 0.9
+ * @version 0.10
  * @test_unit LootChests#0.8
  * @description Unit tests for LootChests
  */
@@ -43,9 +43,9 @@ import org.mockito.Mock;
 
 import dev.defaultybuf.feather.toolkit.api.configuration.IConfigSection;
 import dev.defaultybuf.feather.toolkit.exceptions.FeatherSetupException;
-import dev.defaultybuf.feather.toolkit.testing.core.FeatherModuleTest;
-import dev.defaultybuf.feather.toolkit.testing.core.annotations.InjectDependencies;
-import dev.defaultybuf.feather.toolkit.testing.core.annotations.MockedModule;
+import dev.defaultybuf.feather.toolkit.testing.FeatherModuleTest;
+import dev.defaultybuf.feather.toolkit.testing.annotations.InjectDependencies;
+import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
 import dev.defaultybuf.feather.toolkit.util.java.Clock;
 import dev.defaultybuf.feathercore.common.FeatherCoreDependencyFactory;
 import dev.defaultybuf.feathercore.modules.data.mongodb.api.accessors.LootChestsDAO;

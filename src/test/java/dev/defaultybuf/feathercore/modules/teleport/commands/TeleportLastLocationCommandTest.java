@@ -6,7 +6,7 @@
  *
  * @file TeleportLastLocationCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.10
+ * @version 0.11
  * @test_unit TeleportLastLocationCommand#0.10
  * @description Unit tests for TeleportLastLocationCommand
  */
@@ -46,10 +46,10 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
 
-import dev.defaultybuf.feather.toolkit.testing.core.FeatherCommandTest;
-import dev.defaultybuf.feather.toolkit.testing.core.annotations.InjectDependencies;
-import dev.defaultybuf.feather.toolkit.testing.core.annotations.MockedModule;
-import dev.defaultybuf.feather.toolkit.testing.core.annotations.StaticMock;
+import dev.defaultybuf.feather.toolkit.testing.FeatherCommandTest;
+import dev.defaultybuf.feather.toolkit.testing.annotations.InjectDependencies;
+import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
+import dev.defaultybuf.feather.toolkit.testing.annotations.StaticMock;
 import dev.defaultybuf.feather.toolkit.util.java.StringUtils;
 import dev.defaultybuf.feathercore.common.FeatherCoreDependencyFactory;
 import dev.defaultybuf.feathercore.common.Message;

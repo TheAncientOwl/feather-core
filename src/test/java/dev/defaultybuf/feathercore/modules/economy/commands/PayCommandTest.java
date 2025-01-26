@@ -6,7 +6,7 @@
  *
  * @file PayCommandTest.java
  * @author Alexandru Delegeanu
- * @version 0.11
+ * @version 0.12
  * @test_unit PayCommand#0.10
  * @description Unit tests for PayCommand
  */
@@ -44,11 +44,11 @@ import org.mockito.Mock;
 
 import dev.defaultybuf.feather.toolkit.core.modules.language.components.LanguageManager;
 import dev.defaultybuf.feather.toolkit.core.modules.language.interfaces.ILanguage;
-import dev.defaultybuf.feather.toolkit.testing.core.FeatherCommandTest;
-import dev.defaultybuf.feather.toolkit.testing.core.annotations.ActualModule;
-import dev.defaultybuf.feather.toolkit.testing.core.annotations.InjectDependencies;
-import dev.defaultybuf.feather.toolkit.testing.core.annotations.MockedModule;
-import dev.defaultybuf.feather.toolkit.testing.core.annotations.Resource;
+import dev.defaultybuf.feather.toolkit.testing.FeatherCommandTest;
+import dev.defaultybuf.feather.toolkit.testing.annotations.ActualModule;
+import dev.defaultybuf.feather.toolkit.testing.annotations.InjectDependencies;
+import dev.defaultybuf.feather.toolkit.testing.annotations.MockedModule;
+import dev.defaultybuf.feather.toolkit.testing.annotations.Resource;
 import dev.defaultybuf.feather.toolkit.testing.utils.TempModule;
 import dev.defaultybuf.feather.toolkit.util.java.StringUtils;
 import dev.defaultybuf.feathercore.common.FeatherCoreDependencyFactory;
